@@ -1,0 +1,112 @@
+featureFlags:
+  flags:
+  - flag:
+      name: Maintenance_Mode
+      identifier: Home_Maintenance
+      description: ""
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: Index_SignUp_Enable
+      identifier: Index_SignUp_Enable
+      description: ""
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        variations:
+        - identifier: "ON"
+          value: "on"
+        - identifier: "OFF"
+          value: "off"
+      environments:
+      - identifier: qa
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+  - flag:
+      name: QRCODE
+      identifier: QRCODE
+      description: Show qr code for login page
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        variations:
+        - identifier: "On"
+          value: "true"
+        - identifier: "Off"
+          value: "false"
+      environments:
+      - identifier: qa
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: dev
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
