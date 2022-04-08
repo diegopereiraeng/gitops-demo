@@ -296,55 +296,38 @@ pipeline:
                                                   spec:
                                                       count: 1
                                               skipDryRun: false
-                                    - parallel:
-                                          - step:
-                                                type: Http
-                                                name: Check Health
-                                                identifier: Check_Health
-                                                spec:
-                                                    method: GET
-                                                    headers: []
-                                                    outputVariables: []
-                                                    url: http://34.121.70.58/ffbankingapp/index.html
-                                                timeout: 20s
-                                                failureStrategies:
-                                                    - onFailure:
-                                                          errors:
-                                                              - AllErrors
-                                                          action:
-                                                              type: MarkAsSuccess
-                                          - step:
-                                                type: Verify
-                                                name: Deployment Verification
-                                                identifier: verify_prod
-                                                spec:
-                                                    type: Rolling
-                                                    spec:
-                                                        sensitivity: MEDIUM
-                                                        duration: 5m
-                                                        deploymentTag: <+serviceConfig.artifacts.primary.tag>
-                                                timeout: 2h
-                                                failureStrategies:
-                                                    - onFailure:
-                                                          errors:
-                                                              - Verification
-                                                          action:
-                                                              type: ManualIntervention
-                                                              spec:
-                                                                  timeout: 2h
-                                                                  onTimeout:
-                                                                      action:
-                                                                          type: StageRollback
-                                                    - onFailure:
-                                                          errors:
-                                                              - Unknown
-                                                          action:
-                                                              type: ManualIntervention
-                                                              spec:
-                                                                  timeout: 2h
-                                                                  onTimeout:
-                                                                      action:
-                                                                          type: Ignore
+                                    - step:
+                                          type: Verify
+                                          name: Deployment Verification
+                                          identifier: verify_prod
+                                          spec:
+                                              type: Rolling
+                                              spec:
+                                                  sensitivity: MEDIUM
+                                                  duration: 5m
+                                                  deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                                          timeout: 2h
+                                          failureStrategies:
+                                              - onFailure:
+                                                    errors:
+                                                        - Verification
+                                                    action:
+                                                        type: ManualIntervention
+                                                        spec:
+                                                            timeout: 2h
+                                                            onTimeout:
+                                                                action:
+                                                                    type: StageRollback
+                                              - onFailure:
+                                                    errors:
+                                                        - Unknown
+                                                    action:
+                                                        type: ManualIntervention
+                                                        spec:
+                                                            timeout: 2h
+                                                            onTimeout:
+                                                                action:
+                                                                    type: Ignore
                                     - step:
                                           name: Canary Delete
                                           identifier: canaryDelete
@@ -376,6 +359,23 @@ pipeline:
                                           type: K8sRollingRollback
                                           timeout: 10m
                                           spec: {}
+                          - step:
+                                type: Http
+                                name: Health Check
+                                identifier: Check_Health
+                                spec:
+                                    method: GET
+                                    headers: []
+                                    outputVariables: []
+                                    assertion: <+httpResponseCode> == 200
+                                    url: http://ff.harness-demo.site/<+pipeline.variables.virtualPath>/index.html
+                                timeout: 1m
+                                failureStrategies:
+                                    - onFailure:
+                                          errors:
+                                              - AllErrors
+                                          action:
+                                              type: MarkAsSuccess
                       rollbackSteps: []
                   serviceDependencies: []
               when:
