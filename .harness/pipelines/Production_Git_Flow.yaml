@@ -258,29 +258,6 @@ pipeline:
                                     executionTarget: {}
                                 timeout: 10m
                                 failureStrategies: []
-                          - step:
-                                type: ShellScript
-                                name: Print Secrets
-                                identifier: Print_Secrets
-                                spec:
-                                    shell: Bash
-                                    onDelegate: true
-                                    source:
-                                        type: Inline
-                                        spec:
-                                            script: |-
-                                                echo "<+execution.steps.Retrieve_Secrets.output.outputVariables.SECRETS_YAML2>"
-                                                echo "<+execution.steps.Retrieve_Secrets.output.outputVariables.SECRETS_YAML>"
-                                                echo "<+execution.steps.Retrieve_Secrets.output.outputVariables.finalVar>"
-                                                echo "<+execution.steps.Retrieve_Secrets.output.outputVariables.finalVar2>"
-
-
-                                                echo "<+stepGroup.canaryDepoyment.name>"
-                                    environmentVariables: []
-                                    outputVariables: []
-                                    executionTarget: {}
-                                timeout: 10m
-                                failureStrategies: []
                           - stepGroup:
                                 name: Canary Deployment
                                 identifier: canaryDepoyment
