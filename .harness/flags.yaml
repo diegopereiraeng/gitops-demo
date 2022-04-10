@@ -73,7 +73,7 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: Index_SignUp_Enable
+      name: Enable Signup
       identifier: Index_SignUp_Enable
       description: ""
       permanent: true
