@@ -37,7 +37,7 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: HalloweenJack
+      name: Enable Halloween Jack
       identifier: HalloweenJack
       description: ""
       permanent: true
