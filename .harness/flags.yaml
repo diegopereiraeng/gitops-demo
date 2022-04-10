@@ -1,7 +1,7 @@
 featureFlags:
   flags:
   - flag:
-      name: Halloween
+      name: Halloween Mode
       identifier: Halloween
       description: ""
       permanent: true
