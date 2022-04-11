@@ -102,10 +102,11 @@ pipeline:
                                                 export SECRETS_YAML2
 
 
-                                                echo <+execution.steps.step.name>
-                                                echo <+stepGroup.name>
+                                                echo "<+execution.steps.step.name>"
+                                                echo "<+stepGroup>"
+                                                echo "<+step>"
 
-                                                echo <+execution.steps.stepGroup.name>
+                                                echo "<+execution.steps.stepGroup.name>"
                                     environmentVariables:
                                         - name: HARNESS_ACCOUNT_ID
                                           type: String
