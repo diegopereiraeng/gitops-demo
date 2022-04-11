@@ -105,7 +105,6 @@ pipeline:
                                                 echo "<+execution.steps.step.name>"
 
                                                 echo "<+execution.steps.stepGroup.name>"
-                                                echo "<+stepGroup>"
                                                 echo "<+step>"
                                     environmentVariables:
                                         - name: HARNESS_ACCOUNT_ID
