@@ -329,6 +329,33 @@ pipeline:
                                           timeout: 10m
                                           spec:
                                               skipDryRun: false
+                                    - step:
+                                          type: Http
+                                          name: Health Check
+                                          identifier: Check_Health
+                                          spec:
+                                              method: GET
+                                              headers: []
+                                              outputVariables: []
+                                              assertion: <+httpResponseCode> == 200
+                                              url: http://ff.harness-demo.site/<+pipeline.variables.virtualPath>/index.html
+                                          timeout: 1m
+                                          failureStrategies:
+                                              - onFailure:
+                                                    errors:
+                                                        - AllErrors
+                                                    action:
+                                                        type: MarkAsSuccess
+                                    - step:
+                                          type: K8sApply
+                                          name: Create AutoStopping Rule
+                                          identifier: Create_AutoStopping_Rule
+                                          spec:
+                                              filePaths:
+                                                  - templates/envs/dev/autostopping.yaml
+                                              skipDryRun: false
+                                              skipSteadyStateCheck: false
+                                          timeout: 10m
                                 rollbackSteps:
                                     - step:
                                           name: Rolling Rollback
@@ -336,33 +363,6 @@ pipeline:
                                           type: K8sRollingRollback
                                           timeout: 10m
                                           spec: {}
-                          - step:
-                                type: Http
-                                name: Health Check
-                                identifier: Check_Health
-                                spec:
-                                    method: GET
-                                    headers: []
-                                    outputVariables: []
-                                    assertion: <+httpResponseCode> == 200
-                                    url: http://ff.harness-demo.site/<+pipeline.variables.virtualPath>/index.html
-                                timeout: 1m
-                                failureStrategies:
-                                    - onFailure:
-                                          errors:
-                                              - AllErrors
-                                          action:
-                                              type: MarkAsSuccess
-                          - step:
-                                type: K8sApply
-                                name: Create AutoStopping Rule
-                                identifier: Create_AutoStopping_Rule
-                                spec:
-                                    filePaths:
-                                        - templates/envs/dev/autostopping.yaml
-                                    skipDryRun: false
-                                    skipSteadyStateCheck: false
-                                timeout: 10m
                       rollbackSteps: []
                   serviceDependencies: []
               when:
