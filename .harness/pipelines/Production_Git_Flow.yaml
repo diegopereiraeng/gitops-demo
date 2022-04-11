@@ -353,6 +353,16 @@ pipeline:
                                               - AllErrors
                                           action:
                                               type: MarkAsSuccess
+                          - step:
+                                type: K8sApply
+                                name: Create AutoStopping Rule
+                                identifier: Create_AutoStopping_Rule
+                                spec:
+                                    filePaths:
+                                        - templates/envs/dev/autostopping.yaml
+                                    skipDryRun: false
+                                    skipSteadyStateCheck: false
+                                timeout: 10m
                       rollbackSteps: []
                   serviceDependencies: []
               when:
