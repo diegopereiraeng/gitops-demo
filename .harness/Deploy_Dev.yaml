@@ -79,7 +79,7 @@ pipeline:
                                     source:
                                         type: Inline
                                         spec:
-                                            script: |
+                                            script: |-
                                                 
                                                 var1='<'
                                                 var2='+'
@@ -103,10 +103,10 @@ pipeline:
 
 
                                                 echo "<+execution.steps.step.name>"
-                                                echo "<+stepGroup>"
-                                                echo "<+step>"
 
                                                 echo "<+execution.steps.stepGroup.name>"
+                                                echo "<+stepGroup>"
+                                                echo "<+step>"
                                     environmentVariables:
                                         - name: HARNESS_ACCOUNT_ID
                                           type: String
