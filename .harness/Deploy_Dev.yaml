@@ -240,7 +240,6 @@ pipeline:
                   serviceDependencies: []
               when:
                   pipelineStatus: Success
-                  condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
               failureStrategies:
                   - onFailure:
                         errors:
