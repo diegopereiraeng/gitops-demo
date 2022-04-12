@@ -175,6 +175,10 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "Off"
       - identifier: dev
         default:
           onVariation: "On"
