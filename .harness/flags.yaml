@@ -178,7 +178,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: "On"
+          variation: "Off"
       - identifier: dev
         default:
           onVariation: "On"
