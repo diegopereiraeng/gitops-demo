@@ -145,6 +145,42 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
   - flag:
+      name: Menu_Version
+      identifier: Menu_Version
+      description: ""
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: V2
+          offVariation: V1
+        variations:
+        - identifier: V1
+          value: v1
+        - identifier: V2
+          value: v2
+      environments:
+      - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+  - flag:
       name: QRCODE
       identifier: QRCODE
       description: Show qr code for login page
