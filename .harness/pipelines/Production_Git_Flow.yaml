@@ -188,7 +188,7 @@ pipeline:
                                                     connectorRef: account.Diego_Git
                                                     gitFetchType: Branch
                                                     paths:
-                                                        - values.yaml
+                                                        - envs/dev/services/gitflow-app-ff/values.yaml
                                                     repoName: values-k8s
                                                     branch: main
                               variables: []
