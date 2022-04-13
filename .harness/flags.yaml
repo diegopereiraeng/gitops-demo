@@ -145,9 +145,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
   - flag:
-      name: Menu_Version
+      name: Menu Version
       identifier: Menu_Version
-      description: ""
+      description: |-
+        V1 for large menu
+        v2 for compact menu
       permanent: true
       spec:
         type: string
