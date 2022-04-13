@@ -109,6 +109,58 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
+      name: Home_Menu
+      identifier: Home_Menu
+      description: ""
+      permanent: true
+      spec:
+        type: json
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        variations:
+        - identifier: Basic
+          value: '[ { "type": "fa-users", "name": "Home" },   { "type": "fa-eye",
+            "name": "Activities" },   { "type": "fa-users", "name": "Bills" },   {
+            "type": "fa-bullseye", "name": "Services" },   { "type": "fa-bell", "name":
+            "Insurance" },   { "type": "fa-history", "name": "Help" },   { "type":
+            "fa-cog", "name": "Settings" , "name": "Novo Menu"} ,   { "type": "fa-cog",
+            "name": "Settings" , "name": "Demo FF"} ]'
+        - identifier: Visitor
+          value: '[    { "type": "fa-users", "name": "Sign in" },   { "type": "fa-eye",
+            "name": "Sign up" },   { "type": "fa-users", "name": "Harness" },   {
+            "type": "fa-users", "name": "Demo FF" },{ "type": "fa-users", "name":
+            "Red" }  ]'
+        - identifier: Premium
+          value: '[    { "type": "fa-users", "name": "Home" },   { "type": "fa-eye",
+            "name": "Activities" },   { "type": "fa-users", "name": "Bills" },   {
+            "type": "fa-bullseye", "name": "Services" },   { "type": "fa-hand-holding-usd",
+            "name": "Loans" },   { "type": "fa-bell", "name": "Insurance" },   { "type":
+            "fa-bank", "name": "Crypto" },   { "type": "fa-history", "name": "Help"
+            },   { "type": "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name":
+            "Time" } ]'
+      environments:
+      - identifier: qa
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+  - flag:
       name: Enable Signup
       identifier: Index_SignUp_Enable
       description: ""
