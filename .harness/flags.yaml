@@ -32,7 +32,7 @@ featureFlags:
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: dev
         default:
           onVariation: Feature_Flags
