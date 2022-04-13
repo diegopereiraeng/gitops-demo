@@ -3,7 +3,7 @@ featureFlags:
   - flag:
       name: Halloween Mode
       identifier: Halloween
-      description: ""
+      description: Enable Halloween Theme in page
       permanent: true
       spec:
         type: boolean
