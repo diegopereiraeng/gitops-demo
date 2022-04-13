@@ -166,7 +166,7 @@ featureFlags:
   - flag:
       name: Enable Signup
       identifier: Index_SignUp_Enable
-      description: ""
+      description: Enable the Signup feature in Login page
       permanent: true
       spec:
         type: string
