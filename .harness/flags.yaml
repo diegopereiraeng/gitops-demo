@@ -238,9 +238,9 @@ featureFlags:
           offVariation: V1
         state: "off"
   - flag:
-      name: QRCODE
+      name: SHOW QRCODE
       identifier: QRCODE
-      description: Show qr code for login page
+      description: Show qr code for login page - dynamic
       permanent: true
       spec:
         type: string
