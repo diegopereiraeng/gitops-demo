@@ -277,5 +277,41 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+  - flag:
+      name: Title and Menu Text Color
+      identifier: Text_Color_Mode
+      description: ""
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: Black
+          offVariation: White
+        variations:
+        - identifier: Black
+          value: '#222'
+        - identifier: White
+          value: '#fff'
+      environments:
+      - identifier: qa
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
