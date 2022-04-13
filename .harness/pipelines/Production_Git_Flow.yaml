@@ -154,11 +154,11 @@ pipeline:
                               artifacts:
                                   sidecars: []
                                   primary:
-                                      type: DockerRegistry
                                       spec:
                                           connectorRef: account.DockerHubDiego
                                           imagePath: diegokoala/harness-ff-bankingapp
-                                          tag: dev
+                                          tag: <+pipeline.variables.tag>-<+pipeline.sequenceId>
+                                      type: DockerRegistry
                               manifestOverrideSets: []
                               manifests:
                                   - manifest:
