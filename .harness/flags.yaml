@@ -278,46 +278,6 @@ featureFlags:
           offVariation: "Off"
         state: "off"
   - flag:
-      name: testffdemose
-      identifier: testffdemose
-      description: Description
-      permanent: false
-      spec:
-        type: string
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        variations:
-        - identifier: "On"
-          value: "true"
-        - identifier: "Off"
-          value: "false"
-      tags:
-      - tag:
-          name: owner
-          value: diego
-      environments:
-      - identifier: qa
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: diegopereiraeng
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-  - flag:
       name: Title and Menu Text Color
       identifier: Text_Color_Mode
       description: ""
