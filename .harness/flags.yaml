@@ -75,7 +75,7 @@ featureFlags:
   - flag:
       name: Maintenance_Mode
       identifier: Home_Maintenance
-      description: ""
+      description: Put app into Maintenance Mode
       permanent: true
       spec:
         type: boolean
