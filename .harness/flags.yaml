@@ -109,9 +109,12 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: Home_Menu
+      name: Menu Profile
       identifier: Home_Menu
-      description: ""
+      description: |-
+        Premium for additional features
+
+        Visitor to no feature (signup)
       permanent: true
       spec:
         type: json
