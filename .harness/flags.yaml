@@ -174,12 +174,12 @@ featureFlags:
             "Red" }  ]'
         - identifier: Premium
           value: '[    { "type": "fa-users", "name": "Home" },   { "type": "fa-eye",
-            "name": "Activities" },   { "type": "fa-users", "name": "Bills" },   {
-            "type": "fa-bullseye", "name": "Services" },   { "type": "fa-hand-holding-usd",
-            "name": "Loans" },   { "type": "fa-bell", "name": "Insurance" },   { "type":
-            "fa-bank", "name": "Crypto" },   { "type": "fa-history", "name": "Help"
-            },   { "type": "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name":
-            "Time" } ]'
+            "name": "Payments","href": "http://payments.harness-demo.site:8080" },   {
+            "type": "fa-users", "name": "Bills" },   { "type": "fa-bullseye", "name":
+            "Services" },   { "type": "fa-hand-holding-usd", "name": "Loans" },   {
+            "type": "fa-bell", "name": "Insurance" },   { "type": "fa-bank", "name":
+            "Crypto" },   { "type": "fa-history", "name": "Help" },   { "type": "fa-cog",
+            "name": "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
       - identifier: qa
         default:
