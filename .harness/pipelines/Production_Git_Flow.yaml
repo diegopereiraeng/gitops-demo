@@ -8,7 +8,7 @@ pipeline:
     properties:
         ci:
             codebase:
-                connectorRef: account.Diego_Git
+                connectorRef: account.diegogithubapp
                 repoName: gitflow-ff-demo
                 build: <+input>
     stages:
