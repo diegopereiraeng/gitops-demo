@@ -139,7 +139,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: diegopereiraharnessio
-          variation: "true"
+          variation: "false"
       - identifier: dev
         default:
           onVariation: "true"
