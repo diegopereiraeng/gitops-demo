@@ -22,10 +22,21 @@ pipeline:
                                     feature: ALL_YOUTUBE_MODAL
                                     environment: diegopereiraeng
                                     instructions:
-                                        - identifier: SetVariationForTarget
-                                          type: AddTargetsToVariationTargetMap
+                                        - identifier: AddRuleIdentifier
+                                          type: AddRule
                                           spec:
-                                              variation: Captain_Canary
-                                              targets:
-                                                  - diegopereiraharnessio
+                                              priority: 100
+                                              distribution:
+                                                  clauses:
+                                                      - op: segmentMatch
+                                                        attribute: ""
+                                                        values:
+                                                            - Beta_Users
+                                                  variations:
+                                                      - variation: "OFF"
+                                                      - variation: Captain_Canary
+                                                        weight: 50
+                                                      - variation: Feature_Flags
+                                                        weight: 50
+                                                  bucketBy: timezone
                                 timeout: 10m
