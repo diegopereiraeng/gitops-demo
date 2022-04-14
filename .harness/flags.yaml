@@ -136,6 +136,10 @@ featureFlags:
           onVariation: "false"
           offVariation: "false"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: "true"
       - identifier: dev
         default:
           onVariation: "true"
