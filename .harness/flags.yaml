@@ -190,7 +190,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "on"
+        state: "off"
       - identifier: dev
         default:
           onVariation: Premium
