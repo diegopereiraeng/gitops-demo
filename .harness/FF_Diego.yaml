@@ -1,0 +1,31 @@
+pipeline:
+    name: FF Diego
+    identifier: FF_Diego
+    allowStageExecutions: false
+    projectIdentifier: GIT_FLOW_DEMO
+    orgIdentifier: default
+    tags: {}
+    stages:
+        - stage:
+              name: FF Youtube
+              identifier: FF_Youtube
+              description: ""
+              type: FeatureFlag
+              spec:
+                  execution:
+                      steps:
+                          - step:
+                                type: FlagConfiguration
+                                name: FF Canary
+                                identifier: FF_Canary
+                                spec:
+                                    feature: ALL_YOUTUBE_MODAL
+                                    environment: diegopereiraeng
+                                    instructions:
+                                        - identifier: SetVariationForTarget
+                                          type: AddTargetsToVariationTargetMap
+                                          spec:
+                                              variation: Captain_Canary
+                                              targets:
+                                                  - diegopereiraharnessio
+                                timeout: 10m
