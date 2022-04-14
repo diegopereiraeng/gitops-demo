@@ -34,9 +34,18 @@ pipeline:
                                                             - Beta_Users
                                                   variations:
                                                       - variation: "OFF"
+                                                        weight: 0
                                                       - variation: Captain_Canary
                                                         weight: 50
                                                       - variation: Feature_Flags
                                                         weight: 50
                                                   bucketBy: timezone
+                                        - identifier: SetFeatureFlagStateIdentifier
+                                          type: SetFeatureFlagState
+                                          spec:
+                                              state: "on"
+                                        - identifier: SetDefaultVariationsIdentifier
+                                          type: SetDefaultVariations
+                                          spec:
+                                              "on": "OFF"
                                 timeout: 10m
