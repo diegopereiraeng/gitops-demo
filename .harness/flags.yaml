@@ -130,14 +130,14 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "off"
+        state: "on"
         targetRules:
-        - targets:
-          - identifier: diegopereiraharnessio
-          variation: "false"
         - targets:
           - identifier: Guest
           variation: "true"
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: "false"
       - identifier: prod
         default:
           onVariation: "true"
