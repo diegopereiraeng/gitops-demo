@@ -66,7 +66,7 @@ pipeline:
                                               fail_on_severity: HIGH
                                           imagePullPolicy: Always
                                       when:
-                                          stageStatus: Success
+                                          stageStatus: Failure
                                       failureStrategies:
                                           - onFailure:
                                                 errors:
@@ -96,7 +96,7 @@ pipeline:
                                                 action:
                                                     type: Ignore
                                       when:
-                                          stageStatus: Success
+                                          stageStatus: Failure
                           - step:
                                 type: Run
                                 name: Lint Check
@@ -196,6 +196,8 @@ pipeline:
                                               - AllErrors
                                           action:
                                               type: Ignore
+                                when:
+                                    stageStatus: Failure
                           - parallel:
                                 - step:
                                       type: BuildAndPushDockerRegistry
