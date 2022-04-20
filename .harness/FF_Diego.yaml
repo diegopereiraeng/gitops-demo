@@ -33,7 +33,7 @@ pipeline:
                                                               attribute: ""
                                                               values:
                                                                   - Beta_Users
-                                                        bucketBy: timezone
+                                                        bucketBy: email
                                                         variations:
                                                             - variation: "OFF"
                                                               weight: 33
@@ -88,6 +88,8 @@ pipeline:
                                     includePipelineExecutionHistory: true
                                     approvers:
                                         userGroups:
+                                            - account.Field_Engineering
+                                            - account.New_Demo_Group
                                             - account.Read_Only_Users
                                         minimumCount: 1
                                         disallowPipelineExecutor: false
@@ -119,6 +121,7 @@ pipeline:
                                                               weight: 50
                                                             - variation: Feature_Flags
                                                               weight: 50
+                                                        bucketBy: email
                                       timeout: 10m
                                 - step:
                                       type: FlagConfiguration
