@@ -18,6 +18,11 @@ featureFlags:
         - identifier: Feature_Flags
           value: Zf51EDcDa80
       environments:
+      - identifier: qa
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
@@ -29,11 +34,6 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: dev
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
@@ -54,6 +54,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -65,11 +70,6 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -90,6 +90,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -101,11 +106,6 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -126,6 +126,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "false"
@@ -142,11 +147,6 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -186,6 +186,11 @@ featureFlags:
             "name": "Crypto" },   { "type": "fa-history", "name": "Help" },   { "type":
             "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
+      - identifier: qa
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Premium
@@ -197,11 +202,6 @@ featureFlags:
           offVariation: Basic
         state: "off"
       - identifier: dev
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Premium
           offVariation: Basic
@@ -222,22 +222,22 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
       - identifier: dev
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -260,6 +260,11 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
+      - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: V2
@@ -271,11 +276,6 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: dev
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: qa
         default:
           onVariation: V2
           offVariation: V1
@@ -296,6 +296,11 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "On"
@@ -324,11 +329,6 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
   - flag:
       name: Title and Menu Text Color
       identifier: Text_Color_Mode
@@ -345,6 +345,11 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
+      - identifier: qa
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Black
@@ -356,11 +361,6 @@ featureFlags:
           offVariation: White
         state: "off"
       - identifier: dev
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Black
           offVariation: White
