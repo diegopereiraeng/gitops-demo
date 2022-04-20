@@ -59,7 +59,7 @@ pipeline:
                                               policy_type: orchestratedScan
                                               scan_type: repository
                                               repository_project: nodegoat
-                                              repository_branch: <+codebase.branch>
+                                              repository_branch: master
                                               product_name: brakeman
                                               product_config_name: brakeman-default
                                               fail_on_severity: HIGH
@@ -83,7 +83,7 @@ pipeline:
                                               policy_type: orchestratedScan
                                               scan_type: repository
                                               repository_project: nodegoat
-                                              repository_branch: <+codebase.branch>
+                                              repository_branch: master
                                               product_name: owasp
                                               product_config_name: owasp 5.x
                                               fail_on_severity: HIGH
