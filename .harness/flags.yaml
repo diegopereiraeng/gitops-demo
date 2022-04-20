@@ -48,7 +48,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: diegopereiraharnessio
-          variation: Captain_Canary
+          variation: "OFF"
       - identifier: prod
         default:
           onVariation: Feature_Flags
