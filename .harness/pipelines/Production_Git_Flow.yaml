@@ -53,7 +53,7 @@ pipeline:
                                       name: Brakeman Scan
                                       identifier: Brakeman_Scan
                                       spec:
-                                          connectorRef: harnessImage
+                                          connectorRef: account.DockerHubDiego
                                           privileged: true
                                           settings:
                                               policy_type: orchestratedScan
@@ -72,7 +72,7 @@ pipeline:
                                       name: OWASP
                                       identifier: OWASP
                                       spec:
-                                          connectorRef: harnessImage
+                                          connectorRef: account.DockerHubDiego
                                           privileged: true
                                           settings:
                                               policy_type: orchestratedScan
@@ -162,7 +162,7 @@ pipeline:
                                 name: Build Image
                                 identifier: Build_Image
                                 spec:
-                                    connectorRef: harnessImage
+                                    connectorRef: account.DockerHubDiego
                                     image: docker:latest
                                     command: docker build . -t nodegoat:local
                           - step:
@@ -170,7 +170,7 @@ pipeline:
                                 name: Aqua
                                 identifier: Aqua
                                 spec:
-                                    connectorRef: harnessImage
+                                    connectorRef: account.DockerHubDiego
                                     privileged: true
                                     settings:
                                         product_name: aqua-trivy
