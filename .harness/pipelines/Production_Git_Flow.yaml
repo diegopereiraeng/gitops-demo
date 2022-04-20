@@ -66,7 +66,12 @@ pipeline:
                                           imagePullPolicy: Always
                                       when:
                                           stageStatus: Success
-                                      failureStrategies: []
+                                      failureStrategies:
+                                          - onFailure:
+                                                errors:
+                                                    - AllErrors
+                                                action:
+                                                    type: Ignore
                                 - step:
                                       type: Security
                                       name: OWASP
@@ -183,6 +188,12 @@ pipeline:
                                         container_tag: local
                                         fail_on_severity: HIGH
                                     imagePullPolicy: Always
+                                failureStrategies:
+                                    - onFailure:
+                                          errors:
+                                              - AllErrors
+                                          action:
+                                              type: Ignore
                           - parallel:
                                 - step:
                                       type: BuildAndPushDockerRegistry
