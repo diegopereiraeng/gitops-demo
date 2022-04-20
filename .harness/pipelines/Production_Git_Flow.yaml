@@ -23,6 +23,7 @@ pipeline:
                       spec:
                           connectorRef: account.cddemose
                           namespace: harness-ci-ff-demo
+                          automountServiceAccountToken: true
                   serviceDependencies:
                       - identifier: dind
                         name: dind
@@ -230,6 +231,8 @@ pipeline:
                           type: Kubernetes
                           spec:
                               variables: []
+                  sharedPaths:
+                      - /var/run
               when:
                   pipelineStatus: Success
                   condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
