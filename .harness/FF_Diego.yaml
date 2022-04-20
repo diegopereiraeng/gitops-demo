@@ -14,38 +14,135 @@ pipeline:
               spec:
                   execution:
                       steps:
+                          - parallel:
+                                - step:
+                                      type: FlagConfiguration
+                                      name: Youtube
+                                      identifier: FF_Canary
+                                      spec:
+                                          feature: ALL_YOUTUBE_MODAL
+                                          environment: diegopereiraeng
+                                          instructions:
+                                              - identifier: AddRuleIdentifier
+                                                type: AddRule
+                                                spec:
+                                                    priority: 100
+                                                    distribution:
+                                                        clauses:
+                                                            - op: segmentMatch
+                                                              attribute: ""
+                                                              values:
+                                                                  - Beta_Users
+                                                        bucketBy: timezone
+                                                        variations:
+                                                            - variation: "OFF"
+                                                              weight: 33
+                                                            - variation: Captain_Canary
+                                                              weight: 33
+                                                            - variation: Feature_Flags
+                                                              weight: 34
+                                              - identifier: SetFeatureFlagStateIdentifier
+                                                type: SetFeatureFlagState
+                                                spec:
+                                                    state: "on"
+                                              - identifier: SetDefaultVariationsIdentifier
+                                                type: SetDefaultVariations
+                                                spec:
+                                                    "on": "OFF"
+                                      timeout: 10m
+                                - step:
+                                      type: FlagConfiguration
+                                      name: Menu V2
+                                      identifier: Menu_V2
+                                      spec:
+                                          feature: Menu_Version
+                                          environment: diegopereiraeng
+                                          instructions:
+                                              - identifier: SetFeatureFlagStateIdentifier
+                                                type: SetFeatureFlagState
+                                                spec:
+                                                    state: "on"
+                                              - identifier: AddRuleIdentifier
+                                                type: AddRule
+                                                spec:
+                                                    priority: 100
+                                                    distribution:
+                                                        clauses:
+                                                            - op: segmentMatch
+                                                              attribute: ""
+                                                              values:
+                                                                  - Beta_Users
+                                                        variations:
+                                                            - variation: V1
+                                                              weight: 70
+                                                            - variation: V2
+                                                              weight: 30
+                                                        bucketBy: email
+                                      timeout: 10m
                           - step:
-                                type: FlagConfiguration
-                                name: FF Canary
-                                identifier: FF_Canary
+                                type: HarnessApproval
+                                name: Approval
+                                identifier: Approval
                                 spec:
-                                    feature: ALL_YOUTUBE_MODAL
-                                    environment: diegopereiraeng
-                                    instructions:
-                                        - identifier: AddRuleIdentifier
-                                          type: AddRule
-                                          spec:
-                                              priority: 100
-                                              distribution:
-                                                  clauses:
-                                                      - op: segmentMatch
-                                                        attribute: ""
-                                                        values:
-                                                            - Beta_Users
-                                                  variations:
-                                                      - variation: "OFF"
-                                                        weight: 0
-                                                      - variation: Captain_Canary
-                                                        weight: 50
-                                                      - variation: Feature_Flags
-                                                        weight: 50
-                                                  bucketBy: timezone
-                                        - identifier: SetFeatureFlagStateIdentifier
-                                          type: SetFeatureFlagState
-                                          spec:
-                                              state: "on"
-                                        - identifier: SetDefaultVariationsIdentifier
-                                          type: SetDefaultVariations
-                                          spec:
-                                              "on": "OFF"
-                                timeout: 10m
+                                    approvalMessage: Please review the following information and approve the pipeline progression
+                                    includePipelineExecutionHistory: true
+                                    approvers:
+                                        userGroups:
+                                            - account.Read_Only_Users
+                                        minimumCount: 1
+                                        disallowPipelineExecutor: false
+                                    approverInputs: []
+                                timeout: 1d
+                          - parallel:
+                                - step:
+                                      type: FlagConfiguration
+                                      name: Youtube 100
+                                      identifier: Youtube_100
+                                      spec:
+                                          feature: ALL_YOUTUBE_MODAL
+                                          environment: diegopereiraeng
+                                          instructions:
+                                              - identifier: AddRuleIdentifier
+                                                type: AddRule
+                                                spec:
+                                                    priority: 100
+                                                    distribution:
+                                                        clauses:
+                                                            - op: segmentMatch
+                                                              attribute: ""
+                                                              values:
+                                                                  - Beta_Users
+                                                        variations:
+                                                            - variation: "OFF"
+                                                              weight: 0
+                                                            - variation: Captain_Canary
+                                                              weight: 50
+                                                            - variation: Feature_Flags
+                                                              weight: 50
+                                      timeout: 10m
+                                - step:
+                                      type: FlagConfiguration
+                                      name: Menu V2 100
+                                      identifier: Menu_V2_100
+                                      spec:
+                                          feature: Menu_Version
+                                          environment: diegopereiraeng
+                                          instructions:
+                                              - identifier: AddRuleIdentifier
+                                                type: AddRule
+                                                spec:
+                                                    priority: 100
+                                                    distribution:
+                                                        clauses:
+                                                            - op: segmentMatch
+                                                              attribute: ""
+                                                              values:
+                                                                  - Beta_Users
+                                                        variations:
+                                                            - variation: V1
+                                                              weight: 0
+                                                            - variation: V2
+                                                              weight: 100
+                                                        bucketBy: email
+                                      timeout: 10m
+                  serviceDependencies: []
