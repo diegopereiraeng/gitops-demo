@@ -301,6 +301,15 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "On"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
         targetRules:
         - targets:
           - identifier: Guest
