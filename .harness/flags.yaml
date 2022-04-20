@@ -45,10 +45,6 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
-        targetRules:
-        - targets:
-          - identifier: diegopereiraharnessio
-          variation: "OFF"
       - identifier: prod
         default:
           onVariation: Feature_Flags
