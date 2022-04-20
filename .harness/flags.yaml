@@ -34,11 +34,11 @@ featureFlags:
             distribution:
               bucketBy: email
               variations:
-              - weight: 33
+              - weight: 0
                 variation: "OFF"
-              - weight: 33
+              - weight: 50
                 variation: Captain_Canary
-              - weight: 34
+              - weight: 50
                 variation: Feature_Flags
           clauses:
           - attribute: ""
@@ -281,7 +281,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "on"
+        state: "off"
         rules:
         - priority: 100
           serve:
