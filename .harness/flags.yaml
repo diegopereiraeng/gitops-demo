@@ -27,7 +27,24 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
+        rules:
+        - priority: 100
+          serve:
+            distribution:
+              bucketBy: timezone
+              variations:
+              - weight: 33
+                variation: "OFF"
+              - weight: 33
+                variation: Captain_Canary
+              - weight: 34
+                variation: Feature_Flags
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
       - identifier: prod
         default:
           onVariation: Feature_Flags
