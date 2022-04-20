@@ -169,7 +169,8 @@ pipeline:
                                 spec:
                                     connectorRef: account.DockerHubDiego
                                     image: docker:latest
-                                    command: docker build . -t nodegoat:local
+                                    shell: Sh
+                                    command: docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
                           - step:
                                 type: Security
                                 name: Aqua
