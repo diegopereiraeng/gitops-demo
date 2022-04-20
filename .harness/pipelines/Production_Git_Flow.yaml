@@ -23,6 +23,16 @@ pipeline:
                       spec:
                           connectorRef: account.cddemose
                           namespace: harness-ci-ff-demo
+                  serviceDependencies:
+                      - identifier: dind
+                        name: dind
+                        type: Service
+                        spec:
+                            connectorRef: harnessImage
+                            image: docker:dind
+                            privileged: true
+                            entrypoint:
+                                - dockerd-entrypoint.sh
                   execution:
                       steps:
                           - step:
@@ -37,6 +47,50 @@ pipeline:
                                 when:
                                     stageStatus: Success
                                 failureStrategies: []
+                          - parallel:
+                                - step:
+                                      type: Security
+                                      name: Brakeman Scan
+                                      identifier: Brakeman_Scan
+                                      spec:
+                                          connectorRef: harnessImage
+                                          privileged: true
+                                          settings:
+                                              policy_type: orchestratedScan
+                                              scan_type: repository
+                                              repository_project: nodegoat
+                                              repository_branch: <+codebase.branch>
+                                              product_name: brakeman
+                                              product_config_name: brakeman-default
+                                              fail_on_severity: HIGH
+                                          imagePullPolicy: Always
+                                      when:
+                                          stageStatus: Success
+                                      failureStrategies: []
+                                - step:
+                                      type: Security
+                                      name: OWASP
+                                      identifier: OWASP
+                                      spec:
+                                          connectorRef: harnessImage
+                                          privileged: true
+                                          settings:
+                                              policy_type: orchestratedScan
+                                              scan_type: repository
+                                              repository_project: nodegoat
+                                              repository_branch: <+codebase.branch>
+                                              product_name: owasp
+                                              product_config_name: owasp 5.x
+                                              fail_on_severity: HIGH
+                                          imagePullPolicy: Always
+                                      failureStrategies:
+                                          - onFailure:
+                                                errors:
+                                                    - AllErrors
+                                                action:
+                                                    type: Ignore
+                                      when:
+                                          stageStatus: Success
                           - step:
                                 type: Run
                                 name: Lint Check
@@ -103,6 +157,32 @@ pipeline:
                                               - AllErrors
                                           action:
                                               type: MarkAsSuccess
+                          - step:
+                                type: Run
+                                name: Build Image
+                                identifier: Build_Image
+                                spec:
+                                    connectorRef: harnessImage
+                                    image: docker:latest
+                                    command: docker build . -t nodegoat:local
+                          - step:
+                                type: Security
+                                name: Aqua
+                                identifier: Aqua
+                                spec:
+                                    connectorRef: harnessImage
+                                    privileged: true
+                                    settings:
+                                        product_name: aqua-trivy
+                                        product_config_name: aqua-trivy
+                                        policy_type: orchestratedScan
+                                        scan_type: container
+                                        container_type: local_image
+                                        container_domain: docker.io
+                                        container_project: nodegoat
+                                        container_tag: local
+                                        fail_on_severity: HIGH
+                                    imagePullPolicy: Always
                           - parallel:
                                 - step:
                                       type: BuildAndPushDockerRegistry
