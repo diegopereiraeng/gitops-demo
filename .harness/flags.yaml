@@ -153,21 +153,6 @@ featureFlags:
           onVariation: "false"
           offVariation: "false"
         state: "on"
-        rules:
-        - priority: 1
-          serve:
-            distribution:
-              bucketBy: identifier
-              variations:
-              - weight: 100
-                variation: "true"
-              - weight: 0
-                variation: "false"
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
       - identifier: prod
         default:
           onVariation: "true"
