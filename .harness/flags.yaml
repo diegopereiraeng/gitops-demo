@@ -27,7 +27,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -231,7 +231,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: prod
         default:
           onVariation: "ON"
