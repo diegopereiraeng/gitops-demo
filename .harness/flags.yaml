@@ -134,8 +134,10 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: diegopereiraharnessio
-          - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: Guest
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
