@@ -28,7 +28,7 @@ pipeline:
                         name: dind
                         type: Service
                         spec:
-                            connectorRef: harnessImage
+                            connectorRef: account.DockerHubDiego
                             image: docker:dind
                             privileged: true
                             entrypoint:
