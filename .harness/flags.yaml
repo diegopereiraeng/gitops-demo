@@ -196,15 +196,6 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-        rules:
-        - priority: 0
-          serve:
-            serveVariation: Premium
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
       - identifier: prod
         default:
           onVariation: Premium
