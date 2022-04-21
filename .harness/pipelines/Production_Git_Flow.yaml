@@ -200,7 +200,7 @@ pipeline:
                                           action:
                                               type: Ignore
                                 when:
-                                    stageStatus: Failure
+                                    stageStatus: Success
                           - parallel:
                                 - step:
                                       type: BuildAndPushDockerRegistry
