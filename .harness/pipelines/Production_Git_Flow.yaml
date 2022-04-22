@@ -87,15 +87,14 @@ pipeline:
                                           connectorRef: account.DockerHubDiego
                                           privileged: true
                                           settings:
+                                              product_name: fortify
+                                              product_config_name: fortify-sca-default
                                               policy_type: manualUpload
                                               scan_type: repository
-                                              repository_project: gitflow-ff-demo
-                                              repository_branch: <+pipeline.variables.branch>
-                                              product_name: owasp
-                                              product_config_name: owasp 5.x
-                                              fail_on_severity: HIGH
-                                              customer_artifacts_path: /harness/tests/owasp
-                                              manual_upload_filename: 001_details.json
+                                              repository_project: fortify
+                                              repository_branch: develop
+                                              customer_artifacts_path: /harness/tests/fortify
+                                              manual_upload_filename: "002"
                                           imagePullPolicy: Always
                                       failureStrategies:
                                           - onFailure:
