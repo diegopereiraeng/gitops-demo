@@ -158,6 +158,7 @@ pipeline:
                                         level: DEBUG
                                         sonar_name: gitflow-demo
                                         sonar_key: gitflow-demo
+                                        branch: <+pipeline.variables.branch>
                                     imagePullPolicy: Always
                                     resources:
                                         limits:
