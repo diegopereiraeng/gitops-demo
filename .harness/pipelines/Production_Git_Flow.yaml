@@ -100,7 +100,7 @@ pipeline:
                                                 action:
                                                     type: Ignore
                                       when:
-                                          stageStatus: Success
+                                          stageStatus: Failure
                                       timeout: 15m
                           - step:
                                 type: Run
