@@ -242,6 +242,10 @@ pipeline:
               when:
                   pipelineStatus: Success
                   condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
+              variables:
+                  - name: sto_api_key
+                    type: String
+                    value: <+secrets.getValue("account.sto_api_key")>
         - stage:
               name: Deploy Banking App Dev
               identifier: Deploy_Banking_App_Dev
