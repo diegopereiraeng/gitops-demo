@@ -59,16 +59,15 @@ pipeline:
                                           settings:
                                               policy_type: orchestratedScan
                                               scan_type: repository
-                                              repository_project: gitflow-ff-demo
                                               repository_branch: <+pipeline.variables.branch>
                                               product_name: sonarqube
                                               product_access_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
-                                              fail_on_severity: HIGH
-                                              product_project_name: gitflow-ff-demo
-                                              product_project_key: gitflow-ff-demo
+                                              product_project_name: gitflow-demo
+                                              product_project_key: gitflow-demo
                                               product_domain: http://35.238.17.215
                                               product_config_name: sonarqube-agent
                                               product_lookup_type: byKey
+                                              repository_project: gitflow-ff-demo
                                           imagePullPolicy: Always
                                       when:
                                           stageStatus: Success
