@@ -101,6 +101,7 @@ pipeline:
                                                     type: Ignore
                                       when:
                                           stageStatus: Success
+                                      timeout: 15m
                           - step:
                                 type: Run
                                 name: Lint Check
