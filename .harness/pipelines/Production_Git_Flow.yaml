@@ -81,7 +81,7 @@ pipeline:
                                                     type: Ignore
                                 - step:
                                       type: Security
-                                      name: OWASP
+                                      name: Fortify
                                       identifier: OWASP
                                       spec:
                                           connectorRef: account.DockerHubDiego
