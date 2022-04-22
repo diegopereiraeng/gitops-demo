@@ -88,10 +88,10 @@ pipeline:
                                           settings:
                                               policy_type: orchestratedScan
                                               scan_type: repository
-                                              repository_project: nodegoat
-                                              repository_branch: master
+                                              repository_project: gitflow-ff-demo
+                                              repository_branch: <+pipeline.variables.branch>
                                               product_name: owasp
-                                              product_config_name: sonar
+                                              product_config_name: owasp 5.x
                                               fail_on_severity: HIGH
                                           imagePullPolicy: Always
                                       failureStrategies:
@@ -101,7 +101,7 @@ pipeline:
                                                 action:
                                                     type: Ignore
                                       when:
-                                          stageStatus: Failure
+                                          stageStatus: Success
                           - step:
                                 type: Run
                                 name: Lint Check
