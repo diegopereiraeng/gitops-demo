@@ -68,8 +68,8 @@ pipeline:
                                               product_config_name: sonarqube-agent
                                               product_lookup_type: byKey
                                               repository_project: gitflow-ff-demo
-                                              customer_artifacts_path: /harness/tests/brakeman
-                                              manual_upload_filename: brakeman_v4.3.1.json
+                                              customer_artifacts_path: /harness/tests/sonarqube
+                                              manual_upload_filename: sample.csv
                                           imagePullPolicy: Always
                                       when:
                                           stageStatus: Success
