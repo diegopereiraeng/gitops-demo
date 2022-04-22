@@ -169,6 +169,8 @@ pipeline:
                                                     - AllErrors
                                                 action:
                                                     type: Ignore
+                                      when:
+                                          stageStatus: Failure
                           - parallel:
                                 - step:
                                       type: Security
