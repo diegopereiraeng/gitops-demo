@@ -102,110 +102,111 @@ pipeline:
                                       when:
                                           stageStatus: Failure
                                       timeout: 15m
-                          - step:
-                                type: Run
-                                name: Lint Check
-                                identifier: Lint_Check
-                                spec:
-                                    connectorRef: account.DockerHubDiego
-                                    image: node:alpine
-                                    shell: Sh
-                                    command: |-
-                                        export NODE_OPTIONS="--max-old-space-size=2048"
+                                - step:
+                                      type: Run
+                                      name: Lint Check
+                                      identifier: Lint_Check
+                                      spec:
+                                          connectorRef: account.DockerHubDiego
+                                          image: node:alpine
+                                          shell: Sh
+                                          command: |-
+                                              export NODE_OPTIONS="--max-old-space-size=2048"
 
-                                        mkdir -p html/reports/eslint
-                                        npm install
+                                              mkdir -p html/reports/eslint
+                                              npm install
 
-                                        #ls -ltra node_modules/
+                                              #ls -ltra node_modules/
 
 
-                                        ls html
+                                              ls html
 
-                                        ls html/reports/eslint/
+                                              ls html/reports/eslint/
 
-                                        npm run lint
+                                              npm run lint
 
-                                        ls html/reports/eslint/
-                                    privileged: false
-                                    reports:
-                                        type: JUnit
-                                        spec:
-                                            paths:
-                                                - "**/eslint.xml"
-                                    imagePullPolicy: IfNotPresent
-                                    resources:
-                                        limits:
-                                            memory: 2Gi
-                                failureStrategies: []
-                          - step:
-                                type: Plugin
-                                name: SonarQube Quality Gateway Check
-                                identifier: SonarQube_Quality_Gateway_Check
-                                spec:
-                                    connectorRef: account.DockerHubDiego
-                                    image: plugins/sonarqube-scanner:linux-amd64
-                                    privileged: false
-                                    reports:
-                                        type: JUnit
-                                        spec:
-                                            paths:
-                                                - sonarResults.xml
-                                    settings:
-                                        sonar_host: http://35.238.17.215
-                                        sonar_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
-                                        sources: html
-                                        binaries: html
-                                        level: DEBUG
-                                        sonar_name: gitflow-demo
-                                        sonar_key: gitflow-demo
-                                        branch: <+pipeline.variables.branch>
-                                    imagePullPolicy: Always
-                                    resources:
-                                        limits:
-                                            memory: 2Gi
-                                failureStrategies:
-                                    - onFailure:
-                                          errors:
-                                              - AllErrors
-                                          action:
-                                              type: Abort
-                          - step:
-                                type: Security
-                                name: Sonar Scan - Dataload
-                                identifier: Sonar_Scan
-                                spec:
-                                    connectorRef: account.DockerHubDiego
-                                    privileged: true
-                                    settings:
-                                        policy_type: dataLoad
-                                        scan_type: repository
-                                        repository_branch: <+pipeline.variables.branch>
-                                        product_name: sonarqube
-                                        product_access_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
-                                        product_project_name: gitflow-demo
-                                        product_project_key: gitflow-demo
-                                        product_domain: http://sonar.harness-demo.site
-                                        product_config_name: sonarqube-agent
-                                        product_lookup_type: byKey
-                                        repository_project: gitflow-ff-demo
-                                    imagePullPolicy: Always
-                                when:
-                                    stageStatus: Success
-                                failureStrategies:
-                                    - onFailure:
-                                          errors:
-                                              - AllErrors
-                                          action:
-                                              type: Ignore
-                          - step:
-                                type: Run
-                                name: Build Image
-                                identifier: Build_Image
-                                spec:
-                                    connectorRef: account.DockerHubDiego
-                                    image: docker:latest
-                                    shell: Sh
-                                    command: docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
+                                              ls html/reports/eslint/
+                                          privileged: false
+                                          reports:
+                                              type: JUnit
+                                              spec:
+                                                  paths:
+                                                      - "**/eslint.xml"
+                                          imagePullPolicy: IfNotPresent
+                                          resources:
+                                              limits:
+                                                  memory: 2Gi
+                                      failureStrategies: []
+                                - step:
+                                      type: Plugin
+                                      name: SonarQube Quality Gateway Check
+                                      identifier: SonarQube_Quality_Gateway_Check
+                                      spec:
+                                          connectorRef: account.DockerHubDiego
+                                          image: plugins/sonarqube-scanner:linux-amd64
+                                          privileged: false
+                                          reports:
+                                              type: JUnit
+                                              spec:
+                                                  paths:
+                                                      - sonarResults.xml
+                                          settings:
+                                              sonar_host: http://35.238.17.215
+                                              sonar_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
+                                              sources: html
+                                              binaries: html
+                                              level: DEBUG
+                                              sonar_name: gitflow-demo
+                                              sonar_key: gitflow-demo
+                                              branch: <+pipeline.variables.branch>
+                                          imagePullPolicy: Always
+                                          resources:
+                                              limits:
+                                                  memory: 2Gi
+                                      failureStrategies:
+                                          - onFailure:
+                                                errors:
+                                                    - AllErrors
+                                                action:
+                                                    type: Abort
+                          - parallel:
+                                - step:
+                                      type: Security
+                                      name: Sonar Scan - Dataload
+                                      identifier: Sonar_Scan
+                                      spec:
+                                          connectorRef: account.DockerHubDiego
+                                          privileged: true
+                                          settings:
+                                              policy_type: dataLoad
+                                              scan_type: repository
+                                              repository_branch: <+pipeline.variables.branch>
+                                              product_name: sonarqube
+                                              product_access_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
+                                              product_project_name: gitflow-demo
+                                              product_project_key: gitflow-demo
+                                              product_domain: http://sonar.harness-demo.site
+                                              product_config_name: sonarqube-agent
+                                              product_lookup_type: byKey
+                                              repository_project: gitflow-ff-demo
+                                          imagePullPolicy: Always
+                                      when:
+                                          stageStatus: Success
+                                      failureStrategies:
+                                          - onFailure:
+                                                errors:
+                                                    - AllErrors
+                                                action:
+                                                    type: Ignore
+                                - step:
+                                      type: Run
+                                      name: Build Image
+                                      identifier: Build_Image
+                                      spec:
+                                          connectorRef: account.DockerHubDiego
+                                          image: docker:latest
+                                          shell: Sh
+                                          command: docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
                           - step:
                                 type: Security
                                 name: Aqua
