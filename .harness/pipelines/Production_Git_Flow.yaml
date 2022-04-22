@@ -168,7 +168,7 @@ pipeline:
                                                 errors:
                                                     - AllErrors
                                                 action:
-                                                    type: Abort
+                                                    type: Ignore
                           - parallel:
                                 - step:
                                       type: Security
