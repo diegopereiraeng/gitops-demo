@@ -91,8 +91,8 @@ pipeline:
                                               product_config_name: fortify-default
                                               policy_type: manualUpload
                                               scan_type: repository
-                                              repository_project: fortify
-                                              repository_branch: develop
+                                              repository_project: gitflow-ff-demo
+                                              repository_branch: dev
                                               customer_artifacts_path: /harness/tests/fortify
                                               manual_upload_filename: "002"
                                           imagePullPolicy: Always
