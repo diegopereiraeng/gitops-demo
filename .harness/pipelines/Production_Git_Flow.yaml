@@ -168,7 +168,7 @@ pipeline:
                                           errors:
                                               - AllErrors
                                           action:
-                                              type: MarkAsSuccess
+                                              type: Abort
                           - step:
                                 type: Security
                                 name: Sonar Scan - Dataload
