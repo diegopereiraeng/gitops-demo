@@ -81,8 +81,8 @@ pipeline:
                                                     type: Ignore
                                 - step:
                                       type: Security
-                                      name: Fortify
-                                      identifier: OWASP
+                                      name: fortify
+                                      identifier: fortify
                                       spec:
                                           connectorRef: account.DockerHubDiego
                                           privileged: true
