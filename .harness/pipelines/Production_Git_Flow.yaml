@@ -69,7 +69,7 @@ pipeline:
                                               product_lookup_type: byKey
                                               repository_project: gitflow-ff-demo
                                               customer_artifacts_path: /harness/tests/sonarqube
-                                              manual_upload_filename: sample.csv
+                                              manual_upload_filename: "001"
                                           imagePullPolicy: Always
                                       when:
                                           stageStatus: Success
@@ -142,7 +142,7 @@ pipeline:
                                               product_config_name: owasp 5.x
                                               fail_on_severity: HIGH
                                               customer_artifacts_path: /harness/tests/owasp
-                                              manual_upload_filename: 001_refined_issues
+                                              manual_upload_filename: "001"
                                           imagePullPolicy: Always
                                       failureStrategies:
                                           - onFailure:
