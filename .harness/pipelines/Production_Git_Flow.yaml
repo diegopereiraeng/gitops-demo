@@ -68,7 +68,7 @@ pipeline:
                                               product_config_name: sonarqube-agent
                                               product_lookup_type: byKey
                                               repository_project: gitflow-ff-demo
-                                              customer_artifacts_path: /harness/tests/scan_tools/sonarqube
+                                              customer_artifacts_path: /harness/tests/scan_tools/sonarqube/test_data
                                               manual_upload_filename: "001"
                                           imagePullPolicy: Always
                                       when:
@@ -120,7 +120,7 @@ pipeline:
                                               product_name: brakeman
                                               product_config_name: brakeman-default
                                               fail_on_severity: HIGH
-                                              customer_artifacts_path: /harness/tests/scan_tools/brakeman
+                                              customer_artifacts_path: /harness/tests/scan_tools/brakeman/test_data
                                               manual_upload_filename: "001"
                                           imagePullPolicy: Always
                                       when:
@@ -141,7 +141,7 @@ pipeline:
                                               product_name: owasp
                                               product_config_name: owasp 5.x
                                               fail_on_severity: HIGH
-                                              customer_artifacts_path: /harness/tests/scan_tools/owasp
+                                              customer_artifacts_path: /harness/tests/scan_tools/owasp/test_data
                                               manual_upload_filename: "001"
                                           imagePullPolicy: Always
                                       failureStrategies:
