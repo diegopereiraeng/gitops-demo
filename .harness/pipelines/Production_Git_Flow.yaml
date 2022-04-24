@@ -366,64 +366,97 @@ pipeline:
                       infrastructureKey: banking-app-k8s
                   execution:
                       steps:
-                          - step:
-                                type: ShellScript
-                                name: Retrieve Secrets
-                                identifier: Retrieve_Secrets
-                                spec:
-                                    shell: Bash
-                                    onDelegate: true
-                                    source:
-                                        type: Inline
-                                        spec:
-                                            script: |-
-                                                
-                                                var1='<'
-                                                var2='+'
-                                                var3='>'
-                                                var4='secrets.getValue("account.diegogitapppem")'
-                                                var5='secrets.getValue("account.diegogitapppem")'
-                                                finalVar="$var1$var2 \"ABC:\" + $var4 $var3"
-                                                export finalVar
+                          - parallel:
+                                - step:
+                                      type: JiraCreate
+                                      name: "Open Jira ticket "
+                                      identifier: Create_JIRA_to_track_deployment
+                                      spec:
+                                          connectorRef: account.Harness_JIRA
+                                          projectKey: HD
+                                          issueType: Story
+                                          fields:
+                                              - name: Summary
+                                                value: "Ticket to Track deployment "
+                                              - name: Description
+                                                value: " Pipeline Name: <+pipeline.name> \\\\ Service Name: <+pipeline.variables.serviceName> \\\\ Deployment URL: https://app.harness.io/ng/#/account/6_vVHzo9Qeu9fXvj-AcbCQ/cd/orgs/default/projects/CD_Demo/pipelines/CD_Pipeline/executions/<+pipeline.executionId>/pipeline \\\\ Harness executionId: <+pipeline.executionId> \\\\ Harness sequenceId: <+pipeline.sequenceId>"
+                                      timeout: 1d
+                                      failureStrategies: []
+                                      when:
+                                          stageStatus: Success
+                                - step:
+                                      type: ShellScript
+                                      name: Retrieve Dynamic Secrets
+                                      identifier: Retrieve_Secrets
+                                      spec:
+                                          shell: Bash
+                                          onDelegate: true
+                                          source:
+                                              type: Inline
+                                              spec:
+                                                  script: |-
+                                                      
+                                                      var1='<'
+                                                      var2='+'
+                                                      var3='>'
+                                                      var4='secrets.getValue("account.diegogitapppem")'
+                                                      var5='secrets.getValue("account.diegogitapppem")'
+                                                      finalVar="$var1$var2 \"ABC:\" + $var4 $var3"
+                                                      export finalVar
 
-                                                finalVar2="$var1$var2 \"ABC:\" + $var4 \
-                                                \"DEF:\" + $var5 $var3"
+                                                      finalVar2="$var1$var2 \"ABC:\" + $var4 \
+                                                      \"DEF:\" + $var5 $var3"
 
-                                                finalVar2="$var1$var2 \"ABC: \" + $var4 \
-                                                +  \"\\nDEF: \" + $var5 $var3"
-                                                export finalVar2
+                                                      finalVar2="$var1$var2 \"ABC: \" + $var4 \
+                                                      +  \"\\nDEF: \" + $var5 $var3"
+                                                      export finalVar2
 
-                                                meio='"OUTRO_SECRET:" + secrets.getValue("account.diegogitapppem") + "DATABASE_URL:" +  secrets.getValue("account.diegogitapppem")'
-                                                fim=">"
-                                                SECRETS_YAML2="TESTE"
-                                                export SECRETS_YAML2
-                                    environmentVariables:
-                                        - name: HARNESS_ACCOUNT_ID
-                                          type: String
-                                          value: oEWs6wr7QvOW8d0ISfhttQ
-                                        - name: HARNESS_API_KEY
-                                          type: String
-                                          value: sat.623a2cd5cf67162d22b9cdbe.OIY82qrwRzgkELLa6PZu
-                                    outputVariables:
-                                        - name: SECRETS_YAML
-                                          type: String
-                                          value: finalVar
-                                        - name: SECRETS_YAML2
-                                          type: String
-                                          value: SECRETS_YAML2
-                                        - name: finalVar
-                                          type: String
-                                          value: finalVar
-                                        - name: finalVar2
-                                          type: String
-                                          value: finalVar2
-                                    executionTarget: {}
-                                timeout: 10m
-                                failureStrategies: []
+                                                      meio='"OUTRO_SECRET:" + secrets.getValue("account.diegogitapppem") + "DATABASE_URL:" +  secrets.getValue("account.diegogitapppem")'
+                                                      fim=">"
+                                                      SECRETS_YAML2="TESTE"
+                                                      export SECRETS_YAML2
+                                          environmentVariables:
+                                              - name: HARNESS_ACCOUNT_ID
+                                                type: String
+                                                value: oEWs6wr7QvOW8d0ISfhttQ
+                                              - name: HARNESS_API_KEY
+                                                type: String
+                                                value: sat.623a2cd5cf67162d22b9cdbe.OIY82qrwRzgkELLa6PZu
+                                          outputVariables:
+                                              - name: SECRETS_YAML
+                                                type: String
+                                                value: finalVar
+                                              - name: SECRETS_YAML2
+                                                type: String
+                                                value: SECRETS_YAML2
+                                              - name: finalVar
+                                                type: String
+                                                value: finalVar
+                                              - name: finalVar2
+                                                type: String
+                                                value: finalVar2
+                                          executionTarget: {}
+                                      timeout: 10m
+                                      failureStrategies: []
                           - stepGroup:
                                 name: Canary Deployment
                                 identifier: canaryDepoyment
                                 steps:
+                                    - step:
+                                          type: JiraUpdate
+                                          name: "Update JIRA "
+                                          identifier: Update_JIRA_Start
+                                          spec:
+                                              connectorRef: account.Harness_JIRA
+                                              issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                                              transitionTo:
+                                                  transitionName: ""
+                                                  status: In Progress
+                                              fields:
+                                                  - name: Comment
+                                                    value: Dev Canary started
+                                          timeout: 1d
+                                          failureStrategies: []
                                     - step:
                                           name: Canary Deployment
                                           identifier: canaryDeployment
@@ -435,6 +468,21 @@ pipeline:
                                                   spec:
                                                       count: 1
                                               skipDryRun: false
+                                    - step:
+                                          type: JiraUpdate
+                                          name: Update JIRA Ready for Testing
+                                          identifier: Update_JIRA_Ready_for_Testing
+                                          spec:
+                                              connectorRef: account.Harness_JIRA
+                                              issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                                              transitionTo:
+                                                  transitionName: ""
+                                                  status: QA Test
+                                              fields:
+                                                  - name: Comment
+                                                    value: Ready for testing. Successfully passed sonarcube artifact scan.
+                                          timeout: 1d
+                                          failureStrategies: []
                                     - step:
                                           type: Verify
                                           name: Deployment Verification
@@ -536,6 +584,7 @@ pipeline:
                             - AllErrors
                         action:
                             type: StageRollback
+              tags: {}
         - stage:
               name: Functional Test and Push QA
               identifier: Functional_Test
