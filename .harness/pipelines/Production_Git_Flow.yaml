@@ -586,8 +586,8 @@ pipeline:
                             type: StageRollback
               tags: {}
         - stage:
-              name: Functional Test and Push QA
-              identifier: Functional_Test
+              name: Functional Test in Dev
+              identifier: Functional_Test_Dev
               type: CI
               spec:
                   cloneCodebase: true
@@ -602,6 +602,7 @@ pipeline:
                                 spec:
                                     connectorRef: account.DockerHubDiego
                                     image: maven:alpine
+                                    shell: Sh
                                     command: |-
                                         apk add git
 
@@ -620,6 +621,26 @@ pipeline:
                                     stageStatus: Success
                                     condition: <+pipeline.variables.gitEvent> == "PR"
                                 failureStrategies: []
+                      rollbackSteps: []
+                  serviceConfig:
+                      serviceRef: ""
+                      serviceDefinition:
+                          type: Kubernetes
+                          spec:
+                              variables: []
+              when:
+                  pipelineStatus: Success
+                  condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
+        - stage:
+              name: Build QA
+              identifier: Functional_Test
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  infrastructure:
+                      useFromStage: Build_Container_and_Push
+                  execution:
+                      steps:
                           - step:
                                 type: BuildAndPushDockerRegistry
                                 name: Build and Push QA
