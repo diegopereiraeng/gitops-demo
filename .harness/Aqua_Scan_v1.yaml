@@ -1,0 +1,27 @@
+template:
+    name: Aqua Scan
+    identifier: Aqua_Scan
+    versionLabel: v1
+    type: Step
+    projectIdentifier: GIT_FLOW_DEMO
+    orgIdentifier: default
+    spec:
+        type: Security
+        spec:
+            connectorRef: account.DockerHubDiego
+            privileged: true
+            settings:
+                product_name: aqua-trivy
+                product_config_name: aqua-trivy
+                policy_type: manualUpload
+                scan_type: container
+                container_type: local_image
+                container_domain: docker.io
+                container_project: nodegoat
+                container_tag: local
+                fail_on_severity: HIGH
+                customer_artifacts_path: /harness/tests/scan_tools/aqua_trivy/test_data
+                manual_upload_filename: "005"
+            imagePullPolicy: Always
+        when:
+            stageStatus: Success
