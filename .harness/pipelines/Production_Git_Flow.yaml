@@ -81,7 +81,7 @@ pipeline:
                                                     type: Ignore
                                 - step:
                                       type: Security
-                                      name: fortify
+                                      name: Fortify
                                       identifier: fortify
                                       spec:
                                           connectorRef: account.DockerHubDiego
