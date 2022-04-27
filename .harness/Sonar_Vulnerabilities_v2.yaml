@@ -1,0 +1,30 @@
+template:
+    name: Sonar Vulnerabilities
+    identifier: Sonar_Vulnerabilities
+    versionLabel: v2
+    type: Step
+    projectIdentifier: GIT_FLOW_DEMO
+    orgIdentifier: default
+    spec:
+        type: Security
+        spec:
+            connectorRef: account.DockerHubDiego
+            privileged: true
+            settings:
+                policy_type: manualUpload
+                scan_type: repository
+                repository_branch: <+pipeline.variables.branch>
+                product_name: sonarqube
+                product_access_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
+                product_project_name: gitflow-demo
+                product_project_key: gitflow-demo
+                product_domain: http://sonar.harness-demo.site
+                product_config_name: sonarqube-agent
+                product_lookup_type: byKey
+                repository_project: gitflow-ff-demo
+                customer_artifacts_path: /harness/tests/scan_tools/sonarqube/test_data
+                manual_upload_filename: "001"
+            imagePullPolicy: Always
+        when:
+            stageStatus: Success
+        description: teste
