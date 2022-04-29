@@ -22,7 +22,24 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
+        rules:
+        - priority: 100
+          serve:
+            distribution:
+              bucketBy: email
+              variations:
+              - weight: 33
+                variation: "OFF"
+              - weight: 33
+                variation: Captain_Canary
+              - weight: 34
+                variation: Feature_Flags
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -270,9 +287,9 @@ featureFlags:
             distribution:
               bucketBy: email
               variations:
-              - weight: 70
+              - weight: 0
                 variation: V1
-              - weight: 30
+              - weight: 100
                 variation: V2
           clauses:
           - attribute: ""
