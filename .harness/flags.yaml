@@ -223,7 +223,7 @@ featureFlags:
       environments:
       - identifier: diegopereiraeng
         default:
-          onVariation: "ON"
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
       - identifier: prod
