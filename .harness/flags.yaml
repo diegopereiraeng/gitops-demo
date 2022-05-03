@@ -27,13 +27,13 @@ featureFlags:
         - priority: 100
           serve:
             distribution:
-              bucketBy: identifier
+              bucketBy: email
               variations:
-              - weight: 20
-                variation: "OFF"
               - weight: 0
+                variation: "OFF"
+              - weight: 100
                 variation: Captain_Canary
-              - weight: 80
+              - weight: 0
                 variation: Feature_Flags
           clauses:
           - attribute: ""
