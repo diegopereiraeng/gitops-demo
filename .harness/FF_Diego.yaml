@@ -36,11 +36,11 @@ pipeline:
                                                         bucketBy: email
                                                         variations:
                                                             - variation: "OFF"
-                                                              weight: 33
+                                                              weight: 20
                                                             - variation: Captain_Canary
-                                                              weight: 33
+                                                              weight: 0
                                                             - variation: Feature_Flags
-                                                              weight: 34
+                                                              weight: 80
                                               - identifier: SetFeatureFlagStateIdentifier
                                                 type: SetFeatureFlagState
                                                 spec:
@@ -74,9 +74,9 @@ pipeline:
                                                                   - Beta_Users
                                                         variations:
                                                             - variation: V1
-                                                              weight: 70
+                                                              weight: 80
                                                             - variation: V2
-                                                              weight: 30
+                                                              weight: 20
                                                         bucketBy: email
                                       timeout: 10m
                           - step:
@@ -114,14 +114,14 @@ pipeline:
                                                               attribute: ""
                                                               values:
                                                                   - Beta_Users
+                                                        bucketBy: email
                                                         variations:
                                                             - variation: "OFF"
                                                               weight: 0
                                                             - variation: Captain_Canary
-                                                              weight: 50
+                                                              weight: 100
                                                             - variation: Feature_Flags
-                                                              weight: 50
-                                                        bucketBy: email
+                                                              weight: 0
                                       timeout: 10m
                                 - step:
                                       type: FlagConfiguration
