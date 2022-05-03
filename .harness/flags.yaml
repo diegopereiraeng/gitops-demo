@@ -133,11 +133,12 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: tfeijobxbluecombr
-          variation: "true"
-        - targets:
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: eduardoverlinguecombr
+          - identifier: tfeijobxbluecombr
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
