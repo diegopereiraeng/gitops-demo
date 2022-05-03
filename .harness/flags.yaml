@@ -264,21 +264,6 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-        rules:
-        - priority: 100
-          serve:
-            distribution:
-              bucketBy: email
-              variations:
-              - weight: 0
-                variation: V1
-              - weight: 100
-                variation: V2
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
       - identifier: prod
         default:
           onVariation: V2
