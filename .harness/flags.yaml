@@ -303,7 +303,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "off"
+        state: "on"
         targetRules:
         - targets:
           - identifier: Guest
