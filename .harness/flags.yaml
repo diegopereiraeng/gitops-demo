@@ -134,11 +134,9 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: eduardoverlinguecombr
+          - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
-        - targets:
-          - identifier: tfeijobxbluecombr
-          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
