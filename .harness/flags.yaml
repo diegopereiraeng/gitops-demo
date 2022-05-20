@@ -8,7 +8,7 @@ featureFlags:
       spec:
         type: string
         default:
-          onVariation: Feature_Flags
+          onVariation: "OFF"
           offVariation: "OFF"
         variations:
         - identifier: "OFF"
@@ -17,6 +17,8 @@ featureFlags:
           value: VSHVo9jHMAk
         - identifier: Feature_Flags
           value: Zf51EDcDa80
+        - identifier: Italika
+          value: YPJGFMNGrZo&t=5s
       environments:
       - identifier: prod
         default:
