@@ -232,7 +232,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
         targetRules:
         - targets:
           - identifier: Guest
