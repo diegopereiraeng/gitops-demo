@@ -272,7 +272,7 @@ featureFlags:
         state: "off"
       - identifier: diegopereiraeng
         default:
-          onVariation: V2
+          onVariation: V1
           offVariation: V1
         state: "on"
       - identifier: dev
