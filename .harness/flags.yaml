@@ -18,7 +18,7 @@ featureFlags:
         - identifier: Feature_Flags
           value: Zf51EDcDa80
         - identifier: Italika
-          value: YPJGFMNGrZo&t=5s
+          value: YPJGFMNGrZo
       environments:
       - identifier: prod
         default:
