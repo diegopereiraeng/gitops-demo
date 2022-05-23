@@ -151,6 +151,7 @@ featureFlags:
           variation: "false"
         - targets:
           - identifier: diegopereiradroneio
+          - identifier: diegopereiraharnessio
           variation: "true"
       - identifier: dev
         default:
