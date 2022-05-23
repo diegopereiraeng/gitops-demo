@@ -149,6 +149,9 @@ featureFlags:
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiradroneio
+          variation: "true"
       - identifier: dev
         default:
           onVariation: "true"
