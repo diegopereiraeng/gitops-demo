@@ -53,36 +53,6 @@ template:
                               - parallel:
                                     - step:
                                           type: Security
-                                          name: Sonar Scan Vulnerabilities
-                                          identifier: Sonar_Scan_Vulnerabilities
-                                          spec:
-                                              connectorRef: account.DockerHubDiego
-                                              privileged: true
-                                              settings:
-                                                  policy_type: manualUpload
-                                                  scan_type: repository
-                                                  repository_branch: <+pipeline.variables.branch>
-                                                  product_name: sonarqube
-                                                  product_access_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
-                                                  product_project_name: gitflow-demo
-                                                  product_project_key: gitflow-demo
-                                                  product_domain: http://sonar.harness-demo.site
-                                                  product_config_name: sonarqube-agent
-                                                  product_lookup_type: byKey
-                                                  repository_project: gitflow-ff-demo
-                                                  customer_artifacts_path: /harness/tests/scan_tools/sonarqube/test_data
-                                                  manual_upload_filename: "001"
-                                              imagePullPolicy: Always
-                                          when:
-                                              stageStatus: Success
-                                          failureStrategies:
-                                              - onFailure:
-                                                    errors:
-                                                        - AllErrors
-                                                    action:
-                                                        type: Ignore
-                                    - step:
-                                          type: Security
                                           name: Fortify
                                           identifier: fortify
                                           spec:
@@ -107,53 +77,6 @@ template:
                                           when:
                                               stageStatus: Success
                                           timeout: 15m
-                                    - step:
-                                          type: Security
-                                          name: Brakeman Scan
-                                          identifier: Brakeman_Scan
-                                          spec:
-                                              connectorRef: account.DockerHubDiego
-                                              privileged: true
-                                              settings:
-                                                  policy_type: manualUpload
-                                                  scan_type: repository
-                                                  repository_project: gitflow-ff-demo
-                                                  repository_branch: <+codebase.branch>
-                                                  product_name: brakeman
-                                                  product_config_name: brakeman-default
-                                                  fail_on_severity: HIGH
-                                                  customer_artifacts_path: /harness/tests/scan_tools/brakeman/test_data
-                                                  manual_upload_filename: "001"
-                                              imagePullPolicy: Always
-                                          when:
-                                              stageStatus: Success
-                                          failureStrategies: []
-                                    - step:
-                                          type: Security
-                                          name: OWASP
-                                          identifier: OWASP
-                                          spec:
-                                              connectorRef: account.DockerHubDiego
-                                              privileged: true
-                                              settings:
-                                                  policy_type: manualUpload
-                                                  scan_type: repository
-                                                  repository_project: gitflow-ff-demo
-                                                  repository_branch: <+codebase.branch>
-                                                  product_name: owasp
-                                                  product_config_name: owasp 5.x
-                                                  fail_on_severity: HIGH
-                                                  customer_artifacts_path: /harness/tests/scan_tools/owasp/test_data
-                                                  manual_upload_filename: "001"
-                                              imagePullPolicy: Always
-                                          failureStrategies:
-                                              - onFailure:
-                                                    errors:
-                                                        - AllErrors
-                                                    action:
-                                                        type: Ignore
-                                          when:
-                                              stageStatus: Success
                                     - step:
                                           type: Run
                                           name: Lint Check
