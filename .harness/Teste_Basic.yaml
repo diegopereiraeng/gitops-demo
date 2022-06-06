@@ -1,0 +1,33 @@
+inputSet:
+  identifier: "Teste_Basic"
+  pipeline:
+    identifier: "Production_Git_Flow"
+    properties:
+      ci:
+        codebase:
+          build:
+            type: "branch"
+            spec:
+              branch: "okteto-demo"
+    variables:
+    - name: "tag"
+      type: "String"
+      value: "okteto-demo"
+    - name: "ffkey"
+      type: "String"
+      value: "ffbe05e1-6829-4c68-883b-575d097f3aac"
+    - name: "virtualPath"
+      type: "String"
+      value: "okteto-demo"
+    - name: "gitEvent"
+      type: "String"
+      value: "PR"
+    - name: "target"
+      type: "String"
+      value: "dev"
+    - name: "branch"
+      type: "String"
+      value: "okteto-demo"
+  name: "Teste Basic"
+  orgIdentifier: "default"
+  projectIdentifier: "GIT_FLOW_DEMO"
