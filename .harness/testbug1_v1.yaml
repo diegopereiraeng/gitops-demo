@@ -1,5 +1,5 @@
 template:
-    name: test-bug-1
+    name: Pipeline Template
     identifier: testbug1
     versionLabel: v1
     type: Pipeline
@@ -925,3 +925,4 @@ template:
             - name: branch
               type: String
               value: <+input>
+    tags: {}
