@@ -35,10 +35,8 @@ featureFlags:
           - identifier: golivaresitalikacommx
           variation: Italika
         - targets:
-          - identifier: Guest
-          variation: "OFF"
-        - targets:
           - identifier: diegopereiraharnessio
+          - identifier: Guest
           variation: Captain_Canary
       - identifier: prod
         default:
