@@ -32,14 +32,12 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: Guest
-          variation: "OFF"
-        - targets:
-          - identifier: diegopereiraharnessio
-          variation: Captain_Canary
-        - targets:
           - identifier: golivaresitalikacommx
           variation: Italika
+        - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: Guest
+          variation: Captain_Canary
       - identifier: prod
         default:
           onVariation: Feature_Flags
