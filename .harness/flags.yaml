@@ -252,7 +252,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: "OFF"
+          variation: "ON"
       - identifier: prod
         default:
           onVariation: "ON"
