@@ -36,7 +36,7 @@ featureFlags:
           variation: Italika
         - targets:
           - identifier: Guest
-          variation: Feature_Flags
+          variation: "OFF"
         - targets:
           - identifier: diegopereiraharnessio
           variation: Captain_Canary
@@ -150,14 +150,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: diegopereiradroneio
-          - identifier: diegopereiraharnessio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiradroneio
+          - identifier: diegopereiraharnessio
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
