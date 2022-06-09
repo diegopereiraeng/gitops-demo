@@ -33,7 +33,7 @@ featureFlags:
         rules:
         - priority: 0
           serve:
-            serveVariation: Italika
+            serveVariation: "OFF"
           clauses:
           - attribute: ""
             op: segmentMatch
