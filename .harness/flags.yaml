@@ -30,6 +30,15 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: Captain_Canary
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
         targetRules:
         - targets:
           - identifier: golivaresitalikacommx
