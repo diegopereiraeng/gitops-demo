@@ -30,6 +30,15 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: Italika
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
       - identifier: prod
         default:
           onVariation: Feature_Flags
