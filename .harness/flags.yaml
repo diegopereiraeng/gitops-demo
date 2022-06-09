@@ -30,15 +30,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-        rules:
-        - priority: 0
-          serve:
-            serveVariation: Captain_Canary
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -149,14 +140,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: diegopereiradroneio
-          - identifier: diegopereiraharnessio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiradroneio
+          - identifier: diegopereiraharnessio
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
