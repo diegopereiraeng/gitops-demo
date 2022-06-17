@@ -29,7 +29,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
         rules:
         - priority: 0
           serve:
@@ -251,7 +251,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: "OFF"
+          variation: "ON"
       - identifier: prod
         default:
           onVariation: "ON"
