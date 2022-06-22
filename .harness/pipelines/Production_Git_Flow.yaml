@@ -38,7 +38,7 @@ pipeline:
                       steps:
                           - step:
                                 type: RestoreCacheGCS
-                                name: Restore GCS
+                                name: Restore GCS DDD
                                 identifier: Restore_GCS
                                 spec:
                                     connectorRef: account.SalesGCP
