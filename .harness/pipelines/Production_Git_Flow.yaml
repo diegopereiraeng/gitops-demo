@@ -125,8 +125,13 @@ pipeline:
                                           imagePullPolicy: Always
                                       when:
                                           stageStatus: Success
-                                          condition: <+env.name> == “diego”
-                                      failureStrategies: []
+                                      failureStrategies:
+                                          - onFailure:
+                                                errors:
+                                                    - AllErrors
+                                                action:
+                                                    type: Ignore
+                                      timeout: 6m
                                 - step:
                                       type: Security
                                       name: OWASP
