@@ -125,6 +125,7 @@ pipeline:
                                           imagePullPolicy: Always
                                       when:
                                           stageStatus: Success
+                                          condition: <+env.name> == “diego”
                                       failureStrategies: []
                                 - step:
                                       type: Security
