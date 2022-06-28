@@ -29,7 +29,7 @@ featureFlags:
         default:
           onVariation: Captain_Canary
           offVariation: "OFF"
-        state: "off"
+        state: "on"
         rules:
         - priority: 0
           serve:
@@ -149,14 +149,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: diegopereiradroneio
-          - identifier: diegopereiraharnessio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiradroneio
+          - identifier: diegopereiraharnessio
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
