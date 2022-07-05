@@ -239,6 +239,15 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "OFF"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Grupo_modelo_X3TR
         targetRules:
         - targets:
           - identifier: Guest
