@@ -140,14 +140,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
+        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
-        - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
@@ -329,7 +329,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: "On"
+          variation: "Off"
       - identifier: prod
         default:
           onVariation: "On"
