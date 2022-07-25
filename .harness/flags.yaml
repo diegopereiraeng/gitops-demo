@@ -30,6 +30,10 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: Captain_Canary
       - identifier: prod
         default:
           onVariation: Feature_Flags
