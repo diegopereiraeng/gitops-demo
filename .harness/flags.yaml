@@ -34,6 +34,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Captain_Canary
+      - identifier: guinogueira7
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -70,6 +75,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -102,6 +112,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -144,14 +159,19 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -207,6 +227,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: prod
         default:
           onVariation: Premium
@@ -256,6 +281,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "ON"
+      - identifier: guinogueira7
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "ON"
@@ -292,6 +322,11 @@ featureFlags:
       - identifier: diegopereiraeng
         default:
           onVariation: V1
+          offVariation: V1
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: V2
           offVariation: V1
         state: "off"
       - identifier: prod
@@ -334,6 +369,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "On"
+      - identifier: guinogueira7
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "On"
@@ -366,6 +406,11 @@ featureFlags:
           offVariation: White
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: guinogueira7
         default:
           onVariation: Black
           offVariation: White
