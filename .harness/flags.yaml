@@ -39,6 +39,10 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "OFF"
       - identifier: prod
         default:
           onVariation: Feature_Flags
