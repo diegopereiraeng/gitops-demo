@@ -38,7 +38,7 @@ featureFlags:
           variation: Captain_Canary
       - identifier: gacerioni
         default:
-          onVariation: "OFF"
+          onVariation: Gabs_GoT
           offVariation: "OFF"
         state: "on"
       - identifier: guinogueira7
@@ -180,14 +180,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
       - identifier: gacerioni
         default:
           onVariation: "true"
