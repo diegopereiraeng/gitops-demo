@@ -44,7 +44,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: Gabs_GoT
+          variation: "OFF"
       - identifier: guinogueira7
         default:
           onVariation: "OFF"
