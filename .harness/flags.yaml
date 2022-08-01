@@ -44,7 +44,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: "OFF"
+          variation: Gabs_GoT
       - identifier: guinogueira7
         default:
           onVariation: "OFF"
@@ -184,14 +184,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
       - identifier: gacerioni
         default:
           onVariation: "true"
