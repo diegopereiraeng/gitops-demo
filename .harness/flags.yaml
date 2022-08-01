@@ -314,7 +314,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: guinogueira7
         default:
           onVariation: "ON"
