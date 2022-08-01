@@ -19,6 +19,8 @@ featureFlags:
           value: Zf51EDcDa80
         - identifier: Italika
           value: YPJGFMNGrZo
+        - identifier: Gabs_GoT
+          value: 6i0a7RDPkM8
       environments:
       - identifier: dev
         default:
