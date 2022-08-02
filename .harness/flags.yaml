@@ -146,7 +146,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
