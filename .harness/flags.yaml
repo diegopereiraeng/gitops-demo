@@ -539,7 +539,7 @@ featureFlags:
       environments:
       - identifier: crizstian
         default:
-          onVariation: White
+          onVariation: Black
           offVariation: White
         state: "on"
       - identifier: dev
