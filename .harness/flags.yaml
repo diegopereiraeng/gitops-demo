@@ -22,6 +22,11 @@ featureFlags:
         - identifier: Gabs_GoT
           value: 6i0a7RDPkM8
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: dev
         default:
           onVariation: Feature_Flags
@@ -76,6 +81,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "true"
@@ -122,6 +132,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "true"
@@ -168,6 +183,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "true"
@@ -190,14 +210,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
@@ -243,6 +263,11 @@ featureFlags:
             "name": "Crypto" },   { "type": "fa-history", "name": "Help" },   { "type":
             "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: dev
         default:
           onVariation: Premium
@@ -289,6 +314,11 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "ON"
@@ -350,6 +380,11 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: dev
         default:
           onVariation: V2
@@ -396,6 +431,11 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "On"
@@ -446,6 +486,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "true"
@@ -492,6 +537,11 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
+      - identifier: crizstian
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: dev
         default:
           onVariation: Black
