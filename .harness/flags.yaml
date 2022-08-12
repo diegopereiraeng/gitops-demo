@@ -22,11 +22,11 @@ featureFlags:
         - identifier: Gabs_GoT
           value: 6i0a7RDPkM8
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
-          onVariation: Gabs_GoT
+          onVariation: Feature_Flags
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "OFF"
@@ -55,11 +55,11 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
-          onVariation: Feature_Flags
+          onVariation: Gabs_GoT
           offVariation: "OFF"
-        state: "off"
+        state: "on"
   - flag:
       name: Halloween Mode
       identifier: Halloween
@@ -76,11 +76,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: guinogueira7
         default:
           onVariation: "true"
@@ -101,7 +101,7 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -122,7 +122,7 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -147,7 +147,7 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -168,7 +168,7 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -190,20 +190,20 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
-        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
+        - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
       - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -243,7 +243,7 @@ featureFlags:
             "name": "Crypto" },   { "type": "fa-history", "name": "Help" },   { "type":
             "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: Premium
           offVariation: Basic
@@ -268,7 +268,7 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
@@ -289,11 +289,11 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "ON"
@@ -327,11 +327,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
   - flag:
       name: Menu Version
       identifier: Menu_Version
@@ -350,7 +350,7 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: V2
           offVariation: V1
@@ -375,7 +375,7 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: V2
           offVariation: V1
@@ -396,7 +396,7 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -425,7 +425,7 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -446,7 +446,7 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -471,7 +471,7 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -492,7 +492,7 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
-      - identifier: gacerioni
+      - identifier: dev
         default:
           onVariation: Black
           offVariation: White
@@ -517,7 +517,7 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: dev
+      - identifier: gacerioni
         default:
           onVariation: Black
           offVariation: White
