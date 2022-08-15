@@ -37,10 +37,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "OFF"
       - identifier: qa
         default:
           onVariation: Feature_Flags
@@ -95,7 +91,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: qa
         default:
           onVariation: "true"
