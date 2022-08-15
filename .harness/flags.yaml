@@ -34,7 +34,7 @@ featureFlags:
         state: "on"
       - identifier: guinogueira7
         default:
-          onVariation: Captain_Canary
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
       - identifier: qa
