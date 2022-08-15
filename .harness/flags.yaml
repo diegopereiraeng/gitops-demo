@@ -36,7 +36,7 @@ featureFlags:
         state: "on"
       - identifier: guinogueira7
         default:
-          onVariation: Ion
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
       - identifier: qa
