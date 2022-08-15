@@ -40,7 +40,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: Captain_Canary
+          variation: "OFF"
       - identifier: qa
         default:
           onVariation: Feature_Flags
@@ -55,16 +55,16 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Captain_Canary
-      - identifier: prod
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
           offVariation: "OFF"
         state: "on"
+      - identifier: prod
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
   - flag:
       name: Halloween Mode
       identifier: Halloween
@@ -106,12 +106,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -157,12 +157,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -218,12 +218,12 @@ featureFlags:
           - identifier: diegopereiraharnessio
           - identifier: diegopereiradroneio
           variation: "true"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -288,12 +288,12 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: Premium
           offVariation: Basic
@@ -352,12 +352,12 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "ON"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -405,12 +405,12 @@ featureFlags:
           onVariation: V1
           offVariation: V1
         state: "off"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: V2
           offVariation: V1
@@ -460,12 +460,12 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "On"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -511,12 +511,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -562,12 +562,12 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: prod
+      - identifier: gacerioni
         default:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: gacerioni
+      - identifier: prod
         default:
           onVariation: Black
           offVariation: White
