@@ -442,6 +442,10 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "On"
       - identifier: qa
         default:
           onVariation: "On"
