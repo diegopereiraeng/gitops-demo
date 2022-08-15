@@ -21,6 +21,8 @@ featureFlags:
           value: YPJGFMNGrZo
         - identifier: Gabs_GoT
           value: 6i0a7RDPkM8
+        - identifier: Ion
+          value: TbaLega9GeE
       environments:
       - identifier: crizstian
         default:
