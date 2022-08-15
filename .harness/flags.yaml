@@ -36,7 +36,7 @@ featureFlags:
         state: "on"
       - identifier: guinogueira7
         default:
-          onVariation: Captain_Canary
+          onVariation: Ion
           offVariation: "OFF"
         state: "on"
       - identifier: qa
@@ -208,14 +208,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: diegopereiraharnessio
+          - identifier: diegopereiradroneio
+          variation: "true"
+        - targets:
           - identifier: eduardoverlinguecombr
           - identifier: tfeijobxbluecombr
           - identifier: Guest
           variation: "false"
-        - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
       - identifier: gacerioni
         default:
           onVariation: "true"
