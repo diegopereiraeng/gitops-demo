@@ -38,7 +38,7 @@ featureFlags:
         default:
           onVariation: Captain_Canary
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: qa
         default:
           onVariation: Feature_Flags
