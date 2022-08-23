@@ -331,7 +331,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: dev
         default:
           onVariation: "ON"
