@@ -71,10 +71,6 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: Captain_Canary
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
@@ -125,7 +121,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -228,16 +224,6 @@ featureFlags:
           onVariation: "false"
           offVariation: "false"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: diegopereiraharnessio
-          - identifier: diegopereiradroneio
-          variation: "true"
-        - targets:
-          - identifier: eduardoverlinguecombr
-          - identifier: tfeijobxbluecombr
-          - identifier: Guest
-          variation: "false"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -368,10 +354,6 @@ featureFlags:
             op: segmentMatch
             values:
             - Grupo_modelo_X3TR
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "OFF"
       - identifier: gacerioni
         default:
           onVariation: "ON"
@@ -491,10 +473,6 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "On"
       - identifier: gacerioni
         default:
           onVariation: "On"
