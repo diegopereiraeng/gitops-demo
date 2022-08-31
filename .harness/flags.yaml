@@ -54,6 +54,10 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: Captain_Canary
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
