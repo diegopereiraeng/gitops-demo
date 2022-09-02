@@ -207,7 +207,7 @@ pipeline:
                             paths:
                               - sonarResults.xml
                         settings:
-                          sonar_host: http://34.170.239.183:9000
+                          sonar_host: http://35.222.152.22:9000
                           sonar_token: squ_a8306cd9a8e36b1cc78bf05db9aeaabd48891b05
                           sources: html
                           binaries: html
