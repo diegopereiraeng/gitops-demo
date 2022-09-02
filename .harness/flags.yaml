@@ -42,7 +42,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: Captain_Canary
+          variation: Feature_Flags
       - identifier: dev
         default:
           onVariation: Feature_Flags
