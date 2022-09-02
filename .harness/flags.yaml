@@ -42,7 +42,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: Italika
+          variation: Gabs_GoT
       - identifier: dev
         default:
           onVariation: Feature_Flags
