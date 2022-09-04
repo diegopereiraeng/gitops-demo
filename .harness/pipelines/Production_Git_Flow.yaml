@@ -60,10 +60,10 @@ pipeline:
                           scan_type: repository
                           repository_branch: <+pipeline.variables.branch>
                           product_name: sonarqube
-                          product_access_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
+                          product_access_token: sqa_615a679eb96852a6ca4d4ae3d747b34f5758887e
                           product_project_name: gitflow-demo
                           product_project_key: gitflow-demo
-                          product_domain: http://35.222.152.22:9000
+                          product_domain: http://sonar.harness-demo.site
                           product_config_name: sonarqube-agent
                           product_lookup_type: byKey
                           repository_project: gitflow-ff-demo
@@ -207,7 +207,7 @@ pipeline:
                               - sonarResults.xml
                         settings:
                           sonar_host: http://35.222.152.22:9000
-                          sonar_token: squ_a8306cd9a8e36b1cc78bf05db9aeaabd48891b05
+                          sonar_token: http://sonar.harness-demo.site
                           sources: html
                           binaries: html
                           level: DEBUG
