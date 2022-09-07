@@ -67,11 +67,7 @@ featureFlags:
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
-        state: "on"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "OFF"
+        state: "off"
   - flag:
       name: Halloween Mode
       identifier: Halloween
