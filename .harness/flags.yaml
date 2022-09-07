@@ -39,11 +39,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "on"
       - identifier: ffeng
         default:
           onVariation: "OFF"
@@ -53,6 +48,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Feature_Flags
+      - identifier: dev
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "on"
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
@@ -103,16 +103,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
       - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -127,7 +127,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
   - flag:
       name: Enable Halloween Jack
       identifier: HalloweenJack
@@ -159,12 +159,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -215,12 +215,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -290,12 +290,12 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: Premium
           offVariation: Basic
@@ -346,12 +346,12 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -413,12 +413,12 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: V2
           offVariation: V1
@@ -484,16 +484,16 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
-      - identifier: dev
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: ffeng
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
+      - identifier: dev
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "On"
@@ -540,12 +540,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -596,12 +596,12 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: dev
+      - identifier: ffeng
         default:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: ffeng
+      - identifier: dev
         default:
           onVariation: Black
           offVariation: White
