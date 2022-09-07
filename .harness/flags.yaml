@@ -65,7 +65,7 @@ featureFlags:
         state: "off"
       - identifier: diegopereiraeng
         default:
-          onVariation: "OFF"
+          onVariation: Feature_Flags
           offVariation: "OFF"
         state: "on"
         targetRules:
