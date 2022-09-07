@@ -183,7 +183,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
   - flag:
       name: Maintenance_Mode
       identifier: Home_Maintenance
@@ -437,7 +437,7 @@ featureFlags:
         default:
           onVariation: V1
           offVariation: V1
-        state: "off"
+        state: "on"
         rules:
         - priority: 100
           serve:
