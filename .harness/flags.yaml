@@ -67,7 +67,7 @@ featureFlags:
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
-        state: "off"
+        state: "on"
         targetRules:
         - targets:
           - identifier: Guest
