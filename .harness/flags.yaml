@@ -235,7 +235,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
   - flag:
       name: Menu Profile
       identifier: Home_Menu
