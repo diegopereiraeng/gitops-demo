@@ -379,7 +379,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: "ON"
+          variation: "OFF"
   - flag:
       name: Menu Version
       identifier: Menu_Version
