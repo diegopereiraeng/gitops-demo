@@ -124,6 +124,10 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "true"
   - flag:
       name: Enable Halloween Jack
       identifier: HalloweenJack
@@ -180,6 +184,10 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "true"
   - flag:
       name: Maintenance_Mode
       identifier: Home_Maintenance
