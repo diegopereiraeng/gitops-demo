@@ -376,6 +376,10 @@ featureFlags:
             op: segmentMatch
             values:
             - Grupo_modelo_X3TR
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "ON"
   - flag:
       name: Menu Version
       identifier: Menu_Version
