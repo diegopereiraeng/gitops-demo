@@ -24,6 +24,16 @@ featureFlags:
         - identifier: Ion
           value: TbaLega9GeE
       environments:
+      - identifier: qa
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "on"
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -48,19 +58,9 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Feature_Flags
-      - identifier: dev
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
-          offVariation: "OFF"
-        state: "off"
-      - identifier: qa
-        default:
-          onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
       - identifier: diegopereiraeng
@@ -84,6 +84,16 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
       - identifier: prod
         default:
           onVariation: "true"
@@ -104,21 +114,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -140,6 +140,16 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -160,17 +170,7 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -196,6 +196,16 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -216,17 +226,7 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -271,6 +271,16 @@ featureFlags:
             "name": "Crypto" },   { "type": "fa-history", "name": "Help" },   { "type":
             "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
+      - identifier: qa
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: prod
         default:
           onVariation: Premium
@@ -291,17 +301,7 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Premium
           offVariation: Basic
@@ -327,6 +327,16 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "ON"
@@ -347,26 +357,16 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: qa
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
         rules:
         - priority: 0
           serve:
@@ -394,6 +394,16 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
+      - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: prod
         default:
           onVariation: V2
@@ -414,17 +424,7 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: qa
         default:
           onVariation: V2
           offVariation: V1
@@ -465,6 +465,16 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "On"
@@ -485,17 +495,7 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -521,6 +521,16 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -541,17 +551,7 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -577,6 +577,16 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
+      - identifier: qa
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: prod
         default:
           onVariation: Black
@@ -597,17 +607,7 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: dev
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: gacerioni
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Black
           offVariation: White
