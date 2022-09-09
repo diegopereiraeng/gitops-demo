@@ -123,7 +123,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
   - flag:
       name: Enable Halloween Jack
       identifier: HalloweenJack
