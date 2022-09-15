@@ -137,7 +137,7 @@ pipeline:
                       timeout: 10m
                       when:
                         stageStatus: Success
-                        condition: <+pipeline.stages.FF_Youtube.spec.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "ff"
+                        condition: <+pipeline.stages.FF_Youtube.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "ff"
                       failureStrategies: []
                   - step:
                       type: FlagConfiguration
@@ -161,23 +161,23 @@ pipeline:
                                     attribute: ""
                                     values:
                                       - Beta_Users
+                                bucketBy: identifier
                                 variations:
                                   - variation: "OFF"
-                                    weight: 0
+                                    weight: 16
                                   - variation: Captain_Canary
-                                    weight: 100
+                                    weight: 16
                                   - variation: Feature_Flags
-                                    weight: 0
+                                    weight: 16
                                   - variation: Italika
-                                    weight: 0
+                                    weight: 16
                                   - variation: Gabs_GoT
-                                    weight: 0
+                                    weight: 16
                                   - variation: Ion
-                                    weight: 0
-                                bucketBy: identifier
+                                    weight: 16
                       timeout: 10m
                       when:
                         stageStatus: Success
-                        condition: <+pipeline.stages.FF_Youtube.spec.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "canary"
+                        condition: <+pipeline.stages.FF_Youtube.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "canary"
                       failureStrategies: []
           serviceDependencies: []
