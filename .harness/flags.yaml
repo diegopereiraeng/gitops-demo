@@ -55,7 +55,7 @@ featureFlags:
         state: "off"
       - identifier: diegopereiraeng
         default:
-          onVariation: Feature_Flags
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
       - identifier: qa
