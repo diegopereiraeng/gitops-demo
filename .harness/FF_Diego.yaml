@@ -1,147 +1,159 @@
 pipeline:
-    name: FF Diego
-    identifier: FF_Diego
-    allowStageExecutions: false
-    projectIdentifier: GIT_FLOW_DEMO
-    orgIdentifier: default
-    tags: {}
-    stages:
-        - stage:
-              name: FF Youtube
-              identifier: FF_Youtube
-              description: ""
-              type: FeatureFlag
-              spec:
-                  execution:
-                      steps:
-                          - parallel:
-                                - step:
-                                      type: FlagConfiguration
-                                      name: Youtube
-                                      identifier: FF_Canary
-                                      spec:
-                                          feature: ALL_YOUTUBE_MODAL
-                                          environment: diegopereiraeng
-                                          instructions:
-                                              - identifier: AddRuleIdentifier
-                                                type: AddRule
-                                                spec:
-                                                    priority: 100
-                                                    distribution:
-                                                        clauses:
-                                                            - op: segmentMatch
-                                                              attribute: ""
-                                                              values:
-                                                                  - Beta_Users
-                                                        bucketBy: email
-                                                        variations:
-                                                            - variation: "OFF"
-                                                              weight: 50
-                                                            - variation: Captain_Canary
-                                                              weight: 0
-                                                            - variation: Feature_Flags
-                                                              weight: 50
-                                              - identifier: SetFeatureFlagStateIdentifier
-                                                type: SetFeatureFlagState
-                                                spec:
-                                                    state: "on"
-                                      timeout: 10m
-                                - step:
-                                      type: FlagConfiguration
-                                      name: Menu V2
-                                      identifier: Menu_V2
-                                      spec:
-                                          feature: Menu_Version
-                                          environment: diegopereiraeng
-                                          instructions:
-                                              - identifier: SetFeatureFlagStateIdentifier
-                                                type: SetFeatureFlagState
-                                                spec:
-                                                    state: "on"
-                                              - identifier: AddRuleIdentifier
-                                                type: AddRule
-                                                spec:
-                                                    priority: 100
-                                                    distribution:
-                                                        clauses:
-                                                            - op: segmentMatch
-                                                              attribute: ""
-                                                              values:
-                                                                  - Beta_Users
-                                                        variations:
-                                                            - variation: V1
-                                                              weight: 50
-                                                            - variation: V2
-                                                              weight: 50
-                                                        bucketBy: email
-                                      timeout: 10m
-                          - step:
-                                type: HarnessApproval
-                                name: Approval
-                                identifier: Approval
-                                spec:
-                                    approvalMessage: Please review the following information and approve the pipeline progression
-                                    includePipelineExecutionHistory: true
-                                    approvers:
-                                        userGroups:
-                                            - account.Field_Engineering
-                                            - account.New_Demo_Group
-                                            - account.Read_Only_Users
-                                        minimumCount: 1
-                                        disallowPipelineExecutor: false
-                                    approverInputs: []
-                                timeout: 1d
-                          - parallel:
-                                - step:
-                                      type: FlagConfiguration
-                                      name: Youtube 100
-                                      identifier: Youtube_100
-                                      spec:
-                                          feature: ALL_YOUTUBE_MODAL
-                                          environment: diegopereiraeng
-                                          instructions:
-                                              - identifier: AddRuleIdentifier
-                                                type: AddRule
-                                                spec:
-                                                    priority: 100
-                                                    distribution:
-                                                        clauses:
-                                                            - op: segmentMatch
-                                                              attribute: ""
-                                                              values:
-                                                                  - Beta_Users
-                                                        bucketBy: email
-                                                        variations:
-                                                            - variation: "OFF"
-                                                              weight: 0
-                                                            - variation: Captain_Canary
-                                                              weight: 100
-                                                            - variation: Feature_Flags
-                                                              weight: 0
-                                      timeout: 10m
-                                - step:
-                                      type: FlagConfiguration
-                                      name: Menu V2 100
-                                      identifier: Menu_V2_100
-                                      spec:
-                                          feature: Menu_Version
-                                          environment: diegopereiraeng
-                                          instructions:
-                                              - identifier: AddRuleIdentifier
-                                                type: AddRule
-                                                spec:
-                                                    priority: 100
-                                                    distribution:
-                                                        clauses:
-                                                            - op: segmentMatch
-                                                              attribute: ""
-                                                              values:
-                                                                  - Beta_Users
-                                                        variations:
-                                                            - variation: V1
-                                                              weight: 0
-                                                            - variation: V2
-                                                              weight: 100
-                                                        bucketBy: email
-                                      timeout: 10m
-                  serviceDependencies: []
+  name: FF Diego
+  identifier: FF_Diego
+  allowStageExecutions: false
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: FF Youtube
+        identifier: FF_Youtube
+        description: ""
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - parallel:
+                  - step:
+                      type: FlagConfiguration
+                      name: Youtube AB
+                      identifier: FF_Canary
+                      spec:
+                        feature: ALL_YOUTUBE_MODAL
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: AddRuleIdentifier
+                            type: AddRule
+                            spec:
+                              priority: 100
+                              distribution:
+                                clauses:
+                                  - op: segmentMatch
+                                    attribute: ""
+                                    values:
+                                      - Beta_Users
+                                bucketBy: email
+                                variations:
+                                  - variation: "OFF"
+                                    weight: 0
+                                  - variation: Captain_Canary
+                                    weight: 50
+                                  - variation: Feature_Flags
+                                    weight: 50
+                                  - variation: Italika
+                                    weight: 0
+                                  - variation: Gabs_GoT
+                                    weight: 0
+                                  - variation: Ion
+                                    weight: 0
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "on"
+                      timeout: 10m
+                  - step:
+                      type: FlagConfiguration
+                      name: Menu V2
+                      identifier: Menu_V2
+                      spec:
+                        feature: Menu_Version
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "on"
+                          - identifier: AddRuleIdentifier
+                            type: AddRule
+                            spec:
+                              priority: 100
+                              distribution:
+                                clauses:
+                                  - op: segmentMatch
+                                    attribute: ""
+                                    values:
+                                      - Beta_Users
+                                variations:
+                                  - variation: V1
+                                    weight: 50
+                                  - variation: V2
+                                    weight: 50
+                                bucketBy: email
+                      timeout: 10m
+              - step:
+                  type: HarnessApproval
+                  name: Approval
+                  identifier: Approval
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - account.Field_Engineering
+                        - account.New_Demo_Group
+                        - account.Read_Only_Users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
+              - parallel:
+                  - step:
+                      type: FlagConfiguration
+                      name: Youtube 100
+                      identifier: Youtube_100
+                      spec:
+                        feature: ALL_YOUTUBE_MODAL
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: AddRuleIdentifier
+                            type: AddRule
+                            spec:
+                              priority: 100
+                              distribution:
+                                clauses:
+                                  - op: segmentMatch
+                                    attribute: ""
+                                    values:
+                                      - Beta_Users
+                                bucketBy: email
+                                variations:
+                                  - variation: "OFF"
+                                    weight: 0
+                                  - variation: Captain_Canary
+                                    weight: 100
+                                  - variation: Feature_Flags
+                                    weight: 0
+                                  - variation: Italika
+                                    weight: 0
+                                  - variation: Gabs_GoT
+                                    weight: 0
+                                  - variation: Ion
+                                    weight: 0
+                      timeout: 10m
+                  - step:
+                      type: FlagConfiguration
+                      name: Menu V2 100
+                      identifier: Menu_V2_100
+                      spec:
+                        feature: Menu_Version
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: AddRuleIdentifier
+                            type: AddRule
+                            spec:
+                              priority: 100
+                              distribution:
+                                clauses:
+                                  - op: segmentMatch
+                                    attribute: ""
+                                    values:
+                                      - Beta_Users
+                                variations:
+                                  - variation: V1
+                                    weight: 0
+                                  - variation: V2
+                                    weight: 100
+                                bucketBy: email
+                      timeout: 10m
+          serviceDependencies: []
