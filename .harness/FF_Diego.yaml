@@ -164,17 +164,17 @@ pipeline:
                                 bucketBy: identifier
                                 variations:
                                   - variation: "OFF"
-                                    weight: 16
+                                    weight: 0
                                   - variation: Captain_Canary
-                                    weight: 16
+                                    weight: 100
                                   - variation: Feature_Flags
-                                    weight: 16
+                                    weight: 0
                                   - variation: Italika
-                                    weight: 16
+                                    weight: 0
                                   - variation: Gabs_GoT
-                                    weight: 16
+                                    weight: 0
                                   - variation: Ion
-                                    weight: 16
+                                    weight: 0
                       timeout: 10m
                       when:
                         stageStatus: Success
