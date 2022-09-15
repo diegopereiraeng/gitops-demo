@@ -135,6 +135,7 @@ pipeline:
                       timeout: 10m
                       when:
                         stageStatus: Success
+                        condition: <+pipeline.stages.FF_Youtube.spec.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "ff"
                       failureStrategies: []
                   - step:
                       type: FlagConfiguration
@@ -173,4 +174,8 @@ pipeline:
                                     weight: 0
                                 bucketBy: identifier
                       timeout: 10m
+                      when:
+                        stageStatus: Success
+                        condition: <+pipeline.stages.FF_Youtube.spec.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "canary"
+                      failureStrategies: []
           serviceDependencies: []
