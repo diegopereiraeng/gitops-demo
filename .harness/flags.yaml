@@ -62,13 +62,13 @@ featureFlags:
         - priority: 100
           serve:
             distribution:
-              bucketBy: email
+              bucketBy: identifier
               variations:
               - weight: 0
                 variation: "OFF"
-              - weight: 50
+              - weight: 100
                 variation: Captain_Canary
-              - weight: 50
+              - weight: 0
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
