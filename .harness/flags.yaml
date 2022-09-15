@@ -36,7 +36,7 @@ featureFlags:
         state: "off"
       - identifier: diegopereiraeng
         default:
-          onVariation: Captain_Canary
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
       - identifier: prod
