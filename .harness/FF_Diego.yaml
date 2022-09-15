@@ -1,5 +1,5 @@
 pipeline:
-  name: FF Diego
+  name: Diego AB Pipeline
   identifier: FF_Diego
   allowStageExecutions: false
   projectIdentifier: GIT_FLOW_DEMO
