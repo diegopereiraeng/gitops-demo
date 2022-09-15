@@ -64,8 +64,8 @@ pipeline:
                         script: |
                           echo "Collecting Analytics Feedback"
 
-                          canary=70
-                          ff=35
+                          canary=35
+                          ff=65
 
                           echo "Conversion rate:"
 
