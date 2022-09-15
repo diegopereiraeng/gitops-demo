@@ -72,13 +72,13 @@ pipeline:
                           echo "C. Canary:     ${canary}%"
                           echo "Feature Flags: ${ff}%"
                           result="na"
-                          if [ canary -gt ff ]; then
+                          if [ "$canary" -gt "$ff" ]; then
                             result="canary"
                           else
                             result="ff"
                           fi
 
-                          export result
+                          export $result
                     environmentVariables: []
                     outputVariables:
                       - name: result
