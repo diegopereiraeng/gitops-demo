@@ -58,29 +58,6 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "on"
-        rules:
-        - priority: 100
-          serve:
-            distribution:
-              bucketBy: identifier
-              variations:
-              - weight: 16
-                variation: "OFF"
-              - weight: 16
-                variation: Captain_Canary
-              - weight: 16
-                variation: Feature_Flags
-              - weight: 16
-                variation: Italika
-              - weight: 16
-                variation: Gabs_GoT
-              - weight: 16
-                variation: Ion
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
       - identifier: qa
         default:
           onVariation: Feature_Flags
