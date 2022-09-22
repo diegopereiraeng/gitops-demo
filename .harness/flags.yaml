@@ -354,7 +354,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
