@@ -33,7 +33,7 @@ featureFlags:
         default:
           onVariation: Gabs_GoT
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: Captain_Canary
