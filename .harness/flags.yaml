@@ -38,7 +38,7 @@ featureFlags:
         default:
           onVariation: Gabs_GoT
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
