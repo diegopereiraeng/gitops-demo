@@ -29,16 +29,21 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "on"
-      - identifier: gacerioni
-        default:
-          onVariation: Gabs_GoT
-          offVariation: "OFF"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: Captain_Canary
           offVariation: "OFF"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Gabs_GoT
+          offVariation: "OFF"
+        state: "on"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
       - identifier: ffeng
         default:
           onVariation: "OFF"
@@ -48,11 +53,6 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Feature_Flags
-      - identifier: diegopereiraeng
-        default:
-          onVariation: "OFF"
-          offVariation: "OFF"
-        state: "on"
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -89,17 +89,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -113,6 +108,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "false"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -149,17 +149,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -173,6 +168,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "false"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -209,22 +209,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
@@ -284,22 +284,22 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: ffeng
         default:
           onVariation: Premium
           offVariation: Basic
@@ -340,17 +340,12 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -373,6 +368,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "ON"
+      - identifier: ffeng
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "ON"
@@ -411,17 +411,12 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: V2
           offVariation: V1
@@ -446,6 +441,11 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
+      - identifier: ffeng
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: prod
         default:
           onVariation: V2
@@ -482,22 +482,22 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: ffeng
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -538,22 +538,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
@@ -594,22 +594,22 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: guinogueira7
         default:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: ffeng
+      - identifier: gacerioni
         default:
           onVariation: Black
           offVariation: White
         state: "off"
       - identifier: diegopereiraeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: ffeng
         default:
           onVariation: Black
           offVariation: White
