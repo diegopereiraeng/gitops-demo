@@ -207,7 +207,7 @@ pipeline:
                               - sonarResults.xml
                         settings:
                           sonar_host: http://sonar.harness-demo.site
-                          sonar_token: sqa_bb442f89dd5d6df6ecd916659aa96f43b573c0ae
+                          sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
                           sources: html
                           binaries: html
                           level: DEBUG
