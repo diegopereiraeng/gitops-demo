@@ -387,7 +387,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
   - flag:
       name: Menu Version
       identifier: Menu_Version
