@@ -71,7 +71,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: Feature_Flags
+          variation: "OFF"
   - flag:
       name: Halloween Mode
       identifier: Halloween
