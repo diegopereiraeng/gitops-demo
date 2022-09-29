@@ -517,6 +517,10 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "Off"
   - flag:
       name: test
       identifier: test
