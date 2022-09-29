@@ -516,7 +516,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "off"
+        state: "on"
   - flag:
       name: test
       identifier: test
