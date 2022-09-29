@@ -53,6 +53,11 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Gabs_GoT
+          offVariation: "OFF"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "OFF"
@@ -63,11 +68,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-      - identifier: gacerioni
-        default:
-          onVariation: Gabs_GoT
-          offVariation: "OFF"
-        state: "off"
   - flag:
       name: Halloween Mode
       identifier: Halloween
@@ -109,6 +109,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
@@ -123,11 +128,6 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "false"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
   - flag:
       name: Enable Halloween Jack
       identifier: HalloweenJack
@@ -169,6 +169,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
@@ -183,11 +188,6 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "false"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
   - flag:
       name: Maintenance_Mode
       identifier: Home_Maintenance
@@ -229,17 +229,17 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: diegopereiraeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -304,17 +304,17 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
       - identifier: diegopereiraeng
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
@@ -360,6 +360,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "ON"
@@ -383,11 +388,6 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "ON"
-      - identifier: gacerioni
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
   - flag:
       name: Menu Version
       identifier: Menu_Version
@@ -431,6 +431,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: V2
@@ -456,11 +461,6 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
-      - identifier: gacerioni
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
   - flag:
       name: SHOW QRCODE
       identifier: QRCODE
@@ -502,6 +502,11 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "On"
@@ -511,12 +516,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
+        state: "on"
   - flag:
       name: test
       identifier: test
@@ -558,17 +558,17 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: diegopereiraeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
@@ -614,17 +614,17 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: Black
           offVariation: White
         state: "off"
       - identifier: diegopereiraeng
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: gacerioni
         default:
           onVariation: Black
           offVariation: White
