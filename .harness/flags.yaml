@@ -261,7 +261,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: crizstian
         default:
           onVariation: "true"
