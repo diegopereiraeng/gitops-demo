@@ -405,7 +405,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "ON"
