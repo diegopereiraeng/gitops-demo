@@ -81,7 +81,7 @@ featureFlags:
         default:
           onVariation: Gabs_GoT
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: ffeng
         default:
           onVariation: "OFF"
