@@ -81,7 +81,7 @@ featureFlags:
         default:
           onVariation: Captain_Canary
           offVariation: "OFF"
-        state: "on"
+        state: "off"
         targetRules:
         - targets:
           - identifier: Guest
