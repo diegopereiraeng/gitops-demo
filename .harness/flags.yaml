@@ -635,7 +635,7 @@ featureFlags:
         default:
           onVariation: Black
           offVariation: White
-        state: "on"
+        state: "off"
       - identifier: prod
         default:
           onVariation: Black
