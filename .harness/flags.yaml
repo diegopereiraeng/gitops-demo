@@ -24,6 +24,26 @@ featureFlags:
         - identifier: Ion
           value: TbaLega9GeE
       environments:
+      - identifier: guinogueira7
+        default:
+          onVariation: Captain_Canary
+          offVariation: "OFF"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "on"
+      - identifier: crizstian
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Gabs_GoT
+          offVariation: "OFF"
+        state: "on"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
@@ -52,36 +72,11 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
-      - identifier: dev
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "on"
-      - identifier: crizstian
-        default:
-          onVariation: "OFF"
-          offVariation: "OFF"
-        state: "off"
       - identifier: qa
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: Captain_Canary
-          offVariation: "OFF"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: Gabs_GoT
-          offVariation: "OFF"
-        state: "on"
       - identifier: ffeng
         default:
           onVariation: "OFF"
@@ -90,7 +85,12 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: Guest
-          variation: Feature_Flags
+          variation: Italika
+      - identifier: prod
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
   - flag:
       name: Halloween Mode
       identifier: Halloween
@@ -107,15 +107,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "false"
       - identifier: dev
         default:
           onVariation: "true"
@@ -126,12 +122,26 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "false"
       - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: guinogueira7
+      - identifier: ffeng
         default:
           onVariation: "true"
           offVariation: "false"
@@ -141,16 +151,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: ffeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
   - flag:
       name: Enable Halloween Jack
       identifier: HalloweenJack
@@ -167,15 +167,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "false"
       - identifier: dev
         default:
           onVariation: "true"
@@ -186,27 +182,31 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "false"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -227,7 +227,7 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -242,27 +242,27 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -302,7 +302,7 @@ featureFlags:
             "name": "Crypto" },   { "type": "fa-history", "name": "Help" },   { "type":
             "fa-cog", "name": "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: Premium
           offVariation: Basic
@@ -317,27 +317,27 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: prod
         default:
           onVariation: Premium
           offVariation: Basic
@@ -358,6 +358,26 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
+      - identifier: guinogueira7
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: dev
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: gacerioni
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
@@ -376,32 +396,7 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: "ON"
-      - identifier: dev
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
       - identifier: qa
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
-      - identifier: prod
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
-      - identifier: gacerioni
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -411,6 +406,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+      - identifier: prod
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
   - flag:
       name: Menu Version
       identifier: Menu_Version
@@ -429,9 +429,9 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
-          onVariation: V1
+          onVariation: V2
           offVariation: V1
         state: "off"
       - identifier: dev
@@ -444,27 +444,27 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: V1
+          offVariation: V1
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: prod
         default:
           onVariation: V2
           offVariation: V1
@@ -485,15 +485,11 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "Off"
       - identifier: dev
         default:
           onVariation: "On"
@@ -504,27 +500,31 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
-      - identifier: qa
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "on"
-      - identifier: prod
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "Off"
+      - identifier: qa
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: prod
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -545,7 +545,7 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -560,27 +560,27 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
         default:
           onVariation: "true"
           offVariation: "false"
@@ -601,7 +601,7 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
-      - identifier: diegopereiraeng
+      - identifier: guinogueira7
         default:
           onVariation: Black
           offVariation: White
@@ -616,27 +616,27 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: ffeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: prod
         default:
           onVariation: Black
           offVariation: White
