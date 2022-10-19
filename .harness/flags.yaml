@@ -79,7 +79,7 @@ featureFlags:
         state: "off"
       - identifier: ffeng
         default:
-          onVariation: Feature_Flags
+          onVariation: Captain_Canary
           offVariation: "OFF"
         state: "on"
         targetRules:
