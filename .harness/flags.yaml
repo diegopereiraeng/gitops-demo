@@ -87,9 +87,9 @@ featureFlags:
                 variation: "OFF"
               - weight: 0
                 variation: Captain_Canary
-              - weight: 50
+              - weight: 0
                 variation: Feature_Flags
-              - weight: 50
+              - weight: 100
                 variation: Italika
               - weight: 0
                 variation: Gabs_GoT
