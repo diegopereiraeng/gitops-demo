@@ -91,9 +91,9 @@ featureFlags:
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
-              - weight: 0
-                variation: Gabs_GoT
               - weight: 100
+                variation: Gabs_GoT
+              - weight: 0
                 variation: Ion
           clauses:
           - attribute: ""
