@@ -34,11 +34,6 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "on"
-      - identifier: crizstian
-        default:
-          onVariation: "OFF"
-          offVariation: "OFF"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
@@ -86,6 +81,11 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Italika
+      - identifier: crizstian
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -117,11 +117,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -145,7 +140,12 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -177,11 +177,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -206,6 +201,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
       - identifier: prod
         default:
           onVariation: "true"
@@ -237,11 +237,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -258,6 +253,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
@@ -312,11 +312,6 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Premium
@@ -333,6 +328,11 @@ featureFlags:
           offVariation: Basic
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: Premium
           offVariation: Basic
@@ -368,11 +368,6 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "ON"
@@ -402,6 +397,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: crizstian
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -439,11 +439,6 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: V2
@@ -460,6 +455,11 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: V2
           offVariation: V1
@@ -495,11 +495,6 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "On"
@@ -520,6 +515,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: crizstian
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -555,11 +555,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -576,6 +571,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
@@ -611,11 +611,6 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Black
@@ -632,6 +627,11 @@ featureFlags:
           offVariation: White
         state: "off"
       - identifier: ffeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: Black
           offVariation: White
