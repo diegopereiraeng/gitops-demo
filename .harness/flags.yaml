@@ -85,15 +85,15 @@ featureFlags:
               variations:
               - weight: 0
                 variation: "OFF"
-              - weight: 50
+              - weight: 0
                 variation: Captain_Canary
-              - weight: 50
+              - weight: 0
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
               - weight: 0
                 variation: Gabs_GoT
-              - weight: 0
+              - weight: 100
                 variation: Ion
           clauses:
           - attribute: ""
