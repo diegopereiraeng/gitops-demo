@@ -425,7 +425,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: qa
         default:
           onVariation: "ON"
