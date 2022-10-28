@@ -430,7 +430,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "ON"
