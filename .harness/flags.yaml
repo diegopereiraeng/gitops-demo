@@ -47,8 +47,9 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
+          - identifier: Guest
           - identifier: diegopereiraharnessio
-          variation: Video_Platform
+          variation: Platform_Path
       - identifier: prod
         default:
           onVariation: "Off"
