@@ -24,8 +24,8 @@ featureFlags:
             el correo electrónico de su empresa para obtener una mejor experiencia!
             <3
         - identifier: Video_Platform
-          value: on|image|Harness|<video width=“200" height="300" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
-            autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
+          value: on|image|Harness|<div><video width=“200" height="300" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
+            autoplay loop>Sorry, your browser doesn t support embedded videos.</video></div>
       environments:
       - identifier: crizstian
         default:
