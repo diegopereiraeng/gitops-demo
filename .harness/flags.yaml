@@ -27,7 +27,7 @@ featureFlags:
           value: on|image|Harness|<video width=“200" height="300" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
             autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
         - identifier: Platform_Path
-          value: on|image|Harness|<video src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
+          value: on|image|Harness|<video class="videoInsert" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
             autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
       environments:
       - identifier: crizstian
