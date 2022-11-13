@@ -42,11 +42,6 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          - identifier: diegopereiraharnessio
-          variation: Bienvenido
       - identifier: prod
         default:
           onVariation: "Off"
