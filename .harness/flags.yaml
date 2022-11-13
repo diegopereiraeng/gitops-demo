@@ -46,7 +46,7 @@ featureFlags:
         - targets:
           - identifier: Guest
           - identifier: diegopereiraharnessio
-          variation: Bem_vindo
+          variation: Bienvenido
       - identifier: prod
         default:
           onVariation: "Off"
