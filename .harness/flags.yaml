@@ -45,7 +45,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: diegopereiraharnessio
-          variation: Welcome
+          variation: Video_Platform
       - identifier: prod
         default:
           onVariation: "Off"
