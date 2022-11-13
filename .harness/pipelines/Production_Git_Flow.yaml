@@ -578,7 +578,22 @@ pipeline:
                         type: K8sRollingRollback
                         timeout: 10m
                         spec: {}
-            rollbackSteps: []
+            rollbackSteps:
+              - step:
+                  type: K8sCanaryDelete
+                  name: Canary Delete
+                  identifier: Canary_Delete
+                  spec:
+                    skipDryRun: false
+                  timeout: 10m
+              - step:
+                  type: K8sRollingRollback
+                  name: Rollback
+                  identifier: Rollback
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+                  timeout: 10m
           serviceDependencies: []
         when:
           pipelineStatus: Success
