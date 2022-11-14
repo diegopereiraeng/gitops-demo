@@ -754,7 +754,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "on"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: V2
