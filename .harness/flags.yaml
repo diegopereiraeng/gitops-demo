@@ -886,7 +886,7 @@ featureFlags:
         default:
           onVariation: Black
           offVariation: White
-        state: "on"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Black
