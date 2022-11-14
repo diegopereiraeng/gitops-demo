@@ -60,9 +60,6 @@ featureFlags:
           - identifier: Guest
           - identifier: diegopereiraharnessio
           variation: Platform_Path
-        - targets:
-          - identifier: diegoharnessio
-          variation: Bienvenido
       - identifier: prod
         default:
           onVariation: "Off"
