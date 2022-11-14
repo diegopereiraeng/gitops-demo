@@ -40,6 +40,16 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "on"
       - identifier: diegopereiraeng
         default:
           onVariation: "Off"
@@ -50,17 +60,15 @@ featureFlags:
           - identifier: Guest
           - identifier: diegopereiraharnessio
           variation: Platform_Path
+        - targets:
+          - identifier: diegoharnessio
+          variation: Bienvenido
       - identifier: prod
         default:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
       - identifier: andymarshallff
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
-      - identifier: guinogueira7
         default:
           onVariation: "Off"
           offVariation: "Off"
@@ -75,11 +83,6 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
-      - identifier: tkouhsari
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "on"
       - identifier: dev
         default:
           onVariation: "Off"
@@ -117,6 +120,16 @@ featureFlags:
       - identifier: qa
         default:
           onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Captain_Canary
+          offVariation: "OFF"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
       - identifier: diegopereiraeng
@@ -157,11 +170,6 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
-      - identifier: guinogueira7
-        default:
-          onVariation: Captain_Canary
-          offVariation: "OFF"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
@@ -199,11 +207,6 @@ featureFlags:
         - targets:
           - identifier: Guest
           variation: Italika
-      - identifier: tkouhsari
-        default:
-          onVariation: "OFF"
-          offVariation: "OFF"
-        state: "off"
       - identifier: dev
         default:
           onVariation: Feature_Flags
@@ -239,6 +242,16 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "on"
       - identifier: diegopereiraeng
         default:
           onVariation: Dark
@@ -254,11 +267,6 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Dark
@@ -269,11 +277,6 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
-      - identifier: tkouhsari
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "on"
       - identifier: dev
         default:
           onVariation: Dark
@@ -305,6 +308,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -324,11 +337,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -339,11 +347,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: tkouhsari
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: dev
         default:
           onVariation: "true"
@@ -375,6 +378,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -394,22 +407,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: ffeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: tkouhsari
         default:
           onVariation: "true"
           offVariation: "false"
@@ -445,6 +448,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -460,22 +473,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: ffeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: tkouhsari
         default:
           onVariation: "true"
           offVariation: "false"
@@ -530,6 +533,16 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Premium
@@ -545,22 +558,12 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
       - identifier: ffeng
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: tkouhsari
         default:
           onVariation: Premium
           offVariation: Basic
@@ -596,6 +599,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -611,22 +624,12 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: ffeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: tkouhsari
         default:
           onVariation: "true"
           offVariation: "false"
@@ -662,6 +665,16 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: tkouhsari
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
@@ -690,11 +703,6 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: guinogueira7
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "ON"
@@ -705,11 +713,6 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: tkouhsari
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
       - identifier: dev
         default:
           onVariation: "ON"
@@ -743,6 +746,16 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: V2
@@ -758,22 +771,12 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: V2
           offVariation: V1
         state: "off"
       - identifier: ffeng
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: tkouhsari
         default:
           onVariation: V2
           offVariation: V1
@@ -809,6 +812,16 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: tkouhsari
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "On"
@@ -824,11 +837,6 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "On"
@@ -839,11 +847,6 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
-      - identifier: tkouhsari
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: dev
         default:
           onVariation: "On"
@@ -875,6 +878,16 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Black
@@ -890,22 +903,12 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Black
           offVariation: White
         state: "off"
       - identifier: ffeng
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: tkouhsari
         default:
           onVariation: Black
           offVariation: White
