@@ -42,11 +42,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          variation: Platform_Path
-        - targets:
           - identifier: Guest
           variation: Bienvenido
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: Platform_Path
       - identifier: prod
         default:
           onVariation: "Off"
@@ -886,7 +886,7 @@ featureFlags:
         default:
           onVariation: Black
           offVariation: White
-        state: "off"
+        state: "on"
       - identifier: gacerioni
         default:
           onVariation: Black
