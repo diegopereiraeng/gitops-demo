@@ -250,7 +250,7 @@ featureFlags:
         default:
           onVariation: Dark
           offVariation: Blue
-        state: "on"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Dark
