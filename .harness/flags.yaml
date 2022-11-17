@@ -185,7 +185,7 @@ featureFlags:
         default:
           onVariation: Gabs_GoT
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "OFF"
