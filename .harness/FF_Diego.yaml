@@ -20,7 +20,7 @@ pipeline:
                   identifier: FF_Canary
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: diegopereiraeng
+                    environment: <+input>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -108,7 +108,7 @@ pipeline:
                       identifier: Youtube_100
                       spec:
                         feature: ALL_YOUTUBE_MODAL
-                        environment: diegopereiraeng
+                        environment: <+input>
                         instructions:
                           - identifier: AddRuleIdentifier
                             type: AddRule
