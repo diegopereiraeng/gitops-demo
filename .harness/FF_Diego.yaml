@@ -20,7 +20,7 @@ pipeline:
                   identifier: FF_Canary
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: <+input>
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -108,7 +108,7 @@ pipeline:
                       identifier: Youtube_100
                       spec:
                         feature: ALL_YOUTUBE_MODAL
-                        environment: <+input>
+                        environment: <+pipeline.variables.environment>
                         instructions:
                           - identifier: AddRuleIdentifier
                             type: AddRule
@@ -181,3 +181,9 @@ pipeline:
                         condition: <+pipeline.stages.FF_Youtube.execution.steps.Collect_Feedback_from_Analytics.output.outputVariables.result> == "canary"
                       failureStrategies: []
           serviceDependencies: []
+  variables:
+    - name: environment
+      type: String
+      default: diegopereiraeng
+      description: ""
+      value: <+input>.allowedValues(diegopereiraeng)
