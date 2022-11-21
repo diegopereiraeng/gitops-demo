@@ -838,7 +838,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "off"
+        state: "on"
       - identifier: prod
         default:
           onVariation: "On"
