@@ -787,7 +787,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "on"
+        state: "off"
       - identifier: qa
         default:
           onVariation: V2
