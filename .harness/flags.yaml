@@ -536,7 +536,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "off"
+        state: "on"
       - identifier: prod
         default:
           onVariation: Premium
