@@ -772,7 +772,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "off"
+        state: "on"
       - identifier: prod
         default:
           onVariation: V2
