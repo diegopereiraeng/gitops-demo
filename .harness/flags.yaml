@@ -57,11 +57,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: Guest
-          variation: Welcome
-        - targets:
           - identifier: diegopereiraharnessio
           variation: Platform_Path
+        - targets:
+          - identifier: Guest
+          variation: Welcome
       - identifier: ffeng
         default:
           onVariation: "Off"
@@ -721,7 +721,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: prod
         default:
           onVariation: "ON"
