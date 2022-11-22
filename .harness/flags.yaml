@@ -30,6 +30,11 @@ featureFlags:
           value: on|image|Harness|<video class="videoInsert" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
             autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "Off"
@@ -52,11 +57,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: Guest
-          variation: Welcome
-        - targets:
           - identifier: diegopereiraharnessio
           variation: Platform_Path
+        - targets:
+          - identifier: Guest
+          variation: Welcome
       - identifier: ffeng
         default:
           onVariation: "Off"
@@ -111,6 +116,11 @@ featureFlags:
         - identifier: Ion
           value: TbaLega9GeE
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: Feature_Flags
@@ -254,6 +264,11 @@ featureFlags:
         - identifier: Pink
           value: '#C2368E'
       environments:
+      - identifier: asv108
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: prod
         default:
           onVariation: Dark
@@ -320,6 +335,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -390,6 +410,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -460,6 +485,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -545,6 +575,11 @@ featureFlags:
             "type": "fa-history", "name": "Help" },   { "type": "fa-cog", "name":
             "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
+      - identifier: asv108
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: prod
         default:
           onVariation: Premium
@@ -611,6 +646,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -677,6 +717,11 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "ON"
@@ -758,6 +803,11 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
+      - identifier: asv108
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: prod
         default:
           onVariation: V2
@@ -824,6 +874,11 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
+      - identifier: asv108
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "On"
@@ -890,6 +945,11 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
+      - identifier: asv108
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: prod
         default:
           onVariation: Black
