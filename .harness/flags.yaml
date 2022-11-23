@@ -1,7 +1,7 @@
 featureFlags:
   flags:
   - flag:
-      name: ALL_ALERT_MODAL
+      name: FRONT_ALL_ALERT_MODAL
       identifier: ALL_ALERT_MODAL
       description: ""
       permanent: true
