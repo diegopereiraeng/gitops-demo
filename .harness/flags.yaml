@@ -93,7 +93,7 @@ featureFlags:
           offVariation: "Off"
         state: "off"
   - flag:
-      name: Show Youtube Video
+      name: FRONT_Show_Youtube_Video
       identifier: ALL_YOUTUBE_MODAL
       description: Show Youtube video using youtube video ID
       permanent: true
@@ -320,7 +320,7 @@ featureFlags:
           offVariation: Blue
         state: "off"
   - flag:
-      name: Halloween Mode
+      name: FRONT_Halloween_Mode
       identifier: Halloween
       description: Enable Halloween Theme in page
       permanent: true
@@ -395,7 +395,7 @@ featureFlags:
           offVariation: "false"
         state: "on"
   - flag:
-      name: Enable Halloween Jack
+      name: FRONT_Enable_Halloween_Jack
       identifier: HalloweenJack
       description: ""
       permanent: true
@@ -470,7 +470,7 @@ featureFlags:
           offVariation: "false"
         state: "on"
   - flag:
-      name: Maintenance_Mode
+      name: FRONT_Maintenance_Mode
       identifier: Home_Maintenance
       description: Put app into Maintenance Mode
       permanent: true
@@ -541,7 +541,7 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: Menu Profile
+      name: FRONT_Menu_Profile
       identifier: Home_Menu
       description: |-
         Premium for additional features
@@ -702,7 +702,7 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: Enable Signup
+      name: FRONT_Enable_Signup
       identifier: Index_SignUp_Enable
       description: Enable the Signup feature in Login page
       permanent: true
@@ -786,7 +786,7 @@ featureFlags:
           offVariation: "OFF"
         state: "on"
   - flag:
-      name: Menu Version
+      name: FRONT_Menu_Version
       identifier: Menu_Version
       description: |-
         V1 for large menu
@@ -859,7 +859,7 @@ featureFlags:
           offVariation: V1
         state: "off"
   - flag:
-      name: SHOW QRCODE
+      name: FRONT_SHOW_QRCODE
       identifier: QRCODE
       description: Show qr code for login page - dynamic
       permanent: true
@@ -930,7 +930,7 @@ featureFlags:
           offVariation: "Off"
         state: "on"
   - flag:
-      name: Title and Menu Text Color
+      name: FRONT_Title_and_Menu_Text_Color
       identifier: Text_Color_Mode
       description: ""
       permanent: true
