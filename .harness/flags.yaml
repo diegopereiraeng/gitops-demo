@@ -518,7 +518,7 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: Menu Profile
+      name: FRONT_Menu Profile
       identifier: Home_Menu
       description: |-
         Premium for additional features
