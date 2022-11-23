@@ -57,11 +57,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          variation: Platform_Path
-        - targets:
           - identifier: Guest
           variation: Welcome
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: Platform_Path
       - identifier: ffeng
         default:
           onVariation: "Off"
@@ -297,7 +297,7 @@ featureFlags:
           offVariation: Blue
         state: "off"
   - flag:
-      name: Halloween Mode
+      name: FRONT_Halloween Mode
       identifier: Halloween
       description: Enable Halloween Theme in page
       permanent: true
