@@ -1013,6 +1013,41 @@ pipeline:
                           - cd-demo-se
                       timeout: 10m
                       failureStrategies: []
+                  - step:
+                      type: Verify
+                      name: Verify Dev
+                      identifier: Verify_Dev
+                      spec:
+                        type: Auto
+                        monitoredService:
+                          type: Default
+                          spec: {}
+                        spec:
+                          sensitivity: LOW
+                          duration: 10m
+                          deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                      timeout: 1h
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - Verification
+                            action:
+                              type: ManualIntervention
+                              spec:
+                                timeout: 2h
+                                onTimeout:
+                                  action:
+                                    type: StageRollback
+                        - onFailure:
+                            errors:
+                              - Unknown
+                            action:
+                              type: ManualIntervention
+                              spec:
+                                timeout: 2h
+                                onTimeout:
+                                  action:
+                                    type: Ignore
                 rollbackSteps:
                   - step:
                       name: Rollback Rollout Deployment
