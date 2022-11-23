@@ -922,138 +922,139 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
-    - stage:
-        name: Deploy Dev
-        identifier: Deploy_Dev
-        description: ""
-        type: Deployment
-        spec:
-          serviceConfig:
-            serviceRef: bankingcvffdemo
-            serviceDefinition:
-              spec:
-                variables: []
-                manifests:
-                  - manifest:
-                      identifier: Templates
-                      type: K8sManifest
-                      spec:
-                        store:
-                          type: Harness
+    - parallel:
+        - stage:
+            name: Deploy Dev
+            identifier: Deploy_Dev
+            description: ""
+            type: Deployment
+            spec:
+              serviceConfig:
+                serviceRef: bankingcvffdemo
+                serviceDefinition:
+                  spec:
+                    variables: []
+                    manifests:
+                      - manifest:
+                          identifier: Templates
+                          type: K8sManifest
                           spec:
-                            files:
-                              - account:/Diego/templates/ff-cv-demo/namespace.yaml
-                              - account:/Diego/templates/dev/service.yaml
-                              - account:/Diego/templates/dev/deployment.yaml
-                        valuesPaths:
-                          - account:/Diego/templates/dev/values.yaml
-                        skipResourceVersioning: false
-                artifacts:
-                  primary:
-                    spec:
-                      connectorRef: account.DockerHubDiego
-                      imagePath: diegokoala/<+service.name>
-                      tag: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
-                    type: DockerRegistry
-              type: Kubernetes
-          infrastructure:
-            environmentRef: dev
-            infrastructureDefinition:
-              type: KubernetesDirect
-              spec:
-                connectorRef: account.cddemose
-                namespace: <+env.name>
-                releaseName: release-<+INFRA_KEY>
-            allowSimultaneousDeployments: false
-          execution:
-            steps:
-              - step:
-                  name: Rollout Deployment
-                  identifier: rolloutDeployment
-                  type: K8sRollingDeploy
-                  timeout: 10m
-                  spec:
-                    skipDryRun: false
-              - step:
-                  type: ShellScript
-                  name: Warm Up Service
-                  identifier: Warm_Up_Service
-                  spec:
-                    shell: Bash
-                    onDelegate: true
-                    source:
-                      type: Inline
-                      spec:
-                        script: |
-
-
-                          for i in `seq 1 100`;
-                          do
-                              echo "Load - " $i
-                              curl -X OPTIONS --verbose \
-                                 http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/config
-                              echo "curl http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/api/v1/payments/list"
-                              curl -H "Access-Control-Request-Method: GET" \
-                                 -H "Access-Control-Request-Headers: X-Requested-With" \
-                                 -X OPTIONS --verbose \
-                                 http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/v1/payments/list?bug=false
-                              curl -H "Access-Control-Request-Method: GET" \
-                                 -H "Access-Control-Request-Headers: X-Requested-With" \
-                                 -X OPTIONS --verbose \
-                                 http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/v1/payments/status?bug=false&value=1
-                              curl -H "Access-Control-Request-Method: GET" \
-                                 -H "Access-Control-Request-Headers: X-Requested-With" \
-                                 -X OPTIONS --verbose \
-                                 http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/v1/payments/process?bug=false&value=1
-                          done
-                    environmentVariables: []
-                    outputVariables: []
-                    delegateSelectors:
-                      - cd-demo-se
-                  timeout: 10m
-                  failureStrategies: []
-            rollbackSteps:
-              - step:
-                  name: Rollback Rollout Deployment
-                  identifier: rollbackRolloutDeployment
-                  type: K8sRollingRollback
-                  timeout: 10m
-                  spec: {}
-        tags: {}
-        failureStrategies:
-          - onFailure:
-              errors:
-                - AllErrors
-              action:
-                type: StageRollback
-        when:
-          pipelineStatus: Success
-          condition: <+pipeline.variables.hotfix> == "no"
-    - stage:
-        name: Enable Feature in Dev
-        identifier: Enable_Feature_in_Dev
-        description: ""
-        type: FeatureFlag
-        spec:
-          execution:
-            steps:
-              - step:
-                  type: FlagConfiguration
-                  name: Enable Feature Dev
-                  identifier: Enable_Feature_Dev
-                  spec:
-                    feature: bug_process_response
-                    environment: dev
-                    instructions:
-                      - identifier: SetFeatureFlagStateIdentifier
-                        type: SetFeatureFlagState
+                            store:
+                              type: Harness
+                              spec:
+                                files:
+                                  - account:/Diego/templates/ff-cv-demo/namespace.yaml
+                                  - account:/Diego/templates/dev/service.yaml
+                                  - account:/Diego/templates/dev/deployment.yaml
+                            valuesPaths:
+                              - account:/Diego/templates/dev/values.yaml
+                            skipResourceVersioning: false
+                    artifacts:
+                      primary:
                         spec:
-                          state: "on"
-                  timeout: 10m
-                  when:
-                    stageStatus: Success
-                    condition: <+pipeline.variables.hotfix> == "no"
-                  failureStrategies: []
+                          connectorRef: account.DockerHubDiego
+                          imagePath: diegokoala/<+service.name>
+                          tag: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+                        type: DockerRegistry
+                  type: Kubernetes
+              infrastructure:
+                environmentRef: dev
+                infrastructureDefinition:
+                  type: KubernetesDirect
+                  spec:
+                    connectorRef: account.cddemose
+                    namespace: <+env.name>
+                    releaseName: release-<+INFRA_KEY>
+                allowSimultaneousDeployments: false
+              execution:
+                steps:
+                  - step:
+                      name: Rollout Deployment
+                      identifier: rolloutDeployment
+                      type: K8sRollingDeploy
+                      timeout: 10m
+                      spec:
+                        skipDryRun: false
+                  - step:
+                      type: ShellScript
+                      name: Warm Up Service
+                      identifier: Warm_Up_Service
+                      spec:
+                        shell: Bash
+                        onDelegate: true
+                        source:
+                          type: Inline
+                          spec:
+                            script: |
+
+
+                              for i in `seq 1 100`;
+                              do
+                                  echo "Load - " $i
+                                  curl -X OPTIONS --verbose \
+                                     http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/config
+                                  echo "curl http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/api/v1/payments/list"
+                                  curl -H "Access-Control-Request-Method: GET" \
+                                     -H "Access-Control-Request-Headers: X-Requested-With" \
+                                     -X OPTIONS --verbose \
+                                     http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/v1/payments/list?bug=false
+                                  curl -H "Access-Control-Request-Method: GET" \
+                                     -H "Access-Control-Request-Headers: X-Requested-With" \
+                                     -X OPTIONS --verbose \
+                                     http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/v1/payments/status?bug=false&value=1
+                                  curl -H "Access-Control-Request-Method: GET" \
+                                     -H "Access-Control-Request-Headers: X-Requested-With" \
+                                     -X OPTIONS --verbose \
+                                     http://<+service.name>-stable.<+env.name>.svc.cluster.local:8080/v1/payments/process?bug=false&value=1
+                              done
+                        environmentVariables: []
+                        outputVariables: []
+                        delegateSelectors:
+                          - cd-demo-se
+                      timeout: 10m
+                      failureStrategies: []
+                rollbackSteps:
+                  - step:
+                      name: Rollback Rollout Deployment
+                      identifier: rollbackRolloutDeployment
+                      type: K8sRollingRollback
+                      timeout: 10m
+                      spec: {}
+            tags: {}
+            failureStrategies:
+              - onFailure:
+                  errors:
+                    - AllErrors
+                  action:
+                    type: StageRollback
+            when:
+              pipelineStatus: Success
+              condition: <+pipeline.variables.hotfix> == "no"
+        - stage:
+            name: Enable Feature in Dev
+            identifier: Enable_Feature_in_Dev
+            description: ""
+            type: FeatureFlag
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: FlagConfiguration
+                      name: Enable Feature Dev
+                      identifier: Enable_Feature_Dev
+                      spec:
+                        feature: bug_process_response
+                        environment: dev
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "on"
+                      timeout: 10m
+                      when:
+                        stageStatus: Success
+                        condition: <+pipeline.variables.hotfix> == "no"
+                      failureStrategies: []
     - parallel:
         - stage:
             name: Deploy QA
