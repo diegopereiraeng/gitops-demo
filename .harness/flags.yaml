@@ -447,7 +447,7 @@ featureFlags:
           offVariation: "false"
         state: "on"
   - flag:
-      name: Maintenance_Mode
+      name: FRONT_Maintenance_Mode
       identifier: Home_Maintenance
       description: Put app into Maintenance Mode
       permanent: true
