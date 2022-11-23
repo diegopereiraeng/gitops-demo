@@ -1578,6 +1578,41 @@ pipeline:
                               barrierRef: ffverificationprod
                             timeout: 4h
                         - step:
+                            type: Verify
+                            name: Verify Prod
+                            identifier: Verify_Prod
+                            spec:
+                              type: Canary
+                              monitoredService:
+                                type: Default
+                                spec: {}
+                              spec:
+                                sensitivity: LOW
+                                duration: <+input>
+                                deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                            timeout: 2h
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - Verification
+                                  action:
+                                    type: ManualIntervention
+                                    spec:
+                                      timeout: 2h
+                                      onTimeout:
+                                        action:
+                                          type: StageRollback
+                              - onFailure:
+                                  errors:
+                                    - Unknown
+                                  action:
+                                    type: ManualIntervention
+                                    spec:
+                                      timeout: 2h
+                                      onTimeout:
+                                        action:
+                                          type: Ignore
+                        - step:
                             type: ShellScript
                             name: Verify Status Check in prod
                             identifier: Verify_Status_Check_in_prod
