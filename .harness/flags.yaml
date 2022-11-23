@@ -57,11 +57,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: Guest
-          variation: Welcome
-        - targets:
           - identifier: diegopereiraharnessio
           variation: Platform_Path
+        - targets:
+          - identifier: Guest
+          variation: Welcome
       - identifier: ffeng
         default:
           onVariation: "Off"
@@ -679,7 +679,7 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: Enable Signup
+      name: FRONT_Enable Signup
       identifier: Index_SignUp_Enable
       description: Enable the Signup feature in Login page
       permanent: true
