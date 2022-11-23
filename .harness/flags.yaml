@@ -763,7 +763,7 @@ featureFlags:
           offVariation: "OFF"
         state: "on"
   - flag:
-      name: Menu Version
+      name: FRONT_Menu Version
       identifier: Menu_Version
       description: |-
         V1 for large menu
