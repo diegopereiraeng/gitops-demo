@@ -836,7 +836,7 @@ featureFlags:
           offVariation: V1
         state: "off"
   - flag:
-      name: SHOW QRCODE
+      name: FRONT_SHOW QRCODE
       identifier: QRCODE
       description: Show qr code for login page - dynamic
       permanent: true
