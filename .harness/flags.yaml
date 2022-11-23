@@ -245,7 +245,7 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
   - flag:
-      name: Color_Mode
+      name: FRONT_Color_Mode
       identifier: Color_Mode
       description: ""
       permanent: true
