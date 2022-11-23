@@ -30,17 +30,17 @@ featureFlags:
           value: on|image|Harness|<video class="videoInsert" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
             autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: "Off"
           offVariation: "Off"
@@ -77,21 +77,21 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
+      - identifier: prod
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
   - flag:
       name: Show Youtube Video
       identifier: ALL_YOUTUBE_MODAL
@@ -116,21 +116,21 @@ featureFlags:
         - identifier: Ion
           value: TbaLega9GeE
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "OFF"
-          offVariation: "OFF"
-        state: "on"
-      - identifier: prod
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Gabs_GoT
           offVariation: "OFF"
         state: "off"
+      - identifier: dev
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "on"
+      - identifier: asv108
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
       - identifier: guinogueira7
         default:
           onVariation: Captain_Canary
@@ -229,17 +229,17 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
-      - identifier: crizstian
+      - identifier: tkouhsari
         default:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
-      - identifier: dev
+      - identifier: prod
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
-        state: "on"
-      - identifier: tkouhsari
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: "OFF"
           offVariation: "OFF"
@@ -264,17 +264,17 @@ featureFlags:
         - identifier: Pink
           value: '#C2368E'
       environments:
-      - identifier: asv108
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: Dark
           offVariation: Blue
@@ -304,21 +304,21 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: Dark
           offVariation: Blue
         state: "on"
+      - identifier: prod
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
   - flag:
       name: Halloween Mode
       identifier: Halloween
@@ -335,17 +335,17 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: asv108
+      - identifier: gacerioni
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: prod
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: gacerioni
+      - identifier: asv108
         default:
           onVariation: "true"
           offVariation: "false"
@@ -379,21 +379,21 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
       - identifier: tkouhsari
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
   - flag:
       name: Enable Halloween Jack
       identifier: HalloweenJack
@@ -410,17 +410,17 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: "true"
           offVariation: "false"
@@ -454,21 +454,21 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
   - flag:
       name: Maintenance_Mode
       identifier: Home_Maintenance
@@ -485,17 +485,17 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: "true"
           offVariation: "false"
@@ -525,17 +525,17 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
@@ -575,21 +575,21 @@ featureFlags:
             "type": "fa-history", "name": "Help" },   { "type": "fa-cog", "name":
             "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
-      - identifier: asv108
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "on"
-      - identifier: prod
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: dev
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
       - identifier: guinogueira7
         default:
           onVariation: Premium
@@ -615,23 +615,23 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: prod
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
   - flag:
-      name: Home_RegionMAP
+      name: FRONT_Home_RegionMAP
       identifier: Home_RegionMAP
       description: ""
       permanent: true
@@ -646,17 +646,17 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: "true"
           offVariation: "false"
@@ -686,17 +686,17 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
@@ -717,21 +717,21 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
-      - identifier: prod
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+      - identifier: dev
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
       - identifier: guinogueira7
         default:
           onVariation: "ON"
@@ -770,17 +770,17 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
-      - identifier: crizstian
+      - identifier: tkouhsari
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: dev
+      - identifier: prod
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
-      - identifier: tkouhsari
+        state: "on"
+      - identifier: crizstian
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -803,17 +803,17 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
-      - identifier: asv108
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: V2
           offVariation: V1
@@ -843,17 +843,17 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: V2
           offVariation: V1
@@ -874,17 +874,17 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
-      - identifier: asv108
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -914,21 +914,21 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "on"
-      - identifier: dev
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: prod
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
   - flag:
       name: Title and Menu Text Color
       identifier: Text_Color_Mode
@@ -945,17 +945,17 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
-      - identifier: asv108
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: asv108
         default:
           onVariation: Black
           offVariation: White
@@ -985,17 +985,17 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: crizstian
         default:
           onVariation: Black
           offVariation: White
