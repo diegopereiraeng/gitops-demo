@@ -20,7 +20,7 @@ pipeline:
           infrastructure:
             type: KubernetesDirect
             spec:
-              connectorRef: account.k8scidemo
+              connectorRef: account.k8sharnessse
               namespace: default
               volumes:
                 - mountPath: /harness/repository
