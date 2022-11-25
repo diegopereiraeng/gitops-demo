@@ -650,7 +650,7 @@ pipeline:
                 variables: []
         when:
           pipelineStatus: Success
-          condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
+          condition: <+pipeline.variables.target> == "qa" && <+pipeline.variables.gitEvent> == "PR"
     - stage:
         name: Build QA
         identifier: Functional_Test
