@@ -21,7 +21,7 @@ pipeline:
             type: KubernetesDirect
             spec:
               connectorRef: account.k8scidemose
-              namespace: harness-ci-buildfarm
+              namespace: default
               volumes:
                 - mountPath: /harness/repository
                   type: HostPath
