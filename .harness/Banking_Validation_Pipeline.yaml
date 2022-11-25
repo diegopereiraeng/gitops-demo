@@ -20,8 +20,8 @@ pipeline:
           infrastructure:
             type: KubernetesDirect
             spec:
-              connectorRef: account.k8sharnessse
-              namespace: default
+              connectorRef: account.cddemose
+              namespace: harness-ci-buildfarm
               volumes:
                 - mountPath: /harness/repository
                   type: HostPath
