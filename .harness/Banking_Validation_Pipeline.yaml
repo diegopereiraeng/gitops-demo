@@ -1000,3 +1000,8 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: tag
+      type: String
+      default: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+      description: ""
+      value: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
