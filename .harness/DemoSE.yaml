@@ -18,6 +18,7 @@ inputSet:
         type: "Deployment"
         spec:
           service:
+            serviceRef: "paymentsvalidationdiegopereiraeng"
             serviceInputs:
               serviceDefinition:
                 type: "Kubernetes"
