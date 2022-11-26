@@ -978,6 +978,10 @@ pipeline:
                         timeout: 10m
                         spec:
                           skipDryRun: false
+                          pruningEnabled: true
+                          delegateSelectors:
+                            - ""
+                        failureStrategies: []
             rollbackSteps:
               - step:
                   name: Canary Delete
