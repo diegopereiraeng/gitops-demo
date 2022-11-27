@@ -958,7 +958,7 @@ pipeline:
                               }
                               EOF
 
-                              ab -p post_validation.json -T application/json -l -n 100 -t 650 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                              ab -p post_validation.json -T application/json -l -n 600 -t 650 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                         environmentVariables: []
                         outputVariables: []
                       timeout: 10m
@@ -1037,7 +1037,10 @@ pipeline:
                                     ab -p post_validation.json -T application/json -l -n 100 -t 650 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
+                              delegateSelectors:
+                                - cd-demo-se
                             timeout: 10m
+                            failureStrategies: []
                         - parallel:
                             - step:
                                 type: Verify
