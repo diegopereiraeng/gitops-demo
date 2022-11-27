@@ -1008,7 +1008,7 @@ pipeline:
                                     }
                                     EOF
 
-                                    ab -p post_validation.json -T application/json -l -n 1000 -t 650 -c 10  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                    ab -p post_validation.json -T application/json -l -n 2000 -t 650 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
@@ -1025,7 +1025,7 @@ pipeline:
                               source:
                                 type: Inline
                                 spec:
-                                  script: ab -n 10000 -t 650 -c 10  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                  script: ab -n 50000 -t 650 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
