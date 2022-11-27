@@ -1066,22 +1066,12 @@ pipeline:
                                       errors:
                                         - Verification
                                       action:
-                                        type: ManualIntervention
-                                        spec:
-                                          timeout: 2h
-                                          onTimeout:
-                                            action:
-                                              type: StageRollback
+                                        type: StageRollback
                                   - onFailure:
                                       errors:
                                         - Unknown
                                       action:
-                                        type: ManualIntervention
-                                        spec:
-                                          timeout: 2h
-                                          onTimeout:
-                                            action:
-                                              type: Ignore
+                                        type: StageRollback
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation Process
