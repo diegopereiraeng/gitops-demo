@@ -1008,12 +1008,12 @@ pipeline:
                                     }
                                     EOF
 
-                                    ab -p post_validation.json -T application/json -l -n 5000 -t 650 -c 10  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                    ab -p post_validation.json -T application/json -l -n 2000 -t 650 -c 10  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
                                 - cd-demo-se
-                            timeout: 10m
+                            timeout: 15m
                             failureStrategies: []
                         - step:
                             type: ShellScript
@@ -1025,12 +1025,12 @@ pipeline:
                               source:
                                 type: Inline
                                 spec:
-                                  script: ab -n 5000 -t 650 -c 10  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                  script: ab -n 2000 -t 650 -c 10  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
                                 - cd-demo-se
-                            timeout: 10m
+                            timeout: 15m
                             failureStrategies: []
                     - step:
                         name: Canary Delete
