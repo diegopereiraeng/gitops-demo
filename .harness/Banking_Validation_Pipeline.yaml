@@ -1019,7 +1019,12 @@ pipeline:
                               delegateSelectors:
                                 - cd-demo-se
                             timeout: 10m
-                            failureStrategies: []
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: MarkAsSuccess
                         - parallel:
                             - step:
                                 type: Verify
@@ -1080,7 +1085,12 @@ pipeline:
                                   delegateSelectors:
                                     - cd-demo-se
                                 timeout: 15m
-                                failureStrategies: []
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation List
@@ -1097,7 +1107,12 @@ pipeline:
                                   delegateSelectors:
                                     - cd-demo-se
                                 timeout: 15m
-                                failureStrategies: []
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
