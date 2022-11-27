@@ -972,7 +972,7 @@ pipeline:
                             source:
                               type: Inline
                               spec:
-                                script: ab -r -l -n 10000 -t 250 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                script: ab -r -l -n 10000 -t 220 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                             environmentVariables: []
                             outputVariables: []
                           timeout: 10m
