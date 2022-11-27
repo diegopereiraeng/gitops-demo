@@ -181,7 +181,7 @@ pipeline:
                           failureStrategies:
                             - onFailure:
                                 errors:
-                                  - Unknown
+                                  - AllErrors
                                 action:
                                   type: Ignore
                       - step:
