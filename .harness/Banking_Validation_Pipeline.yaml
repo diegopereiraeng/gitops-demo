@@ -975,7 +975,10 @@ pipeline:
                                 script: ab -r -l -n 10000 -t 220 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                             environmentVariables: []
                             outputVariables: []
+                            delegateSelectors:
+                              - cd-demo-se
                           timeout: 10m
+                          failureStrategies: []
             tags: {}
     - stage:
         name: Deploy Prod
