@@ -1025,7 +1025,7 @@ pipeline:
                               source:
                                 type: Inline
                                 spec:
-                                  script: ab -n 50000 -t 650 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                  script: ab -l -n 100000 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
