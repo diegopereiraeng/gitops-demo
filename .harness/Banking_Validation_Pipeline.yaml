@@ -1013,7 +1013,7 @@ pipeline:
                                     }
                                     EOF
 
-                                    ab -r -p post_validation.json -T application/json -l -n 100 -t 650 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                    ab -r -p post_validation.json -T application/json -l -n 100 -t 60 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
