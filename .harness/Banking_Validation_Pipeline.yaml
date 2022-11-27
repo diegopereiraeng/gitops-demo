@@ -1082,7 +1082,10 @@ pipeline:
                               ab -p post_validation.json -T application/json -l -n 1000 -t 650 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                         environmentVariables: []
                         outputVariables: []
+                        delegateSelectors:
+                          - cd-demo-se
                       timeout: 10m
+                      failureStrategies: []
               - stepGroup:
                   name: Primary Deployment
                   identifier: primaryDepoyment
