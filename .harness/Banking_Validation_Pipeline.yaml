@@ -1043,6 +1043,9 @@ pipeline:
                                     - AllErrors
                                   action:
                                     type: MarkAsSuccess
+                            when:
+                              stageStatus: Success
+                              condition: <+env.name> == "diego"
                         - parallel:
                             - step:
                                 type: Verify
