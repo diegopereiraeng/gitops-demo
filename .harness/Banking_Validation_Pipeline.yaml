@@ -980,6 +980,9 @@ pipeline:
                           timeout: 10m
                           failureStrategies: []
             tags: {}
+            when:
+              pipelineStatus: Success
+              condition: <+env.name> == "qa"
     - stage:
         name: Deploy Prod
         identifier: Deploy_Prod
