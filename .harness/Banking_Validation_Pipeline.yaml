@@ -1000,26 +1000,95 @@ pipeline:
               - identifier: ProdCDDemoSE
           execution:
             steps:
-              - parallel:
-                  - stepGroup:
-                      name: Canary Deployment
-                      identifier: canaryDepoyment
-                      steps:
-                        - step:
-                            name: Canary Deployment
-                            identifier: canaryDeployment
-                            type: K8sCanaryDeploy
-                            timeout: 10m
+              - stepGroup:
+                  name: Canary Deployment
+                  identifier: canaryDepoyment
+                  steps:
+                    - step:
+                        name: Canary Deployment
+                        identifier: canaryDeployment
+                        type: K8sCanaryDeploy
+                        timeout: 10m
+                        spec:
+                          instanceSelection:
+                            type: Count
                             spec:
-                              instanceSelection:
-                                type: Count
-                                spec:
-                                  count: 1
-                              skipDryRun: false
+                              count: 1
+                          skipDryRun: false
+                    - step:
+                        type: ShellScript
+                        name: Warm Up
+                        identifier: Warm_Up
+                        spec:
+                          shell: Bash
+                          onDelegate: true
+                          source:
+                            type: Inline
+                            spec:
+                              script: |-
+                                cat <<EOF >>post_validation.json
+                                {
+                                    "id": 5,
+                                    "status": "not verified"
+                                }
+                                EOF
+
+                                ab -r -p post_validation.json -T application/json -l -n 10 -t 10 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+
+                                ab -t 10 -r -l -n 20 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                          environmentVariables: []
+                          outputVariables: []
+                          delegateSelectors:
+                            - cd-demo-se
+                        timeout: 10m
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: MarkAsSuccess
+                        when:
+                          stageStatus: Success
+                    - parallel:
+                        - step:
+                            type: Verify
+                            name: Verify Prod
+                            identifier: Verify_Prod
+                            spec:
+                              type: Canary
+                              monitoredService:
+                                type: Default
+                                spec: {}
+                              spec:
+                                sensitivity: LOW
+                                duration: 10m
+                                deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                            timeout: 1h
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - Verification
+                                  action:
+                                    type: ManualIntervention
+                                    spec:
+                                      timeout: 15m
+                                      onTimeout:
+                                        action:
+                                          type: StageRollback
+                              - onFailure:
+                                  errors:
+                                    - Unknown
+                                  action:
+                                    type: StageRollback
+                                    spec:
+                                      timeout: 2h
+                                      onTimeout:
+                                        action:
+                                          type: Ignore
                         - step:
                             type: ShellScript
-                            name: Warm Up
-                            identifier: Warm_Up
+                            name: Stress Test Validation Process
+                            identifier: Stress_Test
                             spec:
                               shell: Bash
                               onDelegate: true
@@ -1034,140 +1103,46 @@ pipeline:
                                     }
                                     EOF
 
-                                    ab -r -p post_validation.json -T application/json -l -n 100 -t 60 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                    ab -r -p post_validation.json -T application/json -l -n 2000 -t 600 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
                               environmentVariables: []
                               outputVariables: []
                               delegateSelectors:
                                 - cd-demo-se
-                            timeout: 10m
+                            timeout: 15m
                             failureStrategies:
                               - onFailure:
                                   errors:
                                     - AllErrors
                                   action:
                                     type: MarkAsSuccess
-                            when:
-                              stageStatus: Success
-                              condition: <+env.name> == "diego"
-                        - parallel:
-                            - step:
-                                type: Verify
-                                name: Verify Prod
-                                identifier: Verify_Prod
-                                spec:
-                                  type: Canary
-                                  monitoredService:
-                                    type: Default
-                                    spec: {}
-                                  spec:
-                                    sensitivity: LOW
-                                    duration: 10m
-                                    deploymentTag: <+serviceConfig.artifacts.primary.tag>
-                                timeout: 1h
-                                failureStrategies:
-                                  - onFailure:
-                                      errors:
-                                        - Verification
-                                      action:
-                                        type: ManualIntervention
-                                        spec:
-                                          timeout: 15m
-                                          onTimeout:
-                                            action:
-                                              type: StageRollback
-                                  - onFailure:
-                                      errors:
-                                        - Unknown
-                                      action:
-                                        type: StageRollback
-                                        spec:
-                                          timeout: 2h
-                                          onTimeout:
-                                            action:
-                                              type: Ignore
-                            - step:
-                                type: ShellScript
-                                name: Stress Test Validation Process
-                                identifier: Stress_Test
-                                spec:
-                                  shell: Bash
-                                  onDelegate: true
-                                  source:
-                                    type: Inline
-                                    spec:
-                                      script: |-
-                                        cat <<EOF >>post_validation.json
-                                        {
-                                            "id": 5,
-                                            "status": "not verified"
-                                        }
-                                        EOF
-
-                                        ab -r -p post_validation.json -T application/json -l -n 2000 -t 600 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
-                                  environmentVariables: []
-                                  outputVariables: []
-                                  delegateSelectors:
-                                    - cd-demo-se
-                                timeout: 15m
-                                failureStrategies:
-                                  - onFailure:
-                                      errors:
-                                        - AllErrors
-                                      action:
-                                        type: MarkAsSuccess
-                            - step:
-                                type: ShellScript
-                                name: Stress Test Validation List
-                                identifier: Stress_Test_Validation_List
-                                spec:
-                                  shell: Bash
-                                  onDelegate: true
-                                  source:
-                                    type: Inline
-                                    spec:
-                                      script: ab -t 600 -r -l -n 300000 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
-                                  environmentVariables: []
-                                  outputVariables: []
-                                  delegateSelectors:
-                                    - cd-demo-se
-                                timeout: 15m
-                                failureStrategies:
-                                  - onFailure:
-                                      errors:
-                                        - AllErrors
-                                      action:
-                                        type: MarkAsSuccess
                         - step:
-                            name: Canary Delete
-                            identifier: canaryDelete
-                            type: K8sCanaryDelete
-                            timeout: 10m
-                            spec: {}
-                  - step:
-                      type: ShellScript
-                      name: Baseline Metric
-                      identifier: Baseline_Metric
-                      spec:
-                        shell: Bash
-                        onDelegate: true
-                        source:
-                          type: Inline
-                          spec:
-                            script: |-
-                              cat <<EOF >>post_validation.json
-                              {
-                                  "id": 5,
-                                  "status": "not verified"
-                              }
-                              EOF
-
-                              ab -r -p post_validation.json -T application/json -l -n 800 -t 300 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
-                        environmentVariables: []
-                        outputVariables: []
-                        delegateSelectors:
-                          - cd-demo-se
-                      timeout: 10m
-                      failureStrategies: []
+                            type: ShellScript
+                            name: Stress Test Validation List
+                            identifier: Stress_Test_Validation_List
+                            spec:
+                              shell: Bash
+                              onDelegate: true
+                              source:
+                                type: Inline
+                                spec:
+                                  script: ab -t 600 -r -l -n 300000 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                              environmentVariables: []
+                              outputVariables: []
+                              delegateSelectors:
+                                - cd-demo-se
+                            timeout: 15m
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: MarkAsSuccess
+                    - step:
+                        name: Canary Delete
+                        identifier: canaryDelete
+                        type: K8sCanaryDelete
+                        timeout: 10m
+                        spec: {}
               - stepGroup:
                   name: Primary Deployment
                   identifier: primaryDepoyment
