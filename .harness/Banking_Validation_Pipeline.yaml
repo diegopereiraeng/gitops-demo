@@ -171,7 +171,7 @@ pipeline:
                               binaries: target/classes
                               sonar_name: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
                               sonar_key: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
-                              sonar_token: <+secrets.getValue("account.harnesssonartoken")>
+                              sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
                               branch: <+codebase.branch>
                             imagePullPolicy: IfNotPresent
                             resources:
@@ -249,6 +249,8 @@ pipeline:
                         image: docker:latest
                         shell: Sh
                         command: |-
+                          cat sonarResults.xml
+
                           echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
 
                           cat << EOF
