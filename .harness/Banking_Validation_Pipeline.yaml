@@ -1069,7 +1069,7 @@ pipeline:
                                 spec: {}
                               spec:
                                 sensitivity: HIGH
-                                duration: 10m
+                                duration: 15m
                                 deploymentTag: <+serviceConfig.artifacts.primary.tag>
                             timeout: 1h
                             failureStrategies:
