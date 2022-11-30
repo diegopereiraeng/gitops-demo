@@ -57,9 +57,18 @@ pipeline:
                         args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
                         packages: io.harness
                         runOnlySelectedTests: false
-                        preCommand: |
+                        preCommand: |+
                           #ET-SETUP-BEGIN
                           PROJ_DIR=$PWD
+
+                          cat << EOF
+                          Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
+
+                          Branch: <+codebase.branch>
+                          Tag: <+codebase.tag>
+                          Commiter: <+codebase.gitUserEmail>
+                          CommitID: <+codebase.commitSha>
+                          EOF
 
                           export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
 
@@ -82,28 +91,21 @@ pipeline:
                           elif [ $arch = "aarch64" ]; then
                             wget -qO- https://get.et.harness.io/releases/latest/arm/harness-et-agent.tar.gz | tar -xz
                           fi
-                          #export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
-                          #export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
-                          #export ET_ENV_ID=_INTERNAL_ET_CI
-                          #export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
-                          #export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
-                          #export ET_ORG_ID=$HARNESS_ORG_ID
-                          #export ET_PROJECT_ID=$HARNESS_PROJECT_ID
-                          export ET_SHUTDOWN_GRACETIME=30000
+                          export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
+                          export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
+                          export ET_ENV_ID=_INTERNAL_ET_CI
+                          export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
+                          export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
+                          export ET_ORG_ID=$HARNESS_ORG_ID
+                          export ET_PROJECT_ID=$HARNESS_PROJECT_ID
+                          #export ET_SHUTDOWN_GRACETIME=30000
                           #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
-                          export JAVA_TOOL_OPTIONS="-agentpath:/opt/harness/lib/libETAgent.so"
+                          export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                           # Uncomment the line below if using Java version 10 or above
                           # export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                           cd $PROJ_DIR
                           #ET-SETUP-END
-                          cat << EOF
-                          Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
 
-                          Branch: <+codebase.branch>
-                          Tag: <+codebase.tag>
-                          Commiter: <+codebase.gitUserEmail>
-                          CommitID: <+codebase.commitSha>
-                          EOF
                         postCommand: |+
                           ls -ltra
 
