@@ -106,9 +106,6 @@ pipeline:
                           cd $PROJ_DIR
                           #ET-SETUP-END
 
-                        postCommand: |+
-                          ls -ltra
-
                         reports:
                           type: JUnit
                           spec:
