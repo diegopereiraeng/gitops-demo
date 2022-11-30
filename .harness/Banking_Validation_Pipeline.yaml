@@ -71,13 +71,13 @@ pipeline:
                           elif [ $arch = "aarch64" ]; then
                             wget -qO- https://get.et.harness.io/releases/latest/arm/harness-et-agent.tar.gz | tar -xz
                           fi
-                          export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
-                          export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
-                          export ET_ENV_ID=_INTERNAL_ET_CI
-                          export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
-                          export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
-                          export ET_ORG_ID=$HARNESS_ORG_ID
-                          export ET_PROJECT_ID=$HARNESS_PROJECT_ID
+                          #export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
+                          #export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
+                          #export ET_ENV_ID=_INTERNAL_ET_CI
+                          #export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
+                          #export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
+                          #export ET_ORG_ID=$HARNESS_ORG_ID
+                          #export ET_PROJECT_ID=$HARNESS_PROJECT_ID
                           # export ET_SHUTDOWN_GRACETIME=30000
                           export JAVA_TOOL_OPTIONS="-agentpath:/opt/harness/lib/libETAgent.so"
                           # Uncomment the line below if using Java version 10 or above
@@ -92,8 +92,6 @@ pipeline:
                           Commiter: <+codebase.gitUserEmail>
                           CommitID: <+codebase.commitSha>
                           EOF
-                        postCommand: |-
-                          ls -ltra
 
                           export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
 
@@ -102,11 +100,23 @@ pipeline:
                           export commitHash=<+codebase.commitSha>
 
                           export gitBranch=<+codebase.branch>
+                        postCommand: |+
+                          ls -ltra
+
                         reports:
                           type: JUnit
                           spec:
                             paths:
                               - "**/*.xml"
+                        envVariables:
+                          ET_COLLECTOR_URL: https://app.harness.io/gratis/et-collector
+                          ET_APPLICATION_NAME: paymentsvalidationdiegopereiraeng
+                          ET_DEPLOYMENT_NAME: build
+                          ET_ENV_ID: prod
+                          ET_ACCOUNT_ID: <+account.identifier>
+                          ET_ORG_ID: <+org.identifier>
+                          ET_PROJECT_ID: <+project.identifier>
+                          JAVA_TOOL_OPTIONS: "-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
                         outputVariables:
                           - name: release
                           - name: version
