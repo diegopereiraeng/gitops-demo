@@ -117,6 +117,7 @@ pipeline:
                           ET_ORG_ID: <+org.identifier>
                           ET_PROJECT_ID: <+project.identifier>
                           JAVA_TOOL_OPTIONS: "-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
+                          MAVEN_OPTS: "-XX:-UseTypeSpeculation -Xshare:off"
                         outputVariables:
                           - name: release
                           - name: version
