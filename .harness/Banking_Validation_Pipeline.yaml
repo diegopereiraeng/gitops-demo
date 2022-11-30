@@ -57,9 +57,20 @@ pipeline:
                         args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
                         packages: io.harness
                         runOnlySelectedTests: false
-                        preCommand: |-
+                        preCommand: |
                           #ET-SETUP-BEGIN
                           PROJ_DIR=$PWD
+
+                          export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
+
+                          export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                          export commitHash=<+codebase.commitSha>
+
+                          export gitBranch=<+codebase.branch>
+
+
+
                           cd /opt
                           arch=`uname -m`
                           if [ $arch = "x86_64" ]; then
@@ -93,14 +104,6 @@ pipeline:
                           Commiter: <+codebase.gitUserEmail>
                           CommitID: <+codebase.commitSha>
                           EOF
-
-                          export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
-
-                          export release="<+codebase.branch>-$version-<+codebase.commitSha>"
-
-                          export commitHash=<+codebase.commitSha>
-
-                          export gitBranch=<+codebase.branch>
                         postCommand: |+
                           ls -ltra
 
