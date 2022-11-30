@@ -80,7 +80,7 @@ pipeline:
                           #export ET_PROJECT_ID=$HARNESS_PROJECT_ID
                           export ET_SHUTDOWN_GRACETIME=30000
                           mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
-                          export JAVA_TOOL_OPTIONS="-agentpath:/opt/harness/lib/libETAgent.so"
+                          #export JAVA_TOOL_OPTIONS="-agentpath:/opt/harness/lib/libETAgent.so"
                           # Uncomment the line below if using Java version 10 or above
                           # export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                           cd $PROJ_DIR
