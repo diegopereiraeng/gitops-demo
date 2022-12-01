@@ -1253,7 +1253,7 @@ pipeline:
                             connectorRef: account.harnessImage
                             image: docker:dind
               infrastructure:
-                useFromStage: Build_Microservice
+                useFromStage: Build
               serviceDependencies:
                 - identifier: DinD
                   name: DinD
