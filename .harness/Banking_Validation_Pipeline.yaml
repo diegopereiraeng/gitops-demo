@@ -1213,7 +1213,7 @@ pipeline:
                       name: Docker Service
                       identifier: Docker_Service
                       spec:
-                        connectorRef: DockerHub_LR
+                        connectorRef: account.DockerHubDiego
                         image: docker:dind
                         shell: Sh
                         command: |-
@@ -1243,7 +1243,7 @@ pipeline:
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
-                            memory: 4Gi
+                            memory: 2Gi
                             cpu: "1"
                       serviceDependencies:
                         - identifier: DinD
@@ -1259,7 +1259,7 @@ pipeline:
                   name: DinD
                   type: Service
                   spec:
-                    connectorRef: DockerHub_LR
+                    connectorRef: account.DockerHubDiego
                     image: docker:dind
                     privileged: true
                     resources:
