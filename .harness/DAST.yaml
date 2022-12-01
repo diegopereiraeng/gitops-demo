@@ -58,7 +58,12 @@ pipeline:
                         connectorRef: account.harnessImage
                         image: docker:dind
           infrastructure:
-            useFromStage: Build
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.cddemose
+              namespace: harness-ci-buildfarm
+              nodeSelector: {}
+              os: Linux
           serviceDependencies:
             - identifier: DinD
               name: DinD
