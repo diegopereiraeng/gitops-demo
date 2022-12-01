@@ -1233,13 +1233,13 @@ pipeline:
                           scan_type: instance
                           product_name: zap
                           product_config_name: standard
-                          instance_identifier: OwaspJavaApp
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
                           instance_environment: prod
-                          instance_domain: dvwa.co.uk
-                          instance_protocol: https
-                          instance_port: "443"
+                          instance_domain: payments-validation.harness-demo.site
+                          instance_protocol: http
+                          instance_port: "80"
                           instance_type: website
-                          instance_path: /
+                          instance_path: /<+pipeline.variables.virtualPath>/validation
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
