@@ -1016,7 +1016,7 @@ pipeline:
                                 name: Barrier
                                 identifier: Barrier
                                 spec:
-                                  barrierRef: DAST_CHECK
+                                  barrierRef: FF_READY
                                 timeout: 10m
                                 failureStrategies:
                                   - onFailure:
@@ -1212,6 +1212,40 @@ pipeline:
             tags: {}
             when:
               pipelineStatus: Success
+        - stage:
+            name: Feature Experiment
+            identifier: Feature_Experiment
+            description: ""
+            type: FeatureFlag
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: Barrier
+                      name: Barrier
+                      identifier: Barrier
+                      spec:
+                        barrierRef: FF_READY
+                      timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+                  - step:
+                      type: FlagConfiguration
+                      name: Enable Feature Beta
+                      identifier: Enable_Feature_Beta
+                      spec:
+                        feature: Home_Menu
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "on"
+                      timeout: 10m
     - stage:
         name: DAST Tests
         identifier: DAST_Tests
@@ -1281,6 +1315,27 @@ pipeline:
           sharedPaths:
             - /var/run
             - /var/lib/docker
+    - stage:
+        name: Feature Experiment Disable
+        identifier: Feature_Experiment_Disable
+        description: ""
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: FlagConfiguration
+                  name: Disable Experiment
+                  identifier: Disable_Experiment
+                  spec:
+                    feature: ALL_YOUTUBE_MODAL
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: SetFeatureFlagStateIdentifier
+                        type: SetFeatureFlagState
+                        spec:
+                          state: "off"
+                  timeout: 10m
   variables:
     - name: virtualPath
       type: String
@@ -1295,3 +1350,5 @@ pipeline:
     barriers:
       - name: DAST CHECK
         identifier: DAST_CHECK
+      - name: FF READY
+        identifier: FF_READY
