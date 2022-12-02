@@ -1235,10 +1235,10 @@ pipeline:
                               type: MarkAsSuccess
                   - step:
                       type: FlagConfiguration
-                      name: Enable Feature Beta
+                      name: Enable Beta Experiment for testing in production
                       identifier: Enable_Feature_Beta
                       spec:
-                        feature: Home_Menu
+                        feature: VALIDATION_BETA_EXPERIMENT
                         environment: diegopereiraeng
                         instructions:
                           - identifier: SetFeatureFlagStateIdentifier
@@ -1328,7 +1328,7 @@ pipeline:
                   name: Disable Experiment
                   identifier: Disable_Experiment
                   spec:
-                    feature: ALL_YOUTUBE_MODAL
+                    feature: VALIDATION_BETA_EXPERIMENT
                     environment: diegopereiraeng
                     instructions:
                       - identifier: SetFeatureFlagStateIdentifier
