@@ -1046,7 +1046,7 @@ featureFlags:
       spec:
         type: boolean
         default:
-          onVariation: "true"
+          onVariation: "false"
           offVariation: "false"
         variations:
         - identifier: "true"
