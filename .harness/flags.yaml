@@ -30,16 +30,6 @@ featureFlags:
           value: on|image|Harness|<video class="videoInsert" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
             autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
       environments:
-      - identifier: dev
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "Off"
@@ -53,6 +43,11 @@ featureFlags:
           - identifier: Guest
           variation: Welcome
       - identifier: prod
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
         default:
           onVariation: "Off"
           offVariation: "Off"
@@ -92,6 +87,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "Off"
@@ -121,16 +121,6 @@ featureFlags:
         - identifier: Ion
           value: TbaLega9GeE
       environments:
-      - identifier: dev
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "on"
-      - identifier: luisredda
-        default:
-          onVariation: "OFF"
-          offVariation: "OFF"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
@@ -141,6 +131,11 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
+      - identifier: dev
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "on"
       - identifier: qa
         default:
           onVariation: Feature_Flags
@@ -226,6 +221,11 @@ featureFlags:
           onVariation: Gabs_GoT
           offVariation: "OFF"
         state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "OFF"
@@ -251,22 +251,17 @@ featureFlags:
         - identifier: Pink
           value: '#C2368E'
       environments:
-      - identifier: dev
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Dark
           offVariation: Blue
         state: "on"
       - identifier: prod
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: dev
         default:
           onVariation: Dark
           offVariation: Blue
@@ -302,6 +297,11 @@ featureFlags:
           offVariation: Blue
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: Dark
           offVariation: Blue
@@ -327,16 +327,6 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
-      - identifier: luisredda
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -347,6 +337,11 @@ featureFlags:
           - identifier: Guest
           variation: "true"
       - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -382,6 +377,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: "true"
           offVariation: "false"
@@ -407,16 +407,6 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
@@ -427,6 +417,11 @@ featureFlags:
           - identifier: Guest
           variation: "true"
       - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -462,6 +457,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: "true"
           offVariation: "false"
@@ -487,22 +487,17 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -538,6 +533,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: "true"
           offVariation: "false"
@@ -582,22 +582,17 @@ featureFlags:
             "type": "fa-history", "name": "Help" },   { "type": "fa-cog", "name":
             "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
-      - identifier: dev
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Premium
           offVariation: Premium
         state: "off"
       - identifier: prod
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: dev
         default:
           onVariation: Premium
           offVariation: Basic
@@ -633,6 +628,11 @@ featureFlags:
           offVariation: Basic
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: Premium
           offVariation: Basic
@@ -658,22 +658,17 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "true"
           offVariation: "false"
         state: "off"
       - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
         default:
           onVariation: "true"
           offVariation: "false"
@@ -709,6 +704,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: "true"
           offVariation: "false"
@@ -734,16 +734,6 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
-      - identifier: dev
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "OFF"
@@ -767,6 +757,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
+      - identifier: dev
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: qa
         default:
           onVariation: "ON"
@@ -798,6 +793,11 @@ featureFlags:
           offVariation: "OFF"
         state: "on"
       - identifier: gacerioni
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -825,22 +825,17 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
-      - identifier: dev
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: V2
           offVariation: V1
         state: "off"
       - identifier: prod
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: dev
         default:
           onVariation: V2
           offVariation: V1
@@ -876,6 +871,11 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: V2
           offVariation: V1
@@ -901,22 +901,17 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
-      - identifier: dev
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
       - identifier: prod
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -952,6 +947,11 @@ featureFlags:
           offVariation: "Off"
         state: "on"
       - identifier: gacerioni
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: luisredda
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -977,22 +977,17 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
-      - identifier: dev
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
       - identifier: diegopereiraeng
         default:
           onVariation: Black
           offVariation: White
         state: "off"
       - identifier: prod
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: dev
         default:
           onVariation: Black
           offVariation: White
@@ -1032,10 +1027,92 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: Black
           offVariation: White
+        state: "off"
+  - flag:
+      name: VALIDATION_BETA_EXPERIMENT
+      identifier: VALIDATION_BETA_EXPERIMENT
+      description: Flag for new experiments to be tested during production rollout
+        only
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
         state: "off"
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
