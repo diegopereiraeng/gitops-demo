@@ -37,9 +37,6 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          variation: Platform_Path
-        - targets:
           - identifier: Guest
           variation: Welcome
       - identifier: prod
@@ -1062,13 +1059,7 @@ featureFlags:
         rules:
         - priority: 0
           serve:
-            distribution:
-              bucketBy: identifier
-              variations:
-              - weight: 50
-                variation: "true"
-              - weight: 50
-                variation: "false"
+            serveVariation: "true"
           clauses:
           - attribute: ""
             op: segmentMatch
