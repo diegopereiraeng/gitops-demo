@@ -37,11 +37,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: Guest
-          variation: Welcome
-        - targets:
           - identifier: diegopereiraharnessio
           variation: Platform_Path
+        - targets:
+          - identifier: Guest
+          variation: Welcome
       - identifier: prod
         default:
           onVariation: "Off"
@@ -1062,7 +1062,7 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: diegopereiraenggmailcom
-          variation: "true"
+          variation: "false"
       - identifier: prod
         default:
           onVariation: "true"
