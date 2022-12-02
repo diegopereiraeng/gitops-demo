@@ -1059,10 +1059,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: "false"
       - identifier: prod
         default:
           onVariation: "true"
