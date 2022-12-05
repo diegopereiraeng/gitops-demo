@@ -30,6 +30,11 @@ featureFlags:
           value: on|image|Harness|<video class="videoInsert" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
             autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "Off"
@@ -118,6 +123,11 @@ featureFlags:
         - identifier: Ion
           value: TbaLega9GeE
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: Captain_Canary
@@ -271,6 +281,11 @@ featureFlags:
         - identifier: Pink
           value: '#C2368E'
       environments:
+      - identifier: intercam
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: Dark
@@ -347,6 +362,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "true"
@@ -427,6 +447,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "true"
@@ -507,6 +532,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "true"
@@ -602,6 +632,11 @@ featureFlags:
             "type": "fa-history", "name": "Help" },   { "type": "fa-cog", "name":
             "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
       environments:
+      - identifier: intercam
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: Premium
@@ -678,6 +713,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "true"
@@ -754,6 +794,11 @@ featureFlags:
         - identifier: "OFF"
           value: "off"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "ON"
@@ -845,6 +890,11 @@ featureFlags:
         - identifier: V2
           value: v2
       environments:
+      - identifier: intercam
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: V2
@@ -921,6 +971,11 @@ featureFlags:
         - identifier: "Off"
           value: "false"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "On"
@@ -997,6 +1052,11 @@ featureFlags:
         - identifier: White
           value: '#fff'
       environments:
+      - identifier: intercam
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: Black
@@ -1074,6 +1134,11 @@ featureFlags:
         - identifier: "false"
           value: "false"
       environments:
+      - identifier: intercam
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
       - identifier: ffeng
         default:
           onVariation: "true"
