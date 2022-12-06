@@ -592,6 +592,18 @@ pipeline:
                   timeout: 10m
             rollbackSteps:
               - step:
+                  type: JiraUpdate
+                  name: Jira Failed
+                  identifier: Jira_Failed
+                  spec:
+                    connectorRef: BankingJira
+                    issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                    transitionTo:
+                      transitionName: ""
+                      status: Rejected
+                    fields: []
+                  timeout: 10m
+              - step:
                   type: K8sCanaryDelete
                   name: Canary Delete
                   identifier: Canary_Delete
