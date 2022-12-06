@@ -377,14 +377,10 @@ pipeline:
                       name: "Open Jira ticket "
                       identifier: Create_JIRA_to_track_deployment
                       spec:
-                        connectorRef: account.Harness_JIRA
+                        connectorRef: BankingJira
                         projectKey: HD
                         issueType: Story
-                        fields:
-                          - name: Summary
-                            value: "Ticket to Track deployment "
-                          - name: Description
-                            value: " Pipeline Name: <+pipeline.name> \\\\ Service Name: <+pipeline.variables.serviceName> \\\\ Deployment URL: https://app.harness.io/ng/#/account/6_vVHzo9Qeu9fXvj-AcbCQ/cd/orgs/default/projects/CD_Demo/pipelines/CD_Pipeline/executions/<+pipeline.executionId>/pipeline \\\\ Harness executionId: <+pipeline.executionId> \\\\ Harness sequenceId: <+pipeline.sequenceId>"
+                        fields: []
                       timeout: 1d
                       failureStrategies: []
                       when:
