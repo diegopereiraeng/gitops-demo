@@ -1,0 +1,11 @@
+connector:
+  name: Banking-Jira
+  identifier: BankingJira
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: Jira
+  spec:
+    jiraUrl: https://harness.atlassian.net/
+    username: diego.pereira@harness.io
+    passwordRef: diegojira
