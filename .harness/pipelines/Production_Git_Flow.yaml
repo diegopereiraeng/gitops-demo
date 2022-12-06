@@ -380,7 +380,9 @@ pipeline:
                         connectorRef: BankingJira
                         projectKey: HD
                         issueType: Story
-                        fields: []
+                        fields:
+                          - name: Summary
+                            value: Deployment of <+service.name> in <+env.name> - <+pipeline.variables.virtualPath>
                       timeout: 1d
                       failureStrategies: []
                       when:
