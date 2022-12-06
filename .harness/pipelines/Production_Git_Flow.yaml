@@ -452,7 +452,7 @@ pipeline:
                         name: "Update JIRA "
                         identifier: Update_JIRA_Start
                         spec:
-                          connectorRef: account.Harness_JIRA
+                          connectorRef: BankingJira
                           issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
                           transitionTo:
                             transitionName: ""
@@ -478,7 +478,7 @@ pipeline:
                         name: Update JIRA Ready for Testing
                         identifier: Update_JIRA_Ready_for_Testing
                         spec:
-                          connectorRef: account.Harness_JIRA
+                          connectorRef: BankingJira
                           issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
                           transitionTo:
                             transitionName: ""
@@ -578,6 +578,18 @@ pipeline:
                         type: K8sRollingRollback
                         timeout: 10m
                         spec: {}
+              - step:
+                  type: JiraUpdate
+                  name: Close Jira Ticket
+                  identifier: Close_Jira_Ticket
+                  spec:
+                    connectorRef: BankingJira
+                    issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                    transitionTo:
+                      transitionName: ""
+                      status: Done
+                    fields: []
+                  timeout: 10m
             rollbackSteps:
               - step:
                   type: K8sCanaryDelete
