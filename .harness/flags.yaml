@@ -816,7 +816,7 @@ featureFlags:
         state: "on"
       - identifier: diegopereiraeng
         default:
-          onVariation: "OFF"
+          onVariation: "ON"
           offVariation: "OFF"
         state: "on"
         rules:
