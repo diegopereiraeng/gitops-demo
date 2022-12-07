@@ -98,7 +98,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "on"
+        state: "off"
   - flag:
       name: FRONT_Show Youtube Video
       identifier: ALL_YOUTUBE_MODAL
