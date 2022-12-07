@@ -260,7 +260,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
   - flag:
       name: FRONT_Color_Mode
       identifier: Color_Mode
