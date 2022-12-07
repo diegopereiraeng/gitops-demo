@@ -1176,11 +1176,12 @@ pipeline:
                                   cat <<EOF >>post_validation.json
                                   {
                                       "id": 5,
-                                      "status": "not verified"
+                                      "status": "not verified",
+                                      "validationID": ""
                                   }
                                   EOF
 
-                                  ab -r -p post_validation.json -T application/json -l -n 400 -t 250 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                  ab -r -p post_validation.json -T application/json -l -n 400 -t 250 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
                             environmentVariables: []
                             outputVariables: []
                             delegateSelectors:
@@ -1202,7 +1203,7 @@ pipeline:
                             source:
                               type: Inline
                               spec:
-                                script: ab -r -l -n 10000 -t 220 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                script: ab -r -l -n 10000 -t 220 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
                             environmentVariables: []
                             outputVariables: []
                             delegateSelectors:
