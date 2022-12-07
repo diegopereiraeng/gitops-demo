@@ -894,7 +894,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
   - flag:
       name: FRONT_Menu Version
       identifier: Menu_Version
