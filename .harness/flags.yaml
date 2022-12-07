@@ -261,6 +261,29 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        rules:
+        - priority: 0
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 0
+                variation: "OFF"
+              - weight: 10
+                variation: Captain_Canary
+              - weight: 40
+                variation: Feature_Flags
+              - weight: 50
+                variation: Italika
+              - weight: 0
+                variation: Gabs_GoT
+              - weight: 0
+                variation: Ion
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
   - flag:
       name: FRONT_Color_Mode
       identifier: Color_Mode
