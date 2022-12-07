@@ -261,10 +261,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: Guest-Montemorelos
-          variation: Feature_Flags
   - flag:
       name: FRONT_Color_Mode
       identifier: Color_Mode
