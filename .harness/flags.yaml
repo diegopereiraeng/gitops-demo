@@ -903,7 +903,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: asv108
         default:
           onVariation: "ON"
