@@ -995,9 +995,9 @@ pipeline:
                                         }
                                         EOF
 
-                                        ab -r -p post_validation.json -T application/json -l -n 10 -t 10 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                        ab -r -p post_validation.json -T application/json -l -n 10 -t 10 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
 
-                                        ab -t 10 -r -l -n 20 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                        ab -t 10 -r -l -n 20 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
                                   environmentVariables: []
                                   outputVariables: []
                                   delegateSelectors:
@@ -1078,7 +1078,7 @@ pipeline:
                                         }
                                         EOF
 
-                                        ab -r -p post_validation.json -T application/json -l -n 2000 -t 600 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                        ab -r -p post_validation.json -T application/json -l -n 2000 -t 600 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
                                   environmentVariables: []
                                   outputVariables: []
                                   delegateSelectors:
@@ -1100,7 +1100,7 @@ pipeline:
                                   source:
                                     type: Inline
                                     spec:
-                                      script: ab -t 600 -r -l -n 300000 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/validation
+                                      script: ab -t 600 -r -l -n 300000 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
                                   environmentVariables: []
                                   outputVariables: []
                                   delegateSelectors:
