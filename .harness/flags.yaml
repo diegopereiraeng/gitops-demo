@@ -347,7 +347,7 @@ featureFlags:
         default:
           onVariation: Dark
           offVariation: Blue
-        state: "on"
+        state: "off"
       - identifier: asv108
         default:
           onVariation: Dark
