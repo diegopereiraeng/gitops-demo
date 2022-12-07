@@ -719,7 +719,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "on"
+        state: "off"
   - flag:
       name: FRONT_Home_RegionMAP
       identifier: Home_RegionMAP
