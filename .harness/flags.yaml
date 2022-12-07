@@ -79,6 +79,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
+      - identifier: SB
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "Off"
@@ -241,6 +246,11 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
+      - identifier: SB
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "OFF"
@@ -353,6 +363,11 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "on"
+      - identifier: SB
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Dark
@@ -434,6 +449,11 @@ featureFlags:
           offVariation: "false"
         state: "on"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
         default:
           onVariation: "true"
           offVariation: "false"
@@ -523,6 +543,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -600,6 +625,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
         default:
           onVariation: "true"
           offVariation: "false"
@@ -704,6 +734,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: SB
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Premium
@@ -781,6 +816,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
         default:
           onVariation: "true"
           offVariation: "false"
@@ -879,6 +919,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
+      - identifier: SB
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "ON"
@@ -958,6 +1003,11 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: SB
         default:
           onVariation: V2
           offVariation: V1
@@ -1043,6 +1093,11 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: SB
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "On"
@@ -1120,6 +1175,11 @@ featureFlags:
           offVariation: White
         state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: SB
         default:
           onVariation: Black
           offVariation: White
@@ -1204,6 +1264,11 @@ featureFlags:
       - identifier: tkouhsari
         default:
           onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "false"
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
