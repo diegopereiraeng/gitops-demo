@@ -1,0 +1,126 @@
+pipeline:
+  name: Progressive Rollout Pipeline
+  identifier: Progressive_Rollout_Pipeline
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Delivery Beta Users
+        identifier: Delivery_Beta_Users
+        description: ""
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: JiraCreate
+                  name: Jira Create - Progressive delivery Start
+                  identifier: Jira_Create_Progressive_delivery_Start
+                  spec:
+                    connectorRef: BankingJira
+                    projectKey: HD
+                    issueType: Change
+                    fields:
+                      - name: Comment
+                        value: Starting with Beta 10%
+                      - name: Summary
+                        value: Progressive Rollout - Youtube
+                  timeout: 1d
+              - step:
+                  type: FlagConfiguration
+                  name: Ten Percent Rollout
+                  identifier: Ten_Percent_Rollout
+                  spec:
+                    feature: Menu_Version
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: AddRuleIdentifier
+                        type: AddRule
+                        spec:
+                          priority: 100
+                          distribution:
+                            bucketBy: identifier
+                            clauses:
+                              - op: segmentMatch
+                                attribute: ""
+                                values:
+                                  - Beta_Users
+                            variations:
+                              - variation: V1
+                                weight: 90
+                              - variation: V2
+                                weight: 10
+                      - identifier: SetFeatureFlagStateIdentifier
+                        type: SetFeatureFlagState
+                        spec:
+                          state: "on"
+                  timeout: 10m
+              - step:
+                  type: JiraApproval
+                  name: Jira Approval
+                  identifier: JiraApproval
+                  spec:
+                    connectorRef: BankingJira
+                    projectKey: HD
+                    issueType: Change
+                    approvalCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: true
+                        conditions:
+                          - key: Status
+                            operator: equals
+                            value: Approved
+                    rejectionCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: true
+                        conditions: []
+                    issueKey: <+pipeline.stages.Delivery_Beta_Users.spec.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
+                  timeout: 1d
+              - step:
+                  type: FlagConfiguration
+                  name: Fifty Percent
+                  identifier: Fifty_Percent
+                  spec:
+                    feature: Menu_Version
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: AddRuleIdentifier
+                        type: AddRule
+                        spec:
+                          priority: 100
+                          distribution:
+                            bucketBy: identifier
+                            clauses:
+                              - op: segmentMatch
+                                attribute: ""
+                                values:
+                                  - Beta_Users
+                            variations:
+                              - variation: V1
+                                weight: 50
+                              - variation: V2
+                                weight: 50
+                  timeout: 10m
+              - step:
+                  type: ShellScript
+                  name: Tests
+                  identifier: Tests
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "Performing Tests"
+
+                          export result="true"
+                    environmentVariables: []
+                    outputVariables:
+                      - name: test_result
+                        type: String
+                        value: result
+                  timeout: 10m
