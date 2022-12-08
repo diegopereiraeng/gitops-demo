@@ -199,3 +199,86 @@ pipeline:
                   failureStrategies: []
                   when:
                     stageStatus: Failure
+    - stage:
+        name: Customer Progressive Delivery
+        identifier: Customer_Progressive_Delivery
+        description: ""
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: FlagConfiguration
+                  name: Ten Percent Customers
+                  identifier: Ten_Percent_Customers
+                  spec:
+                    feature: Menu_Version
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: AddRuleIdentifier
+                        type: AddRule
+                        spec:
+                          priority: 100
+                          distribution:
+                            bucketBy: identifier
+                            clauses:
+                              - op: segmentMatch
+                                attribute: ""
+                                values:
+                                  - Beta_Users
+                            variations:
+                              - variation: V1
+                                weight: 90
+                              - variation: V2
+                                weight: 10
+                  timeout: 10m
+              - step:
+                  type: FlagConfiguration
+                  name: Fifty Percent Customers
+                  identifier: Fifty_Percent_Customers
+                  spec:
+                    feature: Menu_Version
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: AddRuleIdentifier
+                        type: AddRule
+                        spec:
+                          priority: 100
+                          distribution:
+                            bucketBy: identifier
+                            clauses:
+                              - op: segmentMatch
+                                attribute: ""
+                                values:
+                                  - Beta_Users
+                            variations:
+                              - variation: V1
+                                weight: 50
+                              - variation: V2
+                                weight: 50
+                  timeout: 10m
+              - step:
+                  type: FlagConfiguration
+                  name: Flag Configuration
+                  identifier: FlagConfiguration
+                  spec:
+                    feature: Menu_Version
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: AddRuleIdentifier
+                        type: AddRule
+                        spec:
+                          priority: 100
+                          distribution:
+                            bucketBy: identifier
+                            clauses:
+                              - op: segmentMatch
+                                attribute: ""
+                                values:
+                                  - Beta_Users
+                            variations:
+                              - variation: V1
+                                weight: 0
+                              - variation: V2
+                                weight: 100
+                  timeout: 10m
