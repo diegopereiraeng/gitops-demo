@@ -991,7 +991,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "off"
+        state: "on"
       - identifier: asv108
         default:
           onVariation: V2
