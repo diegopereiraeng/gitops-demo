@@ -804,7 +804,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: asv108
         default:
           onVariation: "true"
