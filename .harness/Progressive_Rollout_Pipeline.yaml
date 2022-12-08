@@ -259,7 +259,7 @@ pipeline:
                   timeout: 10m
               - step:
                   type: FlagConfiguration
-                  name: Flag Configuration
+                  name: Full Rollout
                   identifier: FlagConfiguration
                   spec:
                     feature: Menu_Version
