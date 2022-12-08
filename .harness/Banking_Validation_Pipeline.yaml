@@ -1290,7 +1290,7 @@ pipeline:
                           instance_protocol: http
                           instance_port: "80"
                           instance_type: website
-                          instance_path: /<+pipeline.variables.virtualPath>/validation
+                          instance_path: /<+pipeline.variables.virtualPath>/auth
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
