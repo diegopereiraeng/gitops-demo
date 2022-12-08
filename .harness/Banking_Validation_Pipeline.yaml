@@ -991,7 +991,8 @@ pipeline:
                                         cat <<EOF >>post_validation.json
                                         {
                                             "id": 5,
-                                            "status": "not verified"
+                                            "status": "not verified",
+                                            "validationID": "load"
                                         }
                                         EOF
 
@@ -1074,7 +1075,8 @@ pipeline:
                                         cat <<EOF >>post_validation.json
                                         {
                                             "id": 5,
-                                            "status": "not verified"
+                                            "status": "not verified",
+                                            "validationID": "load"
                                         }
                                         EOF
 
@@ -1177,7 +1179,7 @@ pipeline:
                                   {
                                       "id": 5,
                                       "status": "not verified",
-                                      "validationID": ""
+                                      "validationID": "load"
                                   }
                                   EOF
 
