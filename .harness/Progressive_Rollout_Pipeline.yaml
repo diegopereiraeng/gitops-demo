@@ -151,5 +151,51 @@ pipeline:
                   timeout: 10m
                   when:
                     stageStatus: Success
-                    condition: <+Teste>
+                    condition: <+execution.steps.Tests.output.outputVariables.test_result> == "true"
                   failureStrategies: []
+              - step:
+                  type: HarnessApproval
+                  name: Harness Approval
+                  identifier: HarnessApproval
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - _project_all_users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
+              - step:
+                  type: FlagConfiguration
+                  name: Rollback
+                  identifier: Rollback
+                  spec:
+                    feature: Menu_Version
+                    environment: diegopereiraeng
+                    instructions:
+                      - identifier: AddRuleIdentifier
+                        type: AddRule
+                        spec:
+                          priority: 100
+                          distribution:
+                            bucketBy: identifier
+                            clauses:
+                              - op: segmentMatch
+                                attribute: ""
+                                values:
+                                  - Beta_Users
+                            variations:
+                              - variation: V1
+                                weight: 100
+                              - variation: V2
+                                weight: 0
+                      - identifier: SetFeatureFlagStateIdentifier
+                        type: SetFeatureFlagState
+                        spec:
+                          state: "off"
+                  timeout: 10m
+                  failureStrategies: []
+                  when:
+                    stageStatus: Failure
