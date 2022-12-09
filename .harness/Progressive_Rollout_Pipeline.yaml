@@ -23,9 +23,11 @@ pipeline:
                     issueType: Change
                     fields:
                       - name: Comment
-                        value: Starting with Beta 10%
+                        value: Rollout starting with Beta 10%
                       - name: Summary
-                        value: Progressive Rollout - Youtube
+                        value: Progressive Rollout - Menu
+                      - name: Status
+                        value: In Progress
                   timeout: 1d
               - step:
                   type: FlagConfiguration
@@ -57,27 +59,18 @@ pipeline:
                           state: "on"
                   timeout: 10m
               - step:
-                  type: JiraApproval
-                  name: Jira Approval
-                  identifier: JiraApproval
+                  type: JiraUpdate
+                  name: Jira Fifty Percent
+                  identifier: Jira_Fifty_Percent
                   spec:
                     connectorRef: BankingJira
-                    projectKey: HD
-                    issueType: Change
-                    approvalCriteria:
-                      type: KeyValues
-                      spec:
-                        matchAnyCondition: true
-                        conditions:
-                          - key: Status
-                            operator: equals
-                            value: Approved
-                    rejectionCriteria:
-                      type: KeyValues
-                      spec:
-                        matchAnyCondition: true
-                        conditions: []
                     issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
+                    transitionTo:
+                      transitionName: ""
+                      status: In Progress
+                    fields:
+                      - name: Comment
+                        value: Rollout Fifty Percent
                   timeout: 1d
               - step:
                   type: FlagConfiguration
@@ -124,6 +117,29 @@ pipeline:
                         type: String
                         value: result
                   timeout: 10m
+              - step:
+                  type: JiraApproval
+                  name: Jira Approval
+                  identifier: JiraApproval
+                  spec:
+                    connectorRef: BankingJira
+                    projectKey: HD
+                    issueType: Change
+                    approvalCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: true
+                        conditions:
+                          - key: Status
+                            operator: equals
+                            value: Approved
+                    rejectionCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: true
+                        conditions: []
+                    issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
+                  timeout: 1d
               - step:
                   type: FlagConfiguration
                   name: Full Rollout
