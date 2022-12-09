@@ -57,9 +57,6 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: monicadroneio
-          variation: Welcome
-        - targets:
           - identifier: GuestCubatao
           - identifier: Guest-Cubatao
           variation: Bienvenido
