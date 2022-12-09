@@ -59,6 +59,9 @@ featureFlags:
         - targets:
           - identifier: Guest-Cubatao
           variation: Bienvenido
+        - targets:
+          - identifier: monicadroneio
+          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
