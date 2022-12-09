@@ -993,9 +993,9 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 90
+              - weight: 50
                 variation: V1
-              - weight: 10
+              - weight: 50
                 variation: V2
           clauses:
           - attribute: ""
