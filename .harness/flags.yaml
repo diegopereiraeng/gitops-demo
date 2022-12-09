@@ -96,6 +96,10 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: luisredda
         default:
           onVariation: "Off"
