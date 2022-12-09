@@ -55,10 +55,6 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
