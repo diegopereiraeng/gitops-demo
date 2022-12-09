@@ -200,6 +200,39 @@ pipeline:
                   when:
                     stageStatus: All
                     condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT"
+              - parallel:
+                  - step:
+                      type: JiraUpdate
+                      name: Jira Done
+                      identifier: Jira_Done
+                      spec:
+                        connectorRef: BankingJira
+                        issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
+                        transitionTo:
+                          transitionName: ""
+                          status: Done
+                        fields:
+                          - name: Comment
+                            value: Full Rollout with Success \n Harness Feature Flags
+                      timeout: 1d
+                  - step:
+                      type: JiraUpdate
+                      name: Jira Canceled
+                      identifier: Jira_Canceled
+                      spec:
+                        connectorRef: BankingJira
+                        issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
+                        transitionTo:
+                          transitionName: ""
+                          status: Canceled
+                        fields:
+                          - name: Comment
+                            value: Rollout Failed - Rollback with Success
+                      timeout: 1d
+                      when:
+                        stageStatus: All
+                        condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT"
+                      failureStrategies: []
     - stage:
         name: Customer Progressive Delivery
         identifier: Customer_Progressive_Delivery
