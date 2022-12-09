@@ -986,16 +986,16 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "off"
+        state: "on"
         rules:
         - priority: 100
           serve:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 100
+              - weight: 90
                 variation: V1
-              - weight: 0
+              - weight: 10
                 variation: V2
           clauses:
           - attribute: ""
