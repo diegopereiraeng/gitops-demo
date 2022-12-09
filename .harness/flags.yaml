@@ -55,10 +55,6 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: diegopereiraharnessio
-          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
