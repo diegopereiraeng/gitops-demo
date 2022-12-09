@@ -59,6 +59,9 @@ featureFlags:
         - targets:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
+        - targets:
+          - identifier: monicadroneio
+          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
