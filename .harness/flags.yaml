@@ -465,7 +465,7 @@ featureFlags:
         default:
           onVariation: Dark
           offVariation: Blue
-        state: "off"
+        state: "on"
       - identifier: luisredda
         default:
           onVariation: Dark
