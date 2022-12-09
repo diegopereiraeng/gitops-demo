@@ -1236,19 +1236,33 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
-                  - step:
-                      type: FlagConfiguration
-                      name: Enable Beta Experiment for testing in production
-                      identifier: Enable_Feature_Beta
-                      spec:
-                        feature: VALIDATION_BETA_EXPERIMENT
-                        environment: diegopereiraeng
-                        instructions:
-                          - identifier: SetFeatureFlagStateIdentifier
-                            type: SetFeatureFlagState
-                            spec:
-                              state: "on"
-                      timeout: 10m
+                  - parallel:
+                      - step:
+                          type: FlagConfiguration
+                          name: Enable Beta Experiment for testing in production
+                          identifier: Enable_Feature_Beta
+                          spec:
+                            feature: VALIDATION_BETA_EXPERIMENT
+                            environment: diegopereiraeng
+                            instructions:
+                              - identifier: SetFeatureFlagStateIdentifier
+                                type: SetFeatureFlagState
+                                spec:
+                                  state: "on"
+                          timeout: 10m
+                      - step:
+                          type: FlagConfiguration
+                          name: Enable Auth Beta Feature
+                          identifier: Enable_Auth_Beta_Feature
+                          spec:
+                            feature: AUTHORIZATION_BETA_EXPERIMENT
+                            environment: diegopereiraeng
+                            instructions:
+                              - identifier: SetFeatureFlagStateIdentifier
+                                type: SetFeatureFlagState
+                                spec:
+                                  state: "on"
+                          timeout: 10m
         - stage:
             name: DAST Tests
             identifier: DAST_Tests
@@ -1328,19 +1342,33 @@ pipeline:
         spec:
           execution:
             steps:
-              - step:
-                  type: FlagConfiguration
-                  name: Disable Experiment
-                  identifier: Disable_Experiment
-                  spec:
-                    feature: VALIDATION_BETA_EXPERIMENT
-                    environment: diegopereiraeng
-                    instructions:
-                      - identifier: SetFeatureFlagStateIdentifier
-                        type: SetFeatureFlagState
-                        spec:
-                          state: "off"
-                  timeout: 10m
+              - parallel:
+                  - step:
+                      type: FlagConfiguration
+                      name: Disable Experiment
+                      identifier: Disable_Experiment
+                      spec:
+                        feature: VALIDATION_BETA_EXPERIMENT
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "off"
+                      timeout: 10m
+                  - step:
+                      type: FlagConfiguration
+                      name: Disable Auth Feature
+                      identifier: Disable_Auth_Feature
+                      spec:
+                        feature: AUTHORIZATION_BETA_EXPERIMENT
+                        environment: diegopereiraeng
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "off"
+                      timeout: 10m
   variables:
     - name: virtualPath
       type: String
