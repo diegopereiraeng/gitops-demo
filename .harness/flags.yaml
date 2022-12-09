@@ -62,6 +62,9 @@ featureFlags:
         - targets:
           - identifier: monicadroneio
           variation: Welcome
+        - targets:
+          - identifier: jrjrcombr
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
