@@ -198,7 +198,7 @@ pipeline:
                   timeout: 10m
                   failureStrategies: []
                   when:
-                    stageStatus: Failure
+                    stageStatus: All
     - stage:
         name: Customer Progressive Delivery
         identifier: Customer_Progressive_Delivery
