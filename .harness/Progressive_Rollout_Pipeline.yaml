@@ -366,3 +366,9 @@ pipeline:
                               - variation: V2
                                 weight: 100
                   timeout: 10m
+  variables:
+    - name: environment
+      type: String
+      default: diegopereiraeng
+      description: ""
+      value: <+input>.allowedValues(diegopereiraeng,gacerioni)
