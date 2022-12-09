@@ -95,7 +95,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "off"
+        state: "on"
       - identifier: luisredda
         default:
           onVariation: "Off"
@@ -263,10 +263,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: Feature_Flags
       - identifier: luisredda
         default:
           onVariation: "OFF"
