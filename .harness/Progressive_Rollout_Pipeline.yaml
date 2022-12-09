@@ -77,7 +77,7 @@ pipeline:
                       spec:
                         matchAnyCondition: true
                         conditions: []
-                    issueKey: <+pipeline.stages.Delivery_Beta_Users.spec.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
+                    issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
                   timeout: 1d
               - step:
                   type: FlagConfiguration
