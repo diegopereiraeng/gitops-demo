@@ -20,7 +20,7 @@ pipeline:
                   identifier: FF_Canary
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: <+pipeline.variables.environment>
+                    environment: diegopereiraeng
                     instructions: <+input>
                   timeout: 10m
               - step:
