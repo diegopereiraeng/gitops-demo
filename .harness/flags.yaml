@@ -1256,7 +1256,7 @@ featureFlags:
         default:
           onVariation: Black
           offVariation: White
-        state: "on"
+        state: "off"
       - identifier: asv108
         default:
           onVariation: Black
