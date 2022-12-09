@@ -636,6 +636,7 @@ featureFlags:
       identifier: Home_Menu
       description: |-
         Premium for additional features
+
         Visitor to no feature (signup)
       permanent: true
       spec:
