@@ -138,6 +138,10 @@ pipeline:
                         conditions: []
                     issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
                   timeout: 1d
+                  when:
+                    stageStatus: Success
+                    condition: <+execution.steps.Tests.output.outputVariables.test_result> == "false"
+                  failureStrategies: []
               - step:
                   type: FlagConfiguration
                   name: Full Rollout
