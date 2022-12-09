@@ -60,9 +60,6 @@ featureFlags:
           - identifier: GuestCubatao
           - identifier: Guest-Cubatao
           variation: Bienvenido
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
