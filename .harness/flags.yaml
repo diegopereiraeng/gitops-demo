@@ -375,7 +375,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: luisredda
         default:
           onVariation: "true"
@@ -811,7 +811,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "on"
+        state: "off"
       - identifier: asv108
         default:
           onVariation: Premium
