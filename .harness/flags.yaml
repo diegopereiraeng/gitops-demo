@@ -99,6 +99,8 @@ featureFlags:
         targetRules:
         - targets:
           - identifier: GuestUnknown
+          variation: Welcome
+        - targets:
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
       - identifier: luisredda
