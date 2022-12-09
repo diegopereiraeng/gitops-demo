@@ -32,7 +32,7 @@ pipeline:
                   name: Ten Percent Rollout
                   identifier: Ten_Percent_Rollout
                   spec:
-                    feature: Menu_Version
+                    feature: ALL_YOUTUBE_MODAL
                     environment: diegopereiraeng
                     instructions:
                       - identifier: AddRuleIdentifier
@@ -47,10 +47,18 @@ pipeline:
                                 values:
                                   - Beta_Users
                             variations:
-                              - variation: V1
+                              - variation: "OFF"
                                 weight: 90
-                              - variation: V2
+                              - variation: Captain_Canary
+                                weight: 0
+                              - variation: Feature_Flags
                                 weight: 10
+                              - variation: Italika
+                                weight: 0
+                              - variation: Gabs_GoT
+                                weight: 0
+                              - variation: Ion
+                                weight: 0
                       - identifier: SetFeatureFlagStateIdentifier
                         type: SetFeatureFlagState
                         spec:
@@ -75,7 +83,7 @@ pipeline:
                   name: Fifty Percent
                   identifier: Fifty_Percent
                   spec:
-                    feature: Menu_Version
+                    feature: ALL_YOUTUBE_MODAL
                     environment: diegopereiraeng
                     instructions:
                       - identifier: AddRuleIdentifier
@@ -90,10 +98,18 @@ pipeline:
                                 values:
                                   - Beta_Users
                             variations:
-                              - variation: V1
+                              - variation: "OFF"
                                 weight: 50
-                              - variation: V2
+                              - variation: Captain_Canary
+                                weight: 0
+                              - variation: Feature_Flags
                                 weight: 50
+                              - variation: Italika
+                                weight: 0
+                              - variation: Gabs_GoT
+                                weight: 0
+                              - variation: Ion
+                                weight: 0
                   timeout: 10m
               - step:
                   type: ShellScript
@@ -147,7 +163,7 @@ pipeline:
                   name: Full Rollout
                   identifier: Full_Rollout
                   spec:
-                    feature: Menu_Version
+                    feature: ALL_YOUTUBE_MODAL
                     environment: diegopereiraeng
                     instructions:
                       - identifier: AddRuleIdentifier
@@ -162,10 +178,18 @@ pipeline:
                                 values:
                                   - Beta_Users
                             variations:
-                              - variation: V1
+                              - variation: "OFF"
                                 weight: 0
-                              - variation: V2
+                              - variation: Captain_Canary
+                                weight: 0
+                              - variation: Feature_Flags
                                 weight: 100
+                              - variation: Italika
+                                weight: 0
+                              - variation: Gabs_GoT
+                                weight: 0
+                              - variation: Ion
+                                weight: 0
                   timeout: 10m
                   when:
                     stageStatus: Success
@@ -190,7 +214,7 @@ pipeline:
                   name: Rollback
                   identifier: Rollback
                   spec:
-                    feature: Menu_Version
+                    feature: ALL_YOUTUBE_MODAL
                     environment: diegopereiraeng
                     instructions:
                       - identifier: AddRuleIdentifier
@@ -205,9 +229,17 @@ pipeline:
                                 values:
                                   - Beta_Users
                             variations:
-                              - variation: V1
+                              - variation: "OFF"
                                 weight: 100
-                              - variation: V2
+                              - variation: Captain_Canary
+                                weight: 0
+                              - variation: Feature_Flags
+                                weight: 0
+                              - variation: Italika
+                                weight: 0
+                              - variation: Gabs_GoT
+                                weight: 0
+                              - variation: Ion
                                 weight: 0
                       - identifier: SetFeatureFlagStateIdentifier
                         type: SetFeatureFlagState
