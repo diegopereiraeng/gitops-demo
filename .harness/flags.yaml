@@ -55,6 +55,10 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
