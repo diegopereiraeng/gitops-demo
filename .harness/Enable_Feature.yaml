@@ -1,0 +1,24 @@
+pipeline:
+  name: Enable Feature
+  identifier: Enable_Feature
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Enable Feature
+        identifier: Enable_Feature
+        description: ""
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: FlagConfiguration
+                  name: Flag Configuration
+                  identifier: FlagConfiguration
+                  spec:
+                    feature: <+input>
+                    environment: diegopereiraeng
+                    instructions: <+input>
+                  timeout: 10m
