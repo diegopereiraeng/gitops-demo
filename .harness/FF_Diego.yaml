@@ -79,33 +79,9 @@ pipeline:
                       name: FF 100
                       identifier: Youtube_100
                       spec:
-                        feature: ALL_YOUTUBE_MODAL
-                        environment: <+pipeline.variables.environment>
-                        instructions:
-                          - identifier: AddRuleIdentifier
-                            type: AddRule
-                            spec:
-                              priority: 100
-                              distribution:
-                                clauses:
-                                  - op: segmentMatch
-                                    attribute: ""
-                                    values:
-                                      - Beta_Users
-                                bucketBy: email
-                                variations:
-                                  - variation: "OFF"
-                                    weight: 0
-                                  - variation: Captain_Canary
-                                    weight: 0
-                                  - variation: Feature_Flags
-                                    weight: 100
-                                  - variation: Italika
-                                    weight: 0
-                                  - variation: Gabs_GoT
-                                    weight: 0
-                                  - variation: Ion
-                                    weight: 0
+                        feature: <+input>
+                        environment: diegopereiraeng
+                        instructions: <+input>
                       timeout: 10m
                       when:
                         stageStatus: Success
@@ -118,35 +94,7 @@ pipeline:
                       spec:
                         feature: ALL_YOUTUBE_MODAL
                         environment: diegopereiraeng
-                        instructions:
-                          - identifier: SetFeatureFlagStateIdentifier
-                            type: SetFeatureFlagState
-                            spec:
-                              state: "on"
-                          - identifier: AddRuleIdentifier
-                            type: AddRule
-                            spec:
-                              priority: 100
-                              distribution:
-                                clauses:
-                                  - op: segmentMatch
-                                    attribute: ""
-                                    values:
-                                      - Beta_Users
-                                bucketBy: identifier
-                                variations:
-                                  - variation: "OFF"
-                                    weight: 0
-                                  - variation: Captain_Canary
-                                    weight: 100
-                                  - variation: Feature_Flags
-                                    weight: 0
-                                  - variation: Italika
-                                    weight: 0
-                                  - variation: Gabs_GoT
-                                    weight: 0
-                                  - variation: Ion
-                                    weight: 0
+                        instructions: <+input>
                       timeout: 10m
                       when:
                         stageStatus: Success
