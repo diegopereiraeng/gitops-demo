@@ -57,15 +57,15 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: monicadroneio
+          variation: Welcome
+        - targets:
           - identifier: GuestCubatao
           - identifier: Guest-Cubatao
           variation: Bienvenido
         - targets:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
-        - targets:
-          - identifier: monicadroneio
-          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -1256,7 +1256,7 @@ featureFlags:
         default:
           onVariation: Black
           offVariation: White
-        state: "off"
+        state: "on"
       - identifier: asv108
         default:
           onVariation: Black
