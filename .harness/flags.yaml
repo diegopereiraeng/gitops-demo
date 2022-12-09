@@ -57,6 +57,9 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
+        - targets:
           - identifier: Guest-Cubatao
           variation: Bienvenido
         - targets:
