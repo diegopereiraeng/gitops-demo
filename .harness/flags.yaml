@@ -55,17 +55,6 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: GuestCubatao
-          - identifier: Guest-Cubatao
-          variation: Bienvenido
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
-        - targets:
-          - identifier: monicadroneio
-          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
