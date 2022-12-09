@@ -1356,6 +1356,9 @@ pipeline:
                             spec:
                               state: "off"
                       timeout: 10m
+                      when:
+                        stageStatus: All
+                      failureStrategies: []
                   - step:
                       type: FlagConfiguration
                       name: Disable Auth Feature
@@ -1369,6 +1372,9 @@ pipeline:
                             spec:
                               state: "off"
                       timeout: 10m
+                      when:
+                        stageStatus: All
+                      failureStrategies: []
   variables:
     - name: virtualPath
       type: String
