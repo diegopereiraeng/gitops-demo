@@ -33,7 +33,7 @@ pipeline:
                   identifier: Ten_Percent_Rollout
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -84,7 +84,7 @@ pipeline:
                   identifier: Fifty_Percent
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -164,7 +164,7 @@ pipeline:
                   identifier: Full_Rollout
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -215,7 +215,7 @@ pipeline:
                   identifier: Rollback
                   spec:
                     feature: ALL_YOUTUBE_MODAL
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -297,7 +297,7 @@ pipeline:
                   identifier: Ten_Percent_Customers
                   spec:
                     feature: Menu_Version
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -322,7 +322,7 @@ pipeline:
                   identifier: Fifty_Percent_Customers
                   spec:
                     feature: Menu_Version
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
@@ -347,7 +347,7 @@ pipeline:
                   identifier: FlagConfiguration
                   spec:
                     feature: Menu_Version
-                    environment: diegopereiraeng
+                    environment: <+pipeline.variables.environment>
                     instructions:
                       - identifier: AddRuleIdentifier
                         type: AddRule
