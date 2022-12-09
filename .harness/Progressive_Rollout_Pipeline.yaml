@@ -199,6 +199,7 @@ pipeline:
                   failureStrategies: []
                   when:
                     stageStatus: All
+                    condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT"
     - stage:
         name: Customer Progressive Delivery
         identifier: Customer_Progressive_Delivery
