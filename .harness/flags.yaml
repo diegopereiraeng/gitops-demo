@@ -993,9 +993,9 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 90
+              - weight: 0
                 variation: V1
-              - weight: 10
+              - weight: 100
                 variation: V2
           clauses:
           - attribute: ""
@@ -1260,7 +1260,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: andymarshallff
         default:
           onVariation: "true"
