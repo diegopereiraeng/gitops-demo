@@ -26,8 +26,6 @@ pipeline:
                         value: Rollout starting with Beta 10%
                       - name: Summary
                         value: Progressive Rollout - Menu
-                      - name: Status
-                        value: In Progress
                   timeout: 1d
               - step:
                   type: FlagConfiguration
