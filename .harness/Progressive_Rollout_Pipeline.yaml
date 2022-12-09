@@ -242,7 +242,7 @@ pipeline:
                         issueKey: <+pipeline.stages.Delivery_Beta_Users.execution.steps.Jira_Create_Progressive_delivery_Start.issue.key>
                         transitionTo:
                           transitionName: ""
-                          status: Canceled
+                          status: Rejected
                         fields:
                           - name: Comment
                             value: Rollout Failed - Rollback with Success
