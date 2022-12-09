@@ -54,7 +54,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "on"
+        state: "off"
         targetRules:
         - targets:
           - identifier: GuestCubatao
