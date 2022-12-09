@@ -811,7 +811,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "on"
+        state: "off"
       - identifier: asv108
         default:
           onVariation: Premium
