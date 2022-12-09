@@ -90,7 +90,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "on"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "Off"
@@ -1364,7 +1364,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: andymarshallff
         default:
           onVariation: "true"
