@@ -57,14 +57,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
+        - targets:
           - identifier: monicadroneio
           variation: Welcome
         - targets:
           - identifier: jrjrcombr
           variation: Bienvenido
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -199,11 +199,11 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 90
+              - weight: 60
                 variation: "OFF"
               - weight: 0
                 variation: Captain_Canary
-              - weight: 10
+              - weight: 40
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
