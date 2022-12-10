@@ -57,14 +57,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: jrjrcombr
-          variation: Bienvenido
-        - targets:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
         - targets:
           - identifier: monicadroneio
           variation: Welcome
+        - targets:
+          - identifier: jrjrcombr
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -192,18 +192,18 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
         rules:
         - priority: 100
           serve:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 100
+              - weight: 90
                 variation: "OFF"
               - weight: 0
                 variation: Captain_Canary
-              - weight: 0
+              - weight: 10
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
@@ -547,10 +547,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "true"
       - identifier: andymarshallff
         default:
           onVariation: "true"
@@ -637,10 +633,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "true"
       - identifier: andymarshallff
         default:
           onVariation: "true"
@@ -1013,10 +1005,6 @@ featureFlags:
             op: segmentMatch
             values:
             - Grupo_modelo_X3TR
-        targetRules:
-        - targets:
-          - identifier: Guest
-          variation: "ON"
       - identifier: andymarshallff
         default:
           onVariation: "ON"
