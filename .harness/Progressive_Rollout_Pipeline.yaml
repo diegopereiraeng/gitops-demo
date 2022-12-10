@@ -66,7 +66,7 @@ pipeline:
                   timeout: 10m
               - step:
                   type: JiraUpdate
-                  name: Jira Fifty Percent
+                  name: Jira Forty Percent
                   identifier: Jira_Fifty_Percent
                   spec:
                     connectorRef: BankingJira
@@ -76,7 +76,7 @@ pipeline:
                       status: In Progress
                     fields:
                       - name: Comment
-                        value: Rollout Fifty Percent
+                        value: Rollout Forty Percent
                   timeout: 1d
               - step:
                   type: FlagConfiguration
