@@ -97,11 +97,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
-        - targets:
           - identifier: GuestUnknown
           variation: Welcome
+        - targets:
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: luisredda
         default:
           onVariation: "Off"
@@ -199,11 +199,11 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 85
+              - weight: 50
                 variation: "OFF"
               - weight: 0
                 variation: Captain_Canary
-              - weight: 15
+              - weight: 50
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
