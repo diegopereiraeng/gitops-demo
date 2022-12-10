@@ -80,7 +80,7 @@ pipeline:
                   timeout: 1d
               - step:
                   type: FlagConfiguration
-                  name: Fifty Percent
+                  name: Fourty Percent
                   identifier: Fifty_Percent
                   spec:
                     feature: ALL_YOUTUBE_MODAL
@@ -99,11 +99,11 @@ pipeline:
                                   - Beta_Users
                             variations:
                               - variation: "OFF"
-                                weight: 50
+                                weight: 60
                               - variation: Captain_Canary
                                 weight: 0
                               - variation: Feature_Flags
-                                weight: 50
+                                weight: 40
                               - variation: Italika
                                 weight: 0
                               - variation: Gabs_GoT
