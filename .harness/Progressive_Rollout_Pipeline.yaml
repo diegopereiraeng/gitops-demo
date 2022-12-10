@@ -48,11 +48,11 @@ pipeline:
                                   - Beta_Users
                             variations:
                               - variation: "OFF"
-                                weight: 80
+                                weight: 85
                               - variation: Captain_Canary
                                 weight: 0
                               - variation: Feature_Flags
-                                weight: 20
+                                weight: 15
                               - variation: Italika
                                 weight: 0
                               - variation: Gabs_GoT
