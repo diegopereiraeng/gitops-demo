@@ -29,7 +29,7 @@ pipeline:
                   timeout: 1d
               - step:
                   type: FlagConfiguration
-                  name: Thirty Percent Rollout
+                  name: Ten Percent Rollout
                   identifier: Ten_Percent_Rollout
                   spec:
                     feature: ALL_YOUTUBE_MODAL
@@ -48,11 +48,11 @@ pipeline:
                                   - Beta_Users
                             variations:
                               - variation: "OFF"
-                                weight: 85
+                                weight: 90
                               - variation: Captain_Canary
                                 weight: 0
                               - variation: Feature_Flags
-                                weight: 15
+                                weight: 10
                               - variation: Italika
                                 weight: 0
                               - variation: Gabs_GoT
