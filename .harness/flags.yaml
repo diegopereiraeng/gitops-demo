@@ -97,11 +97,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          variation: Welcome
-        - targets:
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          variation: Welcome
       - identifier: luisredda
         default:
           onVariation: "Off"
@@ -505,7 +505,7 @@ featureFlags:
   - flag:
       name: FRONT_Color_Mode
       identifier: Color_Mode
-      description: ""
+      description: Change the main color (banner, menu,etc)
       permanent: true
       spec:
         type: string
