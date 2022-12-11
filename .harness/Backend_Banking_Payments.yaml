@@ -1971,6 +1971,17 @@ pipeline:
                               type: Ignore
               infrastructure:
                 useFromStage: Build
+              serviceDependencies:
+                - identifier: Docker_Dind
+                  name: Docker Dind
+                  type: Service
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: docker:dind
+                    resources:
+                      limits:
+                        memory: 1Gi
+                        cpu: 500m
     - parallel:
         - stage:
             name: Features Shutdown - Demo
