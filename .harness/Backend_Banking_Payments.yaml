@@ -2012,7 +2012,7 @@ pipeline:
                           #sleep 2m
                   - step:
                       type: Security
-                      name: OWASP Zap Authorization
+                      name: OWASP Zap Process
                       identifier: OWASP_Zap_Authorization
                       spec:
                         privileged: true
@@ -2048,7 +2048,7 @@ pipeline:
                               type: Ignore
                   - step:
                       type: Security
-                      name: OWASP Zap Validation
+                      name: OWASP Zap Status
                       identifier: OWASP_Zap_Validation
                       spec:
                         privileged: true
@@ -2059,11 +2059,11 @@ pipeline:
                           product_config_name: standard
                           instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
                           instance_environment: prod
-                          instance_domain: payments-validation.harness-demo.site
+                          instance_domain: payments.harness-demo.site/
                           instance_protocol: http
-                          instance_port: "80"
+                          instance_port: "8082"
                           instance_type: website
-                          instance_path: /<+pipeline.variables.virtualPath>/auth/validation
+                          instance_path: v1/payments/status
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
