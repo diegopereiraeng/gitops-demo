@@ -56,7 +56,29 @@ pipeline:
                     args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
                     packages: <+input>
                     runOnlySelectedTests: false
-                    preCommand: |-
+                    preCommand: |
+                      cat << EOF
+                      Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
+
+                      Branch: <+codebase.branch>
+                      Tag: <+codebase.tag>
+                      Commiter: <+codebase.gitUserEmail>
+                      CommitID: <+codebase.commitSha>
+                      EOF
+
+                      # Version and image name export
+
+                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
+
+                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                      export commitHash=<+codebase.commitSha>
+
+                      export gitBranch=<+codebase.branch>
+
+                      export image_name="<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>"
+
+
                       #ET-SETUP-BEGIN
                       PROJ_DIR=$PWD
                       cd /opt
@@ -83,24 +105,9 @@ pipeline:
                       # export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                       cd $PROJ_DIR
                       #ET-SETUP-END
-                      cat << EOF
-                      Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
-
-                      Branch: <+codebase.branch>
-                      Tag: <+codebase.tag>
-                      Commiter: <+codebase.gitUserEmail>
-                      CommitID: <+codebase.commitSha>
-                      EOF
-                    postCommand: |-
+                    postCommand: |+
                       ls -ltra
 
-                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
-
-                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
-
-                      export commitHash=<+codebase.commitSha>
-
-                      export gitBranch=<+codebase.branch>
                     reports:
                       type: JUnit
                       spec:
@@ -111,6 +118,7 @@ pipeline:
                       - name: version
                       - name: commitHash
                       - name: gitBranch
+                      - name: image_name
                     imagePullPolicy: IfNotPresent
                     resources:
                       limits:
@@ -248,7 +256,6 @@ pipeline:
                     image: docker:latest
                     shell: Sh
                     command: |-
-                      export image_name="<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>"
 
 
                       echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
@@ -850,8 +857,6 @@ pipeline:
                       Successfully built d42078c39456
                       Successfully tagged diegokoala/banking-cv-ff-demo:master-1.1.0-e39a4bc5562b3cb4d3f13a3ffd68a5c9bbcc4319
                       EOF
-                    outputVariables:
-                      - name: image_name
                     imagePullPolicy: IfNotPresent
                     resources:
                       limits:
