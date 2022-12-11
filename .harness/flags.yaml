@@ -333,7 +333,7 @@ featureFlags:
   - flag:
       name: AUTHORIZATION_BETA_EXPERIMENT
       identifier: AUTHORIZATION_BETA_EXPERIMENT
-      description: ""
+      description: Increased Error Rate and RT for auth API in Validation App
       permanent: true
       spec:
         type: boolean
