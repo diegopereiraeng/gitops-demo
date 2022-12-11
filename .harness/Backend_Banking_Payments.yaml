@@ -20,7 +20,7 @@ pipeline:
           infrastructure:
             type: KubernetesDirect
             spec:
-              connectorRef: account.k8scidemose
+              connectorRef: account.cddemose
               namespace: harness-ci-buildfarm
               volumes:
                 - mountPath: /harness/repository
@@ -1077,7 +1077,7 @@ pipeline:
                   name: Enable Feature Dev
                   identifier: Enable_Feature_Dev
                   spec:
-                    feature: bug_process_response
+                    feature: VALIDATION_BETA_EXPERIMENT
                     environment: dev
                     instructions:
                       - identifier: SetFeatureFlagStateIdentifier
@@ -1427,7 +1427,7 @@ pipeline:
                       name: Enable Feature in QA
                       identifier: Enable_Feature_in_QA
                       spec:
-                        feature: bug_process_response
+                        feature: VALIDATION_BETA_EXPERIMENT
                         environment: qa
                         instructions:
                           - identifier: SetFeatureFlagStateIdentifier
