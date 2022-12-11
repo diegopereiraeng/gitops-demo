@@ -57,14 +57,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
+        - targets:
           - identifier: monicadroneio
           variation: Welcome
         - targets:
           - identifier: jrjrcombr
           variation: Bienvenido
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -679,9 +679,9 @@ featureFlags:
           offVariation: "false"
         state: "off"
   - flag:
-      name: FRONT_Enable Halloween Jack
+      name: FRONT_Halloween_Jack
       identifier: HalloweenJack
-      description: ""
+      description: enable the draggable halloween character
       permanent: true
       spec:
         type: boolean
