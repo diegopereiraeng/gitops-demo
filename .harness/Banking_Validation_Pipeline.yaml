@@ -1309,7 +1309,7 @@ pipeline:
                           policy_type: orchestratedScan
                           scan_type: instance
                           product_name: zap
-                          product_config_name: attack
+                          product_config_name: standard
                           instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
                           instance_environment: prod
                           instance_domain: payments-validation.harness-demo.site/
