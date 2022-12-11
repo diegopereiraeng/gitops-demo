@@ -250,6 +250,9 @@ pipeline:
                     command: |-
                       echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
 
+
+                      export image_name=<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
+
                       cat << EOF
                       Your Enterprise CD trial expires in 147 days. Contact Sales to continue using Continuous Delivery
 
@@ -847,6 +850,8 @@ pipeline:
                       Successfully built d42078c39456
                       Successfully tagged diegokoala/banking-cv-ff-demo:master-1.1.0-e39a4bc5562b3cb4d3f13a3ffd68a5c9bbcc4319
                       EOF
+                    outputVariables:
+                      - name: image_name
                     imagePullPolicy: IfNotPresent
                     resources:
                       limits:
