@@ -1077,7 +1077,7 @@ pipeline:
                   name: Enable Feature Dev
                   identifier: Enable_Feature_Dev
                   spec:
-                    feature: VALIDATION_BETA_EXPERIMENT
+                    feature: bug_process_response
                     environment: dev
                     instructions:
                       - identifier: SetFeatureFlagStateIdentifier
@@ -1427,7 +1427,7 @@ pipeline:
                       name: Enable Feature in QA
                       identifier: Enable_Feature_in_QA
                       spec:
-                        feature: VALIDATION_BETA_EXPERIMENT
+                        feature: bug_process_response
                         environment: qa
                         instructions:
                           - identifier: SetFeatureFlagStateIdentifier
@@ -1784,45 +1784,25 @@ pipeline:
                       spec:
                         barrierRef: ffverificationprod
                       timeout: 4h
-                  - parallel:
-                      - step:
-                          type: FlagConfiguration
-                          name: Enable Feature Process
-                          identifier: Enable_Feature
-                          spec:
-                            feature: bug_process_response
-                            environment: prod
-                            instructions:
-                              - identifier: SetVariationForGroup
-                                type: AddSegmentToVariationTargetMap
-                                spec:
-                                  variation: "true"
-                                  segments:
-                                    - Canary_Group
-                              - identifier: SetFeatureFlagStateIdentifier
-                                type: SetFeatureFlagState
-                                spec:
-                                  state: "on"
-                          timeout: 10m
-                      - step:
-                          type: FlagConfiguration
-                          name: Enable Feature Status
-                          identifier: Enable_Feature_Status
-                          spec:
-                            feature: bug_status_response
-                            environment: prod
-                            instructions:
-                              - identifier: SetVariationForGroup
-                                type: AddSegmentToVariationTargetMap
-                                spec:
-                                  variation: "true"
-                                  segments:
-                                    - Canary_Group
-                              - identifier: SetFeatureFlagStateIdentifier
-                                type: SetFeatureFlagState
-                                spec:
-                                  state: "on"
-                          timeout: 10m
+                  - step:
+                      type: FlagConfiguration
+                      name: Enable Feature Process V2
+                      identifier: Enable_Feature
+                      spec:
+                        feature: bug_process_response
+                        environment: prod
+                        instructions:
+                          - identifier: SetVariationForGroup
+                            type: AddSegmentToVariationTargetMap
+                            spec:
+                              variation: "true"
+                              segments:
+                                - Canary_Group
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "on"
+                      timeout: 10m
                   - step:
                       type: ShellScript
                       name: Wait for Feedback
@@ -1875,45 +1855,25 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
-                  - parallel:
-                      - step:
-                          type: FlagConfiguration
-                          name: Disable Feature
-                          identifier: Disable_Feature
-                          spec:
-                            feature: bug_process_response
-                            environment: prod
-                            instructions:
-                              - identifier: SetFeatureFlagStateIdentifier
-                                type: SetFeatureFlagState
-                                spec:
-                                  state: "off"
-                              - identifier: SetVariationForGroup
-                                type: AddSegmentToVariationTargetMap
-                                spec:
-                                  variation: "false"
-                                  segments:
-                                    - Canary_Group
-                          timeout: 10m
-                      - step:
-                          type: FlagConfiguration
-                          name: Disable Feature Status
-                          identifier: Disable_Feature_Status
-                          spec:
-                            feature: bug_status_response
-                            environment: prod
-                            instructions:
-                              - identifier: SetFeatureFlagStateIdentifier
-                                type: SetFeatureFlagState
-                                spec:
-                                  state: "off"
-                              - identifier: SetVariationForGroup
-                                type: AddSegmentToVariationTargetMap
-                                spec:
-                                  variation: "false"
-                                  segments:
-                                    - Canary_Group
-                          timeout: 10m
+                  - step:
+                      type: FlagConfiguration
+                      name: Disable Feature
+                      identifier: Disable_Feature
+                      spec:
+                        feature: bug_process_response
+                        environment: prod
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "off"
+                          - identifier: SetVariationForGroup
+                            type: AddSegmentToVariationTargetMap
+                            spec:
+                              variation: "false"
+                              segments:
+                                - Canary_Group
+                      timeout: 10m
     - parallel:
         - stage:
             name: Features Shutdown - Demo
