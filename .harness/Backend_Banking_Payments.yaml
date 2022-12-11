@@ -962,7 +962,7 @@ pipeline:
                   primary:
                     spec:
                       connectorRef: account.DockerHubDiego
-                      imagePath: diegokoala/<+pipeline.stages.Build.spec.execution.steps.Output.output.outputVariables.image_name>
+                      imagePath: diegokoala/<+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.image_name>
                       tag: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
                     type: DockerRegistry
               type: Kubernetes
