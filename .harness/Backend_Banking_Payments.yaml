@@ -1871,6 +1871,106 @@ pipeline:
                             spec:
                               state: "off"
                       timeout: 10m
+        - stage:
+            name: DAST Tests
+            identifier: DAST_Tests
+            type: SecurityTests
+            spec:
+              cloneCodebase: false
+              execution:
+                steps:
+                  - step:
+                      type: Run
+                      name: Docker Service
+                      identifier: Docker_Service
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: docker:dind
+                        shell: Sh
+                        command: |-
+                          while ! docker ps ;do 
+                                echo "Docker not available yet"
+                          done
+                          echo "Docker Service Ready"
+                          docker ps
+
+                          sleep 2m
+                  - step:
+                      type: Security
+                      name: OWASP Zap Process
+                      identifier: OWASP_Zap_Authorization
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: instance
+                          product_name: zap
+                          product_config_name: standard
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
+                          instance_environment: prod
+                          instance_domain: payments.harness-demo.site/
+                          instance_protocol: http
+                          instance_port: "8082"
+                          instance_type: website
+                          instance_path: v1/payments/process
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 2Gi
+                            cpu: 500m
+                      serviceDependencies:
+                        - identifier: DinD
+                          name: DinD
+                          type: Service
+                          spec:
+                            connectorRef: account.harnessImage
+                            image: docker:dind
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+                  - step:
+                      type: Security
+                      name: OWASP Zap Status
+                      identifier: OWASP_Zap_Validation
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: instance
+                          product_name: zap
+                          product_config_name: standard
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
+                          instance_environment: prod
+                          instance_domain: payments.harness-demo.site/
+                          instance_protocol: http
+                          instance_port: "8082"
+                          instance_type: website
+                          instance_path: v1/payments/status
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 2Gi
+                            cpu: 500m
+                      serviceDependencies:
+                        - identifier: DinD
+                          name: DinD
+                          type: Service
+                          spec:
+                            connectorRef: account.harnessImage
+                            image: docker:dind
+                      when:
+                        stageStatus: Success
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+              infrastructure:
+                useFromStage: Build
     - parallel:
         - stage:
             name: Features Shutdown - Demo
@@ -1986,106 +2086,6 @@ pipeline:
             when:
               pipelineStatus: All
               condition: <+pipeline.stages.Deploy_Prod.status> == "FAILED" && <+trigger.payload.head_commit.author.name>  != "Diego Pereira"
-        - stage:
-            name: DAST Tests
-            identifier: DAST_Tests
-            type: SecurityTests
-            spec:
-              cloneCodebase: false
-              execution:
-                steps:
-                  - step:
-                      type: Run
-                      name: Docker Service
-                      identifier: Docker_Service
-                      spec:
-                        connectorRef: account.DockerHubDiego
-                        image: docker:dind
-                        shell: Sh
-                        command: |-
-                          while ! docker ps ;do 
-                                echo "Docker not available yet"
-                          done
-                          echo "Docker Service Ready"
-                          docker ps
-
-                          #sleep 2m
-                  - step:
-                      type: Security
-                      name: OWASP Zap Process
-                      identifier: OWASP_Zap_Authorization
-                      spec:
-                        privileged: true
-                        settings:
-                          policy_type: orchestratedScan
-                          scan_type: instance
-                          product_name: zap
-                          product_config_name: standard
-                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
-                          instance_environment: prod
-                          instance_domain: payments.harness-demo.site/
-                          instance_protocol: http
-                          instance_port: "8082"
-                          instance_type: website
-                          instance_path: v1/payments/process
-                        imagePullPolicy: IfNotPresent
-                        resources:
-                          limits:
-                            memory: 2Gi
-                            cpu: 500m
-                      serviceDependencies:
-                        - identifier: DinD
-                          name: DinD
-                          type: Service
-                          spec:
-                            connectorRef: account.harnessImage
-                            image: docker:dind
-                      failureStrategies:
-                        - onFailure:
-                            errors:
-                              - AllErrors
-                            action:
-                              type: Ignore
-                  - step:
-                      type: Security
-                      name: OWASP Zap Status
-                      identifier: OWASP_Zap_Validation
-                      spec:
-                        privileged: true
-                        settings:
-                          policy_type: orchestratedScan
-                          scan_type: instance
-                          product_name: zap
-                          product_config_name: standard
-                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
-                          instance_environment: prod
-                          instance_domain: payments.harness-demo.site/
-                          instance_protocol: http
-                          instance_port: "8082"
-                          instance_type: website
-                          instance_path: v1/payments/status
-                        imagePullPolicy: IfNotPresent
-                        resources:
-                          limits:
-                            memory: 2Gi
-                            cpu: 500m
-                      serviceDependencies:
-                        - identifier: DinD
-                          name: DinD
-                          type: Service
-                          spec:
-                            connectorRef: account.harnessImage
-                            image: docker:dind
-                      when:
-                        stageStatus: Success
-                      failureStrategies:
-                        - onFailure:
-                            errors:
-                              - AllErrors
-                            action:
-                              type: Ignore
-              infrastructure:
-                useFromStage: Build
   flowControl:
     barriers:
       - name: ff-verification-prod
