@@ -419,7 +419,7 @@ featureFlags:
   - flag:
       name: PAYMENTS_PROCESS_V2
       identifier: bug_process_response
-      description: Increased response time version
+      description: Increased response time version in Payments App
       permanent: false
       spec:
         type: boolean
