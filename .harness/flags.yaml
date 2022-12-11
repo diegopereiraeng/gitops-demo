@@ -97,11 +97,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
-        - targets:
           - identifier: GuestUnknown
           variation: Welcome
+        - targets:
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: luisredda
         default:
           onVariation: "Off"
@@ -958,7 +958,7 @@ featureFlags:
   - flag:
       name: FRONT_Home_RegionMAP
       identifier: Home_RegionMAP
-      description: ""
+      description: Add Region Map in Home - Logged area
       permanent: true
       spec:
         type: boolean
