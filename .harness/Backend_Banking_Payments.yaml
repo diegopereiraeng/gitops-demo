@@ -1801,12 +1801,6 @@ pipeline:
                         feature: bug_process_response
                         environment: prod
                         instructions:
-                          - identifier: SetVariationForGroup
-                            type: AddSegmentToVariationTargetMap
-                            spec:
-                              variation: "true"
-                              segments:
-                                - Canary_Group
                           - identifier: SetFeatureFlagStateIdentifier
                             type: SetFeatureFlagState
                             spec:
@@ -1876,12 +1870,6 @@ pipeline:
                             type: SetFeatureFlagState
                             spec:
                               state: "off"
-                          - identifier: SetVariationForGroup
-                            type: AddSegmentToVariationTargetMap
-                            spec:
-                              variation: "false"
-                              segments:
-                                - Canary_Group
                       timeout: 10m
     - parallel:
         - stage:
