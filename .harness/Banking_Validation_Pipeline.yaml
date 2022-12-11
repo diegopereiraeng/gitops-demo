@@ -1061,6 +1061,8 @@ pipeline:
                                           onTimeout:
                                             action:
                                               type: Ignore
+                                when:
+                                  stageStatus: Failure
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation Process
@@ -1092,6 +1094,8 @@ pipeline:
                                         - AllErrors
                                       action:
                                         type: MarkAsSuccess
+                                when:
+                                  stageStatus: Failure
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation List
@@ -1114,6 +1118,8 @@ pipeline:
                                         - AllErrors
                                       action:
                                         type: MarkAsSuccess
+                                when:
+                                  stageStatus: Failure
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
