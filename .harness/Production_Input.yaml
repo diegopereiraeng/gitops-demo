@@ -1,0 +1,53 @@
+inputSet:
+  identifier: "Production_Input"
+  pipeline:
+    identifier: "Backend_Banking_Payments"
+    properties:
+      ci:
+        codebase:
+          build:
+            type: "branch"
+            spec:
+              branch: "master"
+    stages:
+    - stage:
+        identifier: "Build"
+        type: "CI"
+        spec:
+          execution:
+            steps:
+            - step:
+                identifier: "Teste_Unitario"
+                type: "RunTests"
+                spec:
+                  packages: "io.harness"
+    - parallel:
+      - stage:
+          identifier: "Deploy_Prod"
+          type: "Deployment"
+          spec:
+            execution:
+              steps:
+              - stepGroup:
+                  identifier: "canaryDepoyment"
+                  steps:
+                  - step:
+                      identifier: "Verify_Prod"
+                      type: "Verify"
+                      spec:
+                        type: "Canary"
+                        spec:
+                          duration: "15m"
+    variables:
+    - name: "verification_enabled"
+      type: "String"
+      value: "yes"
+    - name: "verify_only_prod"
+      type: "String"
+      value: "no"
+    - name: "hotfix"
+      type: "String"
+      value: "no"
+  name: "Production Input"
+  orgIdentifier: "default"
+  projectIdentifier: "GIT_FLOW_DEMO"
