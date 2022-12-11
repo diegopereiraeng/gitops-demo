@@ -1135,6 +1135,18 @@ pipeline:
                               delegateSelectors:
                                 - ""
                             failureStrategies: []
+                  - step:
+                      type: K8sApply
+                      name: Autostopping non-traffic hours
+                      identifier: Autostopping_nontraffic_hours
+                      spec:
+                        filePaths:
+                          - account:/Diego/BankingApp/template/ingress/autostopping.yaml
+                        skipDryRun: false
+                        skipSteadyStateCheck: false
+                        skipRendering: false
+                        overrides: []
+                      timeout: 10m
                 rollbackSteps:
                   - step:
                       name: Canary Delete
