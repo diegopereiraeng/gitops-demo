@@ -952,11 +952,10 @@ pipeline:
                           type: Harness
                           spec:
                             files:
-                              - account:/Diego/templates/ff-cv-demo/namespace.yaml
-                              - account:/Diego/templates/dev/service.yaml
-                              - account:/Diego/templates/dev/deployment.yaml
+                              - account:/Diego/BankingApp/template/non-ingress/banking_deployment.yaml
+                              - account:/Diego/BankingApp/template/non-ingress/banking_service.yaml
                         valuesPaths:
-                          - account:/Diego/templates/dev/values.yaml
+                          - account:/Diego/BankingApp/environments/dev/banking_dev_values.yaml
                         skipResourceVersioning: false
                 artifacts:
                   primary:
@@ -1121,7 +1120,7 @@ pipeline:
                             type: Harness
                             spec:
                               files:
-                                - account:/Diego/templates/qa/values.yaml
+                                - account:/Diego/BankingApp/environments/qa/banking_qa_values.yaml
                   variables: []
               infrastructure:
                 environmentRef: qa
@@ -1471,7 +1470,7 @@ pipeline:
                             type: Harness
                             spec:
                               files:
-                                - account:/Diego/templates/prod/values.yaml
+                                - account:/Diego/BankingApp/environments/prod/banking-payments/banking_payments_prod_values.yaml
                   variables: []
               infrastructure:
                 environmentRef: prod
