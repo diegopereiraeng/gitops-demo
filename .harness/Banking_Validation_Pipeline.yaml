@@ -1287,67 +1287,78 @@ pipeline:
                           docker ps
 
                           sleep 2m
-                  - parallel:
-                      - step:
-                          type: Security
-                          name: OWASP Zap Authorization
-                          identifier: OWASP_Zap_Authorization
+                  - step:
+                      type: Security
+                      name: OWASP Zap Authorization
+                      identifier: OWASP_Zap_Authorization
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: instance
+                          product_name: zap
+                          product_config_name: attack
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
+                          instance_environment: prod
+                          instance_domain: payments-validation.harness-demo.site/
+                          instance_protocol: http
+                          instance_port: "80"
+                          instance_type: website
+                          instance_path: <+pipeline.variables.virtualPath>/auth/authorization
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 1Gi
+                            cpu: 500m
+                      serviceDependencies:
+                        - identifier: DinD
+                          name: DinD
+                          type: Service
                           spec:
-                            privileged: true
-                            settings:
-                              policy_type: orchestratedScan
-                              scan_type: instance
-                              product_name: zap
-                              product_config_name: attack
-                              instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
-                              instance_environment: prod
-                              instance_domain: payments-validation.harness-demo.site/
-                              instance_protocol: http
-                              instance_port: "80"
-                              instance_type: website
-                              instance_path: <+pipeline.variables.virtualPath>/auth/authorization
-                            imagePullPolicy: IfNotPresent
-                            resources:
-                              limits:
-                                memory: 1Gi
-                                cpu: 500m
-                          serviceDependencies:
-                            - identifier: DinD
-                              name: DinD
-                              type: Service
-                              spec:
-                                connectorRef: account.harnessImage
-                                image: docker:dind
-                      - step:
-                          type: Security
-                          name: OWASP Zap Validation
-                          identifier: OWASP_Zap_Validation
+                            connectorRef: account.harnessImage
+                            image: docker:dind
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+                  - step:
+                      type: Security
+                      name: OWASP Zap Validation
+                      identifier: OWASP_Zap_Validation
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: instance
+                          product_name: zap
+                          product_config_name: standard
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
+                          instance_environment: prod
+                          instance_domain: payments-validation.harness-demo.site
+                          instance_protocol: http
+                          instance_port: "80"
+                          instance_type: website
+                          instance_path: /<+pipeline.variables.virtualPath>/auth/validation
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 1Gi
+                            cpu: 500m
+                      serviceDependencies:
+                        - identifier: DinD
+                          name: DinD
+                          type: Service
                           spec:
-                            privileged: true
-                            settings:
-                              policy_type: orchestratedScan
-                              scan_type: instance
-                              product_name: zap
-                              product_config_name: standard
-                              instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
-                              instance_environment: prod
-                              instance_domain: payments-validation.harness-demo.site
-                              instance_protocol: http
-                              instance_port: "80"
-                              instance_type: website
-                              instance_path: /<+pipeline.variables.virtualPath>/auth/validation
-                            imagePullPolicy: IfNotPresent
-                            resources:
-                              limits:
-                                memory: 1Gi
-                                cpu: 500m
-                          serviceDependencies:
-                            - identifier: DinD
-                              name: DinD
-                              type: Service
-                              spec:
-                                connectorRef: account.harnessImage
-                                image: docker:dind
+                            connectorRef: account.harnessImage
+                            image: docker:dind
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
               infrastructure:
                 useFromStage: Build
               serviceDependencies:
