@@ -2020,14 +2020,14 @@ pipeline:
                           policy_type: orchestratedScan
                           scan_type: instance
                           product_name: zap
-                          product_config_name: attack
+                          product_config_name: standard
                           instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
                           instance_environment: prod
-                          instance_domain: payments-validation.harness-demo.site/
+                          instance_domain: payments.harness-demo.site/
                           instance_protocol: http
-                          instance_port: "80"
+                          instance_port: "8082"
                           instance_type: website
-                          instance_path: <+pipeline.variables.virtualPath>/auth/authorization
+                          instance_path: v1/payments/process
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
