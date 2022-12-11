@@ -248,10 +248,10 @@ pipeline:
                     image: docker:latest
                     shell: Sh
                     command: |-
+                      export image_name="<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>"
+
+
                       echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
-
-
-                      export image_name=<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
 
                       cat << EOF
                       Your Enterprise CD trial expires in 147 days. Contact Sales to continue using Continuous Delivery
