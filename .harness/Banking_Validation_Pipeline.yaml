@@ -1135,24 +1135,43 @@ pipeline:
                               delegateSelectors:
                                 - ""
                             failureStrategies: []
-                  - step:
-                      type: K8sApply
-                      name: Autostopping non-traffic hours
-                      identifier: Autostopping_nontraffic_hours
-                      spec:
-                        filePaths:
-                          - account:/Diego/BankingApp/template/ingress/autostopping.yaml
-                        skipDryRun: false
-                        skipSteadyStateCheck: false
-                        skipRendering: false
-                        overrides: []
-                      timeout: 10m
-                      failureStrategies:
-                        - onFailure:
-                            errors:
-                              - AllErrors
-                            action:
-                              type: MarkAsSuccess
+                  - parallel:
+                      - step:
+                          type: K8sApply
+                          name: Autostopping non-traffic hours
+                          identifier: Autostopping_nontraffic_hours
+                          spec:
+                            filePaths:
+                              - /Diego/BankingApp/template/ingress/autostopping.yaml
+                            skipDryRun: false
+                            skipSteadyStateCheck: false
+                            skipRendering: false
+                            overrides: []
+                          timeout: 10m
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: MarkAsSuccess
+                      - step:
+                          type: K8sApply
+                          name: Apply
+                          identifier: Apply
+                          spec:
+                            filePaths:
+                              - Diego/BankingApp/template/ingress/autostopping.yaml
+                            skipDryRun: false
+                            skipSteadyStateCheck: false
+                            skipRendering: false
+                            overrides: []
+                          timeout: 10m
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: MarkAsSuccess
                 rollbackSteps:
                   - step:
                       name: Canary Delete
