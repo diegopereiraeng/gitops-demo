@@ -30,4 +30,4 @@ inputSet:
     variables:
     - name: "virtualPath"
       type: "String"
-      value: "a"
+      value: "demo-se"
