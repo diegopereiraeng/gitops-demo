@@ -170,7 +170,7 @@ pipeline:
                           sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
                           branch: <+codebase.branch>
                           repository_branch: <+codebase.branch>
-                          BranchAnalysis: "true"
+                          BranchAnalysis: "false"
                           showProfiling: "true"
                           java_source: "11"
                           excludePlugins: flex
