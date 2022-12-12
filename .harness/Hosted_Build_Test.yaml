@@ -40,7 +40,7 @@ pipeline:
                     image: maven:3.8.6-openjdk-11
                     language: Java
                     buildTool: Maven
-                    args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
+                    args: package -Pcoverage  -Dmaven.repo.local=/harness/repository
                     packages: io.harness
                     runOnlySelectedTests: true
                     preCommand: |+
