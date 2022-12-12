@@ -163,7 +163,7 @@ pipeline:
                               - sonarResults.xml
                         settings:
                           sonar_host: http://sonar.harness-demo.site
-                          sources: src
+                          sources: src/main/java
                           binaries: target/classes
                           sonar_name: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
                           sonar_key: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
