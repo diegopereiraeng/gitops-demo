@@ -1982,6 +1982,8 @@ pipeline:
                       limits:
                         memory: 1Gi
                         cpu: 500m
+              sharedPaths:
+                - /var/run
     - parallel:
         - stage:
             name: Features Shutdown - Demo
