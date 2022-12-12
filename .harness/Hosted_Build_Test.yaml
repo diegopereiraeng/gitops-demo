@@ -40,7 +40,7 @@ pipeline:
                     image: maven:3.8.6-openjdk-11
                     language: Java
                     buildTool: Maven
-                    args: package
+                    args: clean verify
                     packages: io.harness
                     runOnlySelectedTests: true
                     preCommand: |+
@@ -87,7 +87,7 @@ pipeline:
                       #ET-SETUP-END
 
                     postCommand: |-
-                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
+                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout`
 
                       export release="<+codebase.branch>-$version-<+codebase.commitSha>"
 
@@ -169,6 +169,19 @@ pipeline:
                           sonar_key: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
                           sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
                           branch: <+codebase.branch>
+                          repository_branch: <+codebase.branch>
+                          BranchAnalysis: "true"
+                          showProfiling: "true"
+                          java_source: "11"
+                          excludePlugins: flex
+                          java_libraries: /harness/.m2/repository/**/*.jar
+                          java_test: /harness/src/test/java
+                          java_coverage_plugin: jacoco
+                          tests: /harness/src/test/java
+                          jacoco_report_path: /harness/target/site/jacoco-unit/jacoco.xml
+                          surefire_reportspath: /harness/target/surefire-reports
+                          sonar_level: TRACE
+                          verbose: "true"
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
@@ -906,7 +919,7 @@ pipeline:
                         key: <+pipeline.properties.ci.codebase.repoName>
                         sourcePaths:
                           - .sonar
-                          - /harness/repository
+                          - /harness/.m2
                         archiveFormat: Tar
                         resources:
                           limits:
