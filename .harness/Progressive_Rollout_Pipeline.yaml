@@ -371,4 +371,4 @@ pipeline:
       type: String
       default: diegopereiraeng
       description: ""
-      value: <+input>.allowedValues(diegopereiraeng,gacerioni)
+      value: <+input>.allowedValues(diegopereiraeng,gacerioni,poharav)
