@@ -1,0 +1,1452 @@
+pipeline:
+  name: Hosted Build Test
+  identifier: Hosted_Build_Test
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: payments-validation
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: RestoreCacheGCS
+                  name: Restore Cache
+                  identifier: Restore_Cache
+                  spec:
+                    connectorRef: account.SalesGCP
+                    bucket: latam-cie-cache
+                    key: <+pipeline.properties.ci.codebase.repoName>
+                    archiveFormat: Tar
+                    resources:
+                      limits:
+                        memory: 100Mi
+              - step:
+                  type: RunTests
+                  name: Build and Unit Test
+                  identifier: Teste_Unitario
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: maven:3.8.6-openjdk-11
+                    language: Java
+                    buildTool: Maven
+                    args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
+                    packages: io.harness
+                    runOnlySelectedTests: false
+                    preCommand: |+
+                      #ET-SETUP-BEGIN
+                      PROJ_DIR=$PWD
+
+                      cat << EOF
+                      Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
+
+                      Branch: <+codebase.branch>
+                      Tag: <+codebase.tag>
+                      Commiter: <+codebase.gitUserEmail>
+                      CommitID: <+codebase.commitSha>
+                      EOF
+
+                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
+
+                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                      export commitHash=<+codebase.commitSha>
+
+                      export gitBranch=<+codebase.branch>
+
+
+
+                      cd /opt
+                      arch=`uname -m`
+                      if [ $arch = "x86_64" ]; then
+                        if cat /etc/os-release | grep -iq alpine ; then
+                          wget -qO- https://get.et.harness.io/releases/latest/alpine/harness-et-agent.tar.gz | tar -xz
+                        else
+                          wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xz
+                        fi
+                      elif [ $arch = "aarch64" ]; then
+                        wget -qO- https://get.et.harness.io/releases/latest/arm/harness-et-agent.tar.gz | tar -xz
+                      fi
+                      export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
+                      export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
+                      export ET_ENV_ID=_INTERNAL_ET_CI
+                      export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
+                      export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
+                      export ET_ORG_ID=$HARNESS_ORG_ID
+                      export ET_PROJECT_ID=$HARNESS_PROJECT_ID
+                      #export ET_SHUTDOWN_GRACETIME=30000
+                      #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
+                      export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                      # Uncomment the line below if using Java version 10 or above
+                      # export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                      cd $PROJ_DIR
+                      #ET-SETUP-END
+
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "**/*.xml"
+                    envVariables:
+                      ET_COLLECTOR_URL: https://app.harness.io/gratis/et-collector
+                      ET_APPLICATION_NAME: paymentsvalidation<+pipeline.variables.virtualPath>
+                      ET_DEPLOYMENT_NAME: build
+                      ET_ENV_ID: prod
+                      ET_ACCOUNT_ID: <+account.identifier>
+                      ET_ORG_ID: <+org.identifier>
+                      ET_PROJECT_ID: <+project.identifier>
+                      MAVEN_OPTS: "-XX:-UseTypeSpeculation -Xshare:off"
+                    outputVariables:
+                      - name: release
+                      - name: version
+                      - name: commitHash
+                      - name: gitBranch
+                    imagePullPolicy: IfNotPresent
+                    resources:
+                      limits:
+                        memory: 1Gi
+                        cpu: "1"
+              - parallel:
+                  - step:
+                      type: Security
+                      name: Sonar Scan Vulnerabilities
+                      identifier: Sonar_Scan_Vulnerabilities
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: manualUpload
+                          scan_type: repository
+                          repository_branch: <+codebase.branch>
+                          product_name: sonarqube
+                          product_access_token: <+secrets.getValue("account.harnesssonartoken")>
+                          product_project_name: <+pipeline.properties.ci.codebase.repoName>
+                          product_project_key: <+pipeline.properties.ci.codebase.repoName>
+                          product_domain: http://sonar.harness-demo.site
+                          product_config_name: sonarqube-agent
+                          repository_project: <+pipeline.properties.ci.codebase.repoName>
+                          bypass_ssl_check: "true"
+                          log_level: DEBUG
+                          workspace: /harness/target
+                          verify_ssl: "true"
+                          customer_artifacts_path: /harness/tests/scan_tools/sonarqube/test_data
+                          manual_upload_filename: "001"
+                        imagePullPolicy: Always
+                        resources:
+                          limits:
+                            memory: 100Mi
+                      when:
+                        stageStatus: Success
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+                  - step:
+                      type: Plugin
+                      name: Sonar Quality Gate
+                      identifier: Sonar_Scan
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: plugins/sonarqube-scanner:v1.0.6
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - sonarResults.xml
+                        settings:
+                          sonar_host: http://sonar.harness-demo.site
+                          sources: src
+                          binaries: target/classes
+                          sonar_name: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
+                          sonar_key: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
+                          sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
+                          branch: <+codebase.branch>
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 1500Mi
+                            cpu: 500m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+                  - step:
+                      type: Security
+                      name: snyk
+                      identifier: snyk
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: manualUpload
+                          scan_type: repository
+                          product_name: snyk
+                          product_config_name: default
+                          repository_project: <+pipeline.properties.ci.codebase.repoName>
+                          repository_branch: <+codebase.branch>
+                          sto_dump_runner_logs: "true"
+                          product_access_token: a090a792-bc66-440b-9c63-ea287826e993
+                          sto_plugin_normalization: "true"
+                          imagePullPolicy: Always
+                          customer_artifacts_path: /harness/tests/scan_tools/snyk/test_data
+                          manual_upload_filename: "001"
+                        resources:
+                          limits:
+                            memory: 100Mi
+                      description: snyk
+                      failureStrategies: []
+                      when:
+                        stageStatus: Success
+                      loopingStrategyEnabled: false
+                  - step:
+                      type: Security
+                      name: Bandit Scan
+                      identifier: bandit
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: manualUpload
+                          scan_type: repository
+                          repository_project: <+pipeline.properties.ci.codebase.repoName>
+                          repository_branch: <+codebase.branch>
+                          product_name: bandit
+                          product_config_name: bandit-default
+                          sto_dump_runner_logs: "true"
+                          sto_plugin_normalization: "true"
+                          customer_artifacts_path: /harness/tests/scan_tools/bandit/test_data
+                          manual_upload_filename: "001"
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 100Mi
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+                      when:
+                        stageStatus: Success
+              - step:
+                  type: Run
+                  name: Docker Build for scanning
+                  identifier: Output
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: docker:latest
+                    shell: Sh
+                    command: |-
+                      cat sonarResults.xml
+
+                      echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
+
+                      cat << EOF
+                      Your Enterprise CD trial expires in 147 days. Contact Sales to continue using Continuous Delivery
+
+                      Contact Sales
+
+                      or
+
+                      Provide Feedback
+
+
+                      Executing the following command(s): set +x if [ -x "$(command -v git)" ]; then git config --global --add safe.directory '*' || true fi set -x docker build . -t diegokoala/banking-cv-ff-demo:master-1.1.0-e39a4bc5562b3cb4d3f13a3ffd68a5c9bbcc4319
+                      + set +x
+                      + docker build . -t diegokoala/banking-cv-ff-demo:master-1.1.0-e39a4bc5562b3cb4d3f13a3ffd68a5c9bbcc4319
+                      Sending build context to Docker daemon 349.3MB
+                      Step 1/12 : FROM openjdk:8
+                      8: Pulling from library/openjdk
+                      001c52e26ad5: Pulling fs layer
+                      d9d4b9b6e964: Pulling fs layer
+                      2068746827ec: Pulling fs layer
+                      9daef329d350: Pulling fs layer
+                      d85151f15b66: Pulling fs layer
+                      52a8c426d30b: Pulling fs layer
+                      8754a66e0050: Pulling fs layer
+                      52a8c426d30b: Waiting
+                      d85151f15b66: Waiting
+                      8754a66e0050: Waiting
+                      9daef329d350: Waiting
+                      d9d4b9b6e964: Verifying Checksum
+                      d9d4b9b6e964: Download complete
+                      2068746827ec: Verifying Checksum
+                      2068746827ec: Download complete
+                      d85151f15b66: Verifying Checksum
+                      d85151f15b66: Download complete
+                      001c52e26ad5: Verifying Checksum
+                      001c52e26ad5: Download complete
+                      52a8c426d30b: Verifying Checksum
+                      52a8c426d30b: Download complete
+                      9daef329d350: Verifying Checksum
+                      9daef329d350: Download complete
+                      8754a66e0050: Verifying Checksum
+                      8754a66e0050: Download complete
+                      001c52e26ad5: Pull complete
+                      d9d4b9b6e964: Pull complete
+                      2068746827ec: Pull complete
+                      9daef329d350: Pull complete
+                      d85151f15b66: Pull complete
+                      52a8c426d30b: Pull complete
+                      8754a66e0050: Pull complete
+                      Digest: sha256:86e863cc57215cfb181bd319736d0baf625fe8f150577f9eb58bd937f5452cb8
+                      Status: Downloaded newer image for openjdk:8
+                      ---> b273004037cc
+                      Step 2/12 : RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linux_amd64 && chmod +x yq && mv yq /usr/local/bin
+                      ---> Running in 84674014138a
+                      Removing intermediate container 84674014138a
+                      ---> cdeb1cf0114f
+                      Step 3/12 : RUN apt-get update && apt-get install -y unzip
+                      ---> Running in a186f14b5d03
+                      Get:1 http://deb.debian.org/debian bullseye InRelease [116 kB]
+                      Get:2 http://deb.debian.org/debian-security bullseye-security InRelease [48.4 kB]
+                      Get:3 http://deb.debian.org/debian bullseye-updates InRelease [44.1 kB]
+                      Get:4 http://deb.debian.org/debian bullseye/main amd64 Packages [8184 kB]
+                      Get:5 http://deb.debian.org/debian-security bullseye-security/main amd64 Packages [200 kB]
+                      Get:6 http://deb.debian.org/debian bullseye-updates/main amd64 Packages [14.6 kB]
+                      Fetched 8607 kB in 12s (730 kB/s)
+                      Reading package lists...
+                      Reading package lists...
+                      Building dependency tree...
+                      Reading state information...
+                      Suggested packages:
+                      zip
+                      The following packages will be upgraded:
+                      unzip
+                      1 upgraded, 0 newly installed, 0 to remove and 21 not upgraded.
+                      Need to get 172 kB of archives.
+                      After this operation, 1024 B disk space will be freed.
+                      Get:1 http://deb.debian.org/debian bullseye/main amd64 unzip amd64 6.0-26+deb11u1 [172 kB]
+                      debconf: delaying package configuration, since apt-utils is not installed
+                      Fetched 172 kB in 1s (286 kB/s)
+                      (Reading database ... (Reading database ... 5% (Reading database ... 10% (Reading database ... 15% (Reading database ... 20% (Reading database ... 25% (Reading database ... 30% (Reading database ... 35% (Reading database ... 40% (Reading database ... 45% (Reading database ... 50% (Reading database ... 55% (Reading database ... 60% (Reading database ... 65% (Reading database ... 70% (Reading database ... 75% (Reading database ... 80% (Reading database ... 85% (Reading database ... 90% (Reading database ... 95% (Reading database ... 100% (Reading database ... 12680 files and directories currently installed.)
+                      Preparing to unpack .../unzip_6.0-26+deb11u1_amd64.deb ...
+                      Unpacking unzip (6.0-26+deb11u1) over (6.0-26) ...
+                      Setting up unzip (6.0-26+deb11u1) ...
+                      Removing intermediate container a186f14b5d03
+                      ---> d1cdcb4c6f24
+                      Step 4/12 : RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
+                      ---> Running in 694799e10042
+                      --2022-11-17 21:09:10-- https://dtdg.co/latest-java-tracer
+                      Resolving dtdg.co (dtdg.co)... 67.199.248.13, 67.199.248.12
+                      Connecting to dtdg.co (dtdg.co)|67.199.248.13|:443... connected.
+                      HTTP request sent, awaiting response... 302 Found
+                      Location: https://github.com/DataDog/dd-trace-java/releases/download/download-latest/dd-java-agent.jar [following]
+                      --2022-11-17 21:09:11-- https://github.com/DataDog/dd-trace-java/releases/download/download-latest/dd-java-agent.jar
+                      Resolving github.com (github.com)... 140.82.114.3
+                      Connecting to github.com (github.com)|140.82.114.3|:443... connected.
+                      HTTP request sent, awaiting response... 302 Found
+                      Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/89221572/d6c2165b-db4b-4c57-a55e-f194fa7e0cec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20221117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221117T210911Z&X-Amz-Expires=300&X-Amz-Signature=8744053b7ce7711f5c4017f851361bcde7207f04ad28da828c217d595757a507&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=89221572&response-content-disposition=attachment%3B%20filename%3Ddd-java-agent.jar&response-content-type=application%2Foctet-stream [following]
+                      --2022-11-17 21:09:11-- https://objects.githubusercontent.com/github-production-release-asset-2e65be/89221572/d6c2165b-db4b-4c57-a55e-f194fa7e0cec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20221117%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221117T210911Z&X-Amz-Expires=300&X-Amz-Signature=8744053b7ce7711f5c4017f851361bcde7207f04ad28da828c217d595757a507&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=89221572&response-content-disposition=attachment%3B%20filename%3Ddd-java-agent.jar&response-content-type=application%2Foctet-stream
+                      Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.111.133, 185.199.110.133, 185.199.109.133, ...
+                      Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.111.133|:443... connected.
+                      HTTP request sent, awaiting response... 200 OK
+                      Length: 20097419 (19M) [application/octet-stream]
+                      Saving to: ‘dd-java-agent.jar’
+                      0K .......... .......... .......... .......... .......... 0% 503K 39s
+                      50K .......... .......... .......... .......... .......... 0% 11.4M 20s
+                      100K .......... .......... .......... .......... .......... 0% 2.70M 16s
+                      150K .......... .......... .......... .......... .......... 1% 639K 19s
+                      200K .......... .......... .......... .......... .......... 1% 228M 16s
+                      250K .......... .......... .......... .......... .......... 1% 259M 13s
+                      300K .......... .......... .......... .......... .......... 1% 207M 11s
+                      350K .......... .......... .......... .......... .......... 2% 165M 10s
+                      850K .......... .......... .......... .......... .......... 4% 226M 4s
+                      900K .......... .......... .......... .......... .......... 4% 209M 4s
+                      950K .......... .......... .......... .......... .......... 5% 76.0M 4s
+                      13250K .......... .......... .......... .......... .......... 67% 477M 0s
+                      13300K .......... .......... .......... .......... .......... 68% 427M 0s
+                      13350K .......... .......... .......... .......... .......... 68% 320M 0s
+                      13400K .......... .......... .......... .......... .......... 68% 306M 0s
+                      13450K .......... .......... .......... .......... .......... 68% 241M 0s
+                      13500K .......... .......... .......... .......... .......... 69% 157M 0s
+                      13550K .......... .......... .......... .......... .......... 69% 290M 0s
+                      13600K .......... .......... .......... .......... .......... 69% 563K 0s
+                      13650K .......... .......... .......... .......... .......... 69% 137M 0s
+                      13700K .......... .......... .......... .......... .......... 70% 181M 0s
+                      17900K .......... .......... .......... .......... .......... 91% 134M 0s
+                      17950K .......... .......... .......... .......... .......... 91% 404M 0s
+                      18000K .......... .......... .......... .......... .......... 91% 392M 0s
+                      18050K .......... .......... .......... .......... .......... 92% 470M 0s
+                      18100K .......... .......... .......... .......... .......... 92% 478M 0s
+                      18150K .......... .......... .......... .......... .......... 92% 490M 0s
+                      18200K .......... .......... .......... .......... .......... 92% 393M 0s
+                      18250K .......... .......... .......... .......... .......... 93% 441M 0s
+                      18300K .......... .......... .......... .......... .......... 93% 598K 0s
+                      19400K .......... .......... .......... .......... .......... 99% 45.9M 0s
+                      19450K .......... .......... .......... .......... .......... 99% 39.8M 0s
+                      19500K .......... .......... .......... .......... .......... 99% 170M 0s
+                      19550K .......... .......... .......... .......... .......... 99% 195M 0s
+                      19600K .......... .......... ...... 100% 244M=1.3s
+                      2022-11-17 21:09:12 (14.6 MB/s) - ‘dd-java-agent.jar’ saved [20097419/20097419]
+                      Removing intermediate container 694799e10042
+                      ---> fd9028280d14
+                      Step 5/12 : ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
+                      ---> Running in 9e23a2ab9aee
+                      Removing intermediate container 9e23a2ab9aee
+                      ---> 8e8ea84ef51e
+                      Step 6/12 : COPY config.yml /opt/cv-demo/
+                      ---> af5ceeca4997
+                      Step 7/12 : COPY target/cv-demo-1.1.0.jar /opt/cv-demo/app.jar
+                      ---> bd9a1997cc79
+                      Step 8/12 : RUN wget -O AppServerAgent.zip "$(curl 'https://download.appdynamics.com/download/custom/v1/' -H 'authority: download.appdynamics.com' -H 'accept: application/json, text/plain, */*' -H 'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7,es-419;q=0.6,es;q=0.5' -H 'content-type: application/x-www-form-urlencoded' -H 'origin: https://econocombrasil.saas.appdynamics.com' -H 'referer: https://econocombrasil.saas.appdynamics.com/' -H 'sec-ch-ua: "Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"' -H 'sec-ch-ua-mobile: ?0' -H 'sec-ch-ua-platform: "macOS"' -H 'sec-fetch-dest: empty' -H 'sec-fetch-mode: cors' -H 'sec-fetch-site: same-site' -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36' --data-raw 'type=java-jdk8&account-access-key=z3wz73pivywb&controller-host=econocombrasil.saas.appdynamics.com&controller-port=443&controller-ssl-enabled=true&account=econocombrasil&timestamp=1667851003594&agent-version=22.8.1.0&auto_naming=false&application-name=srm-demo-app&tier-name=backend-java&node-name=srm-node' --compressed)";mkdir -p /appdy ;unzip AppServerAgent.zip -d /appdy/appagent;ls -ltra
+                      ---> Running in a0795fdc8b33
+                      % Total % Received % Xferd Average Speed Time Time Time Current
+                      Dload Upload Total Spent Left Speed
+                      0 0 0 0 0 0 0 0 --:--:-- --:--:-- --:--:-- 0 0 0 0 0 0 0 0 0 --:--:-- --:--:-- --:--:-- 0 100 306 0 0 100 306 0 204 0:00:01 0:00:01 --:--:-- 204 100 306 0 0 100 306 0 122 0:00:02 0:00:02 --:--:-- 122 100 306 0 0 100 306 0 87 0:00:03 0:00:03 --:--:-- 87 100 306 0 0 100 306 0 67 0:00:04 0:00:04 --:--:-- 67 100 800 0 494 100 306 93 57 0:00:05 0:00:05 --:--:-- 156 100 800 0 494 100 306 93 57 0:00:05 0:00:05 --:--:-- 129
+                      --2022-11-17 21:09:30-- https://download-files.appdynamics.com/tmp-custom-downloads/custom_agent_3tdk6b4nRc14dWKB0t2mrlYQ3_CuMIAqA9ZHpXqfhUL1FKoQhiM/AppServerAgent-1.8-22.10.0.34344.zip?Expires=1668722970&Signature=FmxTFh5S7RjalSusBjoKceHkI0Yupy4lw40kngFdb47TXHJq7E52Bm9K~1FRJk7Ww0PnbvoWzokx4XpXvMt0KNVlnUkXC85qgCS4mDcLBvXmOU0fQZhzchhvzsiKD6Pf6lVd9CjVwlnhJ8jxy6SbgV7Z0LccD2oUGC7RxROZFTNqd57zNGU7uXrPreVCU1hf8P6e5YtfFIlknBtISW6wy4e5dFzzCf0RkaiM-tyxnc9H-OFjoCN60~6T1oNM1c5fJfmOcDhuRZnMBsgyPThf4ENQBguPzMIT2IuhiUYn~mCacMurI7OQ6-NmCqscQYjvRnOlMYw9hOJAwQbg7cA0pQ__&Key-Pair-Id=APKAI6PWCU7XQZAIYFCA
+                      Resolving download-files.appdynamics.com (download-files.appdynamics.com)... 18.154.185.114, 18.154.185.70, 18.154.185.129, ...
+                      Connecting to download-files.appdynamics.com (download-files.appdynamics.com)|18.154.185.114|:443... connected.
+                      HTTP request sent, awaiting response... 200 OK
+                      Length: 51011289 (49M) [binary/octet-stream]
+                      Saving to: ‘AppServerAgent.zip’
+                      0K .......... .......... .......... .......... .......... 0% 29.4M 2s
+                      50K .......... .......... .......... .......... .......... 0% 504K 50s
+                      100K .......... .......... .......... .......... .......... 0% 3.69M 38s
+                      150K .......... .......... .......... .......... .......... 0% 584K 50s
+                      200K .......... .......... .......... .......... .......... 0% 137M 40s
+                      1950K .......... .......... .......... .......... .......... 4% 536K 17s
+                      2000K .......... .......... .......... .......... .......... 4% 12.2M 16s
+                      2050K .......... .......... .......... .......... .......... 4% 12.2M 16s
+                      2100K .......... .......... .......... .......... .......... 4% 52.6M 16s
+                      3400K .......... .......... .......... .......... .......... 6% 185M 16s
+                      3450K .......... .......... .......... .......... .......... 7% 224M 16s
+                      3500K .......... .......... .......... .......... .......... 7% 220M 16s
+                      3550K .......... .......... .......... .......... .......... 7% 113M 15s
+                      3600K .......... .......... .......... .......... .......... 7% 187M 15s
+                      3650K .......... .......... .......... .......... .......... 7% 221M 15s
+                      3700K .......... .......... .......... .......... .......... 7% 76.0M 15s
+                      3750K .......... .......... .......... .......... .......... 7% 140M 15s
+                      3800K .......... .......... .......... .......... .......... 7% 212M 14s
+                      4700K .......... .......... .......... .......... .......... 9% 109M 12s
+                      4750K .......... .......... .......... .......... .......... 9% 200M 12s
+                      4800K .......... .......... .......... .......... .......... 9% 198M 12s
+                      4850K .......... .......... .......... .......... .......... 9% 192M 12s
+                      4900K .......... .......... .......... .......... .......... 9% 164M 12s
+                      4950K .......... .......... .......... .......... .......... 10% 209M 12s
+                      5000K .......... .......... .......... .......... .......... 10% 211M 12s
+                      5050K .......... .......... .......... .......... .......... 10% 169M 11s
+                      5100K .......... .......... .......... .......... .......... 10% 217M 11s
+                      6500K .......... .......... .......... .......... .......... 13% 196M 9s
+                      9100K .......... .......... .......... .......... .......... 18% 56.9M 8s
+                      9150K .......... .......... .......... .......... .......... 18% 92.1M 8s
+                      9200K .......... .......... .......... .......... .......... 18% 76.8M 8s
+                      9250K .......... .......... .......... .......... .......... 18% 101M 8s
+                      10150K .......... .......... .......... .......... .......... 20% 65.0M 7s
+                      10200K .......... .......... .......... .......... .......... 20% 100M 7s
+                      10250K .......... .......... .......... .......... .......... 20% 107M 7s
+                      10300K .......... .......... .......... .......... .......... 20% 88.0M 7s
+                      10350K .......... .......... .......... .......... .......... 20% 101M 7s
+                      10400K .......... .......... .......... .......... .......... 20% 109M 7s
+                      10450K .......... .......... .......... .......... .......... 21% 145M 7s
+                      10500K .......... .......... .......... .......... .......... 21% 211M 7s
+                      10550K .......... .......... .......... .......... .......... 21% 135M 7s
+                      13450K .......... .......... .......... .......... .......... 27% 42.9M 7s
+                      13500K .......... .......... .......... .......... .......... 27% 47.1M 7s
+                      13550K .......... .......... .......... .......... .......... 27% 44.0M 7s
+                      13600K .......... .......... .......... .......... .......... 27% 49.8M 7s
+                      15250K .......... .......... .......... .......... .......... 30% 472M 6s
+                      18900K .......... .......... .......... .......... .......... 38% 57.5M 5s
+                      20100K .......... .......... .......... .......... .......... 40% 17.3M 5s
+                      20150K .......... .......... .......... .......... .......... 40% 130M 5s
+                      21350K .......... .......... .......... .......... .......... 42% 202M 5s
+                      21400K .......... .......... .......... .......... .......... 43% 227M 5s
+                      21450K .......... .......... .......... .......... .......... 43% 176M 5s
+                      25400K .......... .......... .......... .......... .......... 51% 446M 4s
+                      25450K .......... .......... .......... .......... .......... 51% 339M 4s
+                      29550K .......... .......... .......... .......... .......... 59% 438M 3s
+                      29600K .......... .......... .......... .......... .......... 59% 583K 3s
+                      29650K .......... .......... .......... .......... .......... 59% 185M 3s
+                      29700K .......... .......... .......... .......... .......... 59% 37.5M 3s
+                      29750K .......... .......... .......... .......... .......... 59% 37.8M 3s
+                      29800K .......... .......... .......... .......... .......... 59% 36.8M 3s
+                      29850K .......... .......... .......... .......... .......... 60% 40.0M 3s
+                      29900K .......... .......... .......... .......... .......... 60% 38.5M 3s
+                      29950K .......... .......... .......... .......... .......... 60% 70.3M 3s
+                      30000K .......... .......... .......... .......... .......... 60% 267M 3s
+                      32600K .......... .......... .......... .......... .......... 65% 23.7M 2s
+                      32650K .......... .......... .......... .......... .......... 65% 37.3M 2s
+                      32700K .......... .......... .......... .......... .......... 65% 32.5M 2s
+                      32750K .......... .......... .......... .......... .......... 65% 38.3M 2s
+                      32800K .......... .......... .......... .......... .......... 65% 551K 2s
+                      32850K .......... .......... .......... .......... .......... 66% 32.6M 2s
+                      32900K .......... .......... .......... .......... .......... 66% 37.4M 2s
+                      35900K .......... .......... .......... .......... .......... 72% 73.8M 2s
+                      35950K .......... .......... .......... .......... .......... 72% 224M 2s
+                      36000K .......... .......... .......... .......... .......... 72% 263M 2s
+                      44750K .......... .......... .......... .......... .......... 89% 169M 1s
+                      44800K .......... .......... .......... .......... .......... 90% 146M 1s
+                      46100K .......... .......... .......... .......... .......... 92% 231M 1s
+                      46150K .......... .......... .......... .......... .......... 92% 264M 1s
+                      46200K .......... .......... .......... .......... .......... 92% 254M 1s
+                      46250K .......... .......... .......... .......... .......... 92% 226M 1s
+                      46300K .......... .......... .......... .......... .......... 93% 557K 1s
+                      49750K .......... .......... .......... .......... .......... 99% 193M 0s
+                      49800K .......... ..... 100% 188M=7.2s
+                      2022-11-17 21:09:38 (6.75 MB/s) - ‘AppServerAgent.zip’ saved [51011289/51011289]
+                      Archive: AppServerAgent.zip
+                      inflating: /appdy/appagent/readme.txt.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/
+                      inflating: /appdy/appagent/ver22.10.0.34344/readme.txt.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/readme.txt
+                      creating: /appdy/appagent/ver22.10.0.34344/multi-release/
+                      inflating: /appdy/appagent/ver22.10.0.34344/multi-release/java9-impl.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/multi-release/java9-impl.jar
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argentoDynamicService.properties
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argentoDynamicService.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argentoDynamicService.jar
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/mtagent.policy.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/ArgentoKeystore.jks
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/lib/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/lib/argento-tenant.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/lib/argento-tenant.jar.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/tenantConfig.yml
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/argentoStaticPolicy.yml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/originalArgentoPolicy.yml
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/argentoPolicy.json
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/argentoStaticPolicy.yml
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/originalArgentoPolicy.yml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/tenantConfig.yml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/tenants/argento/config/argentoPolicy.json.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/diag-commands.sh.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/mtAgentConfig.yml
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/diagnosticsServer.properties
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/commons-codec-1.15.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/mtAgent-boot.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-core-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/httpcore-4.4.13.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/httpclient-4.5.13.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/mtAgent.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/httpclient-4.5.13.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/snakeyaml-1.31.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/mtAgent-boot.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/httpcore-4.4.13.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-dataformat-yaml-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-databind-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/commons-codec-1.15.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-dataformat-yaml-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-annotations-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/picocontainer-2.15.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/snakeyaml-1.31.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/mtAgent-V9.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/mtAgent-V9.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-databind-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-core-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/picocontainer-2.15.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/javassist-3.27.0-GA.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/mtAgent.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/javassist-3.27.0-GA.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/jackson-annotations-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/commons-logging-1.2.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/lib/commons-logging-1.2.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/mtagent.policy
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/mtAgentConfig.yml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/diag-commands.sh
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/ArgentoKeystore.jks.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argento-security-extension/diagnosticsServer.properties.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/argentoDynamicService/argentoDynamicService.properties.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/netviz-adapted.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/netviz-adapted.jar
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/lib/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/lib/protobuf-java-shaded-3.19.6.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/lib/jeromq-0.3.5.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/lib/jeromq-0.3.5.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/lib/protobuf-java-shaded-3.19.6.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/netviz-service.properties.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/netviz/netviz-service.properties
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/agent-self-monitoring/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/agent-self-monitoring/agent-self-monitoring-adapted.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/agent-self-monitoring/agent-self-monitoring-adapted.jar.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/external-services/analytics/
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/analytics/analytics-dynamic-service.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/external-services/analytics/analytics-dynamic-service.jar
+                      creating: /appdy/appagent/ver22.10.0.34344/utils/
+                      creating: /appdy/appagent/ver22.10.0.34344/utils/keystorereader/
+                      inflating: /appdy/appagent/ver22.10.0.34344/utils/keystorereader/kr.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/utils/keystorereader/kr.jar
+                      creating: /appdy/appagent/ver22.10.0.34344/utils/verifier/
+                      inflating: /appdy/appagent/ver22.10.0.34344/utils/verifier/jar-verifier.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/utils/verifier/jar-verifier.jar.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/utils/scs/
+                      inflating: /appdy/appagent/ver22.10.0.34344/utils/scs/scs-tool.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/utils/scs/scs-tool.jar.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/lib/
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/appagent-boot.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/singularity-log4j.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/common-utils.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/common-utils.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/singularity-log4j.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/appagent-boot.jar
+                      creating: /appdy/appagent/ver22.10.0.34344/lib/tp/
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-codec-1.15.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-extension-autoconfigure-shaded-1.13.0-alpha.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/scs-api.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/grpc-okhttp-shaded-1.46.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/log4j-core-2.17.1.1.12.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/javax.inject-1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-logging-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/slf4j-api-1.6.6.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/snakeyaml-shaded-1.32.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-core-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-math-2.1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpcore-4.4.13.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/disruptor-shaded-2.11.2.3.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/asm.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-context-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-api-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpcore-nio-4.4.13.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpclient-4.5.13.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/javax.servlet-api-3.0.1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/perfmark-api-shaded-0.17.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/protobuf-java-shaded-3.19.6.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-metrics-shaded-1.13.0-alpha.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/xercesImpl-2.12.2.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-api-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpclient-4.5.13.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-extension-autoconfigure-spi-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-io-2.8.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-extension-autoconfigure-shaded-1.13.0-alpha.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/disruptor-shaded-2.11.2.3.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-io-2.8.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpclient-cache-4.5.13.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-logging-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpmime-4.5.12.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpmime-4.5.12.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-proto-0.11.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-metrics-shaded-1.13.0-alpha.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/scs-api.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-fileupload-1.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-trace-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/protobuf-java-shaded-3.19.6.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/perfmark-api-shaded-0.17.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-api-metrics-1.10.0-alpha-rc.1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-common-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-extension-autoconfigure-spi-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/xml-apis-1.4.01.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-trace-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/grpc-okhttp-shaded-1.46.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/singularity-common-1.0.3.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/xml-apis-1.4.01.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/singularity-xml-2.12.2.1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-extension-resources-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-fileupload-1.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpcore-4.4.13.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-dataformat-yaml-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/failureaccess-1.0.1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/snakeyaml-shaded-1.32.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpclient-cache-4.5.13.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-databind-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/singularity-common-1.0.3.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/httpcore-nio-4.4.13.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/dagger-2.4.2.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/log4j-core-2.17.1.1.12.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/log4j-api-2.17.1.1.12.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-common-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/zt-zip-1.14.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/asm.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/guava-shaded-30.1-jre.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/failureaccess-1.0.1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/guava-shaded-30.1-jre.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-metrics-shaded-1.13.0-alpha.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-codec-1.15.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/xercesImpl-2.12.2.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-trace-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/singularity-xml-2.12.2.1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-dataformat-yaml-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-common-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-context-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-annotations-2.13.4.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-trace-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/slf4j-api-1.6.6.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-semconv-1.13.0-alpha.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-proto-0.11.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-databind-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-extension-resources-shaded-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/log4j-jcl-2.17.1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-core-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/log4j-api-2.17.1.1.12.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/dagger-2.4.2.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/javax.servlet-api-3.0.1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-metrics-shaded-1.13.0-alpha.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-sdk-1.13.0.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-semconv-1.13.0-alpha.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/jackson-annotations-2.13.4.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-logging-1.2.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-api-metrics-1.10.0-alpha-rc.1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-math-2.1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/commons-logging-1.2.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-common-shaded-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/zt-zip-1.14.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/opentelemetry-exporter-otlp-1.13.0.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/javax.inject-1.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/tp/log4j-jcl-2.17.1.jar.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/appagent.jar
+                      inflating: /appdy/appagent/ver22.10.0.34344/lib/appagent.jar.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk-plugins/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/multithread/
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/multithread/MultiThreadServer.java.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/multithread/MultiThreadServer.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/multithread/MultiThreadedExecutor.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/multithread/MultiThreadedExecutor.java.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/SyncClient.java.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/ISyncServer.java.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/SyncClient.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/SyncServer.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/ISyncServer.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/sync/SyncServer.java.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/AsyncClient.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/AsyncServer.java.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/IAsyncServer.java.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/AsyncClient.java.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/IAsyncServer.java
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/java/com/appdynamics/sample/exitcall/async/AsyncServer.java
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/multithread/
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/multithread/MutiThreadedExecutor.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/multithread/MultiThreadServer.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/multithread/MutiThreadedExecutor.xhtml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/multithread/MultiThreadServer.xhtml.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/SyncServer.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/SyncClient.xhtml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/ISyncServer.xhtml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/SyncServer.xhtml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/ISyncServer.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/sync/SyncClient.xhtml
+                      creating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/IAsyncServer.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/AsyncClient.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/AsyncServer.xhtml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/AsyncServer.xhtml
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/IAsyncServer.xhtml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/sdk/src/docs/com/appdynamics/sample/exitcall/async/AsyncClient.xhtml.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/conf/
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/transactions.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/service-endpoints.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/open-telemetry.yml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/custom-activity-correlation.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/appdynamics.cer.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/custom-activity-correlation.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/open-telemetry.yml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/app-agent-config.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/controller-info.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/transactions.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/appdynamics.cer
+                      creating: /appdy/appagent/ver22.10.0.34344/conf/jmx/
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/mbean-servers.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/mbean-servers.xsd
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/mbean-servers.dtd
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/mbean-servers.xsd.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/mbean-servers.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/mbean-servers.dtd.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/conf/jmx/servers/
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/servers/jmx-config.xsd.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/servers/jmx-config.dtd
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/servers/jmx-config.xsd
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/jmx/servers/jmx-config.dtd.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/conf/logging/
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j2-unknown.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j-unknown.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j-unknown.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j2.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j.xml.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j2-unknown.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j2.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j.dtd.asc
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/logging/log4j.dtd
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/app-agent-config.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/controller-info.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/conf/service-endpoints.xml
+                      inflating: /appdy/appagent/ver22.10.0.34344/javaagent.jar.asc
+                      creating: /appdy/appagent/ver22.10.0.34344/logs/
+                      inflating: /appdy/appagent/ver22.10.0.34344/javaagent.jar
+                      inflating: /appdy/appagent/readme.txt
+                      creating: /appdy/appagent/multi-release/
+                      inflating: /appdy/appagent/multi-release/java9-impl.jar.asc
+                      inflating: /appdy/appagent/multi-release/java9-impl.jar
+                      creating: /appdy/appagent/conf/
+                      inflating: /appdy/appagent/conf/controller-info.xml.asc
+                      inflating: /appdy/appagent/conf/controller-info.xml
+                      inflating: /appdy/appagent/javaagent.jar.asc
+                      inflating: /appdy/appagent/javaagent.jar
+                      total 69520
+                      drwxr-xr-x 2 root root 4096 Jun 30 21:35 home
+                      drwxr-xr-x 2 root root 4096 Jun 30 21:35 boot
+                      drwxr-xr-x 1 root root 4096 Aug 1 00:00 var
+                      drwxr-xr-x 1 root root 4096 Aug 1 00:00 usr
+                      drwxr-xr-x 2 root root 4096 Aug 1 00:00 srv
+                      drwxr-xr-x 3 root root 4096 Aug 1 00:00 run
+                      drwxr-xr-x 2 root root 4096 Aug 1 00:00 mnt
+                      drwxr-xr-x 2 root root 4096 Aug 1 00:00 media
+                      drwxr-xr-x 2 root root 4096 Aug 1 00:00 lib64
+                      drwxr-xr-x 1 root root 4096 Aug 1 00:00 lib
+                      drwxr-xr-x 1 root root 4096 Aug 2 01:47 sbin
+                      drwxr-xr-x 1 root root 4096 Aug 2 05:51 bin
+                      drwx------ 1 root root 4096 Aug 2 05:54 root
+                      -rw-r--r-- 1 root root 20097419 Nov 17 09:25 dd-java-agent.jar
+                      drwxrwxrwt 1 root root 4096 Nov 17 21:09 tmp
+                      drwxr-xr-x 1 root root 4096 Nov 17 21:09 opt
+                      drwxr-xr-x 1 root root 4096 Nov 17 21:09 etc
+                      -rwxr-xr-x 1 root root 0 Nov 17 21:09 .dockerenv
+                      dr-xr-xr-x 13 root root 0 Nov 17 21:09 sys
+                      dr-xr-xr-x 228 root root 0 Nov 17 21:09 proc
+                      drwxr-xr-x 5 root root 340 Nov 17 21:09 dev
+                      -rw-r--r-- 1 root root 51011289 Nov 17 21:09 AppServerAgent.zip
+                      drwxr-xr-x 1 root root 4096 Nov 17 21:09 ..
+                      drwxr-xr-x 1 root root 4096 Nov 17 21:09 .
+                      drwxr-xr-x 3 root root 4096 Nov 17 21:09 appdy
+                      Removing intermediate container a0795fdc8b33
+                      ---> c25e69469cda
+                      Step 9/12 : COPY harness-et-agent /opt/harness-et-agent
+                      ---> a7e20068339f
+                      Step 10/12 : ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
+                      ---> Running in a1ddea5ed8be
+                      Removing intermediate container a1ddea5ed8be
+                      ---> c5e4f3c4ebf2
+                      Step 11/12 : WORKDIR /opt/cv-demo
+                      ---> Running in cf944a237304
+                      Removing intermediate container cf944a237304
+                      ---> c66618d9bd69
+                      Step 12/12 : CMD bash -c ' if [[ "$ENABLE_APPDYNAMICS" == "true" ]]; then node_name="-Dappdynamics.agent.nodeName=$(hostname)"; JAVA_OPTS=$JAVA_OPTS" -javaagent:/appdy/appagent/javaagent.jar -Dappdynamics.jvm.shutdown.mark.node.as.historical=false"; JAVA_OPTS="$JAVA_OPTS $node_name"; echo "Using Appdynamics java agent"; fi; if [[ "$ENABLE_NEWRELIC" == "true" ]]; then tar -zxvf newrelic-java-5.3.0.tar.gz; JAVA_OPTS=$JAVA_OPTS" -javaagent:/opt/cv-demo/newrelic/newrelic.jar"; fi; CONFIG_FILE=/opt/cv-demo/config.yml; if [[ "" != "$ALLOWED_ORIGINS" ]]; then yq write -i $CONFIG_FILE allowedOrigins "$ALLOWED_ORIGINS"; fi; if [[ "" != "$ELK_URL" ]]; then yq write -i $CONFIG_FILE elkUrl "$ELK_URL"; fi; if [[ "" != "$ELK_INDEX" ]]; then yq write -i $CONFIG_FILE elkIndex "$ELK_INDEX"; fi; if [[ "" != "$FF_API_KEY" ]]; then yq write -i $CONFIG_FILE ffApiKey "$FF_API_KEY"; fi; if [[ "" != "$FF_METRIC_KEY" ]]; then yq write -i $CONFIG_FILE ffMetricKey "$FF_METRIC_KEY"; fi; if [[ "" != "$FF_LOG_KEY" ]]; then yq write -i $CONFIG_FILE ffLogKey "$FF_LOG_KEY"; fi; if [[ "" != "$FF_TARGET" ]]; then yq write -i $CONFIG_FILE target "$FF_TARGET"; fi; if [[ "" != "$LOG_MSG" ]]; then yq write -i $CONFIG_FILE defaultConfig.logConfig.errorMessage "LOG_MSG"; fi; java $JAVA_TOOL_OPTIONS $JAVA_OPTS -jar app.jar server config.yml'
+                      ---> Running in c1f7a6949755
+                      Removing intermediate container c1f7a6949755
+                      ---> d42078c39456
+                      Successfully built d42078c39456
+                      Successfully tagged diegokoala/banking-cv-ff-demo:master-1.1.0-e39a4bc5562b3cb4d3f13a3ffd68a5c9bbcc4319
+                      EOF
+                    imagePullPolicy: IfNotPresent
+                    resources:
+                      limits:
+                        memory: 100Mi
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: MarkAsSuccess
+              - step:
+                  type: Security
+                  name: Aqua-Trivy
+                  identifier: AquaTrivy
+                  spec:
+                    privileged: true
+                    settings:
+                      policy_type: manualUpload
+                      scan_type: container
+                      product_name: aqua-trivy
+                      product_config_name: aqua-trivy
+                      container_type: local_image
+                      container_domain: docker.io
+                      container_project: diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
+                      container_tag: <+execution.steps.Teste_Unitario.output.outputVariables.release>
+                      fail_on_severity: CRITICAL
+                      customer_artifacts_path: /harness/tests/scan_tools/aqua_trivy/test_data
+                      manual_upload_filename: "005"
+                    resources:
+                      limits:
+                        memory: 100Mi
+                  when:
+                    stageStatus: Success
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: MarkAsSuccess
+              - parallel:
+                  - step:
+                      type: BuildAndPushDockerRegistry
+                      name: Build and Push Image
+                      identifier: Build_and_Push_Image
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        repo: diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
+                        tags:
+                          - <+execution.steps.Teste_Unitario.output.outputVariables.release>
+                        optimize: true
+                  - step:
+                      type: SaveCacheGCS
+                      name: Save Cache
+                      identifier: Save_Cache
+                      spec:
+                        connectorRef: account.SalesGCP
+                        bucket: latam-cie-cache
+                        key: <+pipeline.properties.ci.codebase.repoName>
+                        sourcePaths:
+                          - .sonar
+                          - /harness/repository
+                        archiveFormat: Tar
+                        resources:
+                          limits:
+                            memory: 100Mi
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+          serviceDependencies:
+            - identifier: Dind
+              name: Dind
+              type: Service
+              spec:
+                connectorRef: account.DockerHubDiego
+                image: docker:dind
+                imagePullPolicy: IfNotPresent
+          sharedPaths:
+            - /var/run
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+    - parallel:
+        - stage:
+            name: Deploy Prod
+            identifier: Deploy_Prod
+            description: ""
+            type: Deployment
+            spec:
+              deploymentType: Kubernetes
+              service:
+                serviceRef: <+input>
+                serviceInputs: <+input>
+              environment:
+                environmentRef: prod
+                deployToAll: false
+                infrastructureDefinitions:
+                  - identifier: ProdCDDemoSE
+              execution:
+                steps:
+                  - stepGroup:
+                      name: Canary Deployment
+                      identifier: canaryDepoyment
+                      steps:
+                        - step:
+                            name: Canary Deployment
+                            identifier: canaryDeployment
+                            type: K8sCanaryDeploy
+                            timeout: 10m
+                            spec:
+                              instanceSelection:
+                                type: Count
+                                spec:
+                                  count: 1
+                              skipDryRun: false
+                        - parallel:
+                            - step:
+                                type: ShellScript
+                                name: Warm Up
+                                identifier: Warm_Up
+                                spec:
+                                  shell: Bash
+                                  onDelegate: true
+                                  source:
+                                    type: Inline
+                                    spec:
+                                      script: |-
+                                        cat <<EOF >>post_validation.json
+                                        {
+                                            "id": 5,
+                                            "status": "not verified",
+                                            "validationID": "load"
+                                        }
+                                        EOF
+
+                                        ab -r -p post_validation.json -T application/json -l -n 10 -t 10 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
+
+                                        ab -t 10 -r -l -n 20 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
+                                  environmentVariables: []
+                                  outputVariables: []
+                                  delegateSelectors:
+                                    - cd-demo-se
+                                timeout: 10m
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
+                                when:
+                                  stageStatus: Success
+                            - step:
+                                type: Barrier
+                                name: Barrier
+                                identifier: Barrier
+                                spec:
+                                  barrierRef: FF_READY
+                                timeout: 10m
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
+                        - parallel:
+                            - step:
+                                type: Verify
+                                name: Verify Prod
+                                identifier: Verify_Prod
+                                spec:
+                                  type: Canary
+                                  monitoredService:
+                                    type: Default
+                                    spec: {}
+                                  spec:
+                                    sensitivity: HIGH
+                                    duration: 15m
+                                    deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                                timeout: 1h
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - Verification
+                                      action:
+                                        type: ManualIntervention
+                                        spec:
+                                          timeout: 15m
+                                          onTimeout:
+                                            action:
+                                              type: StageRollback
+                                  - onFailure:
+                                      errors:
+                                        - Unknown
+                                      action:
+                                        type: StageRollback
+                                        spec:
+                                          timeout: 2h
+                                          onTimeout:
+                                            action:
+                                              type: Ignore
+                                when:
+                                  stageStatus: Success
+                            - step:
+                                type: ShellScript
+                                name: Stress Test Validation Process
+                                identifier: Stress_Test
+                                spec:
+                                  shell: Bash
+                                  onDelegate: true
+                                  source:
+                                    type: Inline
+                                    spec:
+                                      script: |-
+                                        cat <<EOF >>post_validation.json
+                                        {
+                                            "id": 5,
+                                            "status": "not verified",
+                                            "validationID": "load"
+                                        }
+                                        EOF
+
+                                        ab -r -p post_validation.json -T application/json -l -n 2000 -t 600 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
+                                  environmentVariables: []
+                                  outputVariables: []
+                                  delegateSelectors:
+                                    - cd-demo-se
+                                timeout: 15m
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
+                                when:
+                                  stageStatus: Success
+                            - step:
+                                type: ShellScript
+                                name: Stress Test Validation List
+                                identifier: Stress_Test_Validation_List
+                                spec:
+                                  shell: Bash
+                                  onDelegate: true
+                                  source:
+                                    type: Inline
+                                    spec:
+                                      script: ab -t 600 -r -l -n 300000 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
+                                  environmentVariables: []
+                                  outputVariables: []
+                                  delegateSelectors:
+                                    - cd-demo-se
+                                timeout: 15m
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
+                                when:
+                                  stageStatus: Success
+                        - step:
+                            name: Canary Delete
+                            identifier: canaryDelete
+                            type: K8sCanaryDelete
+                            timeout: 10m
+                            spec: {}
+                  - stepGroup:
+                      name: Primary Deployment
+                      identifier: primaryDepoyment
+                      steps:
+                        - step:
+                            name: Rolling Deployment
+                            identifier: rollingDeployment
+                            type: K8sRollingDeploy
+                            timeout: 10m
+                            spec:
+                              skipDryRun: false
+                              pruningEnabled: true
+                              delegateSelectors:
+                                - ""
+                            failureStrategies: []
+                  - step:
+                      type: K8sApply
+                      name: Autostopping non-traffic hours
+                      identifier: Autostopping_nontraffic_hours
+                      spec:
+                        filePaths:
+                          - /Diego/BankingApp/template/ingress/autostopping.yaml
+                        skipDryRun: false
+                        skipSteadyStateCheck: false
+                        skipRendering: false
+                        overrides: []
+                      timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+                rollbackSteps:
+                  - step:
+                      name: Canary Delete
+                      identifier: rollbackCanaryDelete
+                      type: K8sCanaryDelete
+                      timeout: 10m
+                      spec: {}
+                  - step:
+                      name: Rolling Rollback
+                      identifier: rollingRollback
+                      type: K8sRollingRollback
+                      timeout: 10m
+                      spec: {}
+            tags: {}
+            failureStrategies:
+              - onFailure:
+                  errors:
+                    - AllErrors
+                  action:
+                    type: StageRollback
+        - stage:
+            name: Generate Load
+            identifier: Generate_Load
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - parallel:
+                      - step:
+                          type: ShellScript
+                          name: Validation Process Load
+                          identifier: Generate_Load
+                          spec:
+                            shell: Bash
+                            onDelegate: true
+                            source:
+                              type: Inline
+                              spec:
+                                script: |-
+                                  cat <<EOF >>post_validation.json
+                                  {
+                                      "id": 5,
+                                      "status": "not verified",
+                                      "validationID": "load"
+                                  }
+                                  EOF
+
+                                  ab -r -p post_validation.json -T application/json -l -n 400 -t 250 -c 20  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
+                            environmentVariables: []
+                            outputVariables: []
+                            delegateSelectors:
+                              - cd-demo-se
+                          timeout: 10m
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: MarkAsSuccess
+                      - step:
+                          type: ShellScript
+                          name: Validation List Load
+                          identifier: Validation_List_Load
+                          spec:
+                            shell: Bash
+                            onDelegate: true
+                            source:
+                              type: Inline
+                              spec:
+                                script: ab -r -l -n 10000 -t 220 -c 5  http://payments-validation.harness-demo.site/<+pipeline.variables.virtualPath>/auth/validation
+                            environmentVariables: []
+                            outputVariables: []
+                            delegateSelectors:
+                              - cd-demo-se
+                          timeout: 10m
+                          failureStrategies: []
+            tags: {}
+            when:
+              pipelineStatus: Success
+        - stage:
+            name: Feature Experiment
+            identifier: Feature_Experiment
+            description: ""
+            type: FeatureFlag
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: Barrier
+                      name: Barrier
+                      identifier: Barrier
+                      spec:
+                        barrierRef: FF_READY
+                      timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+                  - parallel:
+                      - step:
+                          type: FlagConfiguration
+                          name: Enable Beta Experiment for testing in production
+                          identifier: Enable_Feature_Beta
+                          spec:
+                            feature: VALIDATION_BETA_EXPERIMENT
+                            environment: <+pipeline.variables.virtualPath>
+                            instructions:
+                              - identifier: SetFeatureFlagStateIdentifier
+                                type: SetFeatureFlagState
+                                spec:
+                                  state: "on"
+                          timeout: 10m
+                      - step:
+                          type: FlagConfiguration
+                          name: Enable Auth Beta Feature
+                          identifier: Enable_Auth_Beta_Feature
+                          spec:
+                            feature: AUTHORIZATION_BETA_EXPERIMENT
+                            environment: <+pipeline.variables.virtualPath>
+                            instructions:
+                              - identifier: SetFeatureFlagStateIdentifier
+                                type: SetFeatureFlagState
+                                spec:
+                                  state: "on"
+                          timeout: 10m
+        - stage:
+            name: DAST Tests
+            identifier: DAST_Tests
+            type: SecurityTests
+            spec:
+              cloneCodebase: false
+              execution:
+                steps:
+                  - step:
+                      type: Run
+                      name: Docker Service
+                      identifier: Docker_Service
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: docker:dind
+                        shell: Sh
+                        command: |-
+                          while ! docker ps ;do 
+                                echo "Docker not available yet"
+                          done
+                          echo "Docker Service Ready"
+                          docker ps
+
+                          sleep 1m
+                  - step:
+                      type: Security
+                      name: OWASP Zap Authorization
+                      identifier: OWASP_Zap_Authorization
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: instance
+                          product_name: zap
+                          product_config_name: standard
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
+                          instance_environment: prod
+                          instance_domain: payments-validation.harness-demo.site/
+                          instance_protocol: http
+                          instance_port: "80"
+                          instance_type: website
+                          instance_path: <+pipeline.variables.virtualPath>/auth/authorization
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 1Gi
+                            cpu: 500m
+                      serviceDependencies:
+                        - identifier: DinD
+                          name: DinD
+                          type: Service
+                          spec:
+                            connectorRef: account.harnessImage
+                            image: docker:dind
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+                  - step:
+                      type: Security
+                      name: OWASP Zap Validation
+                      identifier: OWASP_Zap_Validation
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: instance
+                          product_name: zap
+                          product_config_name: standard
+                          instance_identifier: OwaspValidationApp-<+pipeline.variables.virtualPath>
+                          instance_environment: prod
+                          instance_domain: payments-validation.harness-demo.site
+                          instance_protocol: http
+                          instance_port: "80"
+                          instance_type: website
+                          instance_path: /<+pipeline.variables.virtualPath>/auth/validation
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 1Gi
+                            cpu: 500m
+                      serviceDependencies:
+                        - identifier: DinD
+                          name: DinD
+                          type: Service
+                          spec:
+                            connectorRef: account.harnessImage
+                            image: docker:dind
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+              infrastructure:
+                useFromStage: Build
+              serviceDependencies:
+                - identifier: DinD
+                  name: DinD
+                  type: Service
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: docker:dind
+                    privileged: true
+                    resources:
+                      limits:
+                        memory: 1Gi
+                        cpu: 500m
+              sharedPaths:
+                - /var/run
+                - /var/lib/docker
+    - stage:
+        name: Feature Experiment Disable
+        identifier: Feature_Experiment_Disable
+        description: ""
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - parallel:
+                  - step:
+                      type: FlagConfiguration
+                      name: Disable Experiment
+                      identifier: Disable_Experiment
+                      spec:
+                        feature: VALIDATION_BETA_EXPERIMENT
+                        environment: <+pipeline.variables.virtualPath>
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "off"
+                      timeout: 10m
+                      when:
+                        stageStatus: All
+                      failureStrategies: []
+                  - step:
+                      type: FlagConfiguration
+                      name: Disable Auth Feature
+                      identifier: Disable_Auth_Feature
+                      spec:
+                        feature: AUTHORIZATION_BETA_EXPERIMENT
+                        environment: <+pipeline.variables.virtualPath>
+                        instructions:
+                          - identifier: SetFeatureFlagStateIdentifier
+                            type: SetFeatureFlagState
+                            spec:
+                              state: "off"
+                      timeout: 10m
+                      when:
+                        stageStatus: All
+                      failureStrategies: []
+  variables:
+    - name: virtualPath
+      type: String
+      description: ""
+      value: <+input>
+    - name: tag
+      type: String
+      default: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+      description: ""
+      value: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+  flowControl:
+    barriers:
+      - name: DAST CHECK
+        identifier: DAST_CHECK
+      - name: FF READY
+        identifier: FF_READY
