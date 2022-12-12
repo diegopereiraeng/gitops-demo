@@ -1895,6 +1895,7 @@ pipeline:
                           docker ps
 
                           sleep 2m
+                      timeout: 10m
                   - step:
                       type: Security
                       name: OWASP Zap Process
