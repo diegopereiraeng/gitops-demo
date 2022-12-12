@@ -11,7 +11,7 @@ inputSet:
           build:
             type: "branch"
             spec:
-              branch: "master"
+              branch: "stable-version"
     stages:
     - parallel:
       - stage:
