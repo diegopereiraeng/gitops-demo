@@ -40,7 +40,7 @@ pipeline:
                     image: maven:3.8.6-openjdk-11
                     language: Java
                     buildTool: Maven
-                    args: package -Pcoverage  -Dmaven.repo.local=/harness/repository
+                    args: package -Pcoverage
                     packages: io.harness
                     runOnlySelectedTests: true
                     preCommand: |+
@@ -82,7 +82,7 @@ pipeline:
                       #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
                       export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                       # Uncomment the line below if using Java version 10 or above
-                      # export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                      # export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=/harness/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                       cd $PROJ_DIR
                       #ET-SETUP-END
 
