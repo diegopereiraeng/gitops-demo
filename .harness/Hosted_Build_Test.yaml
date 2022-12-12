@@ -182,6 +182,7 @@ pipeline:
                           surefire_reportspath: /harness/target/surefire-reports
                           sonar_level: TRACE
                           verbose: "true"
+                          build_number: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
