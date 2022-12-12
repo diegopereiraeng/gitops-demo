@@ -155,7 +155,7 @@ pipeline:
                       identifier: Sonar_Scan
                       spec:
                         connectorRef: account.DockerHubDiego
-                        image: plugins/sonarqube-scanner:v1.0.6
+                        image: plugins/sonarqube-scanner:v1.0.8
                         reports:
                           type: JUnit
                           spec:
