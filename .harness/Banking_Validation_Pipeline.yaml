@@ -17,19 +17,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.cddemose
-              namespace: harness-ci-buildfarm
-              volumes:
-                - mountPath: /harness/repository
-                  type: HostPath
-                  spec:
-                    path: /tmp
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
           execution:
             steps:
               - step:
@@ -53,10 +40,12 @@ pipeline:
                     image: maven:3.8.6-openjdk-11
                     language: Java
                     buildTool: Maven
-                    args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
+                    args: clean verify
                     packages: io.harness
-                    runOnlySelectedTests: false
+                    runOnlySelectedTests: true
                     preCommand: |+
+                      ls -ltra
+
                       #ET-SETUP-BEGIN
                       PROJ_DIR=$PWD
 
@@ -68,14 +57,6 @@ pipeline:
                       Commiter: <+codebase.gitUserEmail>
                       CommitID: <+codebase.commitSha>
                       EOF
-
-                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
-
-                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
-
-                      export commitHash=<+codebase.commitSha>
-
-                      export gitBranch=<+codebase.branch>
 
 
 
@@ -99,25 +80,28 @@ pipeline:
                       export ET_PROJECT_ID=$HARNESS_PROJECT_ID
                       #export ET_SHUTDOWN_GRACETIME=30000
                       #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
-                      export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                      export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=$PROJ_DIR/.m2/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                       # Uncomment the line below if using Java version 10 or above
-                      # export JAVA_TOOL_OPTIONS="-Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                      # export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=/harness/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
                       cd $PROJ_DIR
                       #ET-SETUP-END
 
+                    postCommand: |-
+                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
+
+                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                      export commitHash=<+codebase.commitSha>
+
+                      export gitBranch=<+codebase.branch>
+
+                      ls -ltra
                     reports:
                       type: JUnit
                       spec:
                         paths:
                           - "**/*.xml"
                     envVariables:
-                      ET_COLLECTOR_URL: https://app.harness.io/gratis/et-collector
-                      ET_APPLICATION_NAME: paymentsvalidation<+pipeline.variables.virtualPath>
-                      ET_DEPLOYMENT_NAME: build
-                      ET_ENV_ID: prod
-                      ET_ACCOUNT_ID: <+account.identifier>
-                      ET_ORG_ID: <+org.identifier>
-                      ET_PROJECT_ID: <+project.identifier>
                       MAVEN_OPTS: "-XX:-UseTypeSpeculation -Xshare:off"
                     outputVariables:
                       - name: release
@@ -179,12 +163,26 @@ pipeline:
                               - sonarResults.xml
                         settings:
                           sonar_host: http://sonar.harness-demo.site
-                          sources: src
+                          sources: src/main/java
                           binaries: target/classes
                           sonar_name: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
                           sonar_key: <+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll("/","_")>
                           sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
                           branch: <+codebase.branch>
+                          repository_branch: <+codebase.branch>
+                          BranchAnalysis: "false"
+                          showProfiling: "true"
+                          java_source: "11"
+                          excludePlugins: flex
+                          java_libraries: /harness/.m2/repository/**/*.jar
+                          java_test: /harness/src/test/java
+                          java_coverage_plugin: jacoco
+                          tests: /harness/src/test/java
+                          jacoco_report_path: /harness/target/site/jacoco-unit/jacoco.xml
+                          surefire_reportspath: /harness/target/surefire-reports
+                          sonar_level: TRACE
+                          verbose: "true"
+                          build_number: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
@@ -922,7 +920,7 @@ pipeline:
                         key: <+pipeline.properties.ci.codebase.repoName>
                         sourcePaths:
                           - .sonar
-                          - /harness/repository
+                          - /harness/.m2
                         archiveFormat: Tar
                         resources:
                           limits:
@@ -933,6 +931,8 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
+                      when:
+                        stageStatus: Success
           serviceDependencies:
             - identifier: Dind
               name: Dind
@@ -943,6 +943,12 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
     - parallel:
         - stage:
             name: Deploy Prod
