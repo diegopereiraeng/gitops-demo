@@ -40,6 +40,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "Off"
@@ -62,14 +67,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: jrjrcombr
+          variation: Bienvenido
+        - targets:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
         - targets:
           - identifier: monicadroneio
           variation: Welcome
-        - targets:
-          - identifier: jrjrcombr
-          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -152,6 +157,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "OFF"
           offVariation: "OFF"
@@ -366,6 +376,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -453,6 +468,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "true"
           offVariation: "false"
@@ -552,6 +572,11 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: prod
         default:
           onVariation: Dark
@@ -639,6 +664,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "true"
           offVariation: "false"
@@ -734,6 +764,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -821,6 +856,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "true"
           offVariation: "false"
@@ -935,6 +975,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: prod
         default:
           onVariation: Premium
@@ -1026,6 +1071,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
@@ -1113,6 +1163,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -1219,6 +1274,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: prod
         default:
           onVariation: V2
@@ -1306,6 +1366,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -1401,6 +1466,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: demose
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: prod
         default:
           onVariation: Black
@@ -1489,6 +1559,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
         default:
           onVariation: "false"
           offVariation: "false"
