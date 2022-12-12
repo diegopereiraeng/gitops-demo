@@ -932,7 +932,7 @@ pipeline:
                             action:
                               type: MarkAsSuccess
                       when:
-                        stageStatus: All
+                        stageStatus: Success
           serviceDependencies:
             - identifier: Dind
               name: Dind
