@@ -58,14 +58,6 @@ pipeline:
                       CommitID: <+codebase.commitSha>
                       EOF
 
-                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
-
-                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
-
-                      export commitHash=<+codebase.commitSha>
-
-                      export gitBranch=<+codebase.branch>
-
 
 
                       cd /opt
@@ -94,6 +86,14 @@ pipeline:
                       cd $PROJ_DIR
                       #ET-SETUP-END
 
+                    postCommand: |-
+                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=/harness/repository`
+
+                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                      export commitHash=<+codebase.commitSha>
+
+                      export gitBranch=<+codebase.branch>
                     reports:
                       type: JUnit
                       spec:
