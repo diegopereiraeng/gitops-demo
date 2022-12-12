@@ -44,6 +44,8 @@ pipeline:
                     packages: io.harness
                     runOnlySelectedTests: true
                     preCommand: |+
+                      echo `pwd`
+
                       #ET-SETUP-BEGIN
                       PROJ_DIR=$PWD
 
