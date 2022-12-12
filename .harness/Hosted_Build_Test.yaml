@@ -44,7 +44,7 @@ pipeline:
                     packages: io.harness
                     runOnlySelectedTests: true
                     preCommand: |+
-                      echo `pwd`
+                      echo `ls -ltra`
 
                       #ET-SETUP-BEGIN
                       PROJ_DIR=$PWD
@@ -94,6 +94,8 @@ pipeline:
                       export commitHash=<+codebase.commitSha>
 
                       export gitBranch=<+codebase.branch>
+
+                      echo `ls -ltra`
                     reports:
                       type: JUnit
                       spec:
