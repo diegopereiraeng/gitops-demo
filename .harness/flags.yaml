@@ -67,14 +67,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
-        - targets:
           - identifier: monicadroneio
           variation: Welcome
         - targets:
           - identifier: jrjrcombr
           variation: Bienvenido
+        - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -445,7 +445,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
   - flag:
       name: PAYMENTS_PROCESS_V2
       identifier: bug_process_response
