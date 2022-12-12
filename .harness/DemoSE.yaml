@@ -12,25 +12,6 @@ inputSet:
             type: "branch"
             spec:
               branch: "master"
-    stages:
-    - stage:
-        identifier: "Deploy_Prod"
-        type: "Deployment"
-        spec:
-          service:
-            serviceRef: "paymentsvalidation"
-            serviceInputs:
-              serviceDefinition:
-                type: "Kubernetes"
-                spec:
-                  artifacts:
-                    primary:
-                      primaryArtifactRef: "ScanPay"
-                      sources:
-                      - identifier: "ScanPay"
-                        type: "DockerRegistry"
-                        spec:
-                          tag: "<+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>"
     variables:
     - name: "virtualPath"
       type: "String"
