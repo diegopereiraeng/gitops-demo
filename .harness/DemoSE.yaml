@@ -12,6 +12,21 @@ inputSet:
             type: "branch"
             spec:
               branch: "master"
+    stages:
+    - parallel:
+      - stage:
+          identifier: "Deploy_Prod"
+          type: "Deployment"
+          spec:
+            service:
+              serviceRef: "paymentsvalidation"
+              serviceInputs:
+                serviceDefinition:
+                  type: "Kubernetes"
+                  spec:
+                    artifacts:
+                      primary:
+                        primaryArtifactRef: "ScanPay"
     variables:
     - name: "virtualPath"
       type: "String"
