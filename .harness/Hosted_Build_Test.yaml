@@ -42,7 +42,7 @@ pipeline:
                     buildTool: Maven
                     args: package  -Dmaven.repo.local=/harness/repository -Pcoverage
                     packages: io.harness
-                    runOnlySelectedTests: false
+                    runOnlySelectedTests: true
                     preCommand: |+
                       #ET-SETUP-BEGIN
                       PROJ_DIR=$PWD
@@ -98,13 +98,6 @@ pipeline:
                         paths:
                           - "**/*.xml"
                     envVariables:
-                      ET_COLLECTOR_URL: https://app.harness.io/gratis/et-collector
-                      ET_APPLICATION_NAME: paymentsvalidation<+pipeline.variables.virtualPath>
-                      ET_DEPLOYMENT_NAME: build
-                      ET_ENV_ID: prod
-                      ET_ACCOUNT_ID: <+account.identifier>
-                      ET_ORG_ID: <+org.identifier>
-                      ET_PROJECT_ID: <+project.identifier>
                       MAVEN_OPTS: "-XX:-UseTypeSpeculation -Xshare:off"
                     outputVariables:
                       - name: release
