@@ -931,6 +931,8 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
+                      when:
+                        stageStatus: All
           serviceDependencies:
             - identifier: Dind
               name: Dind
