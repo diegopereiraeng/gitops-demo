@@ -1062,7 +1062,7 @@ pipeline:
                                             action:
                                               type: Ignore
                                 when:
-                                  stageStatus: Failure
+                                  stageStatus: Success
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation Process
@@ -1095,7 +1095,7 @@ pipeline:
                                       action:
                                         type: MarkAsSuccess
                                 when:
-                                  stageStatus: Failure
+                                  stageStatus: Success
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation List
@@ -1119,7 +1119,7 @@ pipeline:
                                       action:
                                         type: MarkAsSuccess
                                 when:
-                                  stageStatus: Failure
+                                  stageStatus: Success
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
@@ -1310,7 +1310,7 @@ pipeline:
                           echo "Docker Service Ready"
                           docker ps
 
-                          sleep 2m
+                          sleep 1m
                   - step:
                       type: Security
                       name: OWASP Zap Authorization
