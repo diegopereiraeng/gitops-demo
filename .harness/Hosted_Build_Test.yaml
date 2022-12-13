@@ -958,8 +958,15 @@ pipeline:
             spec:
               deploymentType: Kubernetes
               service:
-                serviceRef: <+input>
-                serviceInputs: <+input>
+                serviceRef: paymentsvalidationdiegopereiraeng
+                serviceInputs:
+                  serviceDefinition:
+                    type: Kubernetes
+                    spec:
+                      artifacts:
+                        primary:
+                          primaryArtifactRef: <+input>
+                          sources: <+input>
               environment:
                 environmentRef: prod
                 deployToAll: false
