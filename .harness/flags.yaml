@@ -380,7 +380,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: prod
         default:
           onVariation: "true"
@@ -1567,7 +1567,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: prod
         default:
           onVariation: "true"
