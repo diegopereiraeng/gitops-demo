@@ -10,6 +10,7 @@ pipeline:
         connectorRef: account.diegogithubapp
         repoName: payments-validation
         build: <+input>
+        prCloneStrategy: MergeCommit
   stages:
     - stage:
         name: Build
