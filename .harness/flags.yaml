@@ -79,7 +79,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "on"
+        state: "off"
       - identifier: asv108
         default:
           onVariation: "Off"
@@ -107,11 +107,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          variation: Welcome
-        - targets:
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          variation: Welcome
       - identifier: luisredda
         default:
           onVariation: "Off"
