@@ -27,7 +27,11 @@ inputSet:
                     artifacts:
                       primary:
                         primaryArtifactRef: "ScanPay"
+                        sources: "<+input>"
     variables:
     - name: "virtualPath"
       type: "String"
       value: "demo-se"
+    - name: "FF_Key"
+      type: "String"
+      value: "37720cd8-f9f6-4340-9e1c-e629878487e5"
