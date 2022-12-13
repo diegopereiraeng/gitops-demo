@@ -1273,7 +1273,7 @@ pipeline:
                           identifier: Enable_Feature_Beta
                           spec:
                             feature: VALIDATION_BETA_EXPERIMENT
-                            environment: <+pipeline.variables.virtualPath>
+                            environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
                             instructions:
                               - identifier: SetFeatureFlagStateIdentifier
                                 type: SetFeatureFlagState
@@ -1286,7 +1286,7 @@ pipeline:
                           identifier: Enable_Auth_Beta_Feature
                           spec:
                             feature: AUTHORIZATION_BETA_EXPERIMENT
-                            environment: <+pipeline.variables.virtualPath>
+                            environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
                             instructions:
                               - identifier: SetFeatureFlagStateIdentifier
                                 type: SetFeatureFlagState
@@ -1421,7 +1421,7 @@ pipeline:
                       identifier: Disable_Experiment
                       spec:
                         feature: VALIDATION_BETA_EXPERIMENT
-                        environment: <+pipeline.variables.virtualPath>
+                        environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
                         instructions:
                           - identifier: SetFeatureFlagStateIdentifier
                             type: SetFeatureFlagState
@@ -1437,7 +1437,7 @@ pipeline:
                       identifier: Disable_Auth_Feature
                       spec:
                         feature: AUTHORIZATION_BETA_EXPERIMENT
-                        environment: <+pipeline.variables.virtualPath>
+                        environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
                         instructions:
                           - identifier: SetFeatureFlagStateIdentifier
                             type: SetFeatureFlagState
