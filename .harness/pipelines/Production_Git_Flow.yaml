@@ -18,12 +18,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.cddemose
-              namespace: harness-ci-ff-demo
-              automountServiceAccountToken: true
           serviceDependencies:
             - identifier: dind
               name: dind
@@ -300,6 +294,12 @@ pipeline:
                 variables: []
           sharedPaths:
             - /var/run
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
         when:
           pipelineStatus: Success
           condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
