@@ -244,7 +244,24 @@ pipeline:
                             exportTerraformHumanReadablePlan: true
                           provisionerIdentifier: tf<+pipeline.variables.gitUser>
                         timeout: 10m
-                        failureStrategies: []
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Retry
+                                spec:
+                                  retryCount: 9
+                                  onRetryFailure:
+                                    action:
+                                      type: ManualIntervention
+                                      spec:
+                                        timeout: 5m
+                                        onTimeout:
+                                          action:
+                                            type: Abort
+                                  retryIntervals:
+                                    - 5s
                     - step:
                         type: TerraformApply
                         name: Terraform Apply
@@ -254,7 +271,24 @@ pipeline:
                             type: InheritFromPlan
                           provisionerIdentifier: tf<+pipeline.variables.gitUser>
                         timeout: 10m
-                        failureStrategies: []
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Retry
+                                spec:
+                                  retryCount: 9
+                                  onRetryFailure:
+                                    action:
+                                      type: ManualIntervention
+                                      spec:
+                                        timeout: 5m
+                                        onTimeout:
+                                          action:
+                                            type: Abort
+                                  retryIntervals:
+                                    - 5s
               - stepGroup:
                   name: Full Automation - Monitored Service - SLOs - Metrics - FF Key
                   identifier: Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key
@@ -564,7 +598,24 @@ pipeline:
                             exportTerraformHumanReadablePlan: true
                           provisionerIdentifier: tf2<+pipeline.variables.gitUser>
                         timeout: 10m
-                        failureStrategies: []
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Retry
+                                spec:
+                                  retryCount: 9
+                                  retryIntervals:
+                                    - 5s
+                                  onRetryFailure:
+                                    action:
+                                      type: ManualIntervention
+                                      spec:
+                                        timeout: 5m
+                                        onTimeout:
+                                          action:
+                                            type: Abort
                     - step:
                         type: TerraformApply
                         name: Terraform Apply
@@ -574,7 +625,24 @@ pipeline:
                             type: InheritFromPlan
                           provisionerIdentifier: tf2<+pipeline.variables.gitUser>
                         timeout: 10m
-                        failureStrategies: []
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Retry
+                                spec:
+                                  retryCount: 9
+                                  retryIntervals:
+                                    - 5s
+                                  onRetryFailure:
+                                    action:
+                                      type: ManualIntervention
+                                      spec:
+                                        timeout: 5m
+                                        onTimeout:
+                                          action:
+                                            type: Abort
               - step:
                   type: ShellScript
                   name: First Deploy
