@@ -57,13 +57,6 @@ pipeline:
                       spec:
                         connectorRef: account.harnessImage
                         image: docker:dind
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.cddemose
-              namespace: harness-ci-buildfarm
-              nodeSelector: {}
-              os: Linux
           serviceDependencies:
             - identifier: DinD
               name: DinD
@@ -79,3 +72,9 @@ pipeline:
           sharedPaths:
             - /var/run
             - /var/lib/docker
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
