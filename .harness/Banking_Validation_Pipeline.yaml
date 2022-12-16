@@ -1424,6 +1424,9 @@ pipeline:
               sharedPaths:
                 - /var/run
                 - /var/lib/docker
+            when:
+              pipelineStatus: Success
+              condition: <+pipeline.variables.firstDeploy> == "false"
     - stage:
         name: Feature Experiment Disable
         identifier: Feature_Experiment_Disable
