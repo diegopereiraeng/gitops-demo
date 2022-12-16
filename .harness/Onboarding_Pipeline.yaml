@@ -578,7 +578,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: "curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: sample_api_key' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{\"ffKey\": \"sample_value\" , \"gitUser\": \"sample_value\" }'"
+                        script: "curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: <+secrets.getValue(\"diegopatharness\")>' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{\"ffKey\": \"sample_value\" , \"gitUser\": \"sample_value\" }'"
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
