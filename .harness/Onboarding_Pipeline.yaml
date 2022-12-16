@@ -500,7 +500,7 @@ pipeline:
 
                                     echo "SLO Status Code: $response_slo_auth_errors"
 
-                                    if [ $response_slo_auth_errors != "200" && $response_slo_auth_errors != "400" ]; then
+                                    if [[ $response_slo_auth_errors != "200" && $response_slo_auth_errors != "400" ]]; then
                                     echo "error creating SLO"
                                     exit 1
                                     fi
@@ -511,6 +511,10 @@ pipeline:
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_rt"`
 
+                                    if [[ $response_slo_auth_rt != "200" && $response_slo_auth_rt != "400" ]]; then
+                                    echo "error creating SLO"
+                                    exit 1
+                                    fi
 
                                     response_slo_val_errors=`curl -s -o response_slo_val_errors.txt -w "%{http_code}" -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
@@ -518,11 +522,21 @@ pipeline:
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_errors"`
 
+                                    if [[ $response_slo_val_errors != "200" && $response_slo_val_errors != "400" ]]; then
+                                    echo "error creating SLO"
+                                    exit 1
+                                    fi
+
                                     response_slo_val_rt=`curl -s -o response_slo_val_rt.txt -w "%{http_code}" -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_rt"`
+
+                                    if [[ $response_slo_val_rt != "200" && $response_slo_val_rt != "400" ]]; then
+                                    echo "error creating SLO"
+                                    exit 1
+                                    fi
 
                                     echo "response auth error: $response_slo_auth_errors"
                                     echo "response auth rt: $response_slo_auth_rt"
