@@ -559,15 +559,12 @@ pipeline:
                                 fi
                           environmentVariables: []
                           outputVariables:
-                            - name: template_svc
+                            - name: monit_service
                               type: String
-                              value: template_svc
+                              value: monit_service
                             - name: new_svc
                               type: String
                               value: new_svc
-                            - name: slo_auth_errors
-                              type: String
-                              value: slo_auth_errors
                             - name: FFApiKey
                               type: String
                               value: apiKey
