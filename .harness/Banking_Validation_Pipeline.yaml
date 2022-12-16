@@ -1022,7 +1022,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == "false"
+                                  condition: <+pipeline.variables.firstDeploy> == false
                             - step:
                                 type: Barrier
                                 name: Barrier
@@ -1074,7 +1074,7 @@ pipeline:
                                               type: Ignore
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == "false"
+                                  condition: <+pipeline.variables.firstDeploy> == false
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation Process
@@ -1108,7 +1108,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == "false"
+                                  condition: <+pipeline.variables.firstDeploy> == false
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation List
@@ -1133,7 +1133,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == "false"
+                                  condition: <+pipeline.variables.firstDeploy> == false
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
@@ -1239,7 +1239,7 @@ pipeline:
                                   type: MarkAsSuccess
                           when:
                             stageStatus: Success
-                            condition: <+pipeline.variables.firstDeploy> == "false"
+                            condition: <+pipeline.variables.firstDeploy> == false
                       - step:
                           type: ShellScript
                           name: Validation List Load
@@ -1259,7 +1259,7 @@ pipeline:
                           failureStrategies: []
                           when:
                             stageStatus: Success
-                            condition: <+pipeline.variables.firstDeploy> == "false"
+                            condition: <+pipeline.variables.firstDeploy> == false
             tags: {}
             when:
               pipelineStatus: Success
@@ -1426,7 +1426,7 @@ pipeline:
                 - /var/lib/docker
             when:
               pipelineStatus: Success
-              condition: <+pipeline.variables.firstDeploy> == "false"
+              condition: <+pipeline.variables.firstDeploy> == false
     - stage:
         name: Feature Experiment Disable
         identifier: Feature_Experiment_Disable
