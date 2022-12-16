@@ -595,3 +595,8 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: firstDeploy
+      type: String
+      default: "no"
+      description: ""
+      value: <+input>.allowedValues(yes,no)
