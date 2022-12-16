@@ -944,7 +944,6 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
-            - <+pipeline.variables.firstDeploy>
           platform:
             os: Linux
             arch: Amd64
