@@ -235,10 +235,10 @@ pipeline:
                                   spec:
                                     content: |-
                                       orgId = "default"
-                                      projectId = "Demo_Sandbox"
+                                      projectId = "GIT_FLOW_DEMO"
                                       gitUser = "<+pipeline.variables.gitUser>"
                                       accId = "6_vVHzo9Qeu9fXvj-AcbCQ"
-                                      apiKey = "<+secrets.getValue("diego_teste")>"
+                                      apiKey = "<+secrets.getValue("diegopatharness")>"
                                   type: Inline
                             exportTerraformPlanJson: true
                             exportTerraformHumanReadablePlan: true
@@ -547,10 +547,10 @@ pipeline:
                                   spec:
                                     content: |-
                                       orgId = "default"
-                                      projectId = "Demo_Sandbox"
+                                      projectId = "GIT_FLOW_DEMO"
                                       gitUser = "<+pipeline.variables.gitUser>"
                                       accId = "6_vVHzo9Qeu9fXvj-AcbCQ"
-                                      apiKey = "<+secrets.getValue("diego_teste")>"
+                                      apiKey = "<+secrets.getValue("diegopatharness")>"
                                       ffKey = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation.output.outputVariables.FFApiKey>
                                   type: Inline
                             exportTerraformPlanJson: true
