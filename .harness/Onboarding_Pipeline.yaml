@@ -365,7 +365,7 @@ pipeline:
                                 #   "https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id&pageNumber=0&pageSize=0" \
                                 #   -H 'x-api-key: <key>'`
 
-                                response_get_key=`curl -i -X GET \
+                                response_get_key=`curl -s -o response_key.txt -w "%{http_code}" -i -X GET \
                                   "https://app.harness.io/gateway/cf/admin/apikey/git_user?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id" \
                                   -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
 
