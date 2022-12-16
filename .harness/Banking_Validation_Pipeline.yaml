@@ -1462,6 +1462,11 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: firstDeploy
+      type: String
+      default: "false"
+      description: ""
+      value: <+input>.allowedValues(true,false)
   flowControl:
     barriers:
       - name: DAST CHECK
