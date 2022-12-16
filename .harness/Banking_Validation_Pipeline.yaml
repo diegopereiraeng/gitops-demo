@@ -944,6 +944,7 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
+            - <+pipeline.variables.firstDeploy>
           platform:
             os: Linux
             arch: Amd64
@@ -1019,6 +1020,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
+                                  condition: <+pipeline.variables.firstDeploy> == "false"
                             - step:
                                 type: Barrier
                                 name: Barrier
@@ -1070,6 +1072,7 @@ pipeline:
                                               type: Ignore
                                 when:
                                   stageStatus: Success
+                                  condition: <+pipeline.variables.firstDeploy> == "false"
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation Process
@@ -1103,6 +1106,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
+                                  condition: <+pipeline.variables.firstDeploy> == "false"
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation List
@@ -1127,12 +1131,17 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
+                                  condition: <+pipeline.variables.firstDeploy> == "false"
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
                             type: K8sCanaryDelete
                             timeout: 10m
-                            spec: {}
+                            spec:
+                              skipDryRun: false
+                            when:
+                              stageStatus: Success
+                            failureStrategies: []
                   - stepGroup:
                       name: Primary Deployment
                       identifier: primaryDepoyment
@@ -1226,6 +1235,9 @@ pipeline:
                                   - AllErrors
                                 action:
                                   type: MarkAsSuccess
+                          when:
+                            stageStatus: Success
+                            condition: <+pipeline.variables.firstDeploy> == "false"
                       - step:
                           type: ShellScript
                           name: Validation List Load
@@ -1243,6 +1255,9 @@ pipeline:
                               - cd-demo-se
                           timeout: 10m
                           failureStrategies: []
+                          when:
+                            stageStatus: Success
+                            condition: <+pipeline.variables.firstDeploy> == "false"
             tags: {}
             when:
               pipelineStatus: Success
