@@ -365,8 +365,8 @@ pipeline:
                                 #   "https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id&pageNumber=0&pageSize=0" \
                                 #   -H 'x-api-key: <key>'`
 
-                                response_get_key=`curl -s -o response_key.txt -w "%{http_code}" -i -X GET \
-                                  "https://app.harness.io/gateway/cf/admin/apikey/git_user?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id" \
+                                response_get_key=`curl -s -o response_key.txt -w "%{http_code}" -X GET \
+                                  "https://app.harness.io/gateway/cf/admin/apikey/$git_user?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id" \
                                   -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
 
                                 if [ $response_get_key == "200" ]; then
@@ -532,7 +532,7 @@ pipeline:
 
                                     enable_monit_svc=`curl -s -o enable_monit_svc.txt -w "%{http_code}" -i -X PUT \
                                     "https://app.harness.io/gateway/cv/api/monitored-service/$monit_service/health-monitoring-flag?accountId=$acc_id&orgIdentifier=$org_id&projectIdentifier=$project_id&enable=true" \
-                                    -H 'x-api-key: pat.6_vVHzo9Qeu9fXvj-AcbCQ.6398f4e450711b06757da632.fq2do86oxhF5zRlU2K1p'`
+                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
 
                                     echo "Enabling Monitored Service Status Code: $response_slo_auth_errors"
 
