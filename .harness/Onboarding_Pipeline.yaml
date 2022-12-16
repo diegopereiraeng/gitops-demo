@@ -462,19 +462,19 @@ pipeline:
 
 
                                 cat <<EOF > slo_auth_errors.json
-                                <+pipeline.stages.Automation.spec.execution.steps.Export_Templates.output.outputVariables.slo_auth_errors>
+                                <+pipeline.stages.Automation.spec.execution.steps.Export_SLOs_Templates.output.outputVariables.slo_auth_errors>
                                 EOF
 
                                 cat <<EOF > slo_auth_rt.json
-                                <+pipeline.stages.Automation.spec.execution.steps.Export_Templates.output.outputVariables.slo_auth_rt>
+                                <+pipeline.stages.Automation.spec.execution.steps.Export_SLOs_Templates.output.outputVariables.slo_auth_rt>
                                 EOF
 
                                 cat <<EOF > slo_val_errors.json
-                                <+pipeline.stages.Automation.spec.execution.steps.Export_Templates.output.outputVariables.slo_val_errors>
+                                <+pipeline.stages.Automation.spec.execution.steps.Export_SLOs_Templates.output.outputVariables.slo_val_errors>
                                 EOF
 
                                 cat <<EOF > slo_val_rt.json
-                                <+pipeline.stages.Automation.spec.execution.steps.Export_Templates.output.outputVariables.slo_val_rt>
+                                <+pipeline.stages.Automation.spec.execution.steps.Export_SLOs_Templates.output.outputVariables.slo_val_rt>
                                 EOF
 
                                 echo "Creating SLOs"
