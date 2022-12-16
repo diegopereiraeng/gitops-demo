@@ -3,7 +3,10 @@ pipeline:
   identifier: Banking_Validation_Pipeline
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
-  tags: {}
+  tags:
+    owner: diego
+    latam: ""
+    banking-demo: ""
   properties:
     ci:
       codebase:
@@ -1487,3 +1490,4 @@ pipeline:
         identifier: DAST_CHECK
       - name: FF READY
         identifier: FF_READY
+  description: Backend Platform Demo with SRM focus real time demo
