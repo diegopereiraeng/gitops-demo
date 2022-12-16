@@ -606,7 +606,7 @@ pipeline:
                                       accId = "6_vVHzo9Qeu9fXvj-AcbCQ"
                                       apiKey = "<+secrets.getValue("diegopatharness")>"
                                       ffKey = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation.output.outputVariables.FFApiKey>
-                                      serviceId = ""
+                                      serviceId = "<+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.monit_service>"
                                   type: Inline
                             exportTerraformPlanJson: true
                             exportTerraformHumanReadablePlan: true
