@@ -1412,6 +1412,7 @@ pipeline:
                 spec:
                   connectorRef: account.cddemose
                   namespace: harness-ci-buildfarm
+                  automountServiceAccountToken: true
                   nodeSelector: {}
                   os: Linux
               serviceDependencies:
