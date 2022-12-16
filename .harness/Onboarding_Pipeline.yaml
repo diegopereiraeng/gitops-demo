@@ -391,11 +391,9 @@ pipeline:
                                     #     echo "key doesn't exist"
                                     # fi
                                 else
-                                    echo "failed to get api keys"
+                                    echo "failed to get api key $git_user error: $response_get_key"
                                     cat response_key.txt
-                                    exit 1
                                 fi
-
 
 
                                 response_create_key=`curl -s -o response_create_key.txt -w "%{http_code}" --location --request POST 'https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
