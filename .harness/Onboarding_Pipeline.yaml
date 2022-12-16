@@ -276,7 +276,7 @@ pipeline:
                                 service_id=`echo payments_validation_$git_user | tr '[:upper:]' '[:lower:]'`
                                 acc_id="6_vVHzo9Qeu9fXvj-AcbCQ"
                                 org_id="default"
-                                project_id="Demo_Sandbox"
+                                project_id="GIT_FLOW_DEMO"
                                 env_id=`echo $git_user | tr '[:upper:]' '[:lower:]'`
                                 template_applied="false"
                                 template_saved="false"
@@ -295,7 +295,7 @@ pipeline:
 
                                 response_monit_service_create=`curl -s -o response_monit_service_create.txt -w "%{http_code}" -X POST \
                                 'https://app.harness.io/gateway/cv/api/monitored-service/create-default?accountId='$acc_id'&orgIdentifier='$org_id'&projectIdentifier='$project_id'&environmentIdentifier='$env_id'&serviceIdentifier='$service_ref'' \
-                                -H 'x-api-key: <+secrets.getValue("diego_teste")>' -d ""`
+                                -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -d ""`
 
                                 if [ $response_monit_service_create != "200" ]; then
                                 errorCode=`cat response_monit_service_create.txt | jq .code`
@@ -303,11 +303,11 @@ pipeline:
                                 if [[ "$errorCode" != "\"DUPLICATE_FIELD\"" ]]; then
                                 echo "curl -s -o response_monit_service_create.txt -w "%{http_code}" -X POST \
                                 'https://app.harness.io/gateway/cv/api/monitored-service/create-default?accountId='$acc_id'&orgIdentifier='$org_id'&projectIdentifier='$project_id'&environmentIdentifier='$env_id'&serviceIdentifier='$service_ref'' \
-                                -H 'x-api-key: <+secrets.getValue("diego_teste")>' -d \"\""
+                                -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -d \"\""
                                 cat response_monit_service_create.txt
                                 exit 1
                                 else
-                                http_get_monit_svc_response=`curl -s -o http_get_monit_svc_response.txt -w "%{http_code}" -H 'x-api-key: <+secrets.getValue("diego_teste")>' -s -o response.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$service_id\_$env_ref\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_id`
+                                http_get_monit_svc_response=`curl -s -o http_get_monit_svc_response.txt -w "%{http_code}" -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -s -o response.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$service_id\_$env_ref\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_id`
                                 echo "get monit svc status code: $http_get_monit_svc_response"
                                 if [ $http_get_monit_svc_response != "200" ]; then
                                 echo "error getting monit svc"
@@ -325,19 +325,11 @@ pipeline:
                                 fi
 
 
-
-
-                                #export monitoredService=`cat response_monit_service_create.txt | jq .resource.monitoredService.identifier`
-
-
-
-
+                                export monit_service
 
                                 response_get_key=`curl -s -o response_key.txt -w "%{http_code}" -X GET \
                                   "https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id&pageNumber=0&pageSize=0" \
-                                  -H 'x-api-key: <+secrets.getValue("diego_teste")>'`
-
-                                #cat response_key.txt
+                                  -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
 
                                 if [ $response_get_key == "200" ]; then
                                     keys_count=`cat response_key.txt | jq .itemCount`
@@ -346,10 +338,9 @@ pipeline:
                                     if [[ $keys_count -ne 0 ]]; then
                                         # handle error
                                         echo "key already exist,deleting..."
-                                        #echo "https://app.harness.io/gateway/cf/admin/apikey/'$git_user'?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id''"
                                         response_delete_key=`curl -s -o response_delete_key.txt -w "%{http_code}" -X DELETE \
                                         'https://app.harness.io/gateway/cf/admin/apikey/'$git_user'?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
-                                        -H 'x-api-key: <+secrets.getValue("diego_teste")>'`
+                                        -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
                                         if [ $response_delete_key == "200" ]; then
                                         # handle error
                                         echo "key deleted"
@@ -371,7 +362,7 @@ pipeline:
 
                                 response_create_key=`curl -s -o response_create_key.txt -w "%{http_code}" --location --request POST 'https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
                                 --header 'Content-Type: application/json' \
-                                --header 'x-api-key: <+secrets.getValue("diego_teste")>' \
+                                --header 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                 --header 'Cookie: _cfuvid=JgMXvkM44fH_Jc6B7n0hEVubOkB9vRCmQuxpBJekEP0-1670979409875-0-604800000' \
                                 --data-raw '{ 
                                     "description": "This key is for server side production environment",
@@ -392,7 +383,7 @@ pipeline:
                                 fi
 
 
-                                http_response_template=`curl -H 'x-api-key: <+secrets.getValue("diego_teste")>' -s -o response_template.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$template_monitored_service\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_template`
+                                http_response_template=`curl -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -s -o response_template.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$template_monitored_service\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_template`
 
                                 echo "Template Monitored service return code: ${http_response_template}"
 
@@ -419,7 +410,7 @@ pipeline:
                                     echo "Saving Configured Monitored Service in Harness..."
                                     echo "monit service: $monit_service"
                                     #echo "URL to Save: curl -s -o response_monitored_service_created.txt -w \"%{http_code}\" PUT \"https://app.harness.io/gateway/cv/api/monitored-service/$monit_service?accountId=$acc_id\""
-                                    response_monitored_service_created=`curl -H 'x-api-key: <+secrets.getValue("diego_teste")>' -H 'Content-Type: application/json' -s -o response_monitored_service_created.txt -w "%{http_code}" --location --request PUT https://app.harness.io/gateway/cv/api/monitored-service/$monit_service?accountId=$acc_id \
+                                    response_monitored_service_created=`curl -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -H 'Content-Type: application/json' -s -o response_monitored_service_created.txt -w "%{http_code}" --location --request PUT https://app.harness.io/gateway/cv/api/monitored-service/$monit_service?accountId=$acc_id \
                                     --data "$template"`
 
                                     echo "Save Status Code: $response_monitored_service_created"
@@ -468,7 +459,7 @@ pipeline:
                                     response_slo_auth_errors=`curl -s -o response_slo_auth_errors.txt -w "%{http_code}" -i -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
-                                    -H 'x-api-key: <+secrets.getValue("diego_teste")>' \
+                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_errors"`
 
                                     echo "SLO Status Code: $response_slo_auth_errors"
@@ -478,26 +469,42 @@ pipeline:
                                     exit 1
                                     fi
 
-
-                                    response_slo_auth_rt=`curl -i -X POST \
+                                    response_slo_auth_rt=`curl -s -o response_slo_auth_rt.txt -w "%{http_code}" -i -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
-                                    -H 'x-api-key: <+secrets.getValue("diego_teste")>' \
+                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_rt"`
-                                    response_slo_val_errors=`curl -i -X POST \
+
+
+                                    response_slo_val_errors=`curl -s -o response_slo_val_errors.txt -w "%{http_code}" -i -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
-                                    -H 'x-api-key: <+secrets.getValue("diego_teste")>' \
+                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_errors"`
-                                    response_slo_val_rt=`curl -i -X POST \
+
+                                    response_slo_val_rt=`curl -s -o response_slo_val_rt.txt -w "%{http_code}" -i -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
-                                    -H 'x-api-key: <+secrets.getValue("diego_teste")>' \
+                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_rt"`
+
                                     echo "response auth error: $response_slo_auth_errors"
                                     echo "response auth rt: $response_slo_auth_rt"
                                     echo "response val error: $response_slo_val_errors"
                                     echo "response val rt: $response_slo_val_rt"
+
+                                    enable_monit_svc=`curl -s -o enable_monit_svc.txt -w "%{http_code}" -i -X PUT \
+                                    "https://app.harness.io/gateway/cv/api/monitored-service/$monit_service/health-monitoring-flag?accountId=$acc_id&orgIdentifier=$org_id&projectIdentifier=$project_id&enable=true" \
+                                    -H 'x-api-key: pat.6_vVHzo9Qeu9fXvj-AcbCQ.6398f4e450711b06757da632.fq2do86oxhF5zRlU2K1p'`
+
+                                    echo "Enabling Monitored Service Status Code: $response_slo_auth_errors"
+
+                                    if [ $enable_monit_svc != "200" ]; then
+                                        echo "error enabling monit svc"
+                                        exit 1
+                                    fi
+
+                                    echo "Success, you are ready to use Banking Demo"
 
                                 fi
                           environmentVariables: []
