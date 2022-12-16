@@ -392,6 +392,7 @@ pipeline:
                                     # fi
                                 else
                                     echo "failed to get api keys"
+                                    cat response_key.txt
                                     exit 1
                                 fi
 
