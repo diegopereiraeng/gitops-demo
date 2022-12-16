@@ -668,9 +668,9 @@ pipeline:
                       type: Inline
                       spec:
                         script: |-
-                          echo '{ "ffKey": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey> , "gitUser": "<+pipeline.variables.gitUser>", "firstDeploy": "true" }'
+                          echo '{ "FFKEY": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey> , "gitUser": "<+pipeline.variables.gitUser>", "firstDeploy": "true" }'
 
-                          curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: <+secrets.getValue("diegopatharness")>' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{"ffKey": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation.output.outputVariables.FFApiKey> , "gitUser": "<+pipeline.variables.gitUser>", "firstDeploy": "true" }'
+                          curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: <+secrets.getValue("diegopatharness")>' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{ "FFKEY": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey> , "gitUser": "<+pipeline.variables.gitUser>", "firstDeploy": "true" }'
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
