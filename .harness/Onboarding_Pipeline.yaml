@@ -361,15 +361,18 @@ pipeline:
 
                                 export monit_service
 
-                                response_get_key=`curl -s -o response_key.txt -w "%{http_code}" -X GET \
-                                  "https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id&pageNumber=0&pageSize=0" \
+                                # response_get_key=`curl -s -o response_key.txt -w "%{http_code}" -X GET \
+                                #   "https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id&pageNumber=0&pageSize=0" \
+                                #   -H 'x-api-key: <key>'`
+
+                                response_get_key=`curl -i -X GET \
+                                  "https://app.harness.io/gateway/cf/admin/apikey/git_user?accountIdentifier=$acc_id&orgIdentifier=$org_id&environmentIdentifier=$env_id&projectIdentifier=$project_id" \
                                   -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
 
                                 if [ $response_get_key == "200" ]; then
-                                    keys_count=`cat response_key.txt | jq .itemCount`
-                                    echo "api keys found: $keys_count"
-                                    #cat response_key.txt
-                                    if [[ $keys_count -ne 0 ]]; then
+                                    # keys_count=`cat response_key.txt | jq .itemCount`
+                                    # echo "api keys found: $keys_count"
+                                    # if [[ $keys_count -ne 0 ]]; then
                                         # handle error
                                         echo "key already exist,deleting..."
                                         response_delete_key=`curl -s -o response_delete_key.txt -w "%{http_code}" -X DELETE \
@@ -384,9 +387,9 @@ pipeline:
                                         echo "coudn't delete the key =("
                                         exit 1
                                         fi
-                                    else
-                                        echo "key doesn't exist"
-                                    fi
+                                    # else
+                                    #     echo "key doesn't exist"
+                                    # fi
                                 else
                                     echo "failed to get api keys"
                                     exit 1
