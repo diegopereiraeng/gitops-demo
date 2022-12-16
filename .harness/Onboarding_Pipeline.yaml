@@ -320,6 +320,7 @@ pipeline:
                                 template_monitored_service="paymentsvalidationdiegopereiraeng_prod"
                                 app_metric_name="payments-validation-diegopereiraeng"
                                 project_template="GIT_FLOW_DEMO"
+                                target_env="prod"
                                 # Template info end
 
                                 monit_service=""
@@ -328,7 +329,7 @@ pipeline:
 
 
                                 response_monit_service_create=`curl -s -o response_monit_service_create.txt -w "%{http_code}" -X POST \
-                                'https://app.harness.io/gateway/cv/api/monitored-service/create-default?accountId='$acc_id'&orgIdentifier='$org_id'&projectIdentifier='$project_id'&environmentIdentifier='$env_id'&serviceIdentifier='$service_ref'' \
+                                'https://app.harness.io/gateway/cv/api/monitored-service/create-default?accountId='$acc_id'&orgIdentifier='$org_id'&projectIdentifier='$project_id'&environmentIdentifier='$target_env'&serviceIdentifier='$service_ref'' \
                                 -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -d ""`
 
                                 if [ $response_monit_service_create != "200" ]; then
@@ -336,12 +337,12 @@ pipeline:
                                 echo "response_monit_service_create errorCode: $errorCode"
                                 if [[ "$errorCode" != "\"DUPLICATE_FIELD\"" ]]; then
                                 echo "curl -s -o response_monit_service_create.txt -w "%{http_code}" -X POST \
-                                'https://app.harness.io/gateway/cv/api/monitored-service/create-default?accountId='$acc_id'&orgIdentifier='$org_id'&projectIdentifier='$project_id'&environmentIdentifier='$env_id'&serviceIdentifier='$service_ref'' \
+                                'https://app.harness.io/gateway/cv/api/monitored-service/create-default?accountId='$acc_id'&orgIdentifier='$org_id'&projectIdentifier='$project_id'&environmentIdentifier='$target_env'&serviceIdentifier='$service_ref'' \
                                 -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -d \"\""
                                 cat response_monit_service_create.txt
                                 exit 1
                                 else
-                                http_get_monit_svc_response=`curl -s -o http_get_monit_svc_response.txt -w "%{http_code}" -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -s -o response.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$service_id\_$env_ref\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_id`
+                                http_get_monit_svc_response=`curl -s -o http_get_monit_svc_response.txt -w "%{http_code}" -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -s -o response.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$service_id\_$target_env\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_id`
                                 echo "get monit svc status code: $http_get_monit_svc_response"
                                 if [ $http_get_monit_svc_response != "200" ]; then
                                 echo "error getting monit svc"
@@ -431,7 +432,7 @@ pipeline:
                                 else
                                     #cat response_template.txt
                                     echo "first jq"
-                                    template=`cat response_template.txt | jq .data.monitoredService | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq  "(.identifier?) = $monit_service" | jq "(.name?) = $monit_service" | jq "(.environmentRef?) = \"$env_ref\"" | jq "(.serviceRef?) = \"$service_ref\"" | jq "(.environmentRefList[] | .) = \"$env_ref\"" | sed  "s/$app_metric_name/${service_name}/g"`
+                                    template=`cat response_template.txt | jq .data.monitoredService | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq  "(.identifier?) = $monit_service" | jq "(.name?) = $monit_service" | jq "(.environmentRef?) = \"$target_env\"" | jq "(.serviceRef?) = \"$service_ref\"" | jq "(.environmentRefList[] | .) = \"$target_env\"" | sed  "s/$app_metric_name/${service_name}/g"`
                                     echo "jq to template"
                                     
                                     export new_svc=$template
@@ -459,6 +460,8 @@ pipeline:
                                 echo "project: $project_id"
                                 echo "monit svc: $monit_service"
                                 echo "gitUSer: $git_user"
+                                echo "user ff env: $env_ref"
+                                echo "target deploy env: $target_env"
 
 
                                 cat <<EOF > slo_auth_errors.json
