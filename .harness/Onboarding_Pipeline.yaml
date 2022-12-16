@@ -578,7 +578,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: "curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: <+secrets.getValue(\"diegopatharness\")>' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{\"ffKey\": \"<+pipeline.stages.Automation.spec.execution.steps.Full_Automation.output.outputVariables.FFApiKey>\" , \"gitUser\": \"<+pipeline.variables.gitUser>\" }'"
+                        script: "curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: <+secrets.getValue(\"diegopatharness\")>' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{\"ffKey\": \"<+pipeline.stages.Automation.spec.execution.steps.Full_Automation.output.outputVariables.FFApiKey>\" , \"gitUser\": \"<+pipeline.variables.gitUser>\", \"firstDeploy\": \"true\" }'"
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
