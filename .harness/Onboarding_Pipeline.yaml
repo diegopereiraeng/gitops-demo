@@ -543,9 +543,8 @@ pipeline:
                                     echo "response val error: $response_slo_val_errors"
                                     echo "response val rt: $response_slo_val_rt"
 
-                                    enable_monit_svc=`curl -s -o enable_monit_svc.txt -w "%{http_code}" -i -X PUT \
-                                    "https://app.harness.io/gateway/cv/api/monitored-service/$monit_service/health-monitoring-flag?accountId=$acc_id&orgIdentifier=$org_id&projectIdentifier=$project_id&enable=true" \
-                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
+                                    enable_monit_svc=`curl -s -o enable_monit_svc.txt -w "%{http_code}" -X PUT "https://app.harness.io/gateway/cv/api/monitored-service/$monit_service/health-monitoring-flag?accountId=$acc_id&orgIdentifier=$org_id&projectIdentifier=$project_id&enable=true" \
+                                    -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -d ""`
 
                                     echo "Enabling Monitored Service Status Code: $response_slo_auth_errors"
 
