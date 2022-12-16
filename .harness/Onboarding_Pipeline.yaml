@@ -492,7 +492,7 @@ pipeline:
 
 
                                 if [ $template_saved == "true" ]; then
-                                    response_slo_auth_errors=`curl -s -o response_slo_auth_errors.txt -w "%{http_code}" -i -X POST \
+                                    response_slo_auth_errors=`curl -s -o response_slo_auth_errors.txt -w "%{http_code}" -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
@@ -505,20 +505,20 @@ pipeline:
                                     exit 1
                                     fi
 
-                                    response_slo_auth_rt=`curl -s -o response_slo_auth_rt.txt -w "%{http_code}" -i -X POST \
+                                    response_slo_auth_rt=`curl -s -o response_slo_auth_rt.txt -w "%{http_code}" -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_rt"`
 
 
-                                    response_slo_val_errors=`curl -s -o response_slo_val_errors.txt -w "%{http_code}" -i -X POST \
+                                    response_slo_val_errors=`curl -s -o response_slo_val_errors.txt -w "%{http_code}" -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_errors"`
 
-                                    response_slo_val_rt=`curl -s -o response_slo_val_rt.txt -w "%{http_code}" -i -X POST \
+                                    response_slo_val_rt=`curl -s -o response_slo_val_rt.txt -w "%{http_code}" -X POST \
                                     'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
@@ -536,8 +536,9 @@ pipeline:
                                     echo "Enabling Monitored Service Status Code: $response_slo_auth_errors"
 
                                     if [ $enable_monit_svc != "200" ]; then
-                                        echo "error enabling monit svc"
-                                        exit 1
+                                        echo "error enabling monit svc: $enable_monit_svc"
+                                        cat enable_monit_svc.txt
+                                        exit 9
                                     fi
 
                                     echo "Success, you are ready to use Banking Demo"
