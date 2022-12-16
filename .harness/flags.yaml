@@ -35,6 +35,16 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "Off"
@@ -67,14 +77,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: jrjrcombr
-          variation: Bienvenido
-        - targets:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
         - targets:
           - identifier: monicadroneio
           variation: Welcome
+        - targets:
+          - identifier: jrjrcombr
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -107,11 +117,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          variation: Welcome
-        - targets:
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          variation: Welcome
       - identifier: ldhertert
         default:
           onVariation: "Off"
@@ -157,6 +167,16 @@ featureFlags:
           value: TbaLega9GeE
       environments:
       - identifier: intercam
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: harnesspov
         default:
           onVariation: "OFF"
           offVariation: "OFF"
@@ -381,6 +401,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -410,7 +440,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: andymarshallff
         default:
           onVariation: "true"
@@ -478,6 +508,16 @@ featureFlags:
           value: "false"
       environments:
       - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
         default:
           onVariation: "true"
           offVariation: "false"
@@ -587,6 +627,16 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: poharav
         default:
           onVariation: Dark
@@ -684,6 +734,16 @@ featureFlags:
           value: "false"
       environments:
       - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
         default:
           onVariation: "true"
           offVariation: "false"
@@ -789,6 +849,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -886,6 +956,16 @@ featureFlags:
           value: "false"
       environments:
       - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1010,6 +1090,16 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: poharav
         default:
           onVariation: Premium
@@ -1111,6 +1201,16 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -1208,6 +1308,16 @@ featureFlags:
           value: "off"
       environments:
       - identifier: intercam
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: harnesspov
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -1324,6 +1434,16 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: poharav
         default:
           onVariation: V2
@@ -1425,6 +1545,16 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "On"
@@ -1522,6 +1652,16 @@ featureFlags:
           value: '#fff'
       environments:
       - identifier: intercam
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: harnesspov
         default:
           onVariation: Black
           offVariation: White
@@ -1628,6 +1768,16 @@ featureFlags:
           onVariation: "false"
           offVariation: "false"
         state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
       - identifier: poharav
         default:
           onVariation: "false"
