@@ -1250,11 +1250,11 @@ pipeline:
                             script: |-
                               export KUBECONFIG=${HARNESS_KUBE_CONFIG_PATH}
 
-                              echo "getting logs from deployment: <+pipeline.variables.virtualPath>-canary"
+                              echo "getting logs from deployment: <+service.name>-canary"
 
-                              kubectl -n <+infra.namespace> logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m
-                              kubectl -n <+infra.namespace> describe deploy <+pipeline.variables.virtualPath>-canary
-                              logs=`kubectl logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m`
+                              kubectl -n <+infra.namespace> logs --selector app=<+service.name> --since=15m
+                              kubectl -n <+infra.namespace> describe deploy <+service.name>-canary
+                              logs=`kubectl logs --selector app=<+service.name> --since=15m`
                         environmentVariables: []
                         outputVariables:
                           - name: logs
