@@ -470,7 +470,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "true"
@@ -1837,7 +1837,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: ldhertert
         default:
           onVariation: "false"
