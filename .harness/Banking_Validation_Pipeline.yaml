@@ -889,7 +889,7 @@ pipeline:
                           echo "Snyk Result: <+execution.steps.snyk.status>"
                           echo "Bandit Result: <+execution.steps.bandit.status>"
 
-                          if [[ "<+execution.steps.Sonar_Scan.status>"" == "SUCCEEDED" ]]; then
+                          if [[ "<+execution.steps.Sonar_Scan.status>" == "SUCCEEDED" ]]; then
                           curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
                             -X POST \
                             -H "Accept: application/vnd.github.v3+json" \
