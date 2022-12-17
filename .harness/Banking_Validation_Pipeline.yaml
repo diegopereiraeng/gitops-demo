@@ -971,6 +971,36 @@ pipeline:
                   - identifier: ProdCDDemoSE
               execution:
                 steps:
+                  - step:
+                      type: JiraCreate
+                      name: "Open Jira ticket "
+                      identifier: Create_JIRA_to_track_deployment
+                      spec:
+                        connectorRef: BankingJira
+                        projectKey: HD
+                        issueType: Story
+                        fields:
+                          - name: Summary
+                            value: Deployment of <+service.name> in <+env.name> - <+pipeline.variables.virtualPath>
+                      timeout: 1d
+                      failureStrategies: []
+                      when:
+                        stageStatus: Success
+                  - step:
+                      type: JiraUpdate
+                      name: "Update JIRA "
+                      identifier: Update_JIRA_Start
+                      spec:
+                        connectorRef: BankingJira
+                        issueKey: <+pipeline.stages.Deploy_Prod.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                        transitionTo:
+                          transitionName: ""
+                          status: In Progress
+                        fields:
+                          - name: Comment
+                            value: Dev Canary started
+                      timeout: 1d
+                      failureStrategies: []
                   - stepGroup:
                       name: Canary Deployment
                       identifier: canaryDepoyment
@@ -1037,6 +1067,21 @@ pipeline:
                                       action:
                                         type: MarkAsSuccess
                         - parallel:
+                            - step:
+                                type: JiraUpdate
+                                name: Update JIRA Ready for Testing
+                                identifier: Update_JIRA_Ready_for_Testing
+                                spec:
+                                  connectorRef: BankingJira
+                                  issueKey: <+pipeline.stages.Deploy_Prod.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                                  transitionTo:
+                                    transitionName: ""
+                                    status: QA Test
+                                  fields:
+                                    - name: Comment
+                                      value: Ready for testing. Successfully passed sonarcube artifact scan.
+                                timeout: 1d
+                                failureStrategies: []
                             - step:
                                 type: Verify
                                 name: Verify Prod
@@ -1160,6 +1205,18 @@ pipeline:
                                 - ""
                             failureStrategies: []
                   - step:
+                      type: JiraUpdate
+                      name: Close Jira Ticket
+                      identifier: Close_Jira_Ticket
+                      spec:
+                        connectorRef: BankingJira
+                        issueKey: <+pipeline.stages.Deploy_Prod.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                        transitionTo:
+                          transitionName: ""
+                          status: Done
+                        fields: []
+                      timeout: 10m
+                  - step:
                       type: K8sApply
                       name: Autostopping non-traffic hours
                       identifier: Autostopping_nontraffic_hours
@@ -1178,6 +1235,18 @@ pipeline:
                             action:
                               type: MarkAsSuccess
                 rollbackSteps:
+                  - step:
+                      type: JiraUpdate
+                      name: Jira Failed
+                      identifier: Jira_Failed
+                      spec:
+                        connectorRef: BankingJira
+                        issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                        transitionTo:
+                          transitionName: ""
+                          status: Rejected
+                        fields: []
+                      timeout: 10m
                   - step:
                       name: Canary Delete
                       identifier: rollbackCanaryDelete
