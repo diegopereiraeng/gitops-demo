@@ -889,6 +889,21 @@ pipeline:
                           echo "Snyk Result: <+execution.steps.snyk.status>"
                           echo "Bandit Result: <+execution.steps.bandit.status>"
 
+                          if [[ "<+execution.steps.Sonar_Scan.status>"" == "SUCCEEDED" ]]; then
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"success","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan passed","context":"harness-ci/sonarqube"}'
+
+                          else
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"failed","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan failed","context":"harness-ci/sonarqube"}'
+
+                          fi
 
                           curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
                             -X POST \
@@ -973,6 +988,32 @@ pipeline:
                               type: MarkAsSuccess
                       when:
                         stageStatus: Success
+                  - step:
+                      type: Run
+                      name: PR Status Aqua
+                      identifier: PR_Status_Aqua
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: curlimages/curl:7.82.0
+                        shell: Sh
+                        command: |-
+                          echo "Aqua Result: <+execution.steps.AquaTrivy.status>"
+
+                          if [[ "<+execution.steps.AquaTrivy.status>"" == "SUCCEEDED" ]]; then
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"success","target_url":"http://aqua.io","description":"aqua trivy scan passed","context":"harness-ci/aquatrivy"}'
+
+                          else
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"failed","target_url":"http://aqua.io","description":"aqua trivy scan failed","context":"harness-ci/aquatrivy"}'
+
+                          fi
           serviceDependencies:
             - identifier: Dind
               name: Dind
