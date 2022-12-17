@@ -1,0 +1,52 @@
+pipeline:
+  name: MongoDB Prometheus Exporter Helm
+  identifier: MongoDB_Prometheus_Exporter_Helm
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Helm Deploy
+        identifier: Helm_Deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: NativeHelm
+          service:
+            serviceRef: prometheusmongodbexporterbankingvalidation
+            serviceInputs:
+              serviceDefinition:
+                type: NativeHelm
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: MongodbPrometheusProdExporter
+          execution:
+            steps:
+              - step:
+                  name: Helm Deployment
+                  identifier: helmDeployment
+                  type: HelmDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+            rollbackSteps:
+              - step:
+                  name: Helm Rollback
+                  identifier: helmRollback
+                  type: HelmRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
