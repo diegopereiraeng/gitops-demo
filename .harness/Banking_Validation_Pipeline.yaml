@@ -1223,6 +1223,16 @@ pipeline:
                             action:
                               type: MarkAsSuccess
                   - step:
+                      type: Http
+                      name: HealthCheck
+                      identifier: HealthCheck
+                      spec:
+                        method: GET
+                        headers: []
+                        outputVariables: []
+                        url: http://<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/<+pipeline.variables.virtualPath>/
+                      timeout: 10s
+                  - step:
                       type: JiraUpdate
                       name: Close Jira Ticket
                       identifier: Close_Jira_Ticket
@@ -1236,16 +1246,6 @@ pipeline:
                           - name: Comment
                             value: Version <+artifact.tag> deployed with Success
                       timeout: 10m
-                  - step:
-                      type: Http
-                      name: HealthCheck
-                      identifier: HealthCheck
-                      spec:
-                        method: GET
-                        headers: []
-                        outputVariables: []
-                        url: <+pipeline.properties.ci.codebase.repoName>.harness-demo.site/<+pipeline.variables.virtualPath>/
-                      timeout: 10s
                 rollbackSteps:
                   - step:
                       type: ShellScript
