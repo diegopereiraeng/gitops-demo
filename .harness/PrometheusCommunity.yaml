@@ -1,0 +1,11 @@
+connector:
+  name: Prometheus-Community
+  identifier: PrometheusCommunity
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: HttpHelmRepo
+  spec:
+    helmRepoUrl: https://prometheus-community.github.io/helm-charts
+    auth:
+      type: Anonymous
