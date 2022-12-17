@@ -1236,6 +1236,16 @@ pipeline:
                           - name: Comment
                             value: Version <+artifact.tag> deployed with Success
                       timeout: 10m
+                  - step:
+                      type: Http
+                      name: HealthCheck
+                      identifier: HealthCheck
+                      spec:
+                        method: GET
+                        headers: []
+                        outputVariables: []
+                        url: <+pipeline.properties.ci.codebase.repoName>.harness-demo.site/<+pipeline.variables.virtualPath>/
+                      timeout: 10s
                 rollbackSteps:
                   - step:
                       type: ShellScript
