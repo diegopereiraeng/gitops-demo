@@ -1300,7 +1300,7 @@ pipeline:
 
                               kubectl -n <+infra.namespace> logs --selector app=<+service.name> --since=15m
                               kubectl -n <+infra.namespace> describe deploy <+service.name>-canary
-                              logs=`kubectl logs --selector app=<+service.name> --since=15m`
+                              logs=`kubectl logs --selector app=<+service.name> --since=20m`
                         environmentVariables: []
                         outputVariables:
                           - name: logs
