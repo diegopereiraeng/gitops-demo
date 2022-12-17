@@ -935,21 +935,14 @@ pipeline:
                             -H "Accept: application/vnd.github.v3+json" \
                             https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
                             -d '{"state":"success","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan passed","context":"harness-ci/sonarqube"}'
-
                           else
                           curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
                             -X POST \
                             -H "Accept: application/vnd.github.v3+json" \
                             https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
                             -d '{"state":"failure","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan failed","context":"harness-ci/sonarqube"}'
-
                           fi
 
-                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
-                            -X POST \
-                            -H "Accept: application/vnd.github.v3+json" \
-                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
-                            -d '{"state":"success","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan passed","context":"harness-ci/sonarqube"}'
 
                           curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
                             -X POST \
