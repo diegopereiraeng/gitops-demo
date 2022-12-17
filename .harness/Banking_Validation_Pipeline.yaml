@@ -999,7 +999,7 @@ pipeline:
                         command: |-
                           echo "Aqua Result: <+execution.steps.AquaTrivy.status>"
 
-                          if [[ "<+execution.steps.AquaTrivy.status>"" == "SUCCEEDED" ]]; then
+                          if [[ "<+execution.steps.AquaTrivy.status>" == "SUCCEEDED" ]]; then
                           curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
                             -X POST \
                             -H "Accept: application/vnd.github.v3+json" \
