@@ -20,8 +20,7 @@ pipeline:
                 spec:
                   artifacts:
                     primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
+                      primaryArtifactRef: mongodb_exporter
           environment:
             environmentRef: prod
             deployToAll: false
