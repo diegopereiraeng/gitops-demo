@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: mongo-banking-validation
   labels:
-    name: -banking-validation
+    name: mongo-banking-validation
 spec:
   ports:
     - port: 27017
