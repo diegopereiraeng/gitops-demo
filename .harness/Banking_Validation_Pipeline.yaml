@@ -1248,6 +1248,10 @@ pipeline:
                           type: Inline
                           spec:
                             script: |-
+                              export KUBECONFIG=${HARNESS_KUBE_CONFIG_PATH}
+
+                              echo "getting logs from deployment: <+pipeline.variables.virtualPath>-canary"
+
                               kubectl -n <+infra.namespace> logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m
                               kubectl -n <+infra.namespace> describe deploy <+pipeline.variables.virtualPath>-canary
                               logs=`kubectl logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m`
