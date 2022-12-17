@@ -35,88 +35,128 @@ pipeline:
                     resources:
                       limits:
                         memory: 100Mi
-              - step:
-                  type: RunTests
-                  name: Build and Unit Test
-                  identifier: Teste_Unitario
-                  spec:
-                    connectorRef: account.DockerHubDiego
-                    image: maven:3.8.6-openjdk-11
-                    language: Java
-                    buildTool: Maven
-                    args: clean verify
-                    packages: io.harness
-                    runOnlySelectedTests: true
-                    preCommand: |+
-                      ls -ltra
-
-                      #ET-SETUP-BEGIN
-                      PROJ_DIR=$PWD
-
-                      cat << EOF
-                      Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
-
-                      Branch: <+codebase.branch>
-                      Tag: <+codebase.tag>
-                      Commiter: <+codebase.gitUserEmail>
-                      CommitID: <+codebase.commitSha>
-                      EOF
-
-
-
-                      cd /opt
-                      arch=`uname -m`
-                      if [ $arch = "x86_64" ]; then
-                        if cat /etc/os-release | grep -iq alpine ; then
-                          wget -qO- https://get.et.harness.io/releases/latest/alpine/harness-et-agent.tar.gz | tar -xz
-                        else
-                          wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xz
-                        fi
-                      elif [ $arch = "aarch64" ]; then
-                        wget -qO- https://get.et.harness.io/releases/latest/arm/harness-et-agent.tar.gz | tar -xz
-                      fi
-                      export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
-                      export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
-                      export ET_ENV_ID=_INTERNAL_ET_CI
-                      export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
-                      export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
-                      export ET_ORG_ID=$HARNESS_ORG_ID
-                      export ET_PROJECT_ID=$HARNESS_PROJECT_ID
-                      #export ET_SHUTDOWN_GRACETIME=30000
-                      #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
-                      export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=$PROJ_DIR/.m2/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
-                      # Uncomment the line below if using Java version 10 or above
-                      # export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=/harness/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
-                      cd $PROJ_DIR
-                      #ET-SETUP-END
-
-                    postCommand: |-
-                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
-
-                      export release="<+codebase.branch>-$version-<+codebase.commitSha>"
-
-                      export commitHash=<+codebase.commitSha>
-
-                      export gitBranch=<+codebase.branch>
-
-                      ls -ltra
-                    reports:
-                      type: JUnit
+              - parallel:
+                  - step:
+                      type: RunTests
+                      name: Build and Unit Test
+                      identifier: Teste_Unitario
                       spec:
-                        paths:
-                          - "**/*.xml"
-                    envVariables:
-                      MAVEN_OPTS: "-XX:-UseTypeSpeculation -Xshare:off"
-                    outputVariables:
-                      - name: release
-                      - name: version
-                      - name: commitHash
-                      - name: gitBranch
-                    imagePullPolicy: IfNotPresent
-                    resources:
-                      limits:
-                        memory: 1Gi
-                        cpu: "1"
+                        connectorRef: account.DockerHubDiego
+                        image: maven:3.8.6-openjdk-11
+                        language: Java
+                        buildTool: Maven
+                        args: clean verify
+                        packages: io.harness
+                        runOnlySelectedTests: true
+                        preCommand: |+
+                          ls -ltra
+
+                          #ET-SETUP-BEGIN
+                          PROJ_DIR=$PWD
+
+                          cat << EOF
+                          Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
+
+                          Branch: <+codebase.branch>
+                          Tag: <+codebase.tag>
+                          Commiter: <+codebase.gitUserEmail>
+                          CommitID: <+codebase.commitSha>
+                          EOF
+
+
+
+                          cd /opt
+                          arch=`uname -m`
+                          if [ $arch = "x86_64" ]; then
+                            if cat /etc/os-release | grep -iq alpine ; then
+                              wget -qO- https://get.et.harness.io/releases/latest/alpine/harness-et-agent.tar.gz | tar -xz
+                            else
+                              wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xz
+                            fi
+                          elif [ $arch = "aarch64" ]; then
+                            wget -qO- https://get.et.harness.io/releases/latest/arm/harness-et-agent.tar.gz | tar -xz
+                          fi
+                          export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
+                          export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
+                          export ET_ENV_ID=_INTERNAL_ET_CI
+                          export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
+                          export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
+                          export ET_ORG_ID=$HARNESS_ORG_ID
+                          export ET_PROJECT_ID=$HARNESS_PROJECT_ID
+                          #export ET_SHUTDOWN_GRACETIME=30000
+                          #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
+                          export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=$PROJ_DIR/.m2/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                          # Uncomment the line below if using Java version 10 or above
+                          # export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=/harness/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                          cd $PROJ_DIR
+                          #ET-SETUP-END
+
+                        postCommand: |-
+                          export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
+
+                          export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                          export commitHash=<+codebase.commitSha>
+
+                          export gitBranch=<+codebase.branch>
+
+                          ls -ltra
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - "**/*.xml"
+                        envVariables:
+                          MAVEN_OPTS: "-XX:-UseTypeSpeculation -Xshare:off"
+                        outputVariables:
+                          - name: release
+                          - name: version
+                          - name: commitHash
+                          - name: gitBranch
+                        imagePullPolicy: IfNotPresent
+                        resources:
+                          limits:
+                            memory: 1Gi
+                            cpu: "1"
+                  - step:
+                      type: Run
+                      name: Git Status Start Pending
+                      identifier: Git_Status_Start_Pending
+                      spec:
+                        shell: Sh
+                        command: |
+                          echo "Send Commit Status"
+
+
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"pending","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan passed","context":"harness-ci/sonarqube"}'
+
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"pending","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan passed","context":"harness-ci/sonarqube"}'
+
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"pending","target_url":"https://app.snyk.io/","description":"snyk scan passed","context":"harness-ci/snyk"}'
+
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"pending","target_url":"https://bandit.readthedocs.io/","description":"bandit scan passed","context":"harness-ci/bandit"}'
+
+                          curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
+                            -d '{"state":"pending","target_url":"http://aqua.io","description":"aqua trivy scan passed","context":"harness-ci/aquatrivy"}'
               - parallel:
                   - step:
                       type: Security
@@ -901,7 +941,7 @@ pipeline:
                             -X POST \
                             -H "Accept: application/vnd.github.v3+json" \
                             https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
-                            -d '{"state":"failed","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan failed","context":"harness-ci/sonarqube"}'
+                            -d '{"state":"failure","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan failed","context":"harness-ci/sonarqube"}'
 
                           fi
 
