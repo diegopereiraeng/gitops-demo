@@ -1271,7 +1271,9 @@ pipeline:
                         transitionTo:
                           transitionName: ""
                           status: Rejected
-                        fields: []
+                        fields:
+                          - name: Comment
+                            value: <+pipeline.stages.Deploy_Prod.spec.execution.rollbackSteps.Get_Canary_Logs.output.outputVariables.logs>
                       timeout: 10m
                   - step:
                       name: Canary Delete
