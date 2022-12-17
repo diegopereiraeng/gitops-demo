@@ -1248,8 +1248,8 @@ pipeline:
                           type: Inline
                           spec:
                             script: |-
-                              kubectl logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m
-
+                              kubectl -n <+infra.namespace> logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m
+                              kubectl -n <+infra.namespace> describe deploy <+pipeline.variables.virtualPath>-canary
                               logs=`kubectl logs --selector app=<+pipeline.variables.virtualPath>-canary --since=15m`
                         environmentVariables: []
                         outputVariables:
