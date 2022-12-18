@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{.Values.name}}
+  name: mongo-banking-validation
 spec:
   selector:
     matchLabels:
       role: mongo
       environment: prod
-  serviceName: "{{.Values.name}}"
+  serviceName: "mongo-banking-validation"
   replicas: 3
   template:
     metadata:
@@ -17,15 +17,11 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-      - name: {{.Values.name}}
+      - name: mongo-banking-validation
         image: mongo
-        {{- if .Values.env.secret}}
         envFrom:
-        {{- if .Values.env.secret}}
         - secretRef:
-            name: {{.Values.name}}
-        {{- end}}
-        {{- end}}
+            name: mongo-banking-validation
         command:
           - mongod
           - "--replSet"
@@ -39,6 +35,11 @@ spec:
             mountPath: /data/db
       - name: mongo-sidecar
         image: cvallance/mongo-k8s-sidecar
+        env:
+          - name: MONGO_SIDECAR_POD_LABELS
+            value: "role=mongo,environment=test"
+          - name: MONGODB_USERNAME
+            value: "admin-banking"
   volumeClaimTemplates:
     - metadata:
         name: mongo-persistent-storage
@@ -58,12 +59,10 @@ parameters:
   type: pd-ssd
 volumeBindingMode: Immediate
 ---
-{{- if .Values.env.secret}}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{.Values.name}}
-stringData:
-{{.Values.env.secret | toYaml | indent 2}}
+  name: mongo-banking-validation
+data:
+  MONGODB_PASSWORD: "harnessbankingdemo"
 ---
-{{- end}}
