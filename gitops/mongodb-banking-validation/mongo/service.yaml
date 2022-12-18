@@ -1,0 +1,41 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: mongo-replicaset-0 
+  namespace: prod 
+spec: 
+  ports: 
+  - port: 27017 
+    protocol: TCP 
+    targetPort: 27017 
+  selector: 
+    statefulset.kubernetes.io/pod-name: mongo-replicaset-0 
+  type: LoadBalancer 
+--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: mongo-replicaset-1 
+  namespace: prod 
+spec: 
+  ports: 
+  - port: 27017 
+    protocol: TCP 
+    targetPort: 27017 
+  selector: 
+    statefulset.kubernetes.io/pod-name: mongo-replicaset-1 
+  type: LoadBalancer 
+--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: mongo-replicaset-2 
+  namespace: prod 
+spec: 
+  ports: 
+  - port: 27017 
+    protocol: TCP 
+    targetPort: 27017 
+  selector: 
+    statefulset.kubernetes.io/pod-name: mongo-replicaset-2 
+  type: LoadBalancer 

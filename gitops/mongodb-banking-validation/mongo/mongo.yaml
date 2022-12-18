@@ -1,0 +1,75 @@
+apiVersion: mongodbcommunity.mongodb.com/v1 
+kind: MongoDBCommunity 
+metadata: 
+  name: mongo-replicaset 
+  namespace: prod 
+spec: 
+  members: 3 
+  type: ReplicaSet 
+  version: "5.0.2" 
+  replicaSetHorizons: 
+  - horizon: mongo-replicaset-0.com:27017 
+  - horizon: mongo-replicaset-1.com:27017 
+  - horizon: mongo-replicaset-2.com:27017 
+  security: 
+    tls: 
+      enabled: true 
+      certificateKeySecretRef: 
+        name: mongodb-tls 
+      caConfigMapRef: 
+        name: ca-config-map 
+
+    authentication: 
+      modes: ["SCRAM"] 
+  users: 
+    - name: admin 
+      db: admin 
+      passwordSecretRef: # a reference to the secret that will be used to generate the user's password 
+        name: admin-password 
+      roles: 
+        - name: clusterAdmin 
+          db: admin 
+        - name: userAdminAnyDatabase 
+          db: admin 
+        - name: root 
+          db: admin 
+      scramCredentialsSecretName: admin-scram 
+    - name: dumpUser 
+      db: admin 
+      passwordSecretRef: # a reference to the secret that will be used to generate the user's password 
+        name: dumpuser-password 
+      roles: 
+        - name: readWriteAnyDatabase 
+          db: admin 
+      scramCredentialsSecretName: dumpuser-scram 
+  additionalMongodConfig: 
+    storage.wiredTiger.engineConfig.journalCompressor: zlib 
+  statefulSet: 
+    spec: 
+      volumeClaimTemplates: 
+        - metadata: 
+            name: data-volume 
+          spec: 
+            storageClassName: mongodb-ssd-storage 
+            accessModes: [ "ReadWriteOnce" ] 
+            resources: 
+              requests: 
+                storage: 512Gi 
+--- 
+apiVersion: v1 
+kind: Secret 
+metadata: 
+  name: admin-password 
+  namespace: prod 
+type: Opaque 
+stringData: 
+  password: harnessrootpassword 
+--- 
+apiVersion: v1 
+kind: Secret 
+metadata: 
+  name: dumpuser-password 
+  namespace: prod 
+type: Opaque 
+stringData: 
+  password: password 
