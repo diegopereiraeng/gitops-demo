@@ -15,6 +15,8 @@ spec:
         role: mongo
         environment: prod
     spec:
+      serviceAccountName: pod-reader
+      automountServiceAccountToken: false
       terminationGracePeriodSeconds: 10
       containers:
       - name: mongo-banking-validation
@@ -70,3 +72,12 @@ metadata:
 stringData:
   MONGODB_PASSWORD: "harnessbankingdemo"
 ---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: prod
+  name: pod-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
