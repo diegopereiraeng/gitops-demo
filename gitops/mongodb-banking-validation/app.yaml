@@ -76,7 +76,7 @@ stringData:
   MONGO_ROOT_USERNAME: "admin"
   MONGO_ROOT_PASSWORD: "harnessrootpassword"
   MONGO_USERNAME: "tools"
-  MONGODB_PASSWORD: "harnessrootpassword"
+  MONGO_PASSWORD: "harnessrootpassword"
   MONGO_USERS_LIST: "admin:dbAdmin,tools:readWrite"
 ---
 kind: ClusterRole
