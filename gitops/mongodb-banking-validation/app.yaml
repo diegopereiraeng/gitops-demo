@@ -8,7 +8,7 @@ spec:
       role: mongo
       environment: prod
   serviceName: "mongo-banking-validation"
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -25,8 +25,8 @@ spec:
             name: mongo-banking-validation
         command:
           - mongod
-          - "--replSet"
-          - rs0
+          #- "--replSet"
+          #- rs0
           #- "--dbpath /data/db" 
           - "--repair"
         ports:
