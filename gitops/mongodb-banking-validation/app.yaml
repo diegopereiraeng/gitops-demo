@@ -32,12 +32,18 @@ spec:
           - name: mongo-persistent-storage
             mountPath: /data/db
       - name: mongo-sidecar
-        image: cvallance/mongo-k8s-sidecar
+        image: cvallance/mongo-k8s-sidecar:latest
         env:
           - name: MONGO_SIDECAR_POD_LABELS
-            value: "role=mongo,environment=test"
+            value: "role=mongo,environment=prod"
           - name: MONGODB_USERNAME
             value: "admin-banking"
+          - name: MONGODB_PASSWORD
+            value: "harnessbankingdemo"
+          - name: KUBE_NAMESPACE
+            value: prod
+          - name: KUBERNETES_MONGO_SERVICE_NAME
+            value: mongo-banking-validation
   volumeClaimTemplates:
     - metadata:
         name: mongo-persistent-storage
