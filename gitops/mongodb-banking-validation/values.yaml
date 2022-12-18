@@ -1,0 +1,6 @@
+name: <+service.name>
+env:
+  secret:
+    MONGODB_USERNAME: "admin-banking"
+    MONGODB_PASSWORD: "harnessbankingdemo"
+    MONGO_SIDECAR_POD_LABELS: "role=mongo,environment=prod"
