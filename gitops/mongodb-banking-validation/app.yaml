@@ -40,9 +40,9 @@ spec:
           - name: MONGO_SIDECAR_POD_LABELS
             value: "role=mongo,environment=prod"
           - name: MONGODB_USERNAME
-            value: "admin-banking"
+            value: "root"
           - name: MONGODB_PASSWORD
-            value: "harnessbankingdemo"
+            value: "harnessrootpassword"
           - name: KUBE_NAMESPACE
             value: prod
           - name: KUBERNETES_MONGO_SERVICE_NAME
