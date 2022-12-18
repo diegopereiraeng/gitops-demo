@@ -54,7 +54,7 @@ spec:
             accessModes: [ "ReadWriteOnce" ] 
             resources: 
               requests: 
-                storage: 512Gi 
+                storage: 2Gi 
 --- 
 apiVersion: v1 
 kind: Secret 
