@@ -71,7 +71,8 @@ kind: Secret
 metadata:
   name: mongo-banking-validation
 stringData:
-  MONGODB_PASSWORD: "harnessbankingdemo"
+  MONGO_INITDB_ROOT_USERNAME: "root"
+  MONGO_INITDB_ROOT_PASSWORD: "harnessrootpassword"
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
