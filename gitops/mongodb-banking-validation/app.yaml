@@ -19,7 +19,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: mongo-banking-validation
-        image: mongo
+        image: mongo:4.0.28
         envFrom:
         - secretRef:
             name: mongo-banking-validation
