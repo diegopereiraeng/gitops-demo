@@ -26,7 +26,6 @@ spec:
           - mongod
           - "--replSet"
           - rs0
-          - "--noprealloc"
         ports:
           - containerPort: 27017
         volumeMounts:
