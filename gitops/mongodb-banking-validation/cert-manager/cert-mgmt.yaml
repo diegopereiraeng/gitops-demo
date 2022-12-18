@@ -17,9 +17,9 @@ spec:
   issuerRef: 
     name: ca-issuer-mongo 
     kind: Issuer 
-  commonName: "*.mongo-replicaset-svc.mongodb.svc.cluster.local" 
+  commonName: "*.mongo-replicaset-svc.prod.svc.cluster.local" 
   dnsNames: 
-  - "*.mongo-replicaset-svc.mongodb.svc.cluster.local" 
+  - "*.mongo-replicaset-svc.prod.svc.cluster.local" 
   - mongo-replicaset-0.com 
   - mongo-replicaset-1.com 
   - mongo-replicaset-2.com 
