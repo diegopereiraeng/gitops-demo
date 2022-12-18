@@ -25,8 +25,10 @@ spec:
             name: mongo-banking-validation
         command:
           - mongod
-          - "--replSet"
-          - rs0
+          # - "--replSet"
+          # - rs0
+          - "--dbpath /data/db" 
+          - "--repair"
         ports:
           - containerPort: 27017
         volumeMounts:
