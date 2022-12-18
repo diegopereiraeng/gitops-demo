@@ -17,7 +17,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-      - name: -banking-validation
+      - name: mongo-banking-validation
         image: mongo
         command:
           - mongod
