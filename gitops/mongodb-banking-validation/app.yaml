@@ -16,7 +16,7 @@ spec:
         environment: prod
     spec:
       serviceAccountName: pod-reader
-      automountServiceAccountToken: false
+      automountServiceAccountToken: true
       terminationGracePeriodSeconds: 10
       containers:
       - name: mongo-banking-validation
