@@ -2,7 +2,7 @@ apiVersion: mongodbcommunity.mongodb.com/v1
 kind: MongoDBCommunity 
 metadata: 
   name: mongo-replicaset 
-  namespace: prod 
+namespace: prod 
 spec: 
   members: 3 
   type: ReplicaSet 
