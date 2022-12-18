@@ -28,7 +28,7 @@ spec:
           - "--replSet"
           - rs0
           #- "--dbpath /data/db" 
-          - "--repair"
+          #- "--repair"
         ports:
           - containerPort: 27017
         volumeMounts:
