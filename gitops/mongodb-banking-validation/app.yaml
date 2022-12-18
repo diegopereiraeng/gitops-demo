@@ -15,8 +15,7 @@ spec:
         role: mongo
         environment: prod
     spec:
-      serviceAccountName: pod-reader
-      automountServiceAccountToken: true
+      serviceAccountName: pod-reader-sa
       terminationGracePeriodSeconds: 10
       containers:
       - name: mongo-banking-validation
@@ -85,10 +84,10 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: test
+  name: pod-reader-binding
 subjects:
   - kind: ServiceAccount
-    name: pod-reader
+    name: pod-reader-sa
 roleRef:
   kind: Role
   name: pod-reader
@@ -97,5 +96,5 @@ roleRef:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: pod-reader
+  name: pod-reader-sa
 automountServiceAccountToken: true
