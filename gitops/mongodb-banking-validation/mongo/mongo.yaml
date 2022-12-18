@@ -56,6 +56,15 @@ spec:
               requests: 
                 storage: 2Gi 
 --- 
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: mongodb-ssd-storage
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+volumeBindingMode: Immediate
+---
 apiVersion: v1 
 kind: Secret 
 metadata: 
@@ -73,3 +82,4 @@ metadata:
 type: Opaque 
 stringData: 
   password: password 
+---
