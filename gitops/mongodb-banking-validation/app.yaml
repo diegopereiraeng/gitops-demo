@@ -75,6 +75,8 @@ stringData:
   MONGO_INITDB_ROOT_PASSWORD: "harnessrootpassword"
   MONGO_ROOT_USERNAME: "admin"
   MONGO_ROOT_PASSWORD: "harnessrootpassword"
+  MONGODB_ROOT_USERNAME: "admin"
+  MONGODB_ROOT_PASSWORD: "harnessrootpassword"
   MONGO_USERNAME: "tools"
   MONGO_PASSWORD: "harnessrootpassword"
   MONGO_USERS_LIST: "admin:dbAdmin,tools:readWrite"
