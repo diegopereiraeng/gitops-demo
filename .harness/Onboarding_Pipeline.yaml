@@ -303,7 +303,9 @@ pipeline:
                           source:
                             type: Inline
                             spec:
-                              script: |-
+                              script: |+
+                                echo "service id: <+service.identifier>"
+
 
                                 git_user="<+pipeline.variables.gitUser>"
                                 service_name="payments-validation-$git_user"
@@ -560,6 +562,8 @@ pipeline:
                                     echo "Success, you are ready to use Banking Demo"
 
                                 fi
+
+
                           environmentVariables: []
                           outputVariables:
                             - name: monit_service
