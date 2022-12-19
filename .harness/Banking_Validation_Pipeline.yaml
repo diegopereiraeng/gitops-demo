@@ -101,6 +101,7 @@ pipeline:
                           export gitBranch=<+codebase.branch>
 
                           pwd
+                          cd /harness
                           ls -ltra
                           cd target
                           ls -ltra
