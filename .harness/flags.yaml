@@ -1777,7 +1777,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: poharav
         default:
           onVariation: "false"
