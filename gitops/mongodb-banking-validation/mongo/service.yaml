@@ -3,6 +3,7 @@ kind: Service
 metadata: 
   name: mongo-replicaset-0 
   namespace: prod 
+  app: mongodb-svc
 spec: 
   ports: 
   - port: 27017 
@@ -17,6 +18,7 @@ kind: Service
 metadata: 
   name: mongo-replicaset-1 
   namespace: prod 
+  app: mongodb-svc
 spec: 
   ports: 
   - port: 27017 
@@ -31,6 +33,7 @@ kind: Service
 metadata: 
   name: mongo-replicaset-2 
   namespace: prod 
+  app: mongodb-svc
 spec: 
   ports: 
   - port: 27017 
