@@ -77,14 +77,14 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: jrjrcombr
+          variation: Bienvenido
+        - targets:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
         - targets:
           - identifier: monicadroneio
           variation: Welcome
-        - targets:
-          - identifier: jrjrcombr
-          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -122,6 +122,11 @@ featureFlags:
         - targets:
           - identifier: GuestUnknown
           variation: Welcome
+      - identifier: gnogueira7
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "Off"
@@ -337,6 +342,11 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
+      - identifier: gnogueira7
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "OFF"
@@ -470,7 +480,12 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "true"
@@ -578,6 +593,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -697,6 +717,11 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: Dark
@@ -804,6 +829,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -919,6 +949,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "true"
@@ -1026,6 +1061,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1160,6 +1200,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: Premium
@@ -1267,6 +1312,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1391,6 +1441,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "ON"
@@ -1500,6 +1555,11 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: gnogueira7
         default:
           onVariation: V2
           offVariation: V1
@@ -1615,6 +1675,11 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "On"
@@ -1722,6 +1787,11 @@ featureFlags:
           offVariation: White
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: gnogueira7
         default:
           onVariation: Black
           offVariation: White
@@ -1838,6 +1908,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
       - identifier: ldhertert
         default:
           onVariation: "false"
