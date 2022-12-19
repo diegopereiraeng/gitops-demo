@@ -1034,7 +1034,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "off"
+        state: "on"
         targetRules:
         - targets:
           - identifier: GuestCuritiba
