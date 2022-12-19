@@ -1644,7 +1644,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "on"
+        state: "off"
       - identifier: andymarshallff
         default:
           onVariation: "On"
@@ -1912,7 +1912,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: ldhertert
         default:
           onVariation: "false"
