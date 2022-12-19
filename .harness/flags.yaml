@@ -117,11 +117,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          variation: Welcome
-        - targets:
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          variation: Welcome
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -1644,7 +1644,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "on"
+        state: "off"
       - identifier: andymarshallff
         default:
           onVariation: "On"
