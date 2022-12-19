@@ -91,7 +91,7 @@ pipeline:
                           cd $PROJ_DIR
                           #ET-SETUP-END
 
-                        postCommand: |-
+                        postCommand: |+
                           export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
 
                           export release="<+codebase.branch>-$version-<+codebase.commitSha>"
@@ -100,11 +100,6 @@ pipeline:
 
                           export gitBranch=<+codebase.branch>
 
-                          pwd
-                          cd /harness
-                          ls -ltra
-                          cd target
-                          ls -ltra
                         reports:
                           type: JUnit
                           spec:
@@ -308,6 +303,13 @@ pipeline:
                         image: docker:latest
                         shell: Sh
                         command: |-
+
+                          pwd
+                          cd /harness
+                          ls -ltra
+                          cd target
+                          ls -ltra
+
                           cat sonarResults.xml
 
                           echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
