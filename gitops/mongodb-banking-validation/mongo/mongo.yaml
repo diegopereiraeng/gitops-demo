@@ -23,6 +23,10 @@ spec:
   users: 
     - name: admin 
       db: admin 
+      privileges:
+          - resource:
+              db: "local"
+              collection: "" # an empty string indicates any collection
       passwordSecretRef: # a reference to the secret that will be used to generate the user's password 
         name: admin-password 
       roles: 
@@ -86,25 +90,3 @@ type: Opaque
 stringData: 
   password: password 
 ---
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  annotations:
-  # This needs to match `spec.ServiceMonitorSelector.matchLabels` from your
-  # `prometheuses.monitoring.coreos.com` resouce.
-  labels:
-    release: prometheus
-  name: mongodb-sm
-  namespace: prod
-spec:
- endpoints:
-  - port: prometheus
-    scheme: http
-  # What namespace to watch
-  namespaceSelector:
-    matchNames:
-    - prod
-  # Service labels to match
-  selector:
-    matchLabels:
-      app: mongodb-svc
