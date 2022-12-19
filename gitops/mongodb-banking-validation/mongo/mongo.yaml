@@ -7,7 +7,6 @@ spec:
   members: 3 
   type: ReplicaSet 
   version: "5.0.2" 
-  prometheus: ""
   replicaSetHorizons: 
   - horizon: mongo-replicaset-0.com:27017 
   - horizon: mongo-replicaset-1.com:27017 
