@@ -98,7 +98,7 @@ metadata:
   name: mongodb-sm
   namespace: prod
 spec:
- endpoints:
+  endpoints:
   - port: prometheus
     scheme: http
   namespaceSelector:
