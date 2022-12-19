@@ -91,7 +91,9 @@ pipeline:
                           cd $PROJ_DIR
                           #ET-SETUP-END
 
-                        postCommand: |+
+                          ls -ltra
+
+                        postCommand: |-
                           export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
 
                           export release="<+codebase.branch>-$version-<+codebase.commitSha>"
@@ -100,6 +102,11 @@ pipeline:
 
                           export gitBranch=<+codebase.branch>
 
+                          ls -ltra
+
+                          cd /harness
+
+                          ls -ltra
                         reports:
                           type: JUnit
                           spec:
