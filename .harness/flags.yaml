@@ -1035,6 +1035,10 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+        targetRules:
+        - targets:
+          - identifier: GuestCuritiba
+          variation: "true"
       - identifier: andymarshallff
         default:
           onVariation: "true"
