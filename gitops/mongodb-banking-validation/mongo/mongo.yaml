@@ -85,25 +85,3 @@ metadata:
 type: Opaque 
 stringData: 
   password: password 
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "metrics"
-    prometheus.io/path: '/metrics'
-  labels:
-    release: prometheus
-  name: mongodb-sm
-  namespace: prod
-spec:
-  endpoints:
-  - port: prometheus
-    scheme: http
-  namespaceSelector:
-    matchNames:
-    - prod
-  selector:
-    matchLabels:
-      app: mongodb-svc
