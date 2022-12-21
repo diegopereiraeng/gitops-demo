@@ -1596,7 +1596,7 @@ pipeline:
                                 type: Default
                                 spec: {}
                               spec:
-                                sensitivity: LOW
+                                sensitivity: HIGH
                                 duration: <+input>
                                 deploymentTag: <+serviceConfig.artifacts.primary.tag>
                             timeout: 2h
