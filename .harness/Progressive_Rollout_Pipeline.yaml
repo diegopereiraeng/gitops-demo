@@ -159,6 +159,20 @@ pipeline:
                     condition: <+execution.steps.Tests.output.outputVariables.test_result> == "false"
                   failureStrategies: []
               - step:
+                  type: HarnessApproval
+                  name: Full Rollout Approval
+                  identifier: Full_Rollout_Approval
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - account._account_all_users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 10m
+              - step:
                   type: FlagConfiguration
                   name: Full Rollout
                   identifier: Full_Rollout
@@ -281,7 +295,7 @@ pipeline:
                       timeout: 1d
                       when:
                         stageStatus: All
-                        condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT"
+                        condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT" || <+pipeline.stages.Delivery_Beta_Users.execution.steps.Full_Rollout_Approval.output.approvalActivities[0].action> == "REJECT"
                       failureStrategies: []
     - stage:
         name: Customer Progressive Delivery
