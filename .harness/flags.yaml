@@ -80,6 +80,7 @@ featureFlags:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
         - targets:
+          - identifier: GuestCubatao
           - identifier: monicadroneio
           variation: Welcome
         - targets:
@@ -117,11 +118,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
-        - targets:
           - identifier: GuestUnknown
           variation: Welcome
+        - targets:
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: gnogueira7
         default:
           onVariation: "Off"
