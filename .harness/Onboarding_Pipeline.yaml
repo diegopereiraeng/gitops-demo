@@ -229,7 +229,7 @@ pipeline:
                               folderPath: banking-demo-dns
                         environmentVariables:
                           - name: GOOGLE_CREDENTIALS
-                            value: <+secrets.getValue("diego_gcp_dns")>
+                            value: <+secrets.getValue("diego_gc_sa_text")>
                             type: String
                         varFiles:
                           - varFile:
