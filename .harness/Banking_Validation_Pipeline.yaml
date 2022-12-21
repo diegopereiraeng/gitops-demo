@@ -107,6 +107,13 @@ pipeline:
                           cd /harness
 
                           ls -ltra
+
+                          FILE=/harness/target
+                          if [ -d "$FILE" ]; then
+                              echo "$FILE created."
+                          else
+                              mvn clean package -Dmaven.test.skip=true 
+                          fi
                         reports:
                           type: JUnit
                           spec:
