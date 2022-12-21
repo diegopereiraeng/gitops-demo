@@ -187,7 +187,7 @@ pipeline:
                           export slo_val_errors=`cat slo_val_errors.json`
                           export slo_val_rt=`cat slo_val_rt.json`
 
-                          export gcp_sa=`cat <+secrets.getValue("file-secret-Id")> | base64 -d | jq -c`
+                          export gcp_sa=`cat <+secrets.getValue("diego_gcp_sa")> | base64 -d | jq -c`
                     environmentVariables: []
                     outputVariables:
                       - name: slo_auth_errors
