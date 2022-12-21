@@ -231,7 +231,7 @@ pipeline:
                           - varFile:
                               spec:
                                 content: |-
-                                  gcp_sa="<+secrets.getValue("diego_gcp_sa_text")>"
+                                  gcp_sa="<+secrets.getValue("diego_gc_sa_text")>"
                                   project="sales-209522"
                                   region="us-central1"
                                   gitUser="us-central1-c"
