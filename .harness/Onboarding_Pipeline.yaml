@@ -214,7 +214,7 @@ pipeline:
                   name: Create DNS Record
                   identifier: Create_DNS_Record
                   spec:
-                    provisionerIdentifier: dnsterraform
+                    provisionerIdentifier: terraformdns
                     configuration:
                       type: Inline
                       spec:
