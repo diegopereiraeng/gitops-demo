@@ -27,7 +27,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |+
+                        script: |
                           cat <<EOF > slo_auth_errors.json
                           {
                             "orgIdentifier": "default",
@@ -187,6 +187,7 @@ pipeline:
                           export slo_val_errors=`cat slo_val_errors.json`
                           export slo_val_rt=`cat slo_val_rt.json`
 
+                          export gcp_sa=`cat <+secrets.getValue("file-secret-Id")> | base64 -d | jq -c`
                     environmentVariables: []
                     outputVariables:
                       - name: slo_auth_errors
@@ -201,10 +202,43 @@ pipeline:
                       - name: slo_val_rt
                         type: String
                         value: slo_val_rt
+                      - name: gcp_sa
+                        type: String
+                        value: gcp_sa
                     delegateSelectors:
                       - cd-demo-se
                   timeout: 10m
                   failureStrategies: []
+              - step:
+                  type: TerraformApply
+                  name: Create DNS Record
+                  identifier: Create_DNS_Record
+                  spec:
+                    provisionerIdentifier: dnsterraform
+                    configuration:
+                      type: Inline
+                      spec:
+                        configFiles:
+                          store:
+                            type: Github
+                            spec:
+                              gitFetchType: Branch
+                              connectorRef: account.diegogithubapp
+                              repoName: terraform-onboarding-payments-validation
+                              branch: main
+                              folderPath: banking-demo-dns
+                        varFiles:
+                          - varFile:
+                              spec:
+                                content: |-
+                                  gcp_sa=""
+                                  project="sales-209522"
+                                  region="us-central1"
+                                  gitUser="us-central1-c"
+                                  ipAddress="34.121.101.100"
+                              identifier: vars
+                              type: Inline
+                  timeout: 10m
               - stepGroup:
                   name: Service and Environment Creation
                   identifier: Service_and_Environment_Creation
