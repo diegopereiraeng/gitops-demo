@@ -210,6 +210,20 @@ pipeline:
                   timeout: 10m
                   failureStrategies: []
               - step:
+                  type: HarnessApproval
+                  name: Approval
+                  identifier: Approval
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - account._account_all_users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
+              - step:
                   type: TerraformApply
                   name: Create DNS Record
                   identifier: Create_DNS_Record
