@@ -227,13 +227,16 @@ pipeline:
                               repoName: terraform-onboarding-payments-validation
                               branch: main
                               folderPath: banking-demo-dns
+                        environmentVariables:
+                          - name: GOOGLE_CREDENTIALS
+                            value: <+secrets.getValue("diego_gc_sa_text")>
+                            type: String
                         varFiles:
                           - varFile:
                               spec:
                                 content: |-
-                                  gcp_sa="<+secrets.getValue("diego_gc_sa_text")>"
                                   project="sales-209522"
-                                  region="us-central1"
+                                  region="us-central1-a"
                                   gitUser="us-central1-c"
                                   ipAddress="34.121.101.100"
                               identifier: vars
