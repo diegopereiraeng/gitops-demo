@@ -263,7 +263,7 @@ pipeline:
                   failureStrategies: []
                   when:
                     stageStatus: All
-                    condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT"
+                    condition: <+pipeline.stages.Delivery_Beta_Users.execution.steps.HarnessApproval.output.approvalActivities[0].action> == "REJECT" || <+pipeline.stages.Delivery_Beta_Users.execution.steps.Full_Rollout_Approval.output.approvalActivities[0].action> == "REJECT"
               - parallel:
                   - step:
                       type: JiraUpdate
