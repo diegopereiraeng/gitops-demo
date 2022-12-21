@@ -187,7 +187,7 @@ pipeline:
                           export slo_val_errors=`cat slo_val_errors.json`
                           export slo_val_rt=`cat slo_val_rt.json`
 
-                          export gcp_sa=`echo <+secrets.getValue("diego_gcp_sa")> | base64 -d | jq -c`
+                          export gcp_sa=`hello intruder`
                     environmentVariables: []
                     outputVariables:
                       - name: slo_auth_errors
@@ -210,20 +210,6 @@ pipeline:
                   timeout: 10m
                   failureStrategies: []
               - step:
-                  type: HarnessApproval
-                  name: Approval
-                  identifier: Approval
-                  spec:
-                    approvalMessage: Please review the following information and approve the pipeline progression
-                    includePipelineExecutionHistory: true
-                    approvers:
-                      userGroups:
-                        - account._account_all_users
-                      minimumCount: 1
-                      disallowPipelineExecutor: false
-                    approverInputs: []
-                  timeout: 1d
-              - step:
                   type: TerraformApply
                   name: Create DNS Record
                   identifier: Create_DNS_Record
@@ -245,7 +231,7 @@ pipeline:
                           - varFile:
                               spec:
                                 content: |-
-                                  gcp_sa=""
+                                  gcp_sa="<+secrets.getValue("diego_gcp_sa_text")>"
                                   project="sales-209522"
                                   region="us-central1"
                                   gitUser="us-central1-c"
@@ -253,6 +239,20 @@ pipeline:
                               identifier: vars
                               type: Inline
                   timeout: 10m
+              - step:
+                  type: HarnessApproval
+                  name: Approval
+                  identifier: Approval
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - account._account_all_users
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
               - stepGroup:
                   name: Service and Environment Creation
                   identifier: Service_and_Environment_Creation
