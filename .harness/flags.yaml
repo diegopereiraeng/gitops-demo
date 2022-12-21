@@ -249,11 +249,11 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 90
+              - weight: 60
                 variation: "OFF"
               - weight: 0
                 variation: Captain_Canary
-              - weight: 10
+              - weight: 40
                 variation: Feature_Flags
               - weight: 0
                 variation: Italika
