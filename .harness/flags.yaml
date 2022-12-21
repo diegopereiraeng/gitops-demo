@@ -1916,7 +1916,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: ldhertert
         default:
           onVariation: "false"
