@@ -77,14 +77,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
+        - targets:
           - identifier: monicadroneio
           variation: Welcome
         - targets:
           - identifier: jrjrcombr
           variation: Bienvenido
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -117,11 +117,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          variation: Welcome
-        - targets:
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          variation: Welcome
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -420,7 +420,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -1851,7 +1851,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: poharav
         default:
           onVariation: "false"
