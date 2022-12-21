@@ -80,7 +80,6 @@ featureFlags:
           - identifier: diegopereiraenggmailcom
           variation: Bem_vindo
         - targets:
-          - identifier: GuestCubatao
           - identifier: monicadroneio
           variation: Welcome
         - targets:
