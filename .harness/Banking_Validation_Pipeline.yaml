@@ -1154,6 +1154,19 @@ pipeline:
                                 exportTerraformHumanReadablePlan: true
                               provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
                             timeout: 10m
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: Retry
+                                    spec:
+                                      retryCount: 5
+                                      onRetryFailure:
+                                        action:
+                                          type: MarkAsSuccess
+                                      retryIntervals:
+                                        - 5s
                         - step:
                             type: TerraformApply
                             name: Create DNS Record
@@ -1168,7 +1181,14 @@ pipeline:
                                   errors:
                                     - AllErrors
                                   action:
-                                    type: MarkAsSuccess
+                                    type: Retry
+                                    spec:
+                                      retryCount: 5
+                                      retryIntervals:
+                                        - 5s
+                                      onRetryFailure:
+                                        action:
+                                          type: MarkAsSuccess
                   - step:
                       type: JiraUpdate
                       name: "Update JIRA "
