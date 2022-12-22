@@ -714,9 +714,9 @@ featureFlags:
         state: "off"
       - identifier: gacerioni
         default:
-          onVariation: Dark
+          onVariation: Green
           offVariation: Blue
-        state: "off"
+        state: "on"
       - identifier: gnogueira7
         default:
           onVariation: Dark
