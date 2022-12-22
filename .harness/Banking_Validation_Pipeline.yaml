@@ -1148,7 +1148,7 @@ pipeline:
                                         content: |-
                                           project="sales-209522"
                                           region="us-central1-c"
-                                          gitUser="<+pipeline.variables.gitUser>"
+                                          gitUser="<+pipeline.variables.virtualPath>"
                                           ipAddress="34.121.101.100"
                                       type: Inline
                                 exportTerraformHumanReadablePlan: true
