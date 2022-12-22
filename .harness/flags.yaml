@@ -77,14 +77,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
+        - targets:
           - identifier: monicadroneio
           variation: Welcome
         - targets:
           - identifier: jrjrcombr
           variation: Bienvenido
-        - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -356,7 +356,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: dev
         default:
           onVariation: Feature_Flags
@@ -480,7 +480,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: gnogueira7
         default:
           onVariation: "true"
@@ -581,7 +581,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -616,7 +616,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: crizstian
         default:
           onVariation: "true"
@@ -722,6 +722,15 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: Blue
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
       - identifier: ldhertert
         default:
           onVariation: Dark
@@ -1444,12 +1453,21 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: gnogueira7
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "OFF"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
       - identifier: ldhertert
         default:
           onVariation: "ON"
@@ -1457,9 +1475,18 @@ featureFlags:
         state: "off"
       - identifier: luisredda
         default:
-          onVariation: "ON"
+          onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "ON"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
       - identifier: dev
         default:
           onVariation: "ON"
@@ -1684,6 +1711,15 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "Off"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
       - identifier: ldhertert
         default:
           onVariation: "On"
@@ -1691,9 +1727,24 @@ featureFlags:
         state: "off"
       - identifier: luisredda
         default:
-          onVariation: "On"
+          onVariation: "Off"
           offVariation: "Off"
-        state: "off"
+        state: "on"
+        rules:
+        - priority: 0
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 50
+                variation: "On"
+              - weight: 50
+                variation: "Off"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
       - identifier: dev
         default:
           onVariation: "On"
@@ -1911,7 +1962,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: gnogueira7
         default:
           onVariation: "false"
