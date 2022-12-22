@@ -1117,6 +1117,45 @@ pipeline:
                       when:
                         stageStatus: Success
                   - step:
+                      type: TerraformApply
+                      name: Create DNS Record
+                      identifier: Create_DNS_Record
+                      spec:
+                        provisionerIdentifier: terraformdns
+                        configuration:
+                          type: Inline
+                          spec:
+                            configFiles:
+                              store:
+                                type: Github
+                                spec:
+                                  gitFetchType: Branch
+                                  connectorRef: account.diegogithubapp
+                                  repoName: terraform-onboarding-payments-validation
+                                  branch: main
+                                  folderPath: banking-demo-dns
+                            environmentVariables:
+                              - name: GOOGLE_CREDENTIALS
+                                value: <+secrets.getValue("diego_gc_sa_text")>
+                                type: String
+                            varFiles:
+                              - varFile:
+                                  spec:
+                                    content: |-
+                                      project="sales-209522"
+                                      region="us-central1-c"
+                                      gitUser="<+pipeline.variables.gitUser>"
+                                      ipAddress="34.121.101.100"
+                                  identifier: vars
+                                  type: Inline
+                      timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+                  - step:
                       type: JiraUpdate
                       name: "Update JIRA "
                       identifier: Update_JIRA_Start
@@ -1128,7 +1167,7 @@ pipeline:
                           status: In Progress
                         fields:
                           - name: Comment
-                            value: Production Canary started
+                            value: DNS \nCreated <br>- Production Canary \\nstarted
                       timeout: 1d
                       failureStrategies: []
                   - stepGroup:
