@@ -114,7 +114,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "off"
+        state: "on"
         targetRules:
         - targets:
           - identifier: GuestUnknown
