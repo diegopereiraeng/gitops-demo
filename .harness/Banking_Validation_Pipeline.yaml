@@ -1116,45 +1116,59 @@ pipeline:
                       failureStrategies: []
                       when:
                         stageStatus: Success
-                  - step:
-                      type: TerraformApply
-                      name: Create DNS Record
-                      identifier: Create_DNS_Record
-                      spec:
-                        provisionerIdentifier: terraformdns
-                        configuration:
-                          type: Inline
-                          spec:
-                            configFiles:
-                              store:
-                                type: Github
-                                spec:
-                                  gitFetchType: Branch
-                                  connectorRef: account.diegogithubapp
-                                  repoName: terraform-onboarding-payments-validation
-                                  branch: main
-                                  folderPath: banking-demo-dns
-                            environmentVariables:
-                              - name: GOOGLE_CREDENTIALS
-                                value: <+secrets.getValue("diego_gc_sa_text")>
-                                type: String
-                            varFiles:
-                              - varFile:
-                                  spec:
-                                    content: |-
-                                      project="sales-209522"
-                                      region="us-central1-c"
-                                      gitUser="<+pipeline.variables.gitUser>"
-                                      ipAddress="34.121.101.100"
-                                  identifier: vars
-                                  type: Inline
-                      timeout: 10m
-                      failureStrategies:
-                        - onFailure:
-                            errors:
-                              - AllErrors
-                            action:
-                              type: MarkAsSuccess
+                  - stepGroup:
+                      name: Terraform - Infra as Code
+                      identifier: Terraform_Infra_as_Code
+                      steps:
+                        - step:
+                            type: TerraformPlan
+                            name: Terraform Plan
+                            identifier: Terraform_Plan
+                            spec:
+                              configuration:
+                                command: Apply
+                                configFiles:
+                                  store:
+                                    type: Github
+                                    spec:
+                                      gitFetchType: Branch
+                                      connectorRef: account.diegogithubapp
+                                      repoName: terraform-onboarding-payments-validation
+                                      branch: main
+                                      folderPath: banking-demo-dns
+                                secretManagerRef: harnessSecretManager
+                                environmentVariables:
+                                  - name: GOOGLE_CREDENTIALS
+                                    value: <+secrets.getValue("diego_gc_sa_text")>
+                                    type: String
+                                varFiles:
+                                  - varFile:
+                                      identifier: Vars
+                                      spec:
+                                        content: |-
+                                          project="sales-209522"
+                                          region="us-central1-c"
+                                          gitUser="<+pipeline.variables.gitUser>"
+                                          ipAddress="34.121.101.100"
+                                      type: Inline
+                                exportTerraformHumanReadablePlan: true
+                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                            timeout: 10m
+                        - step:
+                            type: TerraformApply
+                            name: Create DNS Record
+                            identifier: Create_DNS_Record
+                            spec:
+                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                              configuration:
+                                type: InheritFromPlan
+                            timeout: 10m
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: MarkAsSuccess
                   - step:
                       type: JiraUpdate
                       name: "Update JIRA "
@@ -1171,7 +1185,7 @@ pipeline:
                       timeout: 1d
                       failureStrategies: []
                   - stepGroup:
-                      name: Canary Deployment
+                      name: Canary Deployment with Verification and FF
                       identifier: canaryDepoyment
                       steps:
                         - step:
