@@ -1389,7 +1389,7 @@ pipeline:
                                 name: CPU Stress
                                 identifier: CPU_Stress
                                 spec:
-                                  experimentRef: 0ddf3c4a-11a5-445b-9ed3-5b6b24ab22c8
+                                  experimentRef: 7408f2b7-ea6c-45fe-821b-d4a0a664922e
                                   expectedResilienceScore: 50
                                 when:
                                   stageStatus: Success
