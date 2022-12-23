@@ -321,12 +321,13 @@ pipeline:
                         command: |-
 
                           pwd
+
+                          cat sonarResults.xml
+
                           cd /harness
                           ls -ltra
                           cd target
                           ls -ltra
-
-                          cat sonarResults.xml
 
                           echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
 
