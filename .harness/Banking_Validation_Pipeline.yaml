@@ -1446,7 +1446,7 @@ pipeline:
                         method: GET
                         headers: []
                         outputVariables: []
-                        url: http://<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/<+pipeline.variables.virtualPath>/
+                        url: http://<+pipeline.variables.virtualPath>-<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/
                       timeout: 10s
                   - step:
                       type: JiraUpdate
