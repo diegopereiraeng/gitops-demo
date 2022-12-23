@@ -45,6 +45,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "Off"
@@ -117,16 +122,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
+        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -187,6 +192,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: "OFF"
           offVariation: "OFF"
@@ -426,6 +436,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -538,6 +553,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: "true"
           offVariation: "false"
@@ -658,6 +678,11 @@ featureFlags:
           offVariation: Blue
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: Dark
           offVariation: Blue
@@ -787,6 +812,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -903,6 +933,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -1015,6 +1050,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1158,6 +1198,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: poharav
         default:
           onVariation: Premium
@@ -1274,6 +1319,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: poharav
         default:
           onVariation: "true"
@@ -1386,6 +1436,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -1535,6 +1590,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: poharav
         default:
           onVariation: V2
@@ -1647,6 +1707,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -1791,6 +1856,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: poharav
         default:
           onVariation: Black
@@ -1904,6 +1974,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: harnesspov
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
         default:
           onVariation: "false"
           offVariation: "false"
