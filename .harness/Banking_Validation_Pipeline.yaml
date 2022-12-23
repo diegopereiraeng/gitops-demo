@@ -1389,6 +1389,10 @@ pipeline:
                                 spec:
                                   experimentRef: 0ddf3c4a-11a5-445b-9ed3-5b6b24ab22c8
                                   expectedResilienceScore: 50
+                                when:
+                                  stageStatus: Success
+                                  condition: <+pipeline.variables.firstDeploy> == false
+                                failureStrategies: []
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
