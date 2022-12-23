@@ -350,7 +350,7 @@ pipeline:
                                 echo "service id: <+service.identifier>"
 
 
-                                git_user="<+pipeline.variables.gitUser>"
+                                git_user="<+<+pipeline.variables.gitUser>.toLowerCase()>"
                                 service_name="payments-validation-$git_user"
                                 service_id=`echo payments_validation_$git_user | tr '[:upper:]' '[:lower:]'`
                                 acc_id="6_vVHzo9Qeu9fXvj-AcbCQ"
