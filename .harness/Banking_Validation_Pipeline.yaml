@@ -1386,15 +1386,17 @@ pipeline:
                                   condition: <+pipeline.variables.firstDeploy> == false
                             - step:
                                 type: Chaos
-                                name: CPU Stress
-                                identifier: CPU_Stress
+                                name: Pod CPU Stress
+                                identifier: Pod_CPU_Stress
                                 spec:
                                   experimentRef: 7408f2b7-ea6c-45fe-821b-d4a0a664922e
                                   expectedResilienceScore: 50
-                                when:
-                                  stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == false
-                                failureStrategies: []
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
