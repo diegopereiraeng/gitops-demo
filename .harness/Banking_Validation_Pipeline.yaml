@@ -45,7 +45,7 @@ pipeline:
                         image: maven:3.8.6-openjdk-11
                         language: Java
                         buildTool: Maven
-                        args: clean verify
+                        args: clean test
                         packages: io.harness
                         runOnlySelectedTests: true
                         preCommand: |+
