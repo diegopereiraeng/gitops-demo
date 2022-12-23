@@ -108,11 +108,13 @@ pipeline:
 
                           ls -ltra
 
+                          mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+
                           FILE=/harness/target
                           if [ -d "$FILE" ]; then
                               echo "$FILE created."
                           else
-                              mvn clean package -Dmaven.test.skip=true 
+                              mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
                           fi
                         reports:
                           type: JUnit
