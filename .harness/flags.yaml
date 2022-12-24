@@ -55,6 +55,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: demose
         default:
           onVariation: "Off"
@@ -122,13 +127,13 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
-        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
@@ -202,6 +207,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: riickster
         default:
           onVariation: "OFF"
           offVariation: "OFF"
@@ -446,6 +456,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: demose
         default:
           onVariation: "true"
@@ -563,6 +578,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
         default:
           onVariation: "true"
           offVariation: "false"
@@ -688,6 +708,11 @@ featureFlags:
           offVariation: Blue
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: riickster
         default:
           onVariation: Dark
           offVariation: Blue
@@ -822,6 +847,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: demose
         default:
           onVariation: "true"
@@ -943,6 +973,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: demose
         default:
           onVariation: "true"
@@ -1060,6 +1095,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1208,6 +1248,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: demose
         default:
           onVariation: Premium
@@ -1329,6 +1374,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: demose
         default:
           onVariation: "true"
@@ -1446,6 +1496,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: riickster
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -1600,6 +1655,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: demose
         default:
           onVariation: V2
@@ -1717,6 +1777,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: poharav
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: riickster
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -1866,6 +1931,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: demose
         default:
           onVariation: Black
@@ -1988,6 +2058,11 @@ featureFlags:
           onVariation: "false"
           offVariation: "false"
         state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
       - identifier: demose
         default:
           onVariation: "false"
