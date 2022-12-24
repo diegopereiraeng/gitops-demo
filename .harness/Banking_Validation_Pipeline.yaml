@@ -1627,6 +1627,19 @@ pipeline:
                                 spec:
                                   state: "on"
                           timeout: 10m
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Retry
+                                  spec:
+                                    retryCount: 3
+                                    onRetryFailure:
+                                      action:
+                                        type: MarkAsSuccess
+                                    retryIntervals:
+                                      - 3s
                       - step:
                           type: FlagConfiguration
                           name: Enable Auth Beta Feature
@@ -1640,6 +1653,21 @@ pipeline:
                                 spec:
                                   state: "on"
                           timeout: 10m
+                          when:
+                            stageStatus: Success
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Retry
+                                  spec:
+                                    retryCount: 3
+                                    retryIntervals:
+                                      - 3s
+                                    onRetryFailure:
+                                      action:
+                                        type: MarkAsSuccess
         - stage:
             name: DAST Tests
             identifier: DAST_Tests
