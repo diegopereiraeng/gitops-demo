@@ -87,14 +87,14 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: diegopereiraenggmailcom
-          variation: Bem_vindo
-        - targets:
           - identifier: monicadroneio
           variation: Welcome
         - targets:
           - identifier: jrjrcombr
           variation: Bienvenido
+        - targets:
+          - identifier: diegopereiraenggmailcom
+          variation: Bem_vindo
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -661,7 +661,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
