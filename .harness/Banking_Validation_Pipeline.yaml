@@ -1427,6 +1427,16 @@ pipeline:
                                 - ""
                             failureStrategies: []
                   - step:
+                      type: Http
+                      name: HealthCheck
+                      identifier: HealthCheck
+                      spec:
+                        method: GET
+                        headers: []
+                        outputVariables: []
+                        url: http://<+pipeline.variables.virtualPath>-<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/
+                      timeout: 10s
+                  - step:
                       type: K8sApply
                       name: Autostopping non-traffic hours
                       identifier: Autostopping_nontraffic_hours
@@ -1444,16 +1454,6 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
-                  - step:
-                      type: Http
-                      name: HealthCheck
-                      identifier: HealthCheck
-                      spec:
-                        method: GET
-                        headers: []
-                        outputVariables: []
-                        url: http://<+pipeline.variables.virtualPath>-<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/
-                      timeout: 10s
                   - step:
                       type: JiraUpdate
                       name: Close Jira Ticket
