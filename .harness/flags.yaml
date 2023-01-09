@@ -1578,7 +1578,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
         rules:
         - priority: 0
           serve:
