@@ -99,11 +99,11 @@ pipeline:
                                   - Beta_Users
                             variations:
                               - variation: "OFF"
-                                weight: 60
+                                weight: 50
                               - variation: Captain_Canary
                                 weight: 0
                               - variation: Feature_Flags
-                                weight: 40
+                                weight: 50
                               - variation: Italika
                                 weight: 0
                               - variation: Gabs_GoT
