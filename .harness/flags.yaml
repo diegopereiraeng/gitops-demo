@@ -1553,7 +1553,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: demose
         default:
           onVariation: "ON"
