@@ -1871,7 +1871,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "off"
+        state: "on"
       - identifier: demose
         default:
           onVariation: "On"
