@@ -760,6 +760,10 @@ pipeline:
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
+                  when:
+                    stageStatus: Success
+                    condition: <+pipeline.variables.triggerPipelines> == "true"
+                  failureStrategies: []
         tags:
           owner: diego
           latam: ""
@@ -769,3 +773,8 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: triggerPipelines
+      type: String
+      default: "true"
+      description: ""
+      value: <+input>.allowedValues(true,false)
