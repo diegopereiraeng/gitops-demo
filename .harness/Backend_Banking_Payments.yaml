@@ -123,7 +123,7 @@ pipeline:
                     resources:
                       limits:
                         memory: 1Gi
-                        cpu: "1"
+                        cpu: 700m
               - parallel:
                   - step:
                       type: Security
@@ -184,7 +184,6 @@ pipeline:
                         resources:
                           limits:
                             memory: 1500Mi
-                            cpu: 500m
                       failureStrategies:
                         - onFailure:
                             errors:
