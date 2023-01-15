@@ -681,6 +681,7 @@ pipeline:
                             secretManagerRef: account.harnessSecretManager
                             targets:
                               - harness_platform_triggers.trigger-banking
+                              - harness_platform_triggers.trigger-banking-front
                             varFiles:
                               - varFile:
                                   identifier: vars
