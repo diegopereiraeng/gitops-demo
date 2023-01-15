@@ -17,19 +17,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.cddemose
-              namespace: harness-ci-buildfarm
-              volumes:
-                - mountPath: /harness/repository
-                  type: HostPath
-                  spec:
-                    path: /tmp
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
           execution:
             steps:
               - step:
@@ -931,6 +918,12 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
     - stage:
         name: Deploy Dev
         identifier: Deploy_Dev
