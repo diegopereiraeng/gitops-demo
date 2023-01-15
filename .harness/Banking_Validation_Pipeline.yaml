@@ -1390,7 +1390,7 @@ pipeline:
                                 name: Pod CPU Stress
                                 identifier: Pod_CPU_Stress
                                 spec:
-                                  experimentRef: 7408f2b7-ea6c-45fe-821b-d4a0a664922e
+                                  experimentRef: 51cc5aaf-3665-4062-a46f-a475cfa16299
                                   expectedResilienceScore: 50
                                 failureStrategies:
                                   - onFailure:
