@@ -1261,7 +1261,7 @@ pipeline:
                                   condition: <+pipeline.variables.firstDeploy> == false
                             - step:
                                 type: Barrier
-                                name: Barrier
+                                name: Barrier FF
                                 identifier: Barrier
                                 spec:
                                   barrierRef: FF_READY
@@ -1602,7 +1602,7 @@ pipeline:
                 steps:
                   - step:
                       type: Barrier
-                      name: Barrier
+                      name: Barrier FF
                       identifier: Barrier
                       spec:
                         barrierRef: FF_READY
