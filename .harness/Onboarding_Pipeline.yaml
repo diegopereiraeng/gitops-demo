@@ -745,7 +745,7 @@ pipeline:
                                             type: Abort
               - step:
                   type: ShellScript
-                  name: First Deploy
+                  name: First Deploy Backend Validation
                   identifier: First_Deploy
                   spec:
                     shell: Bash
