@@ -431,7 +431,18 @@ pipeline:
                                         echo "error: $response_delete_key"
                                         #cat response_delete_key.txt
                                         echo "coudn't delete the key =("
-                                        exit 1
+                                        fi
+                                        response_delete_key_front=`curl -s -o response_delete_key_front.txt -w "%{http_code}" -X DELETE \
+                                        'https://app.harness.io/gateway/cf/admin/apikey/'$git_user'front?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
+                                        -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
+                                        if [ $response_delete_key_front == "200" ]; then
+                                        # handle error
+                                        echo "key front deleted"
+                                        else
+                                        echo "error: $response_delete_key_front"
+                                        #cat response_delete_key_front.txt
+                                        echo "coudn't delete the front key =("
+                                        exit 0
                                         fi
                                     # else
                                     #     echo "key doesn't exist"
@@ -464,6 +475,28 @@ pipeline:
                                     exit 1
                                 fi
 
+
+                                response_create_key_front=`curl -s -o response_create_key_front.txt -w "%{http_code}" --location --request POST 'https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
+                                --header 'Content-Type: application/json' \
+                                --header 'x-api-key: <+secrets.getValue("diegopatharness")>' \
+                                --header 'Cookie: _cfuvid=JgMXvkM44fH_Jc6B7n0hEVubOkB9vRCmQuxpBJekEP0-1670979409875-0-604800000' \
+                                --data-raw '{ 
+                                    "description": "This key is for server side production environment",
+                                    "expiredAt": 0,
+                                    "identifier": "'$git_user'front",
+                                    "name": "'$git_user'front",
+                                    "type": "Client"
+                                  }'`
+
+
+                                if [ $response_create_key_front == "201" ]; then
+                                    cat response_create_key_front.txt
+                                    export apiKeyFront=`cat response_create_key_front.txt | jq .apiKey`
+                                    echo "front api key generated with sucess - $apiKeyFront"
+                                else
+                                    echo "coudn't generate an front api key =("
+                                    exit 1
+                                fi
 
                                 http_response_template=`curl -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -s -o response_template.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$template_monitored_service\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_template`
 
@@ -618,6 +651,9 @@ pipeline:
                             - name: FFApiKey
                               type: String
                               value: apiKey
+                            - name: FFApiKeyFront
+                              type: String
+                              value: apiKeyFront
                           delegateSelectors:
                             - cd-demo-se
                         timeout: 10m
@@ -656,6 +692,7 @@ pipeline:
                                       accId = "6_vVHzo9Qeu9fXvj-AcbCQ"
                                       apiKey = "<+secrets.getValue("diegopatharness")>"
                                       ffKey = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey>
+                                      ffKeyFront = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKeyFront>
                                   type: Inline
                             exportTerraformPlanJson: true
                             exportTerraformHumanReadablePlan: true
