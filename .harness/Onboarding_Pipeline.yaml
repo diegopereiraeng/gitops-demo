@@ -691,8 +691,8 @@ pipeline:
                                       gitUser = "<+pipeline.variables.gitUser>"
                                       accId = "6_vVHzo9Qeu9fXvj-AcbCQ"
                                       apiKey = "<+secrets.getValue("diegopatharness")>"
-                                      ffKey = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey>
                                       ffKeyFront = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKeyFront>
+                                      ffKey = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey>
                                   type: Inline
                             exportTerraformPlanJson: true
                             exportTerraformHumanReadablePlan: true
