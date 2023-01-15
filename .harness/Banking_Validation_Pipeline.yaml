@@ -1400,7 +1400,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == false
+                                  condition: <+pipeline.variables.firstDeploy> == "skip"
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
