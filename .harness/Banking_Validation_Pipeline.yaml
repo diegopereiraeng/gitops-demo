@@ -45,7 +45,7 @@ pipeline:
                         image: maven:3.8.6-openjdk-11
                         language: Java
                         buildTool: Maven
-                        args: clean test
+                        args: clean package
                         packages: io.harness
                         runOnlySelectedTests: true
                         preCommand: |+
@@ -108,7 +108,7 @@ pipeline:
 
                           ls -ltra
 
-                          mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+                          #mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
 
                           FILE=/harness/target
                           if [ -d "$FILE" ]; then
