@@ -2228,7 +2228,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: dev
         default:
           onVariation: "true"
