@@ -45,7 +45,7 @@ pipeline:
                         image: maven:3.8.6-openjdk-11
                         language: Java
                         buildTool: Maven
-                        args: clean package
+                        args: verify
                         packages: io.harness
                         runOnlySelectedTests: true
                         preCommand: |+
@@ -63,7 +63,7 @@ pipeline:
                           CommitID: <+codebase.commitSha>
                           EOF
 
-
+                          mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
 
                           cd /opt
                           arch=`uname -m`
