@@ -130,9 +130,6 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: gabsthesregmailcom
-          variation: Bienvenido
-        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
@@ -140,6 +137,9 @@ featureFlags:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
+        - targets:
+          - identifier: gabsthesregmailcom
+          variation: Bienvenido
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -203,7 +203,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
       - identifier: harnesspov
         default:
           onVariation: "OFF"
@@ -2238,6 +2238,6 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
