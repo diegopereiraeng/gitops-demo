@@ -381,9 +381,9 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 100
-                variation: "OFF"
               - weight: 0
+                variation: "OFF"
+              - weight: 100
                 variation: Captain_Canary
               - weight: 0
                 variation: Feature_Flags
