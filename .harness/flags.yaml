@@ -118,6 +118,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: SB
         default:
           onVariation: "Off"
@@ -130,9 +135,6 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: gabsthesregmailcom
-          variation: Bienvenido
-        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
@@ -140,6 +142,9 @@ featureFlags:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
+        - targets:
+          - identifier: gabsthesregmailcom
+          variation: Bienvenido
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -365,6 +370,11 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: SB
         default:
           onVariation: "OFF"
@@ -542,6 +552,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: SB
         default:
           onVariation: "true"
@@ -669,6 +684,11 @@ featureFlags:
           offVariation: "false"
         state: "on"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
         default:
           onVariation: "true"
           offVariation: "false"
@@ -808,6 +828,11 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: SB
         default:
           onVariation: Dark
@@ -948,6 +973,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: SB
         default:
           onVariation: "true"
@@ -1075,6 +1105,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1214,6 +1249,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: SB
         default:
           onVariation: "true"
@@ -1364,6 +1404,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: SB
         default:
           onVariation: Premium
@@ -1491,6 +1536,11 @@ featureFlags:
           offVariation: "false"
         state: "on"
       - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1635,6 +1685,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: SB
         default:
           onVariation: "ON"
@@ -1786,6 +1841,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: SB
         default:
           onVariation: V2
@@ -1913,6 +1973,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: tkouhsari
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rnharness
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -2072,6 +2137,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: SB
         default:
           onVariation: Black
@@ -2204,6 +2274,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
       - identifier: SB
         default:
           onVariation: "false"
