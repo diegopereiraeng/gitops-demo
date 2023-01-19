@@ -44,7 +44,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "off"
+        state: "on"
       - identifier: harnesspov
         default:
           onVariation: "Off"
