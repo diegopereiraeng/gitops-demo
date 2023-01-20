@@ -412,10 +412,21 @@ featureFlags:
             op: segmentMatch
             values:
             - Guests
+        - priority: 102
+          serve:
+            serveVariation: Gabs_GoT
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
         targetRules:
         - targets:
           - identifier: Guest
           variation: Captain_Canary
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: Gabs_GoT
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
