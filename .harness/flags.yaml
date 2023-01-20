@@ -139,16 +139,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
-        - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
         - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
+        - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -395,9 +395,9 @@ featureFlags:
             distribution:
               bucketBy: identifier
               variations:
-              - weight: 0
-                variation: "OFF"
               - weight: 100
+                variation: "OFF"
+              - weight: 0
                 variation: Captain_Canary
               - weight: 0
                 variation: Feature_Flags
