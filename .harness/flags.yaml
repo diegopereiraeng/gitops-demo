@@ -411,7 +411,7 @@ featureFlags:
           - attribute: ""
             op: segmentMatch
             values:
-            - Beta_Users
+            - Guests
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
