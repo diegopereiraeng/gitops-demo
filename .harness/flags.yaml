@@ -139,16 +139,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
+        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -2033,6 +2033,142 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
+        state: "off"
+  - flag:
+      name: ios_home_message_feature
+      identifier: ios_home_message_feature
+      description: ""
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        variations:
+        - identifier: Hi_Engineer
+          value: Hi Engineer
+        - identifier: Harness_FF
+          value: Harness FF
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
         state: "off"
   - flag:
       name: ios_premium_feature
