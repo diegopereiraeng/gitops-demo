@@ -13,39 +13,80 @@ pipeline:
         spec:
           execution:
             steps:
-              - step:
-                  type: CustomApproval
-                  name: Custom Approval_1
-                  identifier: CustomApproval_1
-                  spec:
-                    rejectionCriteria:
-                      type: KeyValues
+              - parallel:
+                  - step:
+                      type: CustomApproval
+                      name: Custom Approval_1
+                      identifier: CustomApproval_1
                       spec:
-                        matchAnyCondition: true
-                        conditions: []
-                    approvalCriteria:
-                      type: KeyValues
-                      spec:
-                        matchAnyCondition: true
-                        conditions:
-                          - key: approved
-                            operator: equals
-                            value: "true"
-                    scriptTimeout: 10m
-                    retryInterval: 10s
-                    shell: Bash
-                    onDelegate: true
-                    source:
-                      type: Inline
-                      spec:
-                        script: |-
-                          export approved="false"
+                        rejectionCriteria:
+                          type: KeyValues
+                          spec:
+                            matchAnyCondition: true
+                            conditions: []
+                        approvalCriteria:
+                          type: KeyValues
+                          spec:
+                            matchAnyCondition: true
+                            conditions:
+                              - key: approved
+                                operator: equals
+                                value: "true"
+                        scriptTimeout: 10m
+                        retryInterval: 10s
+                        shell: Bash
+                        onDelegate: true
+                        source:
+                          type: Inline
+                          spec:
+                            script: |-
+                              export approved="false"
 
-                          export cause="not authorized"
-                    environmentVariables: []
-                    outputVariables:
-                      - name: cause
-                        type: String
-                        value: cause
-                  timeout: 1d
+                              export cause="not authorized"
+                        environmentVariables: []
+                        outputVariables:
+                          - name: cause
+                            type: String
+                            value: cause
+                          - name: approved
+                            type: String
+                            value: approved
+                      timeout: 1d
+                  - step:
+                      type: CustomApproval
+                      name: Custom Approval_2
+                      identifier: CustomApproval_2
+                      spec:
+                        rejectionCriteria:
+                          type: KeyValues
+                          spec:
+                            matchAnyCondition: true
+                            conditions: []
+                        approvalCriteria:
+                          type: KeyValues
+                          spec:
+                            matchAnyCondition: true
+                            conditions:
+                              - key: approved
+                                operator: equals
+                                value: "true"
+                        scriptTimeout: 10m
+                        retryInterval: 10s
+                        shell: Bash
+                        onDelegate: true
+                        source:
+                          type: Inline
+                          spec:
+                            script: |-
+
+
+                              ech "error"
+
+                              export approved="true"
+                        environmentVariables: []
+                        outputVariables:
+                          - name: approved
+                            type: String
+                            value: approved
+                      timeout: 1d
         tags: {}
