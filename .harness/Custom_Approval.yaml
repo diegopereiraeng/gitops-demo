@@ -81,8 +81,8 @@ pipeline:
                           spec:
                             script: |-
 
-
-                              ech "error"
+                              #imagine a command that goes wrong
+                              exit 1
 
                               export approved="true"
                         environmentVariables: []
