@@ -1,0 +1,51 @@
+pipeline:
+  name: Custom Approval
+  identifier: Custom_Approval
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Custom Approval
+        identifier: Custom_Approval
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CustomApproval
+                  name: Custom Approval_1
+                  identifier: CustomApproval_1
+                  spec:
+                    rejectionCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: true
+                        conditions: []
+                    approvalCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: true
+                        conditions:
+                          - key: approved
+                            operator: equals
+                            value: "true"
+                    scriptTimeout: 10m
+                    retryInterval: 10s
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          export approved="false"
+
+                          export cause="not authorized"
+                    environmentVariables: []
+                    outputVariables:
+                      - name: cause
+                        type: String
+                        value: cause
+                  timeout: 1d
+        tags: {}
