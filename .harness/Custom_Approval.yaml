@@ -43,6 +43,8 @@ pipeline:
                               export approved="false"
 
                               export cause="not authorized"
+
+                              echo $cause
                         environmentVariables: []
                         outputVariables:
                           - name: cause
