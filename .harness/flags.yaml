@@ -388,7 +388,7 @@ featureFlags:
         default:
           onVariation: Captain_Canary
           offVariation: "OFF"
-        state: "on"
+        state: "off"
         rules:
         - priority: 100
           serve:
@@ -1437,7 +1437,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "off"
+        state: "on"
       - identifier: gnogueira7
         default:
           onVariation: Premium
@@ -2418,7 +2418,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "on"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: V2
