@@ -861,7 +861,7 @@ featureFlags:
         default:
           onVariation: Green
           offVariation: Blue
-        state: "on"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: Dark
