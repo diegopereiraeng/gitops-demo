@@ -388,7 +388,7 @@ featureFlags:
         default:
           onVariation: Captain_Canary
           offVariation: "OFF"
-        state: "off"
+        state: "on"
         rules:
         - priority: 100
           serve:
