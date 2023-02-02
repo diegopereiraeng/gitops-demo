@@ -1,0 +1,56 @@
+pipeline:
+  name: Telcel
+  identifier: Telcel
+  template:
+    templateRef: Telcel
+    versionLabel: 0.0.1
+    templateInputs:
+      stages:
+        - stage:
+            identifier: Deploy_Banking_App_Dev
+            type: Deployment
+            spec:
+              execution:
+                steps:
+                  - stepGroup:
+                      identifier: Database_Upgrade
+                      steps:
+                        - step:
+                            identifier: Database_Script
+                            type: ShellScript
+                            spec:
+                              source:
+                                type: Inline
+                                spec:
+                                  script: <+input>
+                rollbackSteps:
+                  - stepGroup:
+                      identifier: Database_Rollback
+                      steps:
+                        - step:
+                            identifier: Database_Rollback2
+                            type: ShellScript
+                            spec:
+                              source:
+                                type: Inline
+                                spec:
+                                  script: <+input>
+      variables:
+        - name: tag
+          type: String
+          value: <+input>
+        - name: ffkey
+          type: String
+          value: <+input>
+        - name: virtualPath
+          type: String
+          value: <+input>
+        - name: gitEvent
+          type: String
+          value: <+input>
+        - name: target
+          type: String
+          value: <+input>
+  tags: {}
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
