@@ -5,38 +5,31 @@ pipeline:
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
   stages:
-    - parallel:
-        - stage:
-            name: Approval
-            identifier: Approval
-            description: ""
-            type: Custom
-            spec:
-              execution:
-                steps:
-                  - step:
-                      type: HarnessApproval
-                      name: Harness Approval_1
-                      identifier: HarnessApproval_1
-                      spec:
-                        approvalMessage: Please review the following information and approve the pipeline progression
-                        includePipelineExecutionHistory: true
-                        approvers:
-                          userGroups:
-                            - account._account_all_users
-                          minimumCount: 1
-                          disallowPipelineExecutor: false
-                        approverInputs: []
-                      timeout: 1d
-            tags: {}
-        - stage:
-            name: Shell Intervention
-            identifier: Shell_Intervention
-            description: ""
-            type: Custom
-            spec:
-              execution:
-                steps:
+    - stage:
+        name: test
+        identifier: test
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: payments_validation_diegopereiraeng
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: ProdCDDemoSE
+          execution:
+            steps:
+              - parallel:
                   - step:
                       type: ShellScript
                       name: Shell Script_1
@@ -47,7 +40,9 @@ pipeline:
                         source:
                           type: Inline
                           spec:
-                            script: exit 1
+                            script: |-
+                              echo "Error"
+                              ecit 1
                         environmentVariables: []
                         outputVariables: []
                       timeout: 10m
@@ -62,4 +57,25 @@ pipeline:
                                 onTimeout:
                                   action:
                                     type: MarkAsSuccess
-            tags: {}
+                  - step:
+                      type: HarnessApproval
+                      name: Harness Approval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        approvers:
+                          userGroups:
+                            - account._account_all_users
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
