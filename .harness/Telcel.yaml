@@ -13,15 +13,7 @@ pipeline:
         spec:
           deploymentType: Kubernetes
           service:
-            serviceRef: payments_validation_diegopereiraeng
-            serviceInputs:
-              serviceDefinition:
-                type: Kubernetes
-                spec:
-                  artifacts:
-                    primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
+            serviceRef: test
           environment:
             environmentRef: prod
             deployToAll: false
