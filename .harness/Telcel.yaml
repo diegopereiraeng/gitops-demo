@@ -1,56 +1,65 @@
 pipeline:
   name: Telcel
   identifier: Telcel
-  template:
-    templateRef: Telcel
-    versionLabel: 0.0.1
-    templateInputs:
-      stages:
-        - stage:
-            identifier: Deploy_Banking_App_Dev
-            type: Deployment
-            spec:
-              execution:
-                steps:
-                  - stepGroup:
-                      identifier: Database_Upgrade
-                      steps:
-                        - step:
-                            identifier: Database_Script
-                            type: ShellScript
-                            spec:
-                              source:
-                                type: Inline
-                                spec:
-                                  script: <+input>
-                rollbackSteps:
-                  - stepGroup:
-                      identifier: Database_Rollback
-                      steps:
-                        - step:
-                            identifier: Database_Rollback2
-                            type: ShellScript
-                            spec:
-                              source:
-                                type: Inline
-                                spec:
-                                  script: <+input>
-      variables:
-        - name: tag
-          type: String
-          value: <+input>
-        - name: ffkey
-          type: String
-          value: <+input>
-        - name: virtualPath
-          type: String
-          value: <+input>
-        - name: gitEvent
-          type: String
-          value: <+input>
-        - name: target
-          type: String
-          value: <+input>
   tags: {}
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
+  stages:
+    - parallel:
+        - stage:
+            name: Approval
+            identifier: Approval
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: HarnessApproval
+                      name: Harness Approval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        approvers:
+                          userGroups:
+                            - account._account_all_users
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            tags: {}
+        - stage:
+            name: Shell Intervention
+            identifier: Shell_Intervention
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: Shell Script_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        onDelegate: true
+                        source:
+                          type: Inline
+                          spec:
+                            script: exit 1
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: ManualIntervention
+                              spec:
+                                timeout: 1d
+                                onTimeout:
+                                  action:
+                                    type: MarkAsSuccess
+            tags: {}
