@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backstage
-        image: backstage/backend:latest
+        image: backstage/backstage:latest
         ports:
         - containerPort: 3030
         env:
