@@ -1,7 +1,0 @@
-apiVersion: v3
-kind: Chart
-name: backstage
-version: 0.1.0
-metadata:
-  name: platformengineering
-  namespace: tools

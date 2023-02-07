@@ -1,6 +1,0 @@
-name: backstage
-namespace: tools
-ELASTICSEARCH_URLS: https://se-elasticsearch-es-http.tools.svc:9200
-ELASTICSEARCH_PASSWORD: <+secrets.getValue("elkToolsPassword")>
-mongodbUsername: <+secrets.getValue("mongodbUsername")>
-mongodbPassword: <+secrets.getValue("mongodbPassword")>

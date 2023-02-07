@@ -1,6 +1,0 @@
-# charts/mongodb/values.yaml
-name: backstage
-namespace: tools
-mongodbUsername: <+secrets.getValue("mongodbUsername")>
-mongodbPassword: <+secrets.getValue("mongodbPassword")>
-mongodbStorage: 1Gi
