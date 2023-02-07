@@ -1,27 +1,59 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backstage-secrets
+  namespace: backstage
+type: Opaque
+data:
+  GITHUB_TOKEN: VG9rZW5Ub2tlblRva2VuVG9rZW5NYWxrb3ZpY2hUb2tlbg==
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backstage
-  namespace: {{ .Values.namespace }}
+  namespace: backstage
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: backstage
-  replicas: 1
   template:
     metadata:
       labels:
         app: backstage
     spec:
       containers:
-      - name: backstage
-        image: backstage/backstage:latest
-        ports:
-        - containerPort: 3030
-        env:
-        - name: POSTGRES_URI
-          value: postgres://{{ .Values.postgresUsername }}:{{ .Values.postgresPassword }}@postgres:5432/{{ .Values.postgresDb }}
-      - name: postgres
-        image: postgres:12
-        ports:
-        - containerPort: 5432
+        - name: backstage
+          image: backstage:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 7007
+          envFrom:
+            - secretRef:
+                name: postgres-secrets
+            - secretRef:
+                name: backstage-secrets
+# Uncomment if health checks are enabled in your app:
+# https://backstage.io/docs/plugins/observability#health-checks
+#          readinessProbe:
+#            httpGet:
+#              port: 7007
+#              path: /healthcheck
+#          livenessProbe:
+#            httpGet:
+#              port: 7007
+#              path: /healthcheck
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backstage
+  namespace: backstage
+spec:
+  selector:
+    app: backstage
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
