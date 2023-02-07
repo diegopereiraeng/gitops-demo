@@ -7,7 +7,7 @@ metadata:
 data:
   name: platformengineering
   namespace: tools
-  mongodbUsername: harness
-  mongodbPassword: harnessplatformengineering
+  # mongodbUsername: harness
+  # mongodbPassword: harness
   ELASTICSEARCH_URLS: http://elasticsearch:9200
   ELASTICSEARCH_PASSWORD: mypassword
