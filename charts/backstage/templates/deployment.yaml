@@ -20,7 +20,7 @@ spec:
         - containerPort: 3030
         env:
         - name: MONGO_URI
-          value: mongodb://{{ .Values.mongodbUsername }}:{{ .Values.mongodbPassword }}@mongodb:27017/backstage
+          value: mongodb://{{ .Values.mongodbUsername }}:{{ .Values.mongodbPassword }}@mongodb.{{ .Values.namespace }}.svc.cluster.local:27017/backstage
         - name: ELASTICSEARCH_URLS
           value: {{ .Values.ELASTICSEARCH_URLS }}
         - name: ELASTICSEARCH_PASSWORD
