@@ -1,0 +1,13 @@
+# Variables file
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platformengineering-variables
+data:
+  name: platformengineering
+  namespace: tools
+  mongodbUsername: harness
+  mongodbPassword: harnessplatformengineering
+  ELASTICSEARCH_URLS: http://elasticsearch:9200
+  ELASTICSEARCH_PASSWORD: mypassword
