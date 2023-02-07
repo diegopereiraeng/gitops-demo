@@ -1,0 +1,3 @@
+[submodule "banking-cv-ff-demo"]
+	path = banking-cv-ff-demo
+	url = https://github.com/diegopereiraeng/banking-cv-ff-demo.git
