@@ -1267,7 +1267,7 @@ pipeline:
                                       script: |
 
 
-                                        for i in `seq 1 1000`;
+                                        for i in `seq 1 500`;
                                         do
                                             echo "Load - " $i
                                             echo "curl http://<+service.name>-canary.<+env.name>.svc.cluster.local:8081/api/v1/payments/list"
@@ -1284,7 +1284,7 @@ pipeline:
 
                                         sleep 1m
 
-                                        for i in `seq 1 1000`;
+                                        for i in `seq 1 500`;
                                         do
                                             echo "Load - " $i
                                             echo "curl http://<+service.name>-canary.<+env.name>.svc.cluster.local:8081/api/v1/payments/list"
@@ -1301,7 +1301,7 @@ pipeline:
 
                                         sleep 1m
 
-                                        for i in `seq 1000`;
+                                        for i in `seq 700`;
                                         do
                                             echo "Load - " $i
                                             echo "curl http://<+service.name>-canary.<+env.name>.svc.cluster.local:8081/api/v1/payments/list"
