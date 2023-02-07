@@ -1,51 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.name }}
+  name: backstage
   namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: backstage
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: backstage
     spec:
       containers:
-      - name: {{ .Values.name }}
+      - name: backstage
         image: backstage/backend:latest
         ports:
         - containerPort: 3030
         env:
-        - name: MONGO_URI
-          value: mongodb://{{ .Values.mongodbUsername }}:{{ .Values.mongodbPassword }}@mongodb.{{ .Values.namespace }}.svc.cluster.local:27017/backstage
-        - name: ELASTICSEARCH_URLS
-          value: {{ .Values.ELASTICSEARCH_URLS }}
-        - name: ELASTICSEARCH_PASSWORD
-          value: {{ .Values.ELASTICSEARCH_PASSWORD }}
-      - name: mongodb
-        image: mongo:4.4
+        - name: POSTGRES_URI
+          value: postgres://{{ .Values.postgresUsername }}:{{ .Values.postgresPassword }}@postgres:5432/{{ .Values.postgresDb }}
+      - name: postgres
+        image: postgres:12
         ports:
-        - containerPort: 27017
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: tools
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.name }}
-  namespace: {{ .Values.namespace }}
-spec:
-  selector:
-    app: {{ .Values.name }}
-  ports:
-  - name: http
-    port: 3030
-    targetPort: 3030
-  type: ClusterIP
----
+        - containerPort: 5432
