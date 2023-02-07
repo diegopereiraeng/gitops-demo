@@ -45,7 +45,7 @@ pipeline:
                         image: maven:3.8.6-openjdk-11
                         language: Java
                         buildTool: Maven
-                        args: clean verify
+                        args: verify
                         packages: io.harness
                         runOnlySelectedTests: true
                         preCommand: |+
@@ -63,7 +63,7 @@ pipeline:
                           CommitID: <+codebase.commitSha>
                           EOF
 
-
+                          mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
 
                           cd /opt
                           arch=`uname -m`
@@ -91,6 +91,8 @@ pipeline:
                           cd $PROJ_DIR
                           #ET-SETUP-END
 
+                          ls -ltra
+
                         postCommand: |-
                           export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
 
@@ -101,6 +103,19 @@ pipeline:
                           export gitBranch=<+codebase.branch>
 
                           ls -ltra
+
+                          cd /harness
+
+                          ls -ltra
+
+                          #mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+
+                          FILE=/harness/target
+                          if [ -d "$FILE" ]; then
+                              echo "$FILE created."
+                          else
+                              mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+                          fi
                         reports:
                           type: JUnit
                           spec:
@@ -304,7 +319,15 @@ pipeline:
                         image: docker:latest
                         shell: Sh
                         command: |-
+
+                          pwd
+
                           cat sonarResults.xml
+
+                          cd /harness
+                          ls -ltra
+                          cd target
+                          ls -ltra
 
                           echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
 
@@ -1096,6 +1119,79 @@ pipeline:
                       failureStrategies: []
                       when:
                         stageStatus: Success
+                  - stepGroup:
+                      name: Terraform - Infra as Code
+                      identifier: Terraform_Infra_as_Code
+                      steps:
+                        - step:
+                            type: TerraformPlan
+                            name: Terraform Plan
+                            identifier: Terraform_Plan
+                            spec:
+                              configuration:
+                                command: Apply
+                                configFiles:
+                                  store:
+                                    type: Github
+                                    spec:
+                                      gitFetchType: Branch
+                                      connectorRef: account.diegogithubapp
+                                      repoName: terraform-onboarding-payments-validation
+                                      branch: main
+                                      folderPath: banking-demo-dns
+                                secretManagerRef: harnessSecretManager
+                                environmentVariables:
+                                  - name: GOOGLE_CREDENTIALS
+                                    value: <+secrets.getValue("diego_gc_sa_text")>
+                                    type: String
+                                varFiles:
+                                  - varFile:
+                                      identifier: Vars
+                                      spec:
+                                        content: |-
+                                          project="sales-209522"
+                                          region="us-central1-c"
+                                          gitUser="<+pipeline.variables.virtualPath>"
+                                          ipAddress="34.121.101.100"
+                                      type: Inline
+                                exportTerraformHumanReadablePlan: true
+                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                            timeout: 10m
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: Retry
+                                    spec:
+                                      retryCount: 5
+                                      onRetryFailure:
+                                        action:
+                                          type: MarkAsSuccess
+                                      retryIntervals:
+                                        - 5s
+                        - step:
+                            type: TerraformApply
+                            name: Create DNS Record
+                            identifier: Create_DNS_Record
+                            spec:
+                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                              configuration:
+                                type: InheritFromPlan
+                            timeout: 10m
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: Retry
+                                    spec:
+                                      retryCount: 5
+                                      retryIntervals:
+                                        - 5s
+                                      onRetryFailure:
+                                        action:
+                                          type: MarkAsSuccess
                   - step:
                       type: JiraUpdate
                       name: "Update JIRA "
@@ -1108,11 +1204,11 @@ pipeline:
                           status: In Progress
                         fields:
                           - name: Comment
-                            value: Production Canary started
+                            value: DNS \nCreated <br>- Production Canary \\nstarted
                       timeout: 1d
                       failureStrategies: []
                   - stepGroup:
-                      name: Canary Deployment
+                      name: Canary Deployment with Verification and FF
                       identifier: canaryDepoyment
                       steps:
                         - step:
@@ -1165,7 +1261,7 @@ pipeline:
                                   condition: <+pipeline.variables.firstDeploy> == false
                             - step:
                                 type: Barrier
-                                name: Barrier
+                                name: Barrier FF
                                 identifier: Barrier
                                 spec:
                                   barrierRef: FF_READY
@@ -1289,6 +1385,22 @@ pipeline:
                                 when:
                                   stageStatus: Success
                                   condition: <+pipeline.variables.firstDeploy> == false
+                            - step:
+                                type: Chaos
+                                name: Pod CPU Stress
+                                identifier: Pod_CPU_Stress
+                                spec:
+                                  experimentRef: 51cc5aaf-3665-4062-a46f-a475cfa16299
+                                  expectedResilienceScore: 50
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: MarkAsSuccess
+                                when:
+                                  stageStatus: Success
+                                  condition: <+pipeline.variables.firstDeploy> == false
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
@@ -1315,6 +1427,16 @@ pipeline:
                                 - ""
                             failureStrategies: []
                   - step:
+                      type: Http
+                      name: HealthCheck
+                      identifier: HealthCheck
+                      spec:
+                        method: GET
+                        headers: []
+                        outputVariables: []
+                        url: http://<+pipeline.variables.virtualPath>-<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/
+                      timeout: 10s
+                  - step:
                       type: K8sApply
                       name: Autostopping non-traffic hours
                       identifier: Autostopping_nontraffic_hours
@@ -1332,16 +1454,6 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
-                  - step:
-                      type: Http
-                      name: HealthCheck
-                      identifier: HealthCheck
-                      spec:
-                        method: GET
-                        headers: []
-                        outputVariables: []
-                        url: http://<+pipeline.properties.ci.codebase.repoName>.harness-demo.site/<+pipeline.variables.virtualPath>/
-                      timeout: 10s
                   - step:
                       type: JiraUpdate
                       name: Close Jira Ticket
@@ -1490,7 +1602,7 @@ pipeline:
                 steps:
                   - step:
                       type: Barrier
-                      name: Barrier
+                      name: Barrier FF
                       identifier: Barrier
                       spec:
                         barrierRef: FF_READY
@@ -1515,6 +1627,19 @@ pipeline:
                                 spec:
                                   state: "on"
                           timeout: 10m
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Retry
+                                  spec:
+                                    retryCount: 3
+                                    onRetryFailure:
+                                      action:
+                                        type: MarkAsSuccess
+                                    retryIntervals:
+                                      - 3s
                       - step:
                           type: FlagConfiguration
                           name: Enable Auth Beta Feature
@@ -1528,6 +1653,21 @@ pipeline:
                                 spec:
                                   state: "on"
                           timeout: 10m
+                          when:
+                            stageStatus: Success
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Retry
+                                  spec:
+                                    retryCount: 3
+                                    retryIntervals:
+                                      - 3s
+                                    onRetryFailure:
+                                      action:
+                                        type: MarkAsSuccess
         - stage:
             name: DAST Tests
             identifier: DAST_Tests

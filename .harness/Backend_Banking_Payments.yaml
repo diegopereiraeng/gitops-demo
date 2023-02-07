@@ -17,19 +17,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.cddemose
-              namespace: harness-ci-buildfarm
-              volumes:
-                - mountPath: /harness/repository
-                  type: HostPath
-                  spec:
-                    path: /tmp
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
           execution:
             steps:
               - step:
@@ -123,7 +110,7 @@ pipeline:
                     resources:
                       limits:
                         memory: 1Gi
-                        cpu: "1"
+                        cpu: 700m
               - parallel:
                   - step:
                       type: Security
@@ -184,7 +171,6 @@ pipeline:
                         resources:
                           limits:
                             memory: 1500Mi
-                            cpu: 500m
                       failureStrategies:
                         - onFailure:
                             errors:
@@ -932,6 +918,12 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
     - stage:
         name: Deploy Dev
         identifier: Deploy_Dev
@@ -1275,7 +1267,7 @@ pipeline:
                                       script: |
 
 
-                                        for i in `seq 1 1000`;
+                                        for i in `seq 1 500`;
                                         do
                                             echo "Load - " $i
                                             echo "curl http://<+service.name>-canary.<+env.name>.svc.cluster.local:8081/api/v1/payments/list"
@@ -1292,7 +1284,7 @@ pipeline:
 
                                         sleep 1m
 
-                                        for i in `seq 1 1000`;
+                                        for i in `seq 1 500`;
                                         do
                                             echo "Load - " $i
                                             echo "curl http://<+service.name>-canary.<+env.name>.svc.cluster.local:8081/api/v1/payments/list"
@@ -1309,7 +1301,7 @@ pipeline:
 
                                         sleep 1m
 
-                                        for i in `seq 1000`;
+                                        for i in `seq 700`;
                                         do
                                             echo "Load - " $i
                                             echo "curl http://<+service.name>-canary.<+env.name>.svc.cluster.local:8081/api/v1/payments/list"
@@ -1596,7 +1588,7 @@ pipeline:
                                 type: Default
                                 spec: {}
                               spec:
-                                sensitivity: LOW
+                                sensitivity: HIGH
                                 duration: <+input>
                                 deploymentTag: <+serviceConfig.artifacts.primary.tag>
                             timeout: 2h

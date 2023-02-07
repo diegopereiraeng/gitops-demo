@@ -27,7 +27,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |+
+                        script: |
                           cat <<EOF > slo_auth_errors.json
                           {
                             "orgIdentifier": "default",
@@ -187,6 +187,7 @@ pipeline:
                           export slo_val_errors=`cat slo_val_errors.json`
                           export slo_val_rt=`cat slo_val_rt.json`
 
+                          export gcp_sa=`hello intruder`
                     environmentVariables: []
                     outputVariables:
                       - name: slo_auth_errors
@@ -201,10 +202,52 @@ pipeline:
                       - name: slo_val_rt
                         type: String
                         value: slo_val_rt
+                      - name: gcp_sa
+                        type: String
+                        value: gcp_sa
                     delegateSelectors:
                       - cd-demo-se
                   timeout: 10m
                   failureStrategies: []
+              - step:
+                  type: TerraformApply
+                  name: Create DNS Record
+                  identifier: Create_DNS_Record
+                  spec:
+                    provisionerIdentifier: tfdns<+pipeline.variables.gitUser>
+                    configuration:
+                      type: Inline
+                      spec:
+                        configFiles:
+                          store:
+                            type: Github
+                            spec:
+                              gitFetchType: Branch
+                              connectorRef: account.diegogithubapp
+                              repoName: terraform-onboarding-payments-validation
+                              branch: main
+                              folderPath: banking-demo-dns
+                        environmentVariables:
+                          - name: GOOGLE_CREDENTIALS
+                            value: <+secrets.getValue("diego_gc_sa_text")>
+                            type: String
+                        varFiles:
+                          - varFile:
+                              spec:
+                                content: |-
+                                  project="sales-209522"
+                                  region="us-central1-c"
+                                  gitUser="<+pipeline.variables.gitUser>"
+                                  ipAddress="34.121.101.100"
+                              identifier: vars
+                              type: Inline
+                  timeout: 10m
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: MarkAsSuccess
               - stepGroup:
                   name: Service and Environment Creation
                   identifier: Service_and_Environment_Creation
@@ -303,9 +346,11 @@ pipeline:
                           source:
                             type: Inline
                             spec:
-                              script: |-
+                              script: |+
+                                echo "service id: <+service.identifier>"
 
-                                git_user="<+pipeline.variables.gitUser>"
+
+                                git_user='<+<+<+pipeline.variables.gitUser>.toLowerCase()>.replaceAll("-","_")>'
                                 service_name="payments-validation-$git_user"
                                 service_id=`echo payments_validation_$git_user | tr '[:upper:]' '[:lower:]'`
                                 acc_id="6_vVHzo9Qeu9fXvj-AcbCQ"
@@ -386,7 +431,18 @@ pipeline:
                                         echo "error: $response_delete_key"
                                         #cat response_delete_key.txt
                                         echo "coudn't delete the key =("
-                                        exit 1
+                                        fi
+                                        response_delete_key_front=`curl -s -o response_delete_key_front.txt -w "%{http_code}" -X DELETE \
+                                        'https://app.harness.io/gateway/cf/admin/apikey/'$git_user'front?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
+                                        -H 'x-api-key: <+secrets.getValue("diegopatharness")>'`
+                                        if [ $response_delete_key_front == "200" ]; then
+                                        # handle error
+                                        echo "key front deleted"
+                                        else
+                                        echo "error: $response_delete_key_front"
+                                        #cat response_delete_key_front.txt
+                                        echo "coudn't delete the front key =("
+                                        exit 0
                                         fi
                                     # else
                                     #     echo "key doesn't exist"
@@ -419,6 +475,28 @@ pipeline:
                                     exit 1
                                 fi
 
+
+                                response_create_key_front=`curl -s -o response_create_key_front.txt -w "%{http_code}" --location --request POST 'https://app.harness.io/gateway/cf/admin/apikey?accountIdentifier='$acc_id'&orgIdentifier='$org_id'&environmentIdentifier='$env_id'&projectIdentifier='$project_id'' \
+                                --header 'Content-Type: application/json' \
+                                --header 'x-api-key: <+secrets.getValue("diegopatharness")>' \
+                                --header 'Cookie: _cfuvid=JgMXvkM44fH_Jc6B7n0hEVubOkB9vRCmQuxpBJekEP0-1670979409875-0-604800000' \
+                                --data-raw '{ 
+                                    "description": "This key is for server side production environment",
+                                    "expiredAt": 0,
+                                    "identifier": "'$git_user'front",
+                                    "name": "'$git_user'front",
+                                    "type": "Client"
+                                  }'`
+
+
+                                if [ $response_create_key_front == "201" ]; then
+                                    cat response_create_key_front.txt
+                                    export apiKeyFront=`cat response_create_key_front.txt | jq .apiKey`
+                                    echo "front api key generated with sucess - $apiKeyFront"
+                                else
+                                    echo "coudn't generate an front api key =("
+                                    exit 1
+                                fi
 
                                 http_response_template=`curl -H 'x-api-key: <+secrets.getValue("diegopatharness")>' -s -o response_template.txt -w "%{http_code}" https://app.harness.io/gateway/cv/api/monitored-service/$template_monitored_service\?accountId=$acc_id\&orgIdentifier=$org_id\&projectIdentifier=$project_template`
 
@@ -560,6 +638,8 @@ pipeline:
                                     echo "Success, you are ready to use Banking Demo"
 
                                 fi
+
+
                           environmentVariables: []
                           outputVariables:
                             - name: monit_service
@@ -571,6 +651,9 @@ pipeline:
                             - name: FFApiKey
                               type: String
                               value: apiKey
+                            - name: FFApiKeyFront
+                              type: String
+                              value: apiKeyFront
                           delegateSelectors:
                             - cd-demo-se
                         timeout: 10m
@@ -598,6 +681,7 @@ pipeline:
                             secretManagerRef: account.harnessSecretManager
                             targets:
                               - harness_platform_triggers.trigger-banking
+                              - harness_platform_triggers.trigger-banking-front
                             varFiles:
                               - varFile:
                                   identifier: vars
@@ -608,8 +692,8 @@ pipeline:
                                       gitUser = "<+pipeline.variables.gitUser>"
                                       accId = "6_vVHzo9Qeu9fXvj-AcbCQ"
                                       apiKey = "<+secrets.getValue("diegopatharness")>"
+                                      ffKeyFront = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKeyFront>
                                       ffKey = <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey>
-                                      serviceId = "<+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.monit_service>"
                                   type: Inline
                             exportTerraformPlanJson: true
                             exportTerraformHumanReadablePlan: true
@@ -662,7 +746,7 @@ pipeline:
                                             type: Abort
               - step:
                   type: ShellScript
-                  name: First Deploy
+                  name: First Deploy Backend Validation
                   identifier: First_Deploy
                   spec:
                     shell: Bash
@@ -671,12 +755,16 @@ pipeline:
                       type: Inline
                       spec:
                         script: |-
-                          echo '{ "FFKEY": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey> , "gitUser": "<+pipeline.variables.gitUser>", "firstDeploy": "true" }'
+                          echo '{ "FFKEY": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey> , "gitUser": "<+<+<+pipeline.variables.gitUser>.toLowerCase()>.replaceAll("-","_")>", "firstDeploy": "true" }'
 
                           curl -X POST -H 'content-type: application/json' -H 'X-Api-Key: <+secrets.getValue("diegopatharness")>' --url 'https://app.harness.io/gateway/pipeline/api/webhook/custom/v2?accountIdentifier=6_vVHzo9Qeu9fXvj-AcbCQ&orgIdentifier=default&projectIdentifier=GIT_FLOW_DEMO&pipelineIdentifier=Banking_Validation_Pipeline&triggerIdentifier=customdeploy' -d '{ "FFKEY": <+pipeline.stages.Automation.spec.execution.steps.Full_Automation_Monitored_Service_SLOs_Metrics_FF_Key.steps.Harness_API.output.outputVariables.FFApiKey> , "gitUser": "<+pipeline.variables.gitUser>", "firstDeploy": "true" }'
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
+                  when:
+                    stageStatus: Success
+                    condition: <+pipeline.variables.triggerPipelines> == "true"
+                  failureStrategies: []
         tags:
           owner: diego
           latam: ""
@@ -686,3 +774,8 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: triggerPipelines
+      type: String
+      default: "true"
+      description: ""
+      value: <+input>.allowedValues(true,false)

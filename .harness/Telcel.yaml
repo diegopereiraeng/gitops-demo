@@ -1,0 +1,73 @@
+pipeline:
+  name: Telcel
+  identifier: Telcel
+  tags: {}
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: test
+        identifier: test
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: test
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: ProdCDDemoSE
+          execution:
+            steps:
+              - parallel:
+                  - step:
+                      type: ShellScript
+                      name: Shell Script_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        onDelegate: true
+                        source:
+                          type: Inline
+                          spec:
+                            script: |-
+                              echo "Error"
+                              ecit 1
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: ManualIntervention
+                              spec:
+                                timeout: 1d
+                                onTimeout:
+                                  action:
+                                    type: MarkAsSuccess
+                  - step:
+                      type: HarnessApproval
+                      name: Harness Approval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        approvers:
+                          userGroups:
+                            - account._account_all_users
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
