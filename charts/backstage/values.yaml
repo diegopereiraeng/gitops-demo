@@ -1,4 +1,4 @@
 namespace: backstage
 postgresDb: backstage
-postgresHost: "postgres.postgres.svc.cluster.local"
-postgresPort: "5432"
+postgresHost: postgres.postgres.svc.cluster.local
+postgresPort: 5432
