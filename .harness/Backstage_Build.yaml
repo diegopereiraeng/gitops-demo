@@ -50,5 +50,5 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     repo: diegokoala/harness-backstage
                     tags:
-                      - 0.0.1
+                      - 0.0.2
                     dockerfile: packages/backend/Dockerfile
