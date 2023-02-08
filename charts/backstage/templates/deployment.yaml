@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: backstage
-          image: diegokoala/harness-backstage:0.0.1
+          image: diegokoala/harness-backstage:0.0.2
           imagePullPolicy: IfNotPresent
           envFrom:
           - configMapRef:
