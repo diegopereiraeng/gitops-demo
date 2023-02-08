@@ -70,4 +70,13 @@ spec:
         - name: postgresdb
           persistentVolumeClaim:
             claimName: postgres-storage-claim
-            
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secrets
+  namespace: backstage
+type: Opaque
+data:
+  POSTGRES_USER: {{ .Values.postgresUsername }}
+  POSTGRES_PASSWORD: {{ .Values.postgresPassword }}
