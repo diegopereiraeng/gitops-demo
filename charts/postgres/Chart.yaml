@@ -1,0 +1,7 @@
+apiVersion: v3
+kind: Chart
+name: postgres
+version: 0.1.0
+metadata:
+  name: platformengineering
+  namespace: backstage
