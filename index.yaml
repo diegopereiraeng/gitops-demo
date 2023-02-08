@@ -35,6 +35,13 @@ entries:
     version: 0.1.0
   postgres:
   - apiVersion: v3
+    created: "2023-02-08T01:26:23.406449453Z"
+    digest: 90762996233387f2a2ea7e7564652120cd21092c2aab49ead8bf4ece2a476025
+    name: postgres
+    urls:
+    - https://github.com/diegopereiraeng/gitops-demo/releases/download/postgres-0.2.0/postgres-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v3
     created: "2023-02-08T01:04:07.26519513Z"
     digest: a5c35dd2f9afac4360a36f28362141820814ba3364ff4687816b83c03faf3c59
     name: postgres
