@@ -27,6 +27,22 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: Run
+                  name: Build Binaries
+                  identifier: Build_Binaries
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: node:16.19.0-bullseye
+                    shell: Sh
+                    command: |-
+                      yarn install --frozen-lockfile
+
+                      # tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
+                      yarn tsc
+
+                      # Build the backend, which bundles it all up into the packages/backend/dist folder.
+                      yarn build:backend
+              - step:
                   type: BuildAndPushDockerRegistry
                   name: Build and Push an image to Docker Registry_1
                   identifier: BuildandPushanimagetoDockerRegistry_1
