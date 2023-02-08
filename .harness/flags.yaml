@@ -139,16 +139,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
+        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -427,11 +427,11 @@ featureFlags:
             - Beta_Users
         targetRules:
         - targets:
-          - identifier: Guest
-          variation: Captain_Canary
-        - targets:
           - identifier: diegopereiraharnessio
           variation: Gabs_GoT
+        - targets:
+          - identifier: Guest
+          variation: Captain_Canary
       - identifier: salazarch
         default:
           onVariation: "OFF"
@@ -600,7 +600,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: "true"
@@ -886,7 +886,7 @@ featureFlags:
         default:
           onVariation: Dark
           offVariation: Blue
-        state: "off"
+        state: "on"
       - identifier: gnogueira7
         default:
           onVariation: Dark
