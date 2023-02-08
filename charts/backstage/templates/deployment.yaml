@@ -35,7 +35,7 @@ spec:
             - secretRef:
                 name: backstage-secrets
             - configMapRef:
-              name: backstage
+                name: backstage
 # Uncomment if health checks are enabled in your app:
 # https://backstage.io/docs/plugins/observability#health-checks
 #          readinessProbe:
