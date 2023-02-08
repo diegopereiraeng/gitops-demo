@@ -77,6 +77,6 @@ metadata:
   name: postgres-secrets
   namespace: backstage
 type: Opaque
-data:
+stringData:
   POSTGRES_USER: {{ .Values.postgresUsername }}
   POSTGRES_PASSWORD: {{ .Values.postgresPassword }}
