@@ -437,6 +437,10 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: izacsaulgmailcom
+          variation: Captain_Canary
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
