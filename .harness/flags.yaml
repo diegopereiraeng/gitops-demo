@@ -139,16 +139,21 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
+        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
+      - identifier: salazarch
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -427,6 +432,11 @@ featureFlags:
         - targets:
           - identifier: diegopereiraharnessio
           variation: Gabs_GoT
+      - identifier: salazarch
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -586,6 +596,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: "true"
@@ -718,6 +733,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "true"
           offVariation: "false"
@@ -860,6 +880,11 @@ featureFlags:
       - identifier: gacerioni
         default:
           onVariation: Green
+          offVariation: Blue
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Dark
           offVariation: Blue
         state: "off"
       - identifier: gnogueira7
@@ -1007,6 +1032,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: "true"
@@ -1139,6 +1169,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1279,6 +1314,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1438,6 +1478,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "on"
+      - identifier: salazarch
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: Premium
@@ -1570,6 +1615,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1715,6 +1765,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -1873,6 +1928,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: "true"
@@ -2005,6 +2065,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2145,6 +2210,11 @@ featureFlags:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
         state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: Harness_FF
@@ -2277,6 +2347,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2419,6 +2494,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: V2
@@ -2551,6 +2631,11 @@ featureFlags:
           offVariation: "Off"
         state: "on"
       - identifier: gacerioni
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: salazarch
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -2715,6 +2800,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: gnogueira7
         default:
           onVariation: Black
@@ -2850,6 +2940,11 @@ featureFlags:
       - identifier: gacerioni
         default:
           onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: salazarch
+        default:
+          onVariation: "false"
           offVariation: "false"
         state: "on"
       - identifier: gnogueira7
