@@ -154,6 +154,10 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+        targetRules:
+        - targets:
+          - identifier: izacsaulgmailcom
+          variation: Bem_vindo
       - identifier: gnogueira7
         default:
           onVariation: "Off"
@@ -427,11 +431,11 @@ featureFlags:
             - Beta_Users
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          variation: Gabs_GoT
-        - targets:
           - identifier: Guest
           variation: Captain_Canary
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: Gabs_GoT
       - identifier: salazarch
         default:
           onVariation: "OFF"
