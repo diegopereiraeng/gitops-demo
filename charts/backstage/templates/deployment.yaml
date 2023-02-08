@@ -76,7 +76,7 @@ kind: ConfigMap
 metadata:
   name: backstage
 data:
-  POSTGRES_HOST: {{ .Values.postgresHost }}
-  POSTGRES_PORT: {{ .Values.postgresPort }}
+  POSTGRES_HOST: "{{ .Values.postgresHost }}"
+  POSTGRES_PORT: "{{ .Values.postgresPort }}"
 
   
