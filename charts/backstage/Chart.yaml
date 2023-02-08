@@ -1,7 +1,7 @@
 apiVersion: v3
 kind: Chart
 name: backstage
-version: 0.7.0
+version: 0.7.1
 metadata:
   name: platformengineering
   namespace: backstage

@@ -26,9 +26,6 @@ spec:
         - name: backstage
           image: diegokoala/harness-backstage:0.0.2
           imagePullPolicy: IfNotPresent
-          envFrom:
-          - configMapRef:
-              name: backstage
           ports:
             - name: http
               containerPort: 7007
@@ -37,6 +34,8 @@ spec:
                 name: postgres-secrets
             - secretRef:
                 name: backstage-secrets
+            - configMapRef:
+              name: backstage
 # Uncomment if health checks are enabled in your app:
 # https://backstage.io/docs/plugins/observability#health-checks
 #          readinessProbe:
