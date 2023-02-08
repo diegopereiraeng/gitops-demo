@@ -6,7 +6,7 @@ template:
   spec:
     type: TerraformApply
     spec:
-      provisionerIdentifier: tfdns<+pipeline.variables.gitUser>
+      provisionerIdentifier: <+input>
       configuration:
         type: Inline
         spec:
@@ -18,7 +18,7 @@ template:
                 connectorRef: account.diegogithubapp
                 repoName: terraform-onboarding-payments-validation
                 branch: main
-                folderPath: banking-demo-dns
+                folderPath: harness-demo-dns
           environmentVariables:
             - name: GOOGLE_CREDENTIALS
               value: <+secrets.getValue("diego_gc_sa_text")>
@@ -29,9 +29,13 @@ template:
                   content: |-
                     project="sales-209522"
                     region="us-central1-c"
-                    gitUser="<+pipeline.variables.gitUser>"
                     ipAddress="34.121.101.100"
                 identifier: vars
+                type: Inline
+            - varFile:
+                spec:
+                  content: <+input>
+                identifier: subdomain
                 type: Inline
     timeout: 10m
     failureStrategies:
