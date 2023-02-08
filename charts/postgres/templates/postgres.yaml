@@ -70,3 +70,4 @@ spec:
         - name: postgresdb
           persistentVolumeClaim:
             claimName: postgres-storage-claim
+            
