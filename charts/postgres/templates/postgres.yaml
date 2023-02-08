@@ -13,7 +13,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: '/mnt/data'
+    path: '/var/lib/data'
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
