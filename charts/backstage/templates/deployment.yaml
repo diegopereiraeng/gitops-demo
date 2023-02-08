@@ -26,6 +26,9 @@ spec:
         - name: backstage
           image: diegokoala/harness-backstage:0.0.1
           imagePullPolicy: IfNotPresent
+          envFrom:
+          - configMapRef:
+              name: backstage
           ports:
             - name: http
               containerPort: 7007
@@ -67,5 +70,13 @@ type: Opaque
 stringData:
   POSTGRES_USER: {{ .Values.postgresUsername }}
   POSTGRES_PASSWORD: {{ .Values.postgresPassword }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backstage
+data:
   POSTGRES_HOST: {{ .Values.postgresHost }}
   POSTGRES_PORT: {{ .Values.postgresPort }}
+
+  
