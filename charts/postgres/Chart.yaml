@@ -1,7 +1,7 @@
 apiVersion: v3
 kind: Chart
 name: postgres
-version: 0.3.1
+version: 0.4.0
 metadata:
   name: postgres
-  namespace: backstage
+  namespace: postgres
