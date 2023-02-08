@@ -60,6 +60,28 @@ spec:
       port: 80
       targetPort: http
 ---
+{{- if .Values.exposeToInternet }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backstage
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: backstage.harness-demo.site
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: backstage
+            port:
+              number: 80
+---
+{{- end}}
 apiVersion: v1
 kind: Secret
 metadata:
