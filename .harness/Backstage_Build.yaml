@@ -1,0 +1,38 @@
+pipeline:
+  name: Backstage Build
+  identifier: Backstage_Build
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: harness-backstage
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Backstage
+        identifier: Build_Backstage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push an image to Docker Registry_1
+                  identifier: BuildandPushanimagetoDockerRegistry_1
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    repo: diegokoala/harness-backstage
+                    tags:
+                      - 0.0.1
+                    dockerfile: packages/backend/Dockerfile
