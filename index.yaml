@@ -25,6 +25,16 @@ entries:
   mongodb:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2023-02-08T01:50:10.763751854Z"
+    description: MongoDB chart for Kubernetes
+    digest: 5c35436235222749b837e1c9368aca697e956be237556a03ab31143241d484c7
+    name: mongodb
+    type: application
+    urls:
+    - https://github.com/diegopereiraeng/gitops-demo/releases/download/mongodb-0.1.2/mongodb-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2023-02-08T01:34:15.044320985Z"
     description: MongoDB chart for Kubernetes
     digest: 6fa044bf77b442ac97c5409366d1c53fdafc6de104e7dc754a78045836c04c44
@@ -44,6 +54,13 @@ entries:
     - https://github.com/diegopereiraeng/gitops-demo/releases/download/mongodb-0.1.0/mongodb-0.1.0.tgz
     version: 0.1.0
   postgres:
+  - apiVersion: v3
+    created: "2023-02-08T01:50:10.958003596Z"
+    digest: f872cc7ff5e5dc6ffbb43d72a7c655983a52b5544661ef25a57767bc507cf3ea
+    name: postgres
+    urls:
+    - https://github.com/diegopereiraeng/gitops-demo/releases/download/postgres-0.3.1/postgres-0.3.1.tgz
+    version: 0.3.1
   - apiVersion: v3
     created: "2023-02-08T01:34:15.295175954Z"
     digest: 2d41ce49100b1494d17998360b512b83c4c76b5a20bcc62a19995a547219dfa9
