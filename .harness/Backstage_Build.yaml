@@ -52,3 +52,31 @@ pipeline:
                     tags:
                       - 0.0.2
                     dockerfile: packages/backend/Dockerfile
+    - stage:
+        name: Create Infra
+        identifier: Create_Infra
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Create DNS
+                  identifier: Create_DNS
+                  template:
+                    templateRef: Create_DNS_in_HarnessDemo_Site
+                    versionLabel: 1.0.0
+                    templateInputs:
+                      type: TerraformApply
+                      spec:
+                        configuration:
+                          type: Inline
+                          spec:
+                            varFiles:
+                              - varFile:
+                                  identifier: subdomain
+                                  type: Inline
+                                  spec:
+                                    content: subdomain="backstage"
+                        provisionerIdentifier: backstage
+        tags: {}
