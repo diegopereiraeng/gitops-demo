@@ -1,0 +1,44 @@
+template:
+  name: Create DNS in Harness-Demo Site
+  type: Step
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  spec:
+    type: TerraformApply
+    spec:
+      provisionerIdentifier: tfdns<+pipeline.variables.gitUser>
+      configuration:
+        type: Inline
+        spec:
+          configFiles:
+            store:
+              type: Github
+              spec:
+                gitFetchType: Branch
+                connectorRef: account.diegogithubapp
+                repoName: terraform-onboarding-payments-validation
+                branch: main
+                folderPath: banking-demo-dns
+          environmentVariables:
+            - name: GOOGLE_CREDENTIALS
+              value: <+secrets.getValue("diego_gc_sa_text")>
+              type: String
+          varFiles:
+            - varFile:
+                spec:
+                  content: |-
+                    project="sales-209522"
+                    region="us-central1-c"
+                    gitUser="<+pipeline.variables.gitUser>"
+                    ipAddress="34.121.101.100"
+                identifier: vars
+                type: Inline
+    timeout: 10m
+    failureStrategies:
+      - onFailure:
+          errors:
+            - AllErrors
+          action:
+            type: MarkAsSuccess
+  identifier: Create_DNS_in_HarnessDemo_Site
+  versionLabel: 1.0.0
