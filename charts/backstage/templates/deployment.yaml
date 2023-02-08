@@ -57,3 +57,13 @@ spec:
     - name: http
       port: 80
       targetPort: http
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secrets
+  namespace: backstage
+type: Opaque
+stringData:
+  POSTGRES_USER: {{ .Values.postgresUsername }}
+  POSTGRES_PASSWORD: {{ .Values.postgresPassword }}
