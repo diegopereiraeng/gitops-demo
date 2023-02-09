@@ -2,6 +2,13 @@ apiVersion: v1
 entries:
   backstage:
   - apiVersion: v3
+    created: "2023-02-09T03:17:04.626999485Z"
+    digest: b7cf627041bee7fb7e747c1999c9809fabb0dc01129a5cc84641ff505b3ab919
+    name: backstage
+    urls:
+    - https://github.com/diegopereiraeng/gitops-demo/releases/download/backstage-0.8.2/backstage-0.8.2.tgz
+    version: 0.8.2
+  - apiVersion: v3
     created: "2023-02-09T01:22:36.639422698Z"
     digest: ad78b80c008e85e1907e9bc0656e9d9f5a83544db105d0e62fb49ff75f60b000
     name: backstage
