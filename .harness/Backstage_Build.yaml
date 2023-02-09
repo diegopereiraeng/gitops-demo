@@ -50,7 +50,7 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     repo: diegokoala/harness-backstage
                     tags:
-                      - 0.0.3
+                      - 0.0.4
                     dockerfile: packages/backend/Dockerfile
     - stage:
         name: Create Infra
