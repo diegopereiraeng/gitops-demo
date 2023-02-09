@@ -5,7 +5,7 @@ metadata:
   namespace: backstage
 type: Opaque
 data:
-  GITHUB_TOKEN: VG9rZW5Ub2tlblRva2VuVG9rZW5NYWxrb3ZpY2hUb2tlbg==
+  GITHUB_TOKEN: {{ .Values.gh_token }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -24,12 +24,10 @@ spec:
     spec:
       containers:
         - name: backstage
-          image: diegokoala/harness-backstage:0.0.2
+          image: diegokoala/harness-backstage:0.0.4
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: 3000
-            - name: callback
               containerPort: 7007
           envFrom:
             - secretRef:

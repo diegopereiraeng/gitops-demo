@@ -3,3 +3,4 @@ postgresDb: backstage
 postgresHost: postgres.postgres.svc.cluster.local
 postgresPort: 5432
 exposeToInternet: true
+gh_token: "abcd="
