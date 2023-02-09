@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: backstage
-          image: diegokoala/harness-backstage:0.0.4
+          image: diegokoala/harness-backstage:0.0.3
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
