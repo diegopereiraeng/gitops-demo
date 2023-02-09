@@ -28,6 +28,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
+              containerPort: 3000
+            - name: callback
               containerPort: 7007
           envFrom:
             - secretRef:
