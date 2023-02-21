@@ -427,11 +427,11 @@ featureFlags:
             - Beta_Users
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          variation: Gabs_GoT
-        - targets:
           - identifier: Guest
           variation: Captain_Canary
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: Gabs_GoT
       - identifier: salazarch
         default:
           onVariation: "OFF"
