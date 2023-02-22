@@ -24,13 +24,6 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: Run
-                  name: Run_5
-                  identifier: Run_5
-                  spec:
-                    shell: Sh
-                    command: echo "<+pipeline.variables.tag>"
-              - step:
                   type: RestoreCacheGCS
                   name: Restore Cache
                   identifier: Restore_Cache
@@ -316,6 +309,13 @@ pipeline:
                               type: MarkAsSuccess
                       when:
                         stageStatus: Success
+              - step:
+                  type: Run
+                  name: Run_5
+                  identifier: Run_5
+                  spec:
+                    shell: Sh
+                    command: echo "<+pipeline.variables.tag>"
               - parallel:
                   - step:
                       type: Run
