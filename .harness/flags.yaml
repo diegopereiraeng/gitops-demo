@@ -305,7 +305,7 @@ featureFlags:
         state: "off"
       - identifier: diegopereiraeng
         default:
-          onVariation: "OFF"
+          onVariation: Captain_Canary
           offVariation: "OFF"
         state: "on"
       - identifier: andymarshallff
@@ -404,11 +404,11 @@ featureFlags:
             - Beta_Users
         targetRules:
         - targets:
-          - identifier: diegopereiraharnessio
-          variation: Gabs_GoT
-        - targets:
           - identifier: Guest
           variation: Captain_Canary
+        - targets:
+          - identifier: diegopereiraharnessio
+          variation: Gabs_GoT
       - identifier: salazarch
         default:
           onVariation: "OFF"
