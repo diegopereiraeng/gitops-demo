@@ -1861,7 +1861,7 @@ pipeline:
       type: String
       default: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
       description: ""
-      value: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+      value: <+input>
     - name: FF_Key
       type: String
       description: ""
