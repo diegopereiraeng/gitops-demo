@@ -139,16 +139,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
-        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
+        - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -307,7 +307,7 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: andymarshallff
         default:
           onVariation: Feature_Flags
