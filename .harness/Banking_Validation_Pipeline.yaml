@@ -177,6 +177,10 @@ pipeline:
                             https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
                             -d '{"state":"pending","target_url":"http://aqua.io","description":"aqua trivy scan passed","context":"harness-ci/aquatrivy"}'
                         imagePullPolicy: IfNotPresent
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
+                      failureStrategies: []
                   - step:
                       type: Run
                       name: Build Prod
@@ -287,6 +291,7 @@ pipeline:
                             memory: 100Mi
                       when:
                         stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
                       failureStrategies:
                         - onFailure:
                             errors:
@@ -338,6 +343,9 @@ pipeline:
                               - AllErrors
                             action:
                               type: Ignore
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
                   - step:
                       type: Security
                       name: snyk
@@ -364,6 +372,7 @@ pipeline:
                       failureStrategies: []
                       when:
                         stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
                       loopingStrategyEnabled: false
                   - step:
                       type: Security
@@ -394,6 +403,7 @@ pipeline:
                               type: MarkAsSuccess
                       when:
                         stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
               - parallel:
                   - step:
                       type: Run
@@ -1023,6 +1033,9 @@ pipeline:
                               - AllErrors
                             action:
                               type: MarkAsSuccess
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
                   - step:
                       type: Run
                       name: PR Status Sonar - Snyk - Bandit
@@ -1067,6 +1080,10 @@ pipeline:
 
                             
                         imagePullPolicy: IfNotPresent
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
+                      failureStrategies: []
               - step:
                   type: Security
                   name: Aqua-Trivy
@@ -1090,6 +1107,7 @@ pipeline:
                         memory: 100Mi
                   when:
                     stageStatus: Success
+                    condition: <+codebase.build.type>=="PR"
                   failureStrategies:
                     - onFailure:
                         errors:
@@ -1156,6 +1174,10 @@ pipeline:
                             -d '{"state":"failed","target_url":"http://aqua.io","description":"aqua trivy scan failed","context":"harness-ci/aquatrivy"}'
 
                           fi
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
+                      failureStrategies: []
           serviceDependencies:
             - identifier: Dind
               name: Dind
