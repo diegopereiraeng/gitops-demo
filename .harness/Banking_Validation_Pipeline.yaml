@@ -176,11 +176,14 @@ pipeline:
                             -H "Accept: application/vnd.github.v3+json" \
                             https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
                             -d '{"state":"pending","target_url":"http://aqua.io","description":"aqua trivy scan passed","context":"harness-ci/aquatrivy"}'
+                        imagePullPolicy: IfNotPresent
                   - step:
                       type: Run
                       name: Build Prod
                       identifier: Build
                       spec:
+                        connectorRef: account.DockerHubDiego
+                        image: maven:3.8.6-openjdk-11
                         shell: Sh
                         command: |-
                           ls -ltra
@@ -244,6 +247,12 @@ pipeline:
                           #mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
 
                           mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+                        outputVariables:
+                          - name: release
+                          - name: version
+                          - name: gitBranch
+                          - name: commitHash
+                        imagePullPolicy: IfNotPresent
                       when:
                         stageStatus: Success
                         condition: <+codebase.build.type>=="branch"
@@ -290,7 +299,7 @@ pipeline:
                       identifier: Sonar_Scan
                       spec:
                         connectorRef: account.DockerHubDiego
-                        image: plugins/sonarqube-scanner:v1.0.8
+                        image: plugins/sonarqube-scanner:v1.0.9
                         reports:
                           type: JUnit
                           spec:
@@ -385,13 +394,6 @@ pipeline:
                               type: MarkAsSuccess
                       when:
                         stageStatus: Success
-              - step:
-                  type: Run
-                  name: Run_5
-                  identifier: Run_5
-                  spec:
-                    shell: Sh
-                    command: echo "<+pipeline.variables.tag>"
               - parallel:
                   - step:
                       type: Run
@@ -1064,6 +1066,7 @@ pipeline:
                             -d '{"state":"success","target_url":"https://bandit.readthedocs.io/","description":"bandit scan passed","context":"harness-ci/bandit"}'
 
                             
+                        imagePullPolicy: IfNotPresent
               - step:
                   type: Security
                   name: Aqua-Trivy
