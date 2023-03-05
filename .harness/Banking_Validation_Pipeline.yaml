@@ -261,6 +261,27 @@ pipeline:
                         stageStatus: Success
                         condition: <+codebase.build.type>=="branch"
                       failureStrategies: []
+                  - step:
+                      type: Run
+                      name: Export Tag Version
+                      identifier: Export_Tag_Version
+                      spec:
+                        shell: Sh
+                        command: |-
+                          PROJ_DIR=$PWD
+
+                          export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
+
+                          export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                          export commitHash=<+codebase.commitSha>
+
+                          export gitBranch=<+codebase.branch>
+                        outputVariables:
+                          - name: version
+                          - name: release
+                          - name: commitHash
+                          - name: gitBranch
               - parallel:
                   - step:
                       type: Security
@@ -424,7 +445,7 @@ pipeline:
                           cd target
                           ls -ltra
 
-                          echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Teste_Unitario.output.outputVariables.release>"
+                          echo "docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:<+execution.steps.Export_Tag_Version.output.outputVariables.release>"
 
                           cat << EOF
                           Your Enterprise CD trial expires in 147 days. Contact Sales to continue using Continuous Delivery
@@ -1098,7 +1119,7 @@ pipeline:
                       container_type: local_image
                       container_domain: docker.io
                       container_project: diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
-                      container_tag: <+execution.steps.Teste_Unitario.output.outputVariables.release>
+                      container_tag: <+execution.steps.Export_Tag_Version.output.outputVariables.release>
                       fail_on_severity: CRITICAL
                       customer_artifacts_path: /harness/tests/scan_tools/aqua_trivy/test_data
                       manual_upload_filename: "005"
@@ -1123,7 +1144,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         repo: diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
                         tags:
-                          - <+execution.steps.Teste_Unitario.output.outputVariables.release>
+                          - <+execution.steps.Export_Tag_Version.output.outputVariables.release>
                         optimize: true
                   - step:
                       type: SaveCacheGCS
