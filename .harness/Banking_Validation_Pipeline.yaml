@@ -133,6 +133,10 @@ pipeline:
                           limits:
                             memory: 1Gi
                             cpu: "1"
+                      failureStrategies: []
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="PR"
                   - step:
                       type: Run
                       name: Git Status Start Pending
@@ -172,6 +176,78 @@ pipeline:
                             -H "Accept: application/vnd.github.v3+json" \
                             https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
                             -d '{"state":"pending","target_url":"http://aqua.io","description":"aqua trivy scan passed","context":"harness-ci/aquatrivy"}'
+                  - step:
+                      type: Run
+                      name: Build Prod
+                      identifier: Build
+                      spec:
+                        shell: Sh
+                        command: |-
+                          ls -ltra
+
+                          #ET-SETUP-BEGIN
+                          PROJ_DIR=$PWD
+
+                          cat << EOF
+                          Building <+pipeline.properties.ci.codebase.repoName> version <+pipeline.sequenceId>
+
+                          Branch: <+codebase.branch>
+                          Tag: <+codebase.tag>
+                          Commiter: <+codebase.gitUserEmail>
+                          CommitID: <+codebase.commitSha>
+                          EOF
+
+                          mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+
+                          cd /opt
+                          arch=`uname -m`
+                          if [ $arch = "x86_64" ]; then
+                            if cat /etc/os-release | grep -iq alpine ; then
+                              wget -qO- https://get.et.harness.io/releases/latest/alpine/harness-et-agent.tar.gz | tar -xz
+                            else
+                              wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xz
+                            fi
+                          elif [ $arch = "aarch64" ]; then
+                            wget -qO- https://get.et.harness.io/releases/latest/arm/harness-et-agent.tar.gz | tar -xz
+                          fi
+                          export ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
+                          export ET_APPLICATION_NAME=$HARNESS_PIPELINE_ID
+                          export ET_ENV_ID=_INTERNAL_ET_CI
+                          export ET_DEPLOYMENT_NAME=$HARNESS_BUILD_ID
+                          export ET_ACCOUNT_ID=$HARNESS_ACCOUNT_ID
+                          export ET_ORG_ID=$HARNESS_ORG_ID
+                          export ET_PROJECT_ID=$HARNESS_PROJECT_ID
+                          #export ET_SHUTDOWN_GRACETIME=30000
+                          #mkdir /opt/harness-et-agent && cd /opt/harness-et-agent && wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xzv
+                          export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=$PROJ_DIR/.m2/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                          # Uncomment the line below if using Java version 10 or above
+                          # export JAVA_TOOL_OPTIONS="-Dmaven.repo.local=/harness/repository -Xshare:off -XX:-UseTypeSpeculation -XX:ReservedCodeCacheSize=512m -agentpath:/opt/harness/lib/libETAgent.so"
+                          cd $PROJ_DIR
+                          #ET-SETUP-END
+
+                          ls -ltra
+
+                          export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
+
+                          export release="<+codebase.branch>-$version-<+codebase.commitSha>"
+
+                          export commitHash=<+codebase.commitSha>
+
+                          export gitBranch=<+codebase.branch>
+
+                          ls -ltra
+
+                          cd /harness
+
+                          ls -ltra
+
+                          #mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+
+                          mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+                      when:
+                        stageStatus: Success
+                        condition: <+codebase.build.type>=="branch"
+                      failureStrategies: []
               - parallel:
                   - step:
                       type: Security
@@ -1859,7 +1935,7 @@ pipeline:
       value: <+input>
     - name: tag
       type: String
-      default: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+      default: default
       description: ""
       value: <+input>
     - name: FF_Key
