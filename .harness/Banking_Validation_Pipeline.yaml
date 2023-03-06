@@ -271,17 +271,16 @@ pipeline:
                           PROJ_DIR=$PWD
 
                           export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout -Dmaven.repo.local=$PROJ_DIR/.m2/repository`
-
                           export release="<+codebase.branch>-$version-<+codebase.commitSha>"
-
                           export commitHash=<+codebase.commitSha>
-
                           export gitBranch=<+codebase.branch>
+                          export triggerType=<+codebase.build.type>
                         outputVariables:
                           - name: version
                           - name: release
                           - name: commitHash
                           - name: gitBranch
+                          - name: triggerType
               - parallel:
                   - step:
                       type: Security
