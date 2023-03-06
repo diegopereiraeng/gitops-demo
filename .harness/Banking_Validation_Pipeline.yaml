@@ -1604,6 +1604,15 @@ pipeline:
                         deleteSourceBranch: false
                         variables: []
                       timeout: 10m
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: MarkAsSuccess
+                      when:
+                        stageStatus: Success
+                        condition: <+pipeline.stages.Build.spec.execution.steps.Export_Tag_Version.output.outputVariables.triggerType>=="PR"
                 rollbackSteps:
                   - step:
                       type: ShellScript
