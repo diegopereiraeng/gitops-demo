@@ -1234,20 +1234,6 @@ pipeline:
               execution:
                 steps:
                   - step:
-                      type: ShellScript
-                      name: Echo
-                      identifier: Echo
-                      spec:
-                        shell: Bash
-                        onDelegate: true
-                        source:
-                          type: Inline
-                          spec:
-                            script: echo "<+pipeline.variables.tag>"
-                        environmentVariables: []
-                        outputVariables: []
-                      timeout: 10m
-                  - step:
                       type: JiraCreate
                       name: "Open Jira ticket "
                       identifier: Create_JIRA_to_track_deployment
@@ -1610,6 +1596,14 @@ pipeline:
                         fields:
                           - name: Comment
                             value: Version <+artifact.tag> deployed with Success
+                      timeout: 10m
+                  - step:
+                      type: MergePR
+                      name: GitOps Merge PR_1
+                      identifier: GitOpsMergePR_1
+                      spec:
+                        deleteSourceBranch: false
+                        variables: []
                       timeout: 10m
                 rollbackSteps:
                   - step:
