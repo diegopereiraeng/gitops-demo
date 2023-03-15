@@ -1762,6 +1762,60 @@ pipeline:
                       - step:
                           type: FlagConfiguration
                           name: Enable Beta Experiment for testing in production
+                          identifier: Enable_Feature_Beta_2
+                          spec:
+                            feature: VALIDATION_BETA_EXPERIMENT
+                            environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
+                            instructions:
+                              - identifier: SetFeatureFlagStateIdentifier
+                                type: SetFeatureFlagState
+                                spec:
+                                  state: "on"
+                          timeout: 10m
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Retry
+                                  spec:
+                                    retryCount: 3
+                                    onRetryFailure:
+                                      action:
+                                        type: MarkAsSuccess
+                                    retryIntervals:
+                                      - 3s
+                      - step:
+                          type: FlagConfiguration
+                          name: Enable Auth Beta Feature
+                          identifier: Enable_Auth_Beta_Feature_2
+                          spec:
+                            feature: AUTHORIZATION_BETA_EXPERIMENT
+                            environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
+                            instructions:
+                              - identifier: SetFeatureFlagStateIdentifier
+                                type: SetFeatureFlagState
+                                spec:
+                                  state: "on"
+                          timeout: 10m
+                          when:
+                            stageStatus: Success
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Retry
+                                  spec:
+                                    retryCount: 3
+                                    retryIntervals:
+                                      - 3s
+                                    onRetryFailure:
+                                      action:
+                                        type: MarkAsSuccess
+                      - step:
+                          type: FlagConfiguration
+                          name: Enable Beta Experiment for testing in production
                           identifier: Enable_Feature_Beta
                           spec:
                             feature: VALIDATION_BETA_EXPERIMENT
