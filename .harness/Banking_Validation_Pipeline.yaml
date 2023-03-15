@@ -1765,7 +1765,7 @@ pipeline:
                           identifier: Enable_Feature_Beta_2
                           spec:
                             feature: VALIDATION_BETA_EXPERIMENT
-                            environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
+                            environment: prod
                             instructions:
                               - identifier: SetFeatureFlagStateIdentifier
                                 type: SetFeatureFlagState
@@ -1791,7 +1791,7 @@ pipeline:
                           identifier: Enable_Auth_Beta_Feature_2
                           spec:
                             feature: AUTHORIZATION_BETA_EXPERIMENT
-                            environment: <+<+pipeline.variables.virtualPath>.replaceAll("-","")>
+                            environment: prod
                             instructions:
                               - identifier: SetFeatureFlagStateIdentifier
                                 type: SetFeatureFlagState
