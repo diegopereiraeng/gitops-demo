@@ -39,7 +39,7 @@ pipeline:
                   - step:
                       type: RunTests
                       name: Build and Unit Test
-                      identifier: Teste_Unitario
+                      identifier: Unit_Tests
                       spec:
                         connectorRef: account.DockerHubDiego
                         image: maven:3.8.6-openjdk-11
@@ -351,7 +351,7 @@ pipeline:
                           surefire_reportspath: /harness/target/surefire-reports
                           sonar_level: TRACE
                           verbose: "true"
-                          build_number: <+pipeline.stages.Build.spec.execution.steps.Teste_Unitario.output.outputVariables.release>
+                          build_number: <+pipeline.stages.Build.spec.execution.steps.Unit_Tests.output.outputVariables.release>
                         imagePullPolicy: IfNotPresent
                         resources:
                           limits:
