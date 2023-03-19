@@ -32,9 +32,6 @@ pipeline:
                     bucket: latam-cie-cache
                     key: <+pipeline.properties.ci.codebase.repoName>
                     archiveFormat: Tar
-                    resources:
-                      limits:
-                        memory: 100Mi
               - parallel:
                   - step:
                       type: RunTests
