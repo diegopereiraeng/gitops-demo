@@ -37,7 +37,9 @@ pipeline:
 
 
                       pod install
-                      xcodebuild -list
+
+                      #xcodebuild -list
+
                       xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release
 
 
