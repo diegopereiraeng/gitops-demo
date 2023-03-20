@@ -25,11 +25,10 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
-                    connectorRef: account.DockerHubDiego
-                    image: ios
                     shell: Bash
                     command: |+
-                      gem install cocoapods
+                      sudo xcode-select -switch /Applications/Xcode_14.2.0.app
+                      sudo gem install cocoapods
                       pod install
                       xcodebuild -list
                       xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release
