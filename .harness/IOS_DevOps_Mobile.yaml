@@ -38,9 +38,9 @@ pipeline:
 
 
 
-                      security import apple-store.p12 -k ~/Library/Keychains/login.keychain-db
+                      #security import apple-store.p12 -k ~/Library/Keychains/login.keychain-db
 
-                      xcrun altool --store-password-in-keychain-item "AC_PASSWORD" -u diegopereiraeng@gmail.com --apiKey '<+secrets.getValue("apple_store_api_key")>' --apiIssuer '<+secrets.getValue("apple_store_issuer_id")>'
+                      #xcrun altool --store-password-in-keychain-item "AC_PASSWORD" -u diegopereiraeng@gmail.com --apiKey '<+secrets.getValue("apple_store_api_key")>' --apiIssuer '<+secrets.getValue("apple_store_issuer_id")>'
 
 
 
@@ -65,7 +65,7 @@ pipeline:
                       ls -ltra ./Artifact
 
 
-                      altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
+                      #altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
 
 
 
