@@ -26,13 +26,28 @@ pipeline:
                   identifier: Build
                   spec:
                     shell: Bash
-                    command: |+
-                      sudo xcode-select -switch /Applications/Xcode_14.2.0.app
+                    command: |
+                      #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
+
+                      ls -ltra
+
+                      ls -ltra /Applications
+
                       sudo gem install cocoapods
+
+
                       pod install
                       xcodebuild -list
                       xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release
 
+
+                      xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
+
+                      xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
+
+                      ls -ltra ./Artifact
+
+                      #xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
                     privileged: true
           platform:
             os: MacOS
