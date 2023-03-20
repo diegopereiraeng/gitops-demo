@@ -7,7 +7,7 @@ pipeline:
   properties:
     ci:
       codebase:
-        connectorRef: account.diegogithubapp
+        connectorRef: account.Diego_Git
         repoName: ios_devops_mobile
         build: <+input>
   stages:
