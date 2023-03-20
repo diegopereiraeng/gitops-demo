@@ -29,7 +29,8 @@ pipeline:
                     command: |
                       #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
-                      echo -n '<+secrets.getValue("apple_store_developer_apikey")>' | base64 -d > apple-store.p8
+                      #echo -n '<+secrets.getValue("apple_store_developer_apikey")>' | base64 -d > apple-store.p8
+                      echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > apple-store.p8
 
                       security import apple-store.p8 -k ~/Library/Keychains/login.keychain-db
 
