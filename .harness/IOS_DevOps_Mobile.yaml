@@ -40,7 +40,7 @@ pipeline:
 
                       #xcodebuild -list
 
-                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release
+                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -allowProvisioningUpdates
 
 
                       xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
@@ -51,6 +51,8 @@ pipeline:
 
                       #xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
                     privileged: true
+                    envVariables:
+                      IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
           platform:
             os: MacOS
             arch: Arm64
