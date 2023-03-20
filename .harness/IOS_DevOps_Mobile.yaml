@@ -1,0 +1,43 @@
+pipeline:
+  name: IOS DevOps Mobile
+  identifier: IOS_DevOps_Mobile
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: ios_devops_mobile
+        build: <+input>
+  stages:
+    - stage:
+        name: Build IOS
+        identifier: Build_IOS
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Build
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: ios
+                    shell: Bash
+                    command: |+
+                      gem install cocoapods
+                      pod install
+                      xcodebuild -list
+                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release
+
+                    privileged: true
+          platform:
+            os: MacOS
+            arch: Arm64
+          runtime:
+            type: Cloud
+            spec: {}
