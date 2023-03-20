@@ -33,6 +33,9 @@ pipeline:
 
                       security import apple-store.p8 -k ~/Library/Keychains/login.keychain-db
 
+                      xcrun altool --store-password-in-keychain-item "AC_PASSWORD" -u diegopereiraeng@gmail.com --apiKey '<+secrets.getValue("apple_store_api_key")>' --apiIssuer '<+secrets.getValue("apple_store_issuer_id")>'
+
+
 
                       ls -ltra
 
@@ -53,6 +56,11 @@ pipeline:
                       xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
 
                       ls -ltra ./Artifact
+
+
+                      altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
+
+
 
                       #xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
                     privileged: true
