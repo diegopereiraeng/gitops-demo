@@ -27,13 +27,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      echo -n <+secrets.getValue("apple_store_developer_apikey")> > apple-store.p12
-
                       #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
-
-
-                      security import apple-store.p12 -P <+secrets.getValue("apple_store_developer_apikey_secret")> # -k ~/Library/Keychains/login.keychain-db
+                      xcrun altool --store-password-in-keychain-item diego-apple -u 'diegopereiraeng@gmail.com' -t osx --password '<+secrets.getValue("diegoioskey")>'
 
                       ls -ltra
 
@@ -55,10 +51,9 @@ pipeline:
                       ls -ltra ./Artifact
 
 
-                      #altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
+                      altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
 
-
-                      #xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
+                      xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
                     privileged: true
                     envVariables:
                       IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
