@@ -53,8 +53,6 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 10
-                              - variation: Italika
-                                weight: 0
                               - variation: Gabs_GoT
                                 weight: 0
                               - variation: Ion
@@ -104,8 +102,6 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 50
-                              - variation: Italika
-                                weight: 0
                               - variation: Gabs_GoT
                                 weight: 0
                               - variation: Ion
@@ -198,8 +194,6 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 100
-                              - variation: Italika
-                                weight: 0
                               - variation: Gabs_GoT
                                 weight: 0
                               - variation: Ion
@@ -248,8 +242,6 @@ pipeline:
                               - variation: Captain_Canary
                                 weight: 0
                               - variation: Feature_Flags
-                                weight: 0
-                              - variation: Italika
                                 weight: 0
                               - variation: Gabs_GoT
                                 weight: 0
