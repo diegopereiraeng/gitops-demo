@@ -41,7 +41,7 @@ pipeline:
 
                       #xcodebuild -list
 
-                      DEVELOPER_USERNAME'diegopereiraeng@gmail.com' 
+                      DEVELOPER_USERNAME='diegopereiraeng@gmail.com' 
                       DEVELOPER_PASSWORD=$(security find-generic-password -s diego-apple -w) 
 
 
