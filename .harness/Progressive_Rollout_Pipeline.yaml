@@ -53,9 +53,7 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 10
-                              - variation: Gabs_GoT
-                                weight: 0
-                              - variation: Ion
+                              - variation: Platform_Demo_PTBR
                                 weight: 0
                       - identifier: SetFeatureFlagStateIdentifier
                         type: SetFeatureFlagState
@@ -102,9 +100,7 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 50
-                              - variation: Gabs_GoT
-                                weight: 0
-                              - variation: Ion
+                              - variation: Platform_Demo_PTBR
                                 weight: 0
                   timeout: 10m
               - step:
@@ -194,9 +190,7 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 100
-                              - variation: Gabs_GoT
-                                weight: 0
-                              - variation: Ion
+                              - variation: Platform_Demo_PTBR
                                 weight: 0
                   timeout: 10m
                   when:
@@ -243,9 +237,7 @@ pipeline:
                                 weight: 0
                               - variation: Feature_Flags
                                 weight: 0
-                              - variation: Gabs_GoT
-                                weight: 0
-                              - variation: Ion
+                              - variation: Platform_Demo_PTBR
                                 weight: 0
                       - identifier: SetFeatureFlagStateIdentifier
                         type: SetFeatureFlagState
