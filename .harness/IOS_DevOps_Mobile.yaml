@@ -25,13 +25,38 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
-                    shell: Bash
-                    command: |+
+                    shell: Sh
+                    command: |
                       #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
                       echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > apple-store.p12
 
+                      security import apple-store.p12 -P <+secrets.getValue("apple_store_developer_apikey_secret")> # -k ~/Library/Keychains/login.keychain-db
 
+                      ls -ltra
+
+                      ls -ltra /Applications
+
+                      sudo gem install cocoapods
+
+                      pod install
+
+                      #xcodebuild -list
+
+                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -allowProvisioningUpdates
+
+
+                      xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
+
+                      xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
+
+                      ls -ltra ./Artifact
+
+
+                      #altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
+
+
+                      #xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
                     privileged: true
                     envVariables:
                       IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
