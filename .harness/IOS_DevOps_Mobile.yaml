@@ -29,7 +29,7 @@ pipeline:
                     command: |-
                       #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
-                      xcrun altool --store-password-in-keychain-item diego-apple -u 'diegopereiraeng@gmail.com' -t osx --password '<+secrets.getValue("diegoioskey")>'
+                      #xcrun altool --store-password-in-keychain-item diego-apple -u 'diegopereiraeng@gmail.com' -t osx --password '<+secrets.getValue("diegoioskey")>'
 
                       ls -ltra
 
