@@ -26,8 +26,7 @@ pipeline:
                   identifier: Build
                   spec:
                     shell: Sh
-                    command: |
-                      echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > apple-store.p12
+                    command: echo -n <+secrets.getValue("apple_store_developer_apikey")> > apple-store.p12
                     privileged: true
                     envVariables:
                       IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
