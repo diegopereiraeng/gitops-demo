@@ -30,26 +30,21 @@ pipeline:
                       #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
 
-                      echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > apple-store.p8
+                      echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > apple-store.p12
 
                       #openssl pkcs8 -in apple-store.p8 -out apple-store.pem -nocrypt
 
                       #openssl pkcs12 -export -out apple-store.p12 -inkey privte.key -in apple-store.pem
 
-
-
-                      #security import apple-store.p12 -k ~/Library/Keychains/login.keychain-db
+                      security import apple-store.p12 -P <+secrets.getValue("apple_store_developer_apikey_secret")> -k ~/Library/Keychains/login.keychain-db
 
                       #xcrun altool --store-password-in-keychain-item "AC_PASSWORD" -u diegopereiraeng@gmail.com --apiKey '<+secrets.getValue("apple_store_api_key")>' --apiIssuer '<+secrets.getValue("apple_store_issuer_id")>'
-
-
 
                       ls -ltra
 
                       ls -ltra /Applications
 
                       sudo gem install cocoapods
-
 
                       pod install
 
