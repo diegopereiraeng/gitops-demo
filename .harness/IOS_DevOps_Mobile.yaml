@@ -38,7 +38,7 @@ pipeline:
                       pod install
 
 
-                      cat <<EOF > AuthKey.p8
+                      cat <<EOF > /private/tmp/harness/AuthKey.p8
                       <+secrets.getValue("apple_store_developer_apikey")>
                       EOF
 
