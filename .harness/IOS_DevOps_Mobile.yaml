@@ -51,11 +51,15 @@ pipeline:
 
                       ls -ltra
 
-                      cat $keyfile
+                      echo "building"
 
                       xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -authenticationKeyPath $keyfile -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
 
+                      echo "archiving"
+
                       xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
+
+                      echo "publishing"
 
                       xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
 
