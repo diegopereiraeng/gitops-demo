@@ -37,10 +37,17 @@ pipeline:
 
                       pod install
 
+                      keyfile=/private/tmp/harness/AuthKey.p8
 
-                      cat <<EOF > /private/tmp/harness/AuthKey.p8
+                      pwd
+
+                      echo "creating key file"
+
+                      cat<<EOF>$keyfile
                       <+secrets.getValue("apple_store_developer_apikey")>
                       EOF
+
+                      echo "created key file"
 
                       #echo <+secrets.getValue("apple_store_developer_apikey")> > AuthKey.p8
 
