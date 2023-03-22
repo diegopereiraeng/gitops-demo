@@ -37,7 +37,12 @@ pipeline:
 
                       pod install
 
-                      echo <+secrets.getValue("apple_store_developer_apikey")> > AuthKey.p8
+
+                      cat <<EOF > AuthKey.p8
+                      <+secrets.getValue("apple_store_developer_apikey")>
+                      EOF
+
+                      #echo <+secrets.getValue("apple_store_developer_apikey")> > AuthKey.p8
 
                       pwd
 
