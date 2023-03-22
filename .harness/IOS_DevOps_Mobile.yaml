@@ -39,7 +39,7 @@ pipeline:
 
                       echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > AuthKey.p8
 
-                      xcodebuild -exportArchive -archivePath MyProject.xcarchive -exportPath MyProject -exportOptionsPlist ExportOptions.plist -allowProvisioningUpdates -authenticationKeyPath /harness/AuthKey.p8 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")>
+                      xcodebuild -exportArchive -archivePath PlatformDevops.xcarchive -exportPath ./Artifact -exportOptionsPlist HarnessConfig.plist -allowProvisioningUpdates -authenticationKeyPath /harness/AuthKey.p8 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")>
 
                       xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
 
