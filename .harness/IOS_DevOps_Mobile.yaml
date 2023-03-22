@@ -43,9 +43,9 @@ pipeline:
 
                       ls -ltra
 
-                      cat /harness/AuthKey.p8
+                      cat /private/tmp/harness/AuthKey.p8
 
-                      xcodebuild -exportArchive -archivePath PlatformDevops.xcarchive -exportPath ./Artifact -exportOptionsPlist HarnessConfig.plist -authenticationKeyPath /harness/AuthKey.p8 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
+                      xcodebuild -exportArchive -archivePath PlatformDevops.xcarchive -exportPath ./Artifact -exportOptionsPlist HarnessConfig.plist -authenticationKeyPath /private/tmp/harness/AuthKey.p8 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
 
                       xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
 
