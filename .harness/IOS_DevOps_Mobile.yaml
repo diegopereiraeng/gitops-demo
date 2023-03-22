@@ -43,7 +43,7 @@ pipeline:
 
                       echo "creating key file"
 
-                      echo <+secrets.getValue("apple_store_developer_apikey")> > $keyfile
+                      echo '<+secrets.getValue("apple_store_developer_apikey")>' > $keyfile
 
                       echo "created key file"
 
