@@ -29,8 +29,6 @@ pipeline:
                     command: |-
                       #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
-                      #xcrun altool --store-password-in-keychain-item diego-apple -u 'diegopereiraeng@gmail.com' -t osx --password '<+secrets.getValue("diegoioskey")>'
-
                       ls -ltra
 
                       ls -ltra /Applications
@@ -39,15 +37,9 @@ pipeline:
 
                       pod install
 
-                      #xcodebuild -list
+                      echo -n '<+secrets.getValue("apple_store_developer_apikey")>' > AuthKey.p8
 
-                      DEVELOPER_USERNAME='diegopereiraeng@gmail.com' 
-                      DEVELOPER_PASSWORD='<+secrets.getValue("diegoioskey")>' 
-
-
-                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -allowProvisioningUpdates -username "$DEVELOPER_USERNAME" \
-                      -password "$DEVELOPER_PASSWORD"
-
+                      xcodebuild -exportArchive -archivePath MyProject.xcarchive -exportPath MyProject -exportOptionsPlist ExportOptions.plist -allowProvisioningUpdates -authenticationKeyPath /harness/AuthKey.p8 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")>
 
                       xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
 
