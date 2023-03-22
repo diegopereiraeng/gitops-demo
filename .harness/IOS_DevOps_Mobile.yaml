@@ -53,7 +53,7 @@ pipeline:
 
                       cat $keyfile
 
-                      xcodebuild -exportArchive -archivePath PlatformDevops.xcarchive -exportPath ./Artifact -exportOptionsPlist HarnessConfig.plist -authenticationKeyPath $keyfile -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
+                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -exportOptionsPlist HarnessConfig.plist -authenticationKeyPath $keyfile -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
 
                       xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
 
