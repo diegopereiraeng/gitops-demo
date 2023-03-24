@@ -1426,6 +1426,7 @@ pipeline:
                                     sensitivity: HIGH
                                     duration: 15m
                                     deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                                  isMultiServicesOrEnvs: false
                                 timeout: 1h
                                 failureStrategies:
                                   - onFailure:
