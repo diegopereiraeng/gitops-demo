@@ -1,0 +1,57 @@
+pipeline:
+  name: MATRIX - Product Release Pipeline
+  identifier: MATRIX_Product_Release_Pipeline
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  description: Multi Service Scenario using Git as catalog of product release
+  tags: {}
+  stages:
+    - stage:
+        name: Deploy Multi Services
+        identifier: Deploy_Multi_Services
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: NativeHelm
+          services:
+            values:
+              - serviceRef: prometheusmongodbexporterbankingvalidation
+                serviceInputs:
+                  serviceDefinition:
+                    type: NativeHelm
+                    spec:
+                      artifacts:
+                        primary:
+                          primaryArtifactRef: <+input>
+                          sources: <+input>
+            metadata:
+              parallel: true
+          environment:
+            environmentRef: <+input>
+            deployToAll: false
+            environmentInputs: <+input>
+            serviceOverrideInputs: <+input>
+            infrastructureDefinitions: <+input>
+          execution:
+            steps:
+              - step:
+                  name: Helm Deployment
+                  identifier: helmDeployment
+                  type: HelmDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+            rollbackSteps:
+              - step:
+                  name: Helm Rollback
+                  identifier: helmRollback
+                  type: HelmRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
