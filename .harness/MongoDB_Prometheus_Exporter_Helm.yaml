@@ -1,5 +1,5 @@
 pipeline:
-  name: MongoDB Prometheus Exporter Helm
+  name: HELM - MongoDB Prometheus Exporter
   identifier: MongoDB_Prometheus_Exporter_Helm
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
