@@ -3,7 +3,7 @@ pipeline:
   identifier: MATRIX_Product_Release_Pipeline
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
-  description: Multi Service Scenario using Git as catalog of product release
+  description: Multi Service Scenario using Git as catalog of product release (use prod env for simulation)
   tags: {}
   stages:
     - stage:
