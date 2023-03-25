@@ -1,5 +1,5 @@
 pipeline:
-  name: Banking Validation Pipeline
+  name: PLATFORM - Banking Validation Pipeline
   identifier: Banking_Validation_Pipeline
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
