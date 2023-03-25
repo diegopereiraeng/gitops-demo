@@ -49,7 +49,6 @@ pipeline:
                     ignoreReleaseHistFailStatus: false
                   when:
                     stageStatus: Success
-                    condition: "\"1\" == \"2\""
                   failureStrategies: []
             rollbackSteps:
               - step:
