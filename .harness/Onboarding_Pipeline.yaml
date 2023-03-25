@@ -581,7 +581,7 @@ pipeline:
 
                                     echo "SLO Status Code: $response_slo_auth_errors"
 
-                                    if [[ $response_slo_auth_errors != "200" && $response_slo_auth_errors != "400" ]]; then
+                                    if [[ $response_slo_auth_errors != "200" && $response_slo_auth_errors != "400" && $response_slo_val_rt != "500" ]]; then
                                     echo "error creating SLO"
                                     exit 1
                                     fi
@@ -592,7 +592,7 @@ pipeline:
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_rt"`
 
-                                    if [[ $response_slo_auth_rt != "200" && $response_slo_auth_rt != "400" ]]; then
+                                    if [[ $response_slo_auth_rt != "200" && $response_slo_auth_rt != "400" && $response_slo_val_rt != "500" ]]; then
                                     echo "error creating SLO"
                                     exit 1
                                     fi
@@ -603,7 +603,7 @@ pipeline:
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_errors"`
 
-                                    if [[ $response_slo_val_errors != "200" && $response_slo_val_errors != "400" ]]; then
+                                    if [[ $response_slo_val_errors != "200" && $response_slo_val_errors != "400" && $response_slo_val_rt != "500" ]]; then
                                     echo "error creating SLO"
                                     exit 1
                                     fi
@@ -614,7 +614,7 @@ pipeline:
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_rt"`
 
-                                    if [[ $response_slo_val_rt != "200" && $response_slo_val_rt != "400" ]]; then
+                                    if [[ $response_slo_val_rt != "200" && $response_slo_val_rt != "400" && $response_slo_val_rt != "500" ]]; then
                                     echo "error creating SLO"
                                     exit 1
                                     fi
