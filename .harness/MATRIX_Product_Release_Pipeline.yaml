@@ -24,6 +24,15 @@ pipeline:
                         primary:
                           primaryArtifactRef: <+input>
                           sources: <+input>
+              - serviceRef: catalogservice
+                serviceInputs:
+                  serviceDefinition:
+                    type: NativeHelm
+                    spec:
+                      artifacts:
+                        primary:
+                          primaryArtifactRef: <+input>
+                          sources: <+input>
             metadata:
               parallel: true
           environment:
@@ -41,6 +50,11 @@ pipeline:
                   timeout: 10m
                   spec:
                     skipDryRun: false
+                    ignoreReleaseHistFailStatus: false
+                  when:
+                    stageStatus: Success
+                    condition: "\"1\" == \"2\""
+                  failureStrategies: []
             rollbackSteps:
               - step:
                   name: Helm Rollback
