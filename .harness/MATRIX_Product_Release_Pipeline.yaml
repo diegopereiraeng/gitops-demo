@@ -14,25 +14,7 @@ pipeline:
         spec:
           deploymentType: NativeHelm
           services:
-            values:
-              - serviceRef: prometheusmongodbexporterbankingvalidation
-                serviceInputs:
-                  serviceDefinition:
-                    type: NativeHelm
-                    spec:
-                      artifacts:
-                        primary:
-                          primaryArtifactRef: <+input>
-                          sources: <+input>
-              - serviceRef: catalogservice
-                serviceInputs:
-                  serviceDefinition:
-                    type: NativeHelm
-                    spec:
-                      artifacts:
-                        primary:
-                          primaryArtifactRef: <+input>
-                          sources: <+input>
+            values: <+input>
             metadata:
               parallel: true
           environment:
