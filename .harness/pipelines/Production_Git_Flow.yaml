@@ -1,5 +1,5 @@
 pipeline:
-  name: Banking FrontEnd Pipeline
+  name: PLATFORM FAST - Banking FrontEnd Pipeline
   identifier: Production_Git_Flow
   allowStageExecutions: false
   projectIdentifier: GIT_FLOW_DEMO
