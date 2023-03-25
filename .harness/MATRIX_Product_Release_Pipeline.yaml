@@ -27,7 +27,7 @@ pipeline:
             steps:
               - step:
                   type: ShellScript
-                  name: ShellScript_1
+                  name: Automation
                   identifier: ShellScript_1
                   spec:
                     shell: Bash
