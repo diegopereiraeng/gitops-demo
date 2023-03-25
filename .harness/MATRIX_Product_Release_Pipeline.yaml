@@ -44,6 +44,20 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "<+service.name>>"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+              - step:
                   name: Helm Deployment
                   identifier: helmDeployment
                   type: HelmDeploy
