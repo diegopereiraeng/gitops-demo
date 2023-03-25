@@ -1,5 +1,5 @@
 pipeline:
-  name: SE AB Pipeline
+  name: FF - AB Testing Pipeline
   identifier: FF_Diego
   allowStageExecutions: false
   projectIdentifier: GIT_FLOW_DEMO
