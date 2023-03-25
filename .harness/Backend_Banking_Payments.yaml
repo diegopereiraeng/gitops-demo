@@ -1,5 +1,5 @@
 pipeline:
-  name: Banking Payments Pipeline
+  name: PLATFORM - Banking Payments Pipeline
   identifier: Backend_Banking_Payments
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
