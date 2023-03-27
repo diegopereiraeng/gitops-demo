@@ -442,7 +442,7 @@ pipeline:
                                         echo "error: $response_delete_key_front"
                                         #cat response_delete_key_front.txt
                                         echo "coudn't delete the front key =("
-                                        exit 0
+                                        
                                         fi
                                     # else
                                     #     echo "key doesn't exist"
