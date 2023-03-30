@@ -127,3 +127,17 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+  variables:
+    - name: virtualPath
+      type: String
+      description: ""
+      value: <+input>
+    - name: FF_Key
+      type: String
+      description: ""
+      value: <+secrets.getValue("ffkeydevopsexperience")>
+    - name: firstDeploy
+      type: String
+      default: "no"
+      description: ""
+      value: <+input>.allowedValues(yes,no)
