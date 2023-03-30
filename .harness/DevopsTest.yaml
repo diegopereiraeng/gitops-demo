@@ -22,6 +22,59 @@ pipeline:
               - identifier: ProdCDDemoSE
           execution:
             steps:
+              - step:
+                  type: TerraformPlan
+                  name: Terraform Plan
+                  identifier: Terraform_Plan
+                  spec:
+                    provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                    configuration:
+                      command: Apply
+                      configFiles:
+                        store:
+                          spec:
+                            connectorRef: account.diegogithubapp
+                            repoName: terraform-onboarding-payments-validation
+                            gitFetchType: Branch
+                            branch: main
+                            folderPath: banking-demo-dns
+                          type: Github
+                      varFiles:
+                        - varFile:
+                            spec:
+                              content: |-
+                                project="<+secrets.getValue("salesproject")>"
+                                region="us-central1-c"
+                                gitUser="<+pipeline.variables.virtualPath>"
+                                ipAddress="<+secrets.getValue("demoip")>"
+                            identifier: vars
+                            type: Inline
+                      secretManagerRef: harnessSecretManager
+                      workspace: <+env.name>
+                  timeout: 10m
+              - step:
+                  type: HarnessApproval
+                  name: HarnessApproval_1
+                  identifier: HarnessApproval_1
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - account.Field_Engineering
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
+              - step:
+                  type: TerraformApply
+                  name: TerraformApply
+                  identifier: TerraformApply
+                  spec:
+                    provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                    configuration:
+                      type: InheritFromPlan
+                  timeout: 10m
               - stepGroup:
                   name: Canary Deployment
                   identifier: canaryDepoyment
