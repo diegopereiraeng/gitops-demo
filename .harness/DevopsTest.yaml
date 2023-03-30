@@ -39,6 +39,10 @@ pipeline:
                             branch: main
                             folderPath: banking-demo-dns
                           type: Github
+                      environmentVariables:
+                        - name: GOOGLE_CREDENTIALS
+                          value: <+secrets.getValue("diego_gc_sa_text")>
+                          type: String
                       varFiles:
                         - varFile:
                             spec:
