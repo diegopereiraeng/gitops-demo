@@ -1,0 +1,14 @@
+connector:
+  name: 'SE ECS Cluster '
+  identifier: SE_ECS_Cluster
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: Aws
+  spec:
+    credential:
+      type: InheritFromDelegate
+      region: us-east-2
+    delegateSelectors:
+    - cd-demo-se
+    executeOnDelegate: true
