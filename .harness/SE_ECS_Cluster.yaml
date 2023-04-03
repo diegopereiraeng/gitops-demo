@@ -7,8 +7,9 @@ connector:
   type: Aws
   spec:
     credential:
-      type: InheritFromDelegate
+      type: ManualConfig
+      spec:
+        accessKey: AKIA3B4U6ZROYYS5UE6M
+        secretKeyRef: diegosecretaccesskey
       region: us-east-2
-    delegateSelectors:
-    - cd-demo-se
     executeOnDelegate: true
