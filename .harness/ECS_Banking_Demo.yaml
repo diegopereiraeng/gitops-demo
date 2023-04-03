@@ -302,7 +302,6 @@ pipeline:
             spec: {}
         when:
           pipelineStatus: Success
-          condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
         variables:
           - name: sto_api_key
             type: String
