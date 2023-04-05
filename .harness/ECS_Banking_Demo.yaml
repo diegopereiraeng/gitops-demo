@@ -159,6 +159,9 @@ pipeline:
                         image: node:alpine
                         shell: Sh
                         command: |-
+                          ls /etc
+
+
                           export NODE_OPTIONS="--max-old-space-size=2048"
 
                           mkdir -p html/reports/eslint
