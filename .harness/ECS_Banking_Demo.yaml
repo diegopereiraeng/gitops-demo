@@ -30,16 +30,6 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: Run
-                  name: Run_3
-                  identifier: Run_3
-                  spec:
-                    shell: Sh
-                    command: |-
-                      ls /etc
-
-                      cat /etc/os-release
-              - step:
                   type: RestoreCacheGCS
                   name: Restore GCS
                   identifier: Restore_GCS
