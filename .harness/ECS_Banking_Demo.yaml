@@ -30,6 +30,14 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: Run
+                  name: Run_3
+                  identifier: Run_3
+                  spec:
+                    shell: Sh
+                    command: |
+                      ls /etc
+              - step:
                   type: RestoreCacheGCS
                   name: Restore GCS
                   identifier: Restore_GCS
@@ -159,9 +167,6 @@ pipeline:
                         image: node:alpine
                         shell: Sh
                         command: |-
-                          ls /etc
-
-
                           export NODE_OPTIONS="--max-old-space-size=2048"
 
                           mkdir -p html/reports/eslint
