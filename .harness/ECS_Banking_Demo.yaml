@@ -321,7 +321,12 @@ pipeline:
                 spec:
                   artifacts:
                     primary:
-                      primaryArtifactRef: <+pipeline.variables.tag>-<+pipeline.sequenceId>
+                      primaryArtifactRef: artifact
+                      sources:
+                        - identifier: artifact
+                          type: DockerRegistry
+                          spec:
+                            tag: <+pipeline.variables.tag>-<+pipeline.sequenceId>
           environment:
             environmentRef: prod
             deployToAll: false
