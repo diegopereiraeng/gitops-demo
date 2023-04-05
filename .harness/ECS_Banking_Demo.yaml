@@ -321,8 +321,7 @@ pipeline:
                 spec:
                   artifacts:
                     primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
+                      primaryArtifactRef: <+pipeline.variables.tag>-<+pipeline.sequenceId>
           environment:
             environmentRef: prod
             deployToAll: false
@@ -365,3 +364,8 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+  variables:
+    - name: tag
+      type: String
+      description: ""
+      value: ecs
