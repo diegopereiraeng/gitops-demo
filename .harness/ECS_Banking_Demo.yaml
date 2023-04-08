@@ -346,6 +346,12 @@ pipeline:
                             disallowPipelineExecutor: false
                           approverInputs: []
                         timeout: 15m
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - Timeout
+                              action:
+                                type: MarkAsSuccess
                     - step:
                         type: EcsCanaryDelete
                         name: Ecs Canary Delete
