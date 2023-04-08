@@ -265,7 +265,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         repo: diegokoala/harness-ff-bankingapp-ecs
                         tags:
-                          - <+pipeline.variables.tag>-<+pipeline.sequenceId>
+                          - ecs-<+pipeline.sequenceId>
                           - ecs
                         dockerfile: Dockerfile
                         buildArgs:
