@@ -314,15 +314,8 @@ pipeline:
         spec:
           deploymentType: ECS
           service:
-            serviceRef: BankingAppECS
-            serviceInputs:
-              serviceDefinition:
-                type: ECS
-                spec:
-                  artifacts:
-                    primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
+            serviceRef: <+input>
+            serviceInputs: <+input>
           environment:
             environmentRef: prod
             deployToAll: false
