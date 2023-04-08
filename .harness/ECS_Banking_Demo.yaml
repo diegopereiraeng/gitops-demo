@@ -417,11 +417,23 @@ pipeline:
                       spec: {}
             rollbackSteps:
               - step:
+                  type: EcsCanaryDelete
+                  name: Ecs Canary Delete Rollback
+                  identifier: Ecs_Canary_Delete_Rollback
+                  spec: {}
+                  timeout: 10m
+              - step:
                   name: ECS Blue Green Rollback
                   identifier: EcsBlueGreenRollback
                   type: EcsBlueGreenRollback
                   timeout: 10m
                   spec: {}
+              - step:
+                  type: EcsBlueGreenRollback
+                  name: Ecs Blue Green Rollback
+                  identifier: Ecs_Blue_Green_Rollback
+                  spec: {}
+                  timeout: 10m
         tags: {}
         failureStrategies:
           - onFailure:
