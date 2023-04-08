@@ -333,6 +333,20 @@ pipeline:
                         spec: {}
                         timeout: 10m
                     - step:
+                        type: HarnessApproval
+                        name: Approval
+                        identifier: Approval
+                        spec:
+                          approvalMessage: Please review the following information and approve the pipeline progression
+                          includePipelineExecutionHistory: true
+                          approvers:
+                            userGroups:
+                              - account._account_all_users
+                            minimumCount: 1
+                            disallowPipelineExecutor: false
+                          approverInputs: []
+                        timeout: 15m
+                    - step:
                         type: EcsCanaryDelete
                         name: Ecs Canary Delete
                         identifier: Ecs_Canary_Delete
