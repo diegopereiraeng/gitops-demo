@@ -384,7 +384,7 @@ pipeline:
                             timeout: 10m
                       when:
                         stageStatus: Success
-                        condition: <+pipeline.variables.deployment_type> == "rolling" OR <+pipeline.variables.deployment_type> == "canary"
+                        condition: <+pipeline.variables.deployment_type> == "rolling" || <+pipeline.variables.deployment_type> == "canary"
                       failureStrategies: []
                       spec: {}
             rollbackSteps:
