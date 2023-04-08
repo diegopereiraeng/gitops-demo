@@ -322,6 +322,27 @@ pipeline:
               - identifier: ECS_SE_Cluster_Prod
           execution:
             steps:
+              - stepGroup:
+                  name: Canary
+                  identifier: Canary
+                  steps:
+                    - step:
+                        type: EcsCanaryDeploy
+                        name: Ecs Canary Deploy
+                        identifier: Ecs_Canary_Deploy
+                        spec: {}
+                        timeout: 10m
+                    - step:
+                        type: EcsCanaryDelete
+                        name: Ecs Canary Delete
+                        identifier: Ecs_Canary_Delete
+                        spec: {}
+                        timeout: 10m
+                  when:
+                    stageStatus: Success
+                    condition: <+pipeline.variables.deployment_type> == "canary"
+                  failureStrategies: []
+                  spec: {}
               - parallel:
                   - stepGroup:
                       name: Blue Green Deployment
@@ -363,7 +384,7 @@ pipeline:
                             timeout: 10m
                       when:
                         stageStatus: Success
-                        condition: <+pipeline.variables.deployment_type> == "rolling"
+                        condition: <+pipeline.variables.deployment_type> == "rolling" OR <+pipeline.variables.deployment_type> == "canary"
                       failureStrategies: []
                       spec: {}
             rollbackSteps:
