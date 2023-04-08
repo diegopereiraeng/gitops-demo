@@ -307,7 +307,7 @@ pipeline:
             type: String
             value: <+secrets.getValue("account.sto_api_key")>
     - stage:
-        name: Deploy
+        name: Canary Deploy
         identifier: Deploy
         description: ""
         type: Deployment
@@ -387,6 +387,20 @@ pipeline:
                               prodListenerRuleArn: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener-rule/app/banking-app/5edaf0c61d884730/0f442a587ea54924/537790f89c8db869
                               stageListener: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/5edaf0c61d884730/4c7f290c71eee396
                               stageListenerRuleArn: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener-rule/app/banking-app/5edaf0c61d884730/4c7f290c71eee396/d25d0d7a0296adfb
+                        - step:
+                            type: HarnessApproval
+                            name: Green Approval
+                            identifier: Green_Approval
+                            spec:
+                              approvalMessage: Please review the following information and approve the pipeline progression
+                              includePipelineExecutionHistory: true
+                              approvers:
+                                userGroups:
+                                  - account._account_all_users
+                                minimumCount: 1
+                                disallowPipelineExecutor: false
+                              approverInputs: []
+                            timeout: 1d
                         - step:
                             name: ECS Blue Green Swap Target Groups
                             identifier: EcsBlueGreenSwapTargetGroups
