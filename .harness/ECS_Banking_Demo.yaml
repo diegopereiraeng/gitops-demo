@@ -388,17 +388,6 @@ pipeline:
                               stageListenerRuleArn: ""
                               prodListener: <+input>
                         - step:
-                            name: BG Color Tagging
-                            identifier: BG_Color_Check
-                            template:
-                              templateRef: BG_Color_Discovery
-                              versionLabel: 1.0.0
-                              templateInputs:
-                                type: Container
-                                spec:
-                                  envVariables:
-                                    load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
-                        - step:
                             type: HarnessApproval
                             name: Shift Traffic - Green 10 - Approval
                             identifier: Shift_Traffic_Blue_90_Green_10_Approval
@@ -600,17 +589,6 @@ pipeline:
                             type: EcsBlueGreenSwapTargetGroups
                             timeout: 10m
                             spec: {}
-                        - step:
-                            name: BG Color Post Check
-                            identifier: BG_Color_Post_Check
-                            template:
-                              templateRef: BG_Color_Discovery
-                              versionLabel: 1.0.0
-                              templateInputs:
-                                type: Container
-                                spec:
-                                  envVariables:
-                                    load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
                       when:
                         stageStatus: Success
                         condition: <+pipeline.variables.deployment_type> == "bluegreen"
@@ -633,6 +611,17 @@ pipeline:
                         condition: <+pipeline.variables.deployment_type> == "rolling" || <+pipeline.variables.deployment_type> == "canary"
                       failureStrategies: []
                       spec: {}
+              - step:
+                  name: BG Color Post Check
+                  identifier: BG_Color_Post_Check
+                  template:
+                    templateRef: BG_Color_Discovery
+                    versionLabel: 1.0.0
+                    templateInputs:
+                      type: Container
+                      spec:
+                        envVariables:
+                          load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
             rollbackSteps:
               - step:
                   type: EcsCanaryDelete
