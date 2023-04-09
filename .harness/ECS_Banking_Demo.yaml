@@ -370,6 +370,19 @@ pipeline:
                       identifier: blueGreenDepoyment
                       steps:
                         - step:
+                            name: Color Check
+                            identifier: Color_Check
+                            template:
+                              templateRef: ECS_ALB_Color_Check
+                              versionLabel: 1.0.0
+                              templateInputs:
+                                type: ShellScript
+                                spec:
+                                  environmentVariables:
+                                    - name: load_balancer_name
+                                      type: String
+                                      value: banking-app
+                        - step:
                             name: ECS Blue Green Create Service
                             identifier: EcsBlueGreenCreateService
                             type: EcsBlueGreenCreateService
@@ -380,194 +393,188 @@ pipeline:
                               prodListenerRuleArn: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener-rule/app/banking-app/ef5aec92b6e26fa6/b9306c7d6389fc55/77a9842d37186e22
                               stageListener: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/708fe928a86d4196
                               stageListenerRuleArn: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener-rule/app/banking-app/ef5aec92b6e26fa6/708fe928a86d4196/5df2c2cebcd1e052
-                        - stepGroup:
-                            name: Gradually Traffic Shift
-                            identifier: Gradually_Traffic_Shift
-                            steps:
-                              - step:
-                                  name: Color Check
-                                  identifier: Color_Check
-                                  template:
-                                    templateRef: ECS_ALB_Color_Check
-                                    versionLabel: 1.0.0
-                                    templateInputs:
-                                      type: ShellScript
-                                      spec:
-                                        environmentVariables:
-                                          - name: load_balancer_name
-                                            type: String
-                                            value: banking-app
-                              - step:
-                                  type: HarnessApproval
-                                  name: Shift Traffic - Green 10 - Approval
-                                  identifier: Shift_Traffic_Blue_90_Green_10_Approval
-                                  spec:
-                                    approvalMessage: Please review the following information and approve the pipeline progression
-                                    includePipelineExecutionHistory: true
-                                    approvers:
-                                      userGroups:
-                                        - account._account_all_users
-                                      minimumCount: 1
-                                      disallowPipelineExecutor: false
-                                    approverInputs: []
-                                  timeout: 1d
-                              - step:
-                                  type: ShellScript
-                                  name: Shift Traffic - Blue 90 - Green 10
-                                  identifier: Shift_Traffic_Blue_90_Green_10
-                                  spec:
-                                    shell: Bash
-                                    onDelegate: true
-                                    source:
-                                      type: Inline
-                                      spec:
-                                        script: |-
-
-                                          #!/bin/bash
-
-                                          # blue_weight=90
-                                          # green_weight=10
-
-                                          if [ -n "$blue_listener_arn" ] && [ -n "$blue_tg_arn" ] && [ -n "$green_tg_arn" ]; then
-                                            echo "Adding Green TG to Blue Listener..."
-                                            echo "Shifting $green_weight% of traffic distribution to Green TG"
-                                            echo "--------------------------------"
-                                            # Construct the JSON object with dynamic values
-                                            json=$(jq -n \
-                                              --arg tg_arn_blue "$blue_tg_arn" \
-                                              --arg tg_arn_blue_weight "$blue_weight" \
-                                              --arg tg_arn_green "$green_tg_arn" \
-                                              --arg tg_arn_green_weight "$green_weight" \
-                                              '{ 
-                                                Type: "forward",
-                                                Order: 1,
-                                                ForwardConfig: {
-                                                  TargetGroups: [
-                                                    { TargetGroupArn: $tg_arn_blue, Weight: $tg_arn_blue_weight },
-                                                    { TargetGroupArn: $tg_arn_green, Weight: $tg_arn_green_weight }
-                                                  ],
-                                                  TargetGroupStickinessConfig: {
-                                                    Enabled: true,
-                                                    DurationSeconds: 10
-                                                  }
-                                                }
-                                              }')
-
-                                            # Pass the JSON string to the modify-listener command
-                                            aws elbv2 modify-listener \
-                                              --listener-arn "$blue_listener_arn" \
-                                              --default-actions "$json" --output text
-                                            echo "Trafic Shifted Gradually - Blue: - Green: "
-                                          else
-                                            echo "Blue Listener or Green TG not found"
-                                            exit 1
-                                          fi
-                                    environmentVariables:
-                                      - name: blue_tg_arn
-                                        type: String
-                                        value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.blue_tg>
-                                      - name: blue_weight
-                                        type: String
-                                        value: "90"
-                                      - name: green_tg_arn
-                                        type: String
-                                        value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.green_tg>
-                                      - name: green_weight
-                                        type: String
-                                        value: "10"
-                                      - name: blue_listener_arn
-                                        type: String
-                                        value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.listener_blue_arn>
-                                    outputVariables: []
-                                  timeout: 10m
-                              - step:
-                                  type: HarnessApproval
-                                  name: Shift Traffic - Green 50 - Approval
-                                  identifier: Shift_Traffic_Green_50_Approval
-                                  spec:
-                                    approvalMessage: Please review the following information and approve the pipeline progression
-                                    includePipelineExecutionHistory: true
-                                    approvers:
-                                      userGroups:
-                                        - account._account_all_users
-                                      minimumCount: 1
-                                      disallowPipelineExecutor: false
-                                    approverInputs: []
-                                  timeout: 1d
-                              - step:
-                                  type: ShellScript
-                                  name: Shift Traffic - Blue 50 - Green 50
-                                  identifier: Shift_Traffic_Blue_50_Green_50
-                                  spec:
-                                    shell: Bash
-                                    onDelegate: true
-                                    source:
-                                      type: Inline
-                                      spec:
-                                        script: |-
-
-                                          #!/bin/bash
-
-                                          # blue_weight=90
-                                          # green_weight=10
-
-                                          if [ -n "$blue_listener_arn" ] && [ -n "$blue_tg_arn" ] && [ -n "$green_tg_arn" ]; then
-                                            echo "Adding Green TG to Blue Listener..."
-                                            echo "Shifting $green_weight% of traffic distribution to Green TG"
-                                            echo "--------------------------------"
-                                            # Construct the JSON object with dynamic values
-                                            json=$(jq -n \
-                                              --arg tg_arn_blue "$blue_tg_arn" \
-                                              --arg tg_arn_blue_weight "$blue_weight" \
-                                              --arg tg_arn_green "$green_tg_arn" \
-                                              --arg tg_arn_green_weight "$green_weight" \
-                                              '{ 
-                                                Type: "forward",
-                                                Order: 1,
-                                                ForwardConfig: {
-                                                  TargetGroups: [
-                                                    { TargetGroupArn: $tg_arn_blue, Weight: $tg_arn_blue_weight },
-                                                    { TargetGroupArn: $tg_arn_green, Weight: $tg_arn_green_weight }
-                                                  ],
-                                                  TargetGroupStickinessConfig: {
-                                                    Enabled: true,
-                                                    DurationSeconds: 10
-                                                  }
-                                                }
-                                              }')
-
-                                            # Pass the JSON string to the modify-listener command
-                                            aws elbv2 modify-listener \
-                                              --listener-arn "$blue_listener_arn" \
-                                              --default-actions "$json" --output text
-                                            echo "Trafic Shifted Gradually - Blue: - Green: "
-                                          else
-                                            echo "Blue Listener or Green TG not found"
-                                            exit 1
-                                          fi
-                                    environmentVariables:
-                                      - name: blue_tg_arn
-                                        type: String
-                                        value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.blue_tg>
-                                      - name: blue_weight
-                                        type: String
-                                        value: "50"
-                                      - name: green_tg_arn
-                                        type: String
-                                        value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.green_tg>
-                                      - name: green_weight
-                                        type: String
-                                        value: "50"
-                                      - name: blue_listener_arn
-                                        type: String
-                                        value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.listener_blue_arn>
-                                    outputVariables: []
-                                  timeout: 10m
+                        - step:
+                            type: HarnessApproval
+                            name: Shift Traffic - Green 10 - Approval
+                            identifier: Shift_Traffic_Blue_90_Green_10_Approval
+                            spec:
+                              approvalMessage: Please review the following information and approve the pipeline progression
+                              includePipelineExecutionHistory: true
+                              approvers:
+                                userGroups:
+                                  - account._account_all_users
+                                minimumCount: 1
+                                disallowPipelineExecutor: false
+                              approverInputs: []
+                            timeout: 1d
                             when:
                               stageStatus: Success
                               condition: <+pipeline.variables.blue_green_gradually> == "yes"
                             failureStrategies: []
-                            spec: {}
+                        - step:
+                            type: ShellScript
+                            name: Shift Traffic - Blue 90 - Green 10
+                            identifier: Shift_Traffic_Blue_90_Green_10
+                            spec:
+                              shell: Bash
+                              onDelegate: true
+                              source:
+                                type: Inline
+                                spec:
+                                  script: |-
+
+                                    #!/bin/bash
+
+                                    # blue_weight=90
+                                    # green_weight=10
+
+                                    if [ -n "$blue_listener_arn" ] && [ -n "$blue_tg_arn" ] && [ -n "$green_tg_arn" ]; then
+                                      echo "Adding Green TG to Blue Listener..."
+                                      echo "Shifting $green_weight% of traffic distribution to Green TG"
+                                      echo "--------------------------------"
+                                      # Construct the JSON object with dynamic values
+                                      json=$(jq -n \
+                                        --arg tg_arn_blue "$blue_tg_arn" \
+                                        --arg tg_arn_blue_weight "$blue_weight" \
+                                        --arg tg_arn_green "$green_tg_arn" \
+                                        --arg tg_arn_green_weight "$green_weight" \
+                                        '{ 
+                                          Type: "forward",
+                                          Order: 1,
+                                          ForwardConfig: {
+                                            TargetGroups: [
+                                              { TargetGroupArn: $tg_arn_blue, Weight: $tg_arn_blue_weight },
+                                              { TargetGroupArn: $tg_arn_green, Weight: $tg_arn_green_weight }
+                                            ],
+                                            TargetGroupStickinessConfig: {
+                                              Enabled: true,
+                                              DurationSeconds: 10
+                                            }
+                                          }
+                                        }')
+
+                                      # Pass the JSON string to the modify-listener command
+                                      aws elbv2 modify-listener \
+                                        --listener-arn "$blue_listener_arn" \
+                                        --default-actions "$json" --output text
+                                      echo "Trafic Shifted Gradually - Blue: - Green: "
+                                    else
+                                      echo "Blue Listener or Green TG not found"
+                                      exit 1
+                                    fi
+                              environmentVariables:
+                                - name: blue_tg_arn
+                                  type: String
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.blue_tg>
+                                - name: blue_weight
+                                  type: String
+                                  value: "90"
+                                - name: green_tg_arn
+                                  type: String
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.green_tg>
+                                - name: green_weight
+                                  type: String
+                                  value: "10"
+                                - name: blue_listener_arn
+                                  type: String
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.listener_blue_arn>
+                              outputVariables: []
+                            timeout: 10m
+                            when:
+                              stageStatus: Success
+                              condition: <+pipeline.variables.blue_green_gradually> == "yes"
+                            failureStrategies: []
+                        - step:
+                            type: HarnessApproval
+                            name: Shift Traffic - Green 50 - Approval
+                            identifier: Shift_Traffic_Green_50_Approval
+                            spec:
+                              approvalMessage: Please review the following information and approve the pipeline progression
+                              includePipelineExecutionHistory: true
+                              approvers:
+                                userGroups:
+                                  - account._account_all_users
+                                minimumCount: 1
+                                disallowPipelineExecutor: false
+                              approverInputs: []
+                            timeout: 1d
+                            when:
+                              stageStatus: Success
+                              condition: <+pipeline.variables.blue_green_gradually> == "yes"
+                            failureStrategies: []
+                        - step:
+                            type: ShellScript
+                            name: Shift Traffic - Blue 50 - Green 50
+                            identifier: Shift_Traffic_Blue_50_Green_50
+                            spec:
+                              shell: Bash
+                              onDelegate: true
+                              source:
+                                type: Inline
+                                spec:
+                                  script: |-
+
+                                    #!/bin/bash
+
+                                    # blue_weight=90
+                                    # green_weight=10
+
+                                    if [ -n "$blue_listener_arn" ] && [ -n "$blue_tg_arn" ] && [ -n "$green_tg_arn" ]; then
+                                      echo "Adding Green TG to Blue Listener..."
+                                      echo "Shifting $green_weight% of traffic distribution to Green TG"
+                                      echo "--------------------------------"
+                                      # Construct the JSON object with dynamic values
+                                      json=$(jq -n \
+                                        --arg tg_arn_blue "$blue_tg_arn" \
+                                        --arg tg_arn_blue_weight "$blue_weight" \
+                                        --arg tg_arn_green "$green_tg_arn" \
+                                        --arg tg_arn_green_weight "$green_weight" \
+                                        '{ 
+                                          Type: "forward",
+                                          Order: 1,
+                                          ForwardConfig: {
+                                            TargetGroups: [
+                                              { TargetGroupArn: $tg_arn_blue, Weight: $tg_arn_blue_weight },
+                                              { TargetGroupArn: $tg_arn_green, Weight: $tg_arn_green_weight }
+                                            ],
+                                            TargetGroupStickinessConfig: {
+                                              Enabled: true,
+                                              DurationSeconds: 10
+                                            }
+                                          }
+                                        }')
+
+                                      # Pass the JSON string to the modify-listener command
+                                      aws elbv2 modify-listener \
+                                        --listener-arn "$blue_listener_arn" \
+                                        --default-actions "$json" --output text
+                                      echo "Trafic Shifted Gradually - Blue: - Green: "
+                                    else
+                                      echo "Blue Listener or Green TG not found"
+                                      exit 1
+                                    fi
+                              environmentVariables:
+                                - name: blue_tg_arn
+                                  type: String
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.blue_tg>
+                                - name: blue_weight
+                                  type: String
+                                  value: "50"
+                                - name: green_tg_arn
+                                  type: String
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.green_tg>
+                                - name: green_weight
+                                  type: String
+                                  value: "50"
+                                - name: blue_listener_arn
+                                  type: String
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.listener_blue_arn>
+                              outputVariables: []
+                            timeout: 10m
+                            when:
+                              stageStatus: Success
+                              condition: <+pipeline.variables.blue_green_gradually> == "yes"
+                            failureStrategies: []
                         - step:
                             type: HarnessApproval
                             name: Green SWAP Approval
