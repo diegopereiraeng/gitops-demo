@@ -227,7 +227,14 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: docker:latest
                     shell: Sh
-                    command: docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
+                    command: |-
+
+
+                      docker build . -t bankingapp:local --build-arg FFKEY=<+pipeline.variables.ffkey>
+
+                      export tag="ecs-<+pipeline.sequenceId>"
+                    outputVariables:
+                      - name: tag
               - step:
                   type: Security
                   name: Aqua
@@ -265,7 +272,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         repo: diegokoala/harness-ff-bankingapp-ecs
                         tags:
-                          - ecs-<+pipeline.sequenceId>
+                          - <+execution.steps.Build_Image.output.outputVariables.tag>
                           - ecs
                         dockerfile: Dockerfile
                         buildArgs:
