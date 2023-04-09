@@ -367,8 +367,6 @@ pipeline:
                       blue_tg_arn=""
                       green_tg_arn=""
 
-                      # Create a temporary file to store the loop output
-                      tmpfile=$(mktemp)
 
                       # json=$(aws elbv2 describe-listeners --load-balancer-arn $load_balancer_arn | jq -r '.Listeners[] | [.ListenerArn, .Port, .DefaultActions[].TargetGroupArn] | @json')
 
@@ -396,19 +394,10 @@ pipeline:
                         fi
                       done
 
-
-
                       echo "Blue listener ARN: ${listener_blue_arn}"
                       echo "Blue target group ARN: ${blue_tg_arn}"
                       echo "Green listener ARN: ${listener_green_arn}"
                       echo "Green target group ARN: ${green_tg_arn}"
-
-                      # # Blue listener ARN
-                      # listener_blue_arn="arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/b9306c7d6389fc55"
-
-                      # # Green listener ARN
-                      # listener_green_arn="arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/708fe928a86d4196"
-
 
                       # Function to get listener details
                       function get_listener_json {
@@ -468,6 +457,7 @@ pipeline:
 
                       # Extract Blue listener's target groups from JSON output
                       tg_blue_groups=$(echo "$listener_blue_json" | jq -r '.Listeners[].DefaultActions[] | select(.Type == "forward") | .ForwardConfig.TargetGroups[]')
+                      tg_green_groups=$(echo "$listener_green_json" | jq -r '.Listeners[].DefaultActions[] | select(.Type == "forward") | .ForwardConfig.TargetGroups[]')
 
                       # Initialize variables to store target group count and ARNs
                       tg_blue_count=0
@@ -522,7 +512,7 @@ pipeline:
                       else
                         echo "Found 1 TG, skipping reconfig"
                         if [ "$blue_tg" == "" ]; then
-                          echo "Tag \"color\" not found!"
+                          #echo "Tag \"color\" not found!"
                           echo "Adding tag \"color\" with \"blue\" value"
                           aws elbv2 add-tags --resource-arns "${tg}" --tags Key=color,Value=blue --output text
                           blue_tg=$last_blue_tg
@@ -537,7 +527,7 @@ pipeline:
                       else
                         echo "Found 1 TG, skipping reconfig"
                         if [ "$green_tg" == "" ]; then
-                          echo "Tag \"color\" not found!"
+                          #echo "Tag \"color\" not found!"
                           echo "Adding tag \"color\" with \"green\" value"
                           aws elbv2 add-tags --resource-arns "${tg}" --tags Key=color,Value=green --output text
                           green_tg=$last_green_tg
