@@ -464,7 +464,7 @@ pipeline:
                       type: Container
                       spec:
                         envVariables:
-                          load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
+                          load_balancer_name: <+execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
               - step:
                   type: HarnessApproval
                   name: Shift Traffic - Green 10 - Approval
@@ -554,7 +554,7 @@ pipeline:
                       type: Container
                       spec:
                         envVariables:
-                          load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
+                          load_balancer_name: <+execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
             rollbackSteps:
               - step:
                   type: EcsCanaryDelete
