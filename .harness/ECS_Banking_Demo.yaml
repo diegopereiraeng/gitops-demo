@@ -628,7 +628,7 @@ pipeline:
                             timeout: 10m
                         - step:
                             type: HarnessApproval
-                            name: Shift Traffic - Blue 90 - Green 10 - Approval
+                            name: Shift Traffic - Green 10 - Approval
                             identifier: Shift_Traffic_Blue_90_Green_10_Approval
                             spec:
                               approvalMessage: Please review the following information and approve the pipeline progression
@@ -694,21 +694,35 @@ pipeline:
                               environmentVariables:
                                 - name: blue_tg_arn
                                   type: String
-                                  value: aaa
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.blue_tg>
                                 - name: blue_weight
                                   type: String
                                   value: "90"
                                 - name: green_tg_arn
                                   type: String
-                                  value: aaa
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.green_tg>
                                 - name: green_weight
                                   type: String
                                   value: "10"
                                 - name: blue_listener_arn
                                   type: String
-                                  value: aaa
+                                  value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.listener_blue_arn>
                               outputVariables: []
                             timeout: 10m
+                        - step:
+                            type: HarnessApproval
+                            name: Shift Traffic - Green 50 - Approval
+                            identifier: Shift_Traffic_Green_50_Approval
+                            spec:
+                              approvalMessage: Please review the following information and approve the pipeline progression
+                              includePipelineExecutionHistory: true
+                              approvers:
+                                userGroups:
+                                  - account._account_all_users
+                                minimumCount: 1
+                                disallowPipelineExecutor: false
+                              approverInputs: []
+                            timeout: 1d
                         - step:
                             type: HarnessApproval
                             name: Green Approval
