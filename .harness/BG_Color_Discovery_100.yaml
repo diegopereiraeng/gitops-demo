@@ -1,0 +1,243 @@
+template:
+  name: BG Color Discovery
+  type: Step
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  spec:
+    type: Container
+    spec:
+      connectorRef: account.DockerHubDiego
+      image: amazon/aws-cli
+      command: |-
+        # Install JQ
+        yum -y install jq
+
+        # Get the ARN of the load balancer
+        load_balancer_arn=$(aws elbv2 describe-load-balancers \
+          --names "$load_balancer_name" \
+          --query "LoadBalancers[0].LoadBalancerArn" \
+          --output text)
+
+        # Print the ARN of the load balancer
+        echo "Load balancer ARN: $load_balancer_arn"
+
+        # Blue TG
+        blue_tg=""
+
+        # Green TG
+        green_tg=""
+
+        # Blue Unique tg when single
+        last_blue_tg=""
+
+        # Green Unique tg when single
+        last_green_tg=""
+
+        listener_blue_arn=""
+        listener_green_arn=""
+        blue_tg_arn=""
+        green_tg_arn=""
+
+
+        # json=$(aws elbv2 describe-listeners --load-balancer-arn $load_balancer_arn | jq -r '.Listeners[] | [.ListenerArn, .Port, .DefaultActions[].TargetGroupArn] | @json')
+
+
+        json=$(aws elbv2 describe-listeners --load-balancer-arn $load_balancer_arn | jq -r '.Listeners[] | [{listenerArn: .ListenerArn, port: .Port, targetGroupArn: .DefaultActions[].TargetGroupArn}] | @json')
+
+        # Iterate over the array
+        #echo $json
+        for row in $(echo "${json}" | jq -c '.[]'); do
+          #echo $row
+          listener_arn=$(echo "${row}" | jq -r '.listenerArn')
+          port=$(echo "${row}" | jq -r '.port')
+          tg_arn=$(echo "${row}" | jq -r '.targetGroupArn')
+
+          echo "Listener ARN: $listener_arn, Port: $port, Target Group ARN: $tg_arn"
+
+          if [ "$port" -eq 80 ]; then
+            listener_blue_arn="$listener_arn"
+            blue_tg_arn="$tg_arn"
+            echo "Found blue Listener and TG: $blue_tg_arn"
+          elif [ "$port" -eq 81 ]; then
+            listener_green_arn="$listener_arn"
+            green_tg_arn="$tg_arn"
+            echo "Found Green Listener and TG: $green_tg_arn"
+          fi
+        done
+
+        echo "Blue listener ARN: ${listener_blue_arn}"
+        echo "Blue target group ARN: ${blue_tg_arn}"
+        echo "Green listener ARN: ${listener_green_arn}"
+        echo "Green target group ARN: ${green_tg_arn}"
+
+        # Function to get listener details
+        function get_listener_json {
+            local listener_arn=$1
+            aws elbv2 describe-listeners --listener-arn "$listener_arn"
+        }
+
+        # Function to get target group color
+        function get_target_group_color {
+            local tg_arn=$1
+            aws elbv2 describe-tags --resource-arns "$tg_arn" --query 'TagDescriptions[].Tags[?Key==`color`].Value' --output text
+        }
+
+        # Function to reconfigure listener
+        function reconfigure_listener {
+            local listener_arn=$1
+            local tg_arn=$2
+            local tg_color=$3
+
+            if [ -z "$tg_color" ]; then
+                echo "Tag \"color\" not found!"
+                echo "As I found more than 1 TG, please add a tag called color and set value as $tg_color in the $tg_color TG tags"
+                exit 10
+            else
+                echo "Tag \"color\" found!"
+            fi
+
+            echo "Reconfiguring listener to use only the $tg_color TG"
+            json=$(jq -n \
+            --arg tg_arn "$tg_arn" \
+            '{ 
+                Type: "forward",
+                Order: 1,
+                ForwardConfig: {
+                    TargetGroups: [
+                    { TargetGroupArn: $tg_arn, Weight: 1 }
+                    ],
+                    TargetGroupStickinessConfig: {
+                    Enabled: true,
+                    DurationSeconds: 10
+                    }
+                }
+            }')
+
+            aws elbv2 modify-listener \
+            --listener-arn "$listener_arn" \
+            --default-actions "$json" --output text
+        }
+
+
+
+        # Get Blue listener details
+        listener_blue_json=$(get_listener_json "$listener_blue_arn")
+
+        # Get Green listener details
+        listener_green_json=$(get_listener_json "$listener_green_arn")
+
+        # Extract Blue listener's target groups from JSON output
+        tg_blue_groups=$(echo "$listener_blue_json" | jq -r '.Listeners[].DefaultActions[] | select(.Type == "forward") | .ForwardConfig.TargetGroups[]')
+        tg_green_groups=$(echo "$listener_green_json" | jq -r '.Listeners[].DefaultActions[] | select(.Type == "forward") | .ForwardConfig.TargetGroups[]')
+
+        # Initialize variables to store target group count and ARNs
+        tg_blue_count=0
+        tg_green_count=0
+        tg_blue_arns=()
+        tg_green_arns=()
+
+        # Loop over Blue's target groups actions
+        for tg in $(echo "${tg_blue_groups}" | jq -r '.TargetGroupArn'); do
+          # check tg color tag
+        #   color=$(get_target_group_color "$tg")
+        #   if [ "$color" == "blue" ]; then
+        #     echo "Target group ${tg} has the color blue"
+        #     blue_tg=$tg
+        #   elif [ "$color" == "green" ]; then
+        #     echo "Target group ${tg} has the color green"
+        #   elif [ -z "$color" ]; then
+        #     echo "Target group ${tg} does not have a color tag"
+        #   else
+        #     echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
+        #   fi
+          # Increment the target group count
+        #   ((tg_blue_count++))
+          tg_blue_count=$((tg_blue_count+1))
+          # Add the target group ARN to the array
+          tg_blue_arns+=("$tg")
+        done
+
+        # Loop over Green's target groups actions
+        for tg in $(echo "${tg_green_groups}" | jq -r '.TargetGroupArn'); do
+          # check tg color tag
+        #   color=$(get_target_group_color "$tg")
+        #   if [ "$color" == "blue" ]; then
+        #     echo "Target group ${tg} has the color blue"
+        #     blue_tg=$tg
+        #   elif [ "$color" == "green" ]; then
+        #     echo "Target group ${tg} has the color green"
+        #     green_tg=$tg
+        #   elif [ -z "$color" ]; then
+        #     echo "Target group ${tg} does not have a color tag"
+        #   else
+        #     echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
+        #   fi
+          # Increment the target group count
+        #   ((tg_green_count++))
+          tg_green_count=$((tg_green_count+1))
+          # Add the target group ARN to the array
+          tg_green_arns+=("$tg")
+        done
+
+        if [ "$tg_blue_count" -gt 1 ]; then
+          echo "There is more than one target group in this listener, reconfiguring it to use blue tg color based on tag key color"
+          reconfigure_listener "$listener_arn" "$blue_tg" "blue"
+        else
+          echo "Found 1 TG, skipping reconfig"
+          if [ "$blue_tg" == "" ]; then
+            #echo "Tag \"color\" not found!"
+            echo "Adding tag \"color\" with \"blue\" value"
+            aws elbv2 add-tags --resource-arns "${tg}" --tags Key=color,Value=blue --output text
+            blue_tg=$last_blue_tg
+          else
+            echo "Tag \"color\" found!"
+          fi
+        fi
+
+        if [ "$tg_green_count" -gt 1 ]; then
+          echo "There is more than one target group in this listener, reconfiguring it to use green tg color based on tag key color"
+          reconfigure_listener "$listener_arn" "$green_tg" "green"
+        else
+          echo "Found 1 TG, skipping reconfig"
+          if [ "$green_tg" == "" ]; then
+            #echo "Tag \"color\" not found!"
+            echo "Adding tag \"color\" with \"green\" value"
+            aws elbv2 add-tags --resource-arns "${tg}" --tags Key=color,Value=green --output text
+            green_tg=$last_green_tg
+          else
+            echo "Tag \"color\" found!"
+          fi
+        fi
+
+        # Print the target group count and ARNs
+        echo "Blue Target Group Count: $tg_blue_count"
+        echo "Blue Target Group ARNs: ${tg_blue_arns[@]}"
+        echo "------------------------------------------------"
+        echo "Green Target Group Count: $tg_blue_count"
+        echo "Green Target Group ARNs: ${tg_blue_arns[@]}"
+
+        export listener_blue_arn=$listener_blue_arn
+        export blue_tg=$blue_tg_arn
+        export green_tg=$green_tg_arn
+      shell: Bash
+      infrastructure:
+        type: KubernetesDirect
+        spec:
+          connectorRef: account.cddemose
+          namespace: dev
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 500Mi
+      outputVariables:
+        - name: listener_blue_arn
+        - name: blue_tg
+        - name: green_tg
+      envVariables:
+        AWS_ACCESS_KEY_ID: <+secrets.getValue("AWS_ACCESS_KEY_ID")>
+        AWS_SECRET_ACCESS_KEY: <+secrets.getValue("AWS_SECRET_ACCESS_KEY")>
+        load_balancer_name: <+input>
+        AWS_REGION: us-east-2
+    timeout: 10m
+  identifier: BG_Color_Discovery
+  versionLabel: 1.0.0
