@@ -239,5 +239,8 @@ template:
         load_balancer_name: <+input>
         AWS_REGION: us-east-2
     timeout: 10m
+    when:
+      stageStatus: Success
+      condition: <+pipeline.variables.deployment_type> == "bluegreen"
   identifier: BG_Color_Discovery
   versionLabel: 1.0.0
