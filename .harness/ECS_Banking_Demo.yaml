@@ -471,7 +471,7 @@ pipeline:
                                   value: "10"
                                 - name: blue_listener_arn
                                   type: String
-                                  value: <+pipeline.stages.Deploy.spec.execution.steps.BG_Color_Check.ContainerStep.output.outputVariables.listener_blue_arn>
+                                  value: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.prodListener>
                               outputVariables: []
                             timeout: 10m
                             when:
@@ -562,7 +562,7 @@ pipeline:
                                   value: "50"
                                 - name: blue_listener_arn
                                   type: String
-                                  value: <+pipeline.stages.Deploy.spec.execution.steps.BG_Color_Check.ContainerStep.output.outputVariables.listener_blue_arn>
+                                  value: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.prodListener>
                               outputVariables: []
                             timeout: 10m
                             when:
