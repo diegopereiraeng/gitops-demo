@@ -1,0 +1,71 @@
+template:
+  name: BG Shift Traffic
+  type: Step
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  spec:
+    type: Container
+    spec:
+      connectorRef: account.DockerHubDiego
+      image: amazon/aws-cli
+      command: |-
+
+
+        if [ -n "$blue_listener_arn" ] && [ -n "$blue_tg_arn" ] && [ -n "$green_tg_arn" ]; then
+          echo "Adding Green TG to Blue Listener..."
+          echo "Shifting $green_weight% of traffic distribution to Green TG"
+          echo "--------------------------------"
+          # Construct the JSON object with dynamic values
+          json=$(jq -n \
+            --arg tg_arn_blue "$blue_tg_arn" \
+            --arg tg_arn_blue_weight "$blue_weight" \
+            --arg tg_arn_green "$green_tg_arn" \
+            --arg tg_arn_green_weight "$green_weight" \
+            '{ 
+              Type: "forward",
+              Order: 1,
+              ForwardConfig: {
+                TargetGroups: [
+                  { TargetGroupArn: $tg_arn_blue, Weight: $tg_arn_blue_weight },
+                  { TargetGroupArn: $tg_arn_green, Weight: $tg_arn_green_weight }
+                ],
+                TargetGroupStickinessConfig: {
+                  Enabled: true,
+                  DurationSeconds: 10
+                }
+              }
+            }')
+
+          # Pass the JSON string to the modify-listener command
+          aws elbv2 modify-listener \
+            --listener-arn "$blue_listener_arn" \
+            --default-actions "$json" --output text
+          echo "Trafic Shifted Gradually - Blue: - Green: "
+        else
+          echo "Blue Listener or Green TG not found"
+          exit 1
+        fi
+      shell: Sh
+      infrastructure:
+        type: KubernetesDirect
+        spec:
+          connectorRef: account.cddemose
+          namespace: dev
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 500Mi
+      outputVariables: []
+      envVariables:
+        blue_listener_arn: <+execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.prodListener>
+        blue_tg_arn: <+execution.steps. BG_TG_Color_Discovery.ContainerStep.output.outputVariables.blue_tg>
+        blue_weight: <+input>
+        green_tg_arn: <+execution.steps. BG_TG_Color_Discovery.ContainerStep.output.outputVariables.green_tg>
+        green_weight: <+input>
+    timeout: 10m
+    when:
+      stageStatus: Success
+      condition: <+pipeline.variables.blue_green_gradually> == "yes"
+  identifier: BG_Shift_Traffic
+  versionLabel: 1.0.0
+  icon: data:image/png;base64,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
