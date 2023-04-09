@@ -571,6 +571,7 @@ pipeline:
                       AWS_ACCESS_KEY_ID: <+secrets.getValue("AWS_ACCESS_KEY_ID")>
                       AWS_SECRET_ACCESS_KEY: <+secrets.getValue("AWS_SECRET_ACCESS_KEY")>
                       load_balancer_name: <+input>
+                      AWS_REGION: us-east-2
                   timeout: 10m
               - stepGroup:
                   name: Canary
