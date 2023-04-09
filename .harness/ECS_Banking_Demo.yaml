@@ -563,25 +563,25 @@ pipeline:
                                         value: <+execution.steps.blueGreenDepoyment.steps.Color_Check.output.outputVariables.listener_blue_arn>
                                     outputVariables: []
                                   timeout: 10m
-                              - step:
-                                  type: HarnessApproval
-                                  name: Green SWAP Approval
-                                  identifier: Green_Approval
-                                  spec:
-                                    approvalMessage: Please review the following information and approve the pipeline progression
-                                    includePipelineExecutionHistory: true
-                                    approvers:
-                                      userGroups:
-                                        - account._account_all_users
-                                      minimumCount: 1
-                                      disallowPipelineExecutor: false
-                                    approverInputs: []
-                                  timeout: 1d
                             when:
                               stageStatus: Success
                               condition: <+pipeline.variables.blue_green_gradually> == "yes"
                             failureStrategies: []
                             spec: {}
+                        - step:
+                            type: HarnessApproval
+                            name: Green SWAP Approval
+                            identifier: Green_Approval
+                            spec:
+                              approvalMessage: Please review the following information and approve the pipeline progression
+                              includePipelineExecutionHistory: true
+                              approvers:
+                                userGroups:
+                                  - account._account_all_users
+                                minimumCount: 1
+                                disallowPipelineExecutor: false
+                              approverInputs: []
+                            timeout: 1d
                         - step:
                             name: ECS Blue Green Swap Target Groups
                             identifier: EcsBlueGreenSwapTargetGroups
