@@ -9,7 +9,8 @@ template:
       connectorRef: account.DockerHubDiego
       image: amazon/aws-cli
       command: |-
-
+        # Install JQ
+        yum -y install jq
 
         if [ -n "$blue_listener_arn" ] && [ -n "$blue_tg_arn" ] && [ -n "$green_tg_arn" ]; then
           echo "Adding Green TG to Blue Listener..."
