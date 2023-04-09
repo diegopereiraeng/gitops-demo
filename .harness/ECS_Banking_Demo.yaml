@@ -480,7 +480,8 @@ pipeline:
                       #     echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
                       #   fi
                         # Increment the target group count
-                        ((tg_blue_count++))
+                      #   ((tg_blue_count++))
+                        tg_blue_count=$((tg_blue_count+1))
                         # Add the target group ARN to the array
                         tg_blue_arns+=("$tg")
                       done
@@ -501,7 +502,8 @@ pipeline:
                       #     echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
                       #   fi
                         # Increment the target group count
-                        ((tg_green_count++))
+                      #   ((tg_green_count++))
+                        tg_green_count=$((tg_green_count+1))
                         # Add the target group ARN to the array
                         tg_green_arns+=("$tg")
                       done
