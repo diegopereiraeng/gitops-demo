@@ -18,10 +18,10 @@ template:
           echo "--------------------------------"
           # Construct the JSON object with dynamic values
           json=$(jq -n \
-            --arg tg_arn_blue "$blue_tg_arn" \
+            --arg tg_arn_blue $blue_tg_arn \
             --arg tg_arn_blue_weight "$blue_weight" \
             --arg tg_arn_green "$green_tg_arn" \
-            --arg tg_arn_green_weight "$green_weight" \
+            --arg tg_arn_green_weight $green_weight \
             '{ 
               Type: "forward",
               Order: 1,
