@@ -386,18 +386,18 @@ pipeline:
                                 type: Container
                                 spec:
                                   envVariables:
-                                    load_balancer_name: <+pipeline.variables.blue_green_load_balancer_name>
+                                    load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
                         - step:
                             name: ECS Blue Green Create Service
                             identifier: EcsBlueGreenCreateService
                             type: EcsBlueGreenCreateService
                             timeout: 10m
                             spec:
-                              loadBalancer: banking-app
+                              loadBalancer: <+input>
                               prodListenerRuleArn: ""
-                              stageListener: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/708fe928a86d4196
+                              stageListener: <+input>
                               stageListenerRuleArn: ""
-                              prodListener: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/b9306c7d6389fc55
+                              prodListener: <+input>
                         - step:
                             type: HarnessApproval
                             name: Shift Traffic - Green 10 - Approval
@@ -610,7 +610,7 @@ pipeline:
                                 type: Container
                                 spec:
                                   envVariables:
-                                    load_balancer_name: <+pipeline.variables.blue_green_load_balancer_name>
+                                    load_balancer_name: <+pipeline.stages.Deploy.spec.execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
                       when:
                         stageStatus: Success
                         condition: <+pipeline.variables.deployment_type> == "bluegreen"
