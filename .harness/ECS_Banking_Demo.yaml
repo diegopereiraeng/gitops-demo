@@ -397,7 +397,7 @@ pipeline:
                               prodListenerRuleArn: ""
                               stageListener: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/708fe928a86d4196
                               stageListenerRuleArn: ""
-                              prodListener: <+pipeline.stages.Deploy.spec.execution.steps.BG_Color_Check.ContainerStep.output.outputVariables.listener_blue_arn>
+                              prodListener: arn:aws:elasticloadbalancing:us-east-2:759984737373:listener/app/banking-app/ef5aec92b6e26fa6/b9306c7d6389fc55
                         - step:
                             type: HarnessApproval
                             name: Shift Traffic - Green 10 - Approval
