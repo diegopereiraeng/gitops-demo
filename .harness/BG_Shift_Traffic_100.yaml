@@ -63,6 +63,9 @@ template:
         blue_weight: <+input>
         green_tg_arn: <+execution.steps. BG_TG_Color_Discovery.ContainerStep.output.outputVariables.green_tg>
         green_weight: <+input>
+        AWS_ACCESS_KEY_ID: <+secrets.getValue("AWS_ACCESS_KEY_ID")>
+        AWS_SECRET_ACCESS_KEY: <+secrets.getValue("AWS_SECRET_ACCESS_KEY")>
+        AWS_REGION: us-east-2
     timeout: 10m
     when:
       stageStatus: Success
