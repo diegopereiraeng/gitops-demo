@@ -338,6 +338,9 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: amazon/aws-cli
                     command: |-
+                      # Install JQ
+                      yum -y install jq
+
                       # Get the ARN of the load balancer
                       load_balancer_arn=$(aws elbv2 describe-load-balancers \
                         --names "$load_balancer_name" \
