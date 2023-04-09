@@ -478,17 +478,17 @@ pipeline:
                       # Loop over Blue's target groups actions
                       for tg in $(echo "${tg_blue_groups}" | jq -r '.TargetGroupArn'); do
                         # check tg color tag
-                        color=$(get_target_group_color "$tg")
-                        if [ "$color" == "blue" ]; then
-                          echo "Target group ${tg} has the color blue"
-                          blue_tg=$tg
-                        elif [ "$color" == "green" ]; then
-                          echo "Target group ${tg} has the color green"
-                        elif [ -z "$color" ]; then
-                          echo "Target group ${tg} does not have a color tag"
-                        else
-                          echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
-                        fi
+                      #   color=$(get_target_group_color "$tg")
+                      #   if [ "$color" == "blue" ]; then
+                      #     echo "Target group ${tg} has the color blue"
+                      #     blue_tg=$tg
+                      #   elif [ "$color" == "green" ]; then
+                      #     echo "Target group ${tg} has the color green"
+                      #   elif [ -z "$color" ]; then
+                      #     echo "Target group ${tg} does not have a color tag"
+                      #   else
+                      #     echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
+                      #   fi
                         # Increment the target group count
                         ((tg_blue_count++))
                         # Add the target group ARN to the array
@@ -498,18 +498,18 @@ pipeline:
                       # Loop over Green's target groups actions
                       for tg in $(echo "${tg_green_groups}" | jq -r '.TargetGroupArn'); do
                         # check tg color tag
-                        color=$(get_target_group_color "$tg")
-                        if [ "$color" == "blue" ]; then
-                          echo "Target group ${tg} has the color blue"
-                          blue_tg=$tg
-                        elif [ "$color" == "green" ]; then
-                          echo "Target group ${tg} has the color green"
-                          green_tg=$tg
-                        elif [ -z "$color" ]; then
-                          echo "Target group ${tg} does not have a color tag"
-                        else
-                          echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
-                        fi
+                      #   color=$(get_target_group_color "$tg")
+                      #   if [ "$color" == "blue" ]; then
+                      #     echo "Target group ${tg} has the color blue"
+                      #     blue_tg=$tg
+                      #   elif [ "$color" == "green" ]; then
+                      #     echo "Target group ${tg} has the color green"
+                      #     green_tg=$tg
+                      #   elif [ -z "$color" ]; then
+                      #     echo "Target group ${tg} does not have a color tag"
+                      #   else
+                      #     echo "Target group ${tg} has a color tag with an unexpected value: ${color}"
+                      #   fi
                         # Increment the target group count
                         ((tg_green_count++))
                         # Add the target group ARN to the array
@@ -554,8 +554,8 @@ pipeline:
                       echo "Green Target Group ARNs: ${tg_blue_arns[@]}"
 
                       export listener_blue_arn=$listener_blue_arn
-                      export blue_tg=$blue_tg
-                      export green_tg=$green_tg
+                      export blue_tg=$blue_tg_arn
+                      export green_tg=$green_tg_arn
                     shell: Bash
                     infrastructure:
                       type: KubernetesDirect
