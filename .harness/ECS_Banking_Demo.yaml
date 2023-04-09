@@ -577,6 +577,11 @@ pipeline:
                                       disallowPipelineExecutor: false
                                     approverInputs: []
                                   timeout: 1d
+                            when:
+                              stageStatus: Success
+                              condition: <+pipeline.variables.blue_green_gradually> == "yes"
+                            failureStrategies: []
+                            spec: {}
                         - step:
                             name: ECS Blue Green Swap Target Groups
                             identifier: EcsBlueGreenSwapTargetGroups
@@ -653,3 +658,8 @@ pipeline:
       default: rolling
       description: ""
       value: <+input>.allowedValues(rolling,canary,bluegreen)
+    - name: blue_green_gradually
+      type: String
+      default: "no"
+      description: ""
+      value: <+input>.allowedValues(yes,no)
