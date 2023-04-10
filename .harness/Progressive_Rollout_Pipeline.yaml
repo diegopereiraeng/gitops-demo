@@ -369,4 +369,4 @@ pipeline:
       type: String
       default: diegopereiraeng
       description: ""
-      value: <+input>.allowedValues(diegopereiraeng,gacerioni,poharav,andymarshallff,riickster)
+      value: <+input>.allowedValues(diegopereiraeng,gacerioni,poharav,andymarshallff,riickster,francislabs)
