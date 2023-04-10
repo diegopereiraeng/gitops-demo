@@ -17,12 +17,6 @@ pipeline:
             values: <+input>
             metadata:
               parallel: true
-          environment:
-            environmentRef: <+input>
-            deployToAll: false
-            environmentInputs: <+input>
-            serviceOverrideInputs: <+input>
-            infrastructureDefinitions: <+input>
           execution:
             steps:
               - step:
@@ -57,6 +51,10 @@ pipeline:
                   type: HelmRollback
                   timeout: 10m
                   spec: {}
+          environments:
+            metadata:
+              parallel: true
+            values: <+input>
         tags: {}
         failureStrategies:
           - onFailure:
