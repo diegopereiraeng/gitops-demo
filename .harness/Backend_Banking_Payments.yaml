@@ -918,6 +918,7 @@ pipeline:
                 imagePullPolicy: IfNotPresent
           sharedPaths:
             - /var/run
+            - /var/lib/docker
           platform:
             os: Linux
             arch: Amd64
