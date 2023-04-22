@@ -52,7 +52,7 @@ pipeline:
 
                           ls -ltra
 
-                          security delete-certificate -c "iPhone Developer"
+                          security list-keychains
 
                           /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter -m repair
 
