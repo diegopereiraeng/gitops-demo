@@ -38,7 +38,7 @@ pipeline:
 
                           pod install
 
-                          keyfile=/private/tmp/harness/AuthKey.p8
+                          keyfile="/private/tmp/harness/AuthKey.p8"
 
                           pwd
 
