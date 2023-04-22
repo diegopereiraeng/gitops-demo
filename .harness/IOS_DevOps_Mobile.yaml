@@ -58,6 +58,13 @@ pipeline:
 
                           security find-certificate -a -p /Library/Keychains/System.keychain
 
+                          security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
+
+                          security find-certificate -c "iPhone Developer" -p | openssl x509 -noout -subject
+
+
+
+
                           echo "deleting existing development certificate"
 
                           security delete-certificate -c "iPhone Developer" /Library/Keychains/System.keychain
