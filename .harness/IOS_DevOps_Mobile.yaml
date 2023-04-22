@@ -20,58 +20,127 @@ pipeline:
           cloneCodebase: true
           execution:
             steps:
-              - step:
-                  type: Run
-                  name: Build
-                  identifier: Build
-                  spec:
-                    shell: Sh
-                    command: |-
-                      #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
+              - parallel:
+                  - step:
+                      type: Run
+                      name: Build
+                      identifier: Build
+                      spec:
+                        shell: Sh
+                        command: |-
+                          #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
-                      ls -ltra
+                          ls -ltra
 
-                      ls -ltra /Applications
+                          ls -ltra /Applications
 
-                      sudo gem install cocoapods
+                          sudo gem install cocoapods
 
-                      pod install
+                          pod install
 
-                      keyfile=/private/tmp/harness/AuthKey.p8
+                          keyfile=/private/tmp/harness/AuthKey.p8
 
-                      pwd
+                          pwd
 
-                      echo "creating key file"
+                          echo "creating key file"
 
-                      echo '<+secrets.getValue("apple_store_developer_apikey")>' > $keyfile
+                          echo '<+secrets.getValue("apple_store_developer_apikey")>' > $keyfile
 
-                      echo "created key file"
+                          echo "created key file"
 
-                      pwd
+                          pwd
 
-                      ls -ltra
+                          ls -ltra
 
-                      echo "building"
+                          security delete-certificate -c "iPhone Developer"
 
-                      xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -authenticationKeyPath $keyfile -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
-
-                      echo "archiving"
-
-                      xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
-
-                      echo "publishing"
-
-                      xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
-
-                      ls -ltra ./Artifact
+                          /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter -m repair
 
 
-                      altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
+                          echo "building"
 
-                      xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
-                    privileged: true
-                    envVariables:
-                      IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
+                          xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -authenticationKeyPath $keyfile -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
+
+                          echo "archiving"
+
+                          xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
+
+                          echo "publishing"
+
+                          xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
+
+                          ls -ltra ./Artifact
+
+
+                          altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
+
+                          xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
+                        privileged: true
+                        envVariables:
+                          IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
+                  - step:
+                      type: Run
+                      name: Build IOS
+                      identifier: Build_IOS
+                      spec:
+                        shell: Sh
+                        command: |+
+                          sudo gem install fastlane
+
+                          bundle exec fastlane install_plugins
+
+
+                          cat <<EOF >>Fastfile
+                          platform :ios do
+                            desc "Build the app"
+                            lane :build do
+                              cocoapods(
+                                clean: true,
+                                repo_update: true
+                              )
+                              keyfile="/private/tmp/harness/AuthKey.p8"
+                              sh "echo 'creating key file'"
+                              sh "echo '<+secrets.getValue(\"apple_store_developer_apikey\")>' > #{keyfile}"
+                              sh "echo 'created key file'"
+                              sh "pwd"
+                              sh "ls -ltra"
+                              sh "echo 'building'"
+                              gym(
+                                workspace: "PlatformDevops.xcworkspace",
+                                scheme: "PlatformDevops",
+                                configuration: "Release",
+                                export_options: {
+                                  authenticationKeyPath: keyfile,
+                                  authenticationKeyID: "<+secrets.getValue(\"apple_store_api_key\")>",
+                                  authenticationKeyIssuerID: "<+secrets.getValue(\"apple_store_issuer_id\")>",
+                                  allowProvisioningUpdates: true
+                                }
+                              )
+                              sh "echo 'archiving'"
+                              archive(
+                                workspace: "PlatformDevops.xcworkspace",
+                                scheme: "PlatformDevops",
+                                configuration: "Release",
+                                export_archive: true,
+                                export_options: {
+                                  exportPath: "./Artifact/PlatformDevops.ipa",
+                                  exportOptionsPlist: "HarnessConfig.plist"
+                                }
+                              )
+                              sh "echo 'publishing'"
+                              upload_to_app_store(
+                                ipa: "./Artifact/PlatformDevops.ipa"
+                              )
+                              sh "ls -ltra ./Artifact"
+                            end
+                          end
+
+                          EOF
+
+                      when:
+                        stageStatus: Success
+                        condition: "\"!\" == \"2\""
+                      failureStrategies: []
           platform:
             os: MacOS
             arch: Arm64
