@@ -27,7 +27,7 @@ pipeline:
                       identifier: Build
                       spec:
                         shell: Sh
-                        command: |-
+                        command: |
                           #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
 
                           ls -ltra
@@ -56,8 +56,15 @@ pipeline:
 
                           security find-identity -v -p codesigning
 
+                          echo "deleting existing development certificate"
 
+                          security delete-certificate -c "iPhone Developer" /Library/Keychains/System.keychain
 
+                          echo "revoking existing development certificate"
+
+                          sudo xcode-select --reset
+                          sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-14-5
+                          sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-15-0
 
                           echo "building"
 
