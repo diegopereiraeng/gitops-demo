@@ -54,7 +54,9 @@ pipeline:
 
                           security list-keychains
 
-                          /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter -m repair
+                          security find-identity -v -p codesigning
+
+
 
 
                           echo "building"
