@@ -56,6 +56,8 @@ pipeline:
 
                           security find-identity -v -p codesigning
 
+                          security find-certificate -a -p /Library/Keychains/System.keychain
+
                           echo "deleting existing development certificate"
 
                           security delete-certificate -c "iPhone Developer" /Library/Keychains/System.keychain
