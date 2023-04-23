@@ -67,7 +67,7 @@ pipeline:
 
                           security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
 
-                          security import certificate.pem -k /Library/Keychains/System.keychain
+                          # security import certificate.pem -k /Library/Keychains/System.keychain
                           security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
 
                           # echo "revoking existing development certificate"
