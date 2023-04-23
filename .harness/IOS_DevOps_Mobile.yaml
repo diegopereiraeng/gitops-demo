@@ -75,7 +75,7 @@ pipeline:
                           openssl pkcs8 -nocrypt -in $keyfile -out /private/tmp/harness/AuthKey.p12 -passin pass:harnessDiego
 
 
-                          security import /private/tmp/harness/AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
+                          security import /private/tmp/harness/AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db -D pkcs12
 
 
                           # echo "revoking existing development certificate"
