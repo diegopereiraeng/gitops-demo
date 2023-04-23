@@ -77,7 +77,7 @@ pipeline:
                           security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
 
                           # prsonal cert key .p12 pem
-                          # openssl pkcs12 -export -inkey $keyfile -in $personalcertfile -out /private/tmp/harness/converted.p12
+                          openssl pkcs12 -export -inkey $keyfile -in $personalcertfile -out /private/tmp/harness/converted.p12 -passout pass:<+secrets.getValue("my_cert_pass")>
 
 
                           security import /private/tmp/harness/converted.p12 -k /Users/anka/Library/Keychains/login.keychain-db
