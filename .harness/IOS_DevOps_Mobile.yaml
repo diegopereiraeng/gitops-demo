@@ -80,7 +80,7 @@ pipeline:
                           openssl pkcs12 -export -inkey $keyfile -in $personalcertfile -out /private/tmp/harness/converted.p12 -passout pass:<+secrets.getValue("my_cert_pass")>
 
 
-                          security import /private/tmp/harness/converted.p12 -k /Users/anka/Library/Keychains/login.keychain-db
+                          security import /private/tmp/harness/converted.p12 -P <+secrets.getValue("my_cert_pass")> -k /Users/anka/Library/Keychains/login.keychain-db
 
                           # security import certificate.pem -k /Library/Keychains/System.keychain
                           # security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
