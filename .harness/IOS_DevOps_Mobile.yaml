@@ -39,6 +39,7 @@ pipeline:
                           pod install
 
                           keyfile="/private/tmp/harness/AuthKey.p8"
+                          certfile="/private/tmp/harness/certificate.txt"
 
                           pwd
 
@@ -50,6 +51,12 @@ pipeline:
 
                           pwd
 
+                          echo "creating cert file"
+
+                          echo '<+secrets.getValue("apple_store_developer_apikey")>' > $certfile
+
+                          echo "created cert file"
+
                           ls -ltra
 
                           security list-keychains
@@ -60,20 +67,14 @@ pipeline:
 
                           security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
 
-                          security find-certificate -c "iPhone Developer" -p | openssl x509 -noout -subject
+                          security import certificate.txt -k /Library/Keychains/System.keychain
+                          security import certificate.txt -k /Users/anka/Library/Keychains/login.keychain-db
 
+                          # echo "revoking existing development certificate"
 
-
-
-                          echo "deleting existing development certificate"
-
-                          security delete-certificate -c "iPhone Developer" /Library/Keychains/System.keychain
-
-                          echo "revoking existing development certificate"
-
-                          sudo xcode-select --reset
-                          sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-14-5
-                          sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-15-0
+                          # sudo xcode-select --reset
+                          # sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-14-5
+                          # sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-15-0
 
                           echo "building"
 
