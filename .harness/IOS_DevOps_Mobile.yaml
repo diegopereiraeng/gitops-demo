@@ -73,9 +73,9 @@ pipeline:
                           # security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
 
 
-                          openssl pkcs8 -nocrypt -in /private/tmp/harness/AuthKey.p8 -outform DER -out AuthKey.der
-                          openssl pkcs12 -export -inkey AuthKey.der -out AuthKey.p12 -passout pass:harnessDiego
-                          security import AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
+                          # openssl pkcs8 -nocrypt -in /private/tmp/harness/AuthKey.p8 -outform DER -out AuthKey.der
+                          # openssl pkcs12 -export -inkey AuthKey.der -out AuthKey.p12 -passout pass:harnessDiego
+                          # security import AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
 
 
                           # openssl pkcs8 -nocrypt -in /$keyfile -outform PEM -out /private/tmp/harness/AuthKey.pem -passout pass:harnessDiego
