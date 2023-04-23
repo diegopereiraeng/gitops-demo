@@ -59,6 +59,8 @@ pipeline:
 
                           ls -ltra
 
+                          security default-keychain -s /Users/anka/Library/Keychains/login.keychain-db
+
                           security list-keychains
 
                           security find-identity -v -p codesigning
