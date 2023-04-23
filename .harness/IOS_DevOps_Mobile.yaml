@@ -39,7 +39,7 @@ pipeline:
                           pod install
 
                           keyfile="/private/tmp/harness/AuthKey.p8"
-                          certfile="/private/tmp/harness/certificate.txt"
+                          certfile="/private/tmp/harness/certificate.pem"
 
                           pwd
 
@@ -53,7 +53,7 @@ pipeline:
 
                           echo "creating cert file"
 
-                          echo '<+secrets.getValue("apple_store_developer_apikey")>' > $certfile
+                          echo '<+secrets.getValue("diego_apple_cert")>' > $certfile
 
                           echo "created cert file"
 
@@ -67,8 +67,8 @@ pipeline:
 
                           security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
 
-                          security import certificate.txt -k /Library/Keychains/System.keychain
-                          security import certificate.txt -k /Users/anka/Library/Keychains/login.keychain-db
+                          security import certificate.pem -k /Library/Keychains/System.keychain
+                          security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
 
                           # echo "revoking existing development certificate"
 
