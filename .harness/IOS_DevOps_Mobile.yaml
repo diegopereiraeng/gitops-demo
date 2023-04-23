@@ -80,7 +80,7 @@ pipeline:
 
                           # openssl pkcs8 -nocrypt -in /$keyfile -outform PEM -out /private/tmp/harness/AuthKey.pem -passout pass:harnessDiego
 
-                          openssl pkcs8 -nocrypt -in $keyfile -out /private/tmp/harness/AuthKey.p12 -passin pass:harnessDiego -name "DiegoApple"
+                          openssl pkcs8 -nocrypt -in $keyfile -out /private/tmp/harness/AuthKey.p12 -passin pass:harnessDiego
 
 
                           security import /private/tmp/harness/AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db -f pkcs12
