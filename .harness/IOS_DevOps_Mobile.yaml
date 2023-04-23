@@ -52,7 +52,7 @@ pipeline:
 
                           echo "creating key file"
 
-                          echo '<+secrets.getValue("apple_store_developer_apikey")>' > $keyfile
+                          echo '<+secrets.getValue("diego_apple_personal_key")>' > $keyfile
 
                           echo "created key file"
 
@@ -77,7 +77,10 @@ pipeline:
                           security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
 
                           # prsonal cert key .p12 pem
-                          security import $personalcertfile -k /Users/anka/Library/Keychains/login.keychain-db
+                          openssl pkcs12 -export -inkey $keyfile -in $personalcertfile -out /private/tmp/harness/converted.p12
+
+
+                          security import /private/tmp/harness/converted.p12 -k /Users/anka/Library/Keychains/login.keychain-db
 
                           # security import certificate.pem -k /Library/Keychains/System.keychain
                           # security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
@@ -108,7 +111,7 @@ pipeline:
 
                           echo "building"
 
-                          xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -authenticationKeyPath $keyfile -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
+                          xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -authenticationKeyPath /private/tmp/harness/converted.p12 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
 
                           echo "archiving"
 
