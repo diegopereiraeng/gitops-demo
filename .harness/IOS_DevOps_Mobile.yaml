@@ -70,6 +70,9 @@ pipeline:
                           # security import certificate.pem -k /Library/Keychains/System.keychain
                           security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
 
+                          security import $keyfile -A -k /Users/anka/Library/Keychains/login.keychain-db
+
+
                           # echo "revoking existing development certificate"
 
                           # sudo xcode-select --reset
