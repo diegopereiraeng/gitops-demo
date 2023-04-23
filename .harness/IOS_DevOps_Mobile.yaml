@@ -72,7 +72,10 @@ pipeline:
                           # security import certificate.pem -k /Library/Keychains/System.keychain
                           security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
 
-                          security import $keyfile -A -k /Users/anka/Library/Keychains/login.keychain-db
+                          openssl pkcs8 -nocrypt -in $keyfile -out /private/tmp/harness/AuthKey.p12 -passin pass:harnessDiego
+
+
+                          security import /private/tmp/harness/AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
 
 
                           # echo "revoking existing development certificate"
