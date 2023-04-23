@@ -40,6 +40,13 @@ pipeline:
 
                           keyfile="/private/tmp/harness/AuthKey.p8"
                           certfile="/private/tmp/harness/certificate.pem"
+                          personalcertfile="/private/tmp/harness/cert.pem"
+
+                          echo "creating personalcertfile file"
+
+                          echo '<+secrets.getValue("diego_apple_personal_cert")>' > $personalcertfile
+
+                          echo "created personalcertfile file"
 
                           pwd
 
@@ -69,6 +76,9 @@ pipeline:
 
                           security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
 
+                          # prsonal cert key .p12 pem
+                          security import $personalcertfile -k /Users/anka/Library/Keychains/login.keychain-db
+
                           # security import certificate.pem -k /Library/Keychains/System.keychain
                           # security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
 
@@ -81,9 +91,11 @@ pipeline:
                           # openssl pkcs8 -nocrypt -in /$keyfile -outform PEM -out /private/tmp/harness/AuthKey.pem -passout pass:harnessDiego
 
                           #   openssl pkcs8 -nocrypt -in $keyfile -out /private/tmp/harness/AuthKey.p12 -passin pass:harnessDiego
-                          openssl pkcs12 -export -out /private/tmp/harness/pkcs12.cert -inkey $keyfile -in $certfile
+                          # openssl pkcs12 -export -out /private/tmp/harness/pkcs12.cert -inkey $keyfile -in $certfile
+                          openssl pkcs12 -export -inkey /path/to/privatekey.pem -in /path/to/certificate.pem -out /path/to/new.p12 -passout pass:newpassphrase
 
-                          security import /private/tmp/harness/pkcs12.cert -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db -f pkcs12
+
+                          # security import /private/tmp/harness/pkcs12.cert -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db -f pkcs12
                           # security import /private/tmp/harness/AuthKey.pem -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
 
 
