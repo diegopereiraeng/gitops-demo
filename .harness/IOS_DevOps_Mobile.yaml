@@ -190,6 +190,8 @@ pipeline:
 
                           rm -f fastlane/Fastfile
 
+                          cd fastlane
+
                           cat <<EOF >>fastlane/Fastfile
                           platform :ios do
                             before_all do
