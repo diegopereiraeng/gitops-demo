@@ -140,6 +140,8 @@ pipeline:
                         command: |-
                           sudo gem install fastlane
 
+                          bundle install
+
                           bundle exec fastlane install_plugins
 
                           # platform :ios do
