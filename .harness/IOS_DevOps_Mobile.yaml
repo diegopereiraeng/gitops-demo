@@ -188,6 +188,8 @@ pipeline:
                           #   end
                           # end
 
+                          cat fastlane/Fastfile
+
                           rm -f fastlane/Fastfile
 
 
@@ -255,10 +257,11 @@ pipeline:
                             )
                             end
                           end
-
                           EOF
 
-                          cd fastlane
+                          cat fastlane/Fastfile
+
+                          # cd fastlane
 
                           fastlane beta
                       when:
