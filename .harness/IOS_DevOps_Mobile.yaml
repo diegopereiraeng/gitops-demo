@@ -127,68 +127,135 @@ pipeline:
                         privileged: true
                         envVariables:
                           IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
+                      when:
+                        stageStatus: Success
+                        condition: "\"!\" == \"2\""
+                      failureStrategies: []
                   - step:
                       type: Run
                       name: Build IOS
                       identifier: Build_IOS
                       spec:
                         shell: Sh
-                        command: |+
+                        command: |-
                           sudo gem install fastlane
 
                           bundle exec fastlane install_plugins
 
+                          # platform :ios do
+                          #   desc "Build the app"
+                          #   lane :build do
+                          #     cocoapods(
+                          #       clean: true,
+                          #       repo_update: true
+                          #     )
+                          #     keyfile="/private/tmp/harness/AuthKey.p8"
+                          #     sh "echo 'creating key file'"
+                          #     sh "echo '<+secrets.getValue(\"apple_store_developer_apikey\")>' > #{keyfile}"
+                          #     sh "echo 'created key file'"
+                          #     sh "pwd"
+                          #     sh "ls -ltra"
+                          #     sh "echo 'building'"
+                          #     gym(
+                          #       workspace: "PlatformDevops.xcworkspace",
+                          #       scheme: "PlatformDevops",
+                          #       configuration: "Release",
+                          #       export_options: {
+                          #         authenticationKeyPath: keyfile,
+                          #         authenticationKeyID: "<+secrets.getValue(\"apple_store_api_key\")>",
+                          #         authenticationKeyIssuerID: "<+secrets.getValue(\"apple_store_issuer_id\")>",
+                          #         allowProvisioningUpdates: true
+                          #       }
+                          #     )
+                          #     sh "echo 'archiving'"
+                          #     archive(
+                          #       workspace: "PlatformDevops.xcworkspace",
+                          #       scheme: "PlatformDevops",
+                          #       configuration: "Release",
+                          #       export_archive: true,
+                          #       export_options: {
+                          #         exportPath: "./Artifact/PlatformDevops.ipa",
+                          #         exportOptionsPlist: "HarnessConfig.plist"
+                          #       }
+                          #     )
+                          #     sh "echo 'publishing'"
+                          #     upload_to_app_store(
+                          #       ipa: "./Artifact/PlatformDevops.ipa"
+                          #     )
+                          #     sh "ls -ltra ./Artifact"
+                          #   end
+                          # end
 
-                          cat <<EOF >>Fastfile
+                          cat <<EOF >>fastlane/Fastfile
                           platform :ios do
-                            desc "Build the app"
-                            lane :build do
+                            before_all do
+                              ENV['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+                            end
+
+                            lane :deintegrate do
+                            pod_deintegrate(
+                              podfile: "./Podfile",
+                              verbose: true
+                            )
+                            end
+
+                            desc "Push a new beta build to TestFlight"
+                            lane :beta do
+                              ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
+                              increment_build_number(xcodeproj: "PlatformDevops.xcodeproj")
+                              build_app(
+                                workspace: "PlatformDevops.xcworkspace",
+                                scheme: "PlatformDevops",
+                                sdk: "iphoneos",
+                                export_xcargs: "-allowProvisioningUpdates"
+                              )
+                              api_key = app_store_connect_api_key(
+                                key_id: "<+secrets.getValue(\"apple_store_api_key\")>",
+                                issuer_id: "<+secrets.getValue(\"apple_store_issuer_id\")>",
+                                key_filepath: keyfile,
+                                duration: 1200, # optional (maximum 1200)
+                                in_house: false # optional but may be required if using match/sigh
+                              )
+                              app_identifier = "com.devopsmobile.PlatformDevops"
+                              upload_to_testflight(
+                                api_key: api_key,
+                                app_identifier: app_identifier,
+                                skip_submission: true
+                              )
+                            end
+
+                            desc "Install dependencies"
+                            lane :install_dependencies do
+                              cocoapods
+                            end
+
+                            desc "Update dependencies"
+                            lane :update_dependencies do
+                              ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
+                              update_cocoapods
                               cocoapods(
-                                clean: true,
-                                repo_update: true
+                                clean_install: true
                               )
-                              keyfile="/private/tmp/harness/AuthKey.p8"
-                              sh "echo 'creating key file'"
-                              sh "echo '<+secrets.getValue(\"apple_store_developer_apikey\")>' > #{keyfile}"
-                              sh "echo 'created key file'"
-                              sh "pwd"
-                              sh "ls -ltra"
-                              sh "echo 'building'"
-                              gym(
-                                workspace: "PlatformDevops.xcworkspace",
-                                scheme: "PlatformDevops",
-                                configuration: "Release",
-                                export_options: {
-                                  authenticationKeyPath: keyfile,
-                                  authenticationKeyID: "<+secrets.getValue(\"apple_store_api_key\")>",
-                                  authenticationKeyIssuerID: "<+secrets.getValue(\"apple_store_issuer_id\")>",
-                                  allowProvisioningUpdates: true
-                                }
-                              )
-                              sh "echo 'archiving'"
-                              archive(
-                                workspace: "PlatformDevops.xcworkspace",
-                                scheme: "PlatformDevops",
-                                configuration: "Release",
-                                export_archive: true,
-                                export_options: {
-                                  exportPath: "./Artifact/PlatformDevops.ipa",
-                                  exportOptionsPlist: "HarnessConfig.plist"
-                                }
-                              )
-                              sh "echo 'publishing'"
-                              upload_to_app_store(
-                                ipa: "./Artifact/PlatformDevops.ipa"
-                              )
-                              sh "ls -ltra ./Artifact"
+                            end
+
+                            desc "Update Cocoapods"
+                            lane :update_cocoapods do
+                            cocoapods(
+                              podfile: "./Podfile",
+                              use_bundle_exec: true,
+                              repo_update: true,
+                              verbose: true,
+                              try_repo_update_on_error: true,
+                              clean_install: true
+                            )
                             end
                           end
 
                           EOF
 
+                          fastlane beta
                       when:
                         stageStatus: Success
-                        condition: "\"!\" == \"2\""
                       failureStrategies: []
           platform:
             os: MacOS
