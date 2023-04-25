@@ -190,7 +190,6 @@ pipeline:
 
                           rm -f fastlane/Fastfile
 
-                          cd fastlane
 
                           cat <<EOF >>fastlane/Fastfile
                           platform :ios do
@@ -258,6 +257,8 @@ pipeline:
                           end
 
                           EOF
+
+                          cd fastlane
 
                           fastlane beta
                       when:
