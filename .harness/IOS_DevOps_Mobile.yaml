@@ -188,7 +188,9 @@ pipeline:
                           #   end
                           # end
 
-                          cat <<EOF >fastlane/Fastfile
+                          rm -f fastlane/Fastfile
+
+                          cat <<EOF >>fastlane/Fastfile
                           platform :ios do
                             before_all do
                               ENV['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
