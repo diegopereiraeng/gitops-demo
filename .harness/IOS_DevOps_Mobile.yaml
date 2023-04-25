@@ -263,7 +263,7 @@ pipeline:
 
                           # cd fastlane
 
-                          fastlane beta
+                          bundle exec fastlane beta
                       when:
                         stageStatus: Success
                       failureStrategies: []
