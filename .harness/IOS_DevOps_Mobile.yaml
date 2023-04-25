@@ -140,9 +140,9 @@ pipeline:
                         command: |-
                           sudo gem install fastlane cocoapods addressable bundler
 
-                          bundle update
+                          # bundle update
 
-                          bundle exec fastlane install_plugins
+                          # bundle exec fastlane install_plugins
 
                           # platform :ios do
                           #   desc "Build the app"
