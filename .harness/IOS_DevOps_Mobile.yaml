@@ -138,7 +138,7 @@ pipeline:
                       spec:
                         shell: Sh
                         command: |-
-                          sudo gem install fastlane cocoapods
+                          sudo gem install fastlane cocoapods addressable
 
                           bundle exec fastlane install_plugins
 
