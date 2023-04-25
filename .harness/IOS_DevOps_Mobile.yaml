@@ -263,6 +263,8 @@ pipeline:
 
                           # cd fastlane
 
+                          bundle install
+
                           bundle exec fastlane beta
                       when:
                         stageStatus: Success
