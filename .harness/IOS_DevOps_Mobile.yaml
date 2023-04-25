@@ -129,7 +129,6 @@ pipeline:
                           IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
                       when:
                         stageStatus: Success
-                        condition: "\"!\" == \"2\""
                       failureStrategies: []
                   - step:
                       type: Run
@@ -256,6 +255,7 @@ pipeline:
                           fastlane beta
                       when:
                         stageStatus: Success
+                        condition: "\"!\" == \"2\""
                       failureStrategies: []
           platform:
             os: MacOS
