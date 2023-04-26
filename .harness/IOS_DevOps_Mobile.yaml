@@ -276,7 +276,10 @@ pipeline:
 
                           # cd fastlane
 
-                          bundle exec fastlane ios beta
+                          bundle exec fastlane ios beta device:"iPhone 14"
+                        envVariables:
+                          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
+                          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
                       when:
                         stageStatus: Success
                       failureStrategies: []
