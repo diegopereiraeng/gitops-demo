@@ -276,7 +276,7 @@ pipeline:
 
                           # cd fastlane
 
-                          bundle exec fastlane beta
+                          bundle exec fastlane ios beta
                       when:
                         stageStatus: Success
                       failureStrategies: []
