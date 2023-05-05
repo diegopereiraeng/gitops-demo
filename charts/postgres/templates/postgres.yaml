@@ -45,7 +45,7 @@ metadata:
   name: postgres
   namespace: postgres
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: postgres
