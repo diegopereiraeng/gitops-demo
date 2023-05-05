@@ -45,7 +45,7 @@ metadata:
   name: postgres
   namespace: postgres
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicas | Int }}
   selector:
     matchLabels:
       app: postgres
