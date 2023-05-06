@@ -19,5 +19,7 @@ connector:
       type: Token
       spec:
         tokenRef: delete_gitops_demo_temp_github_redda
-    executeOnDelegate: false
+    delegateSelectors:
+    - cd-demo-se
+    executeOnDelegate: true
     type: Account
