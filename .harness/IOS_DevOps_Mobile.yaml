@@ -155,14 +155,16 @@ pipeline:
 
                           # bundle exec fastlane install_dependencies
 
-                          # keyfile="/private/tmp/harness/AuthKey.p8"
+                          keyfile="/private/tmp/harness/AuthKey.p8"
 
-                          # echo "creating key file"
+                          echo "creating key file"
 
-                          # echo '<+secrets.getValue("diego_apple_personal_key")>' > $keyfile
+                          echo '<+secrets.getValue("IOS_DEMO_APPLE_API_KEY")>' > $keyfile
 
-                          # echo "created key file"
+                          echo "created key file"
 
+
+                          export KEY_PATH="/private/tmp/harness/AuthKey.p8"
                           pwd
 
                           # bundle update
