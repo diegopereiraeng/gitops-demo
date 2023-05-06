@@ -159,7 +159,7 @@ pipeline:
 
                           echo "creating key file"
 
-                          echo '<+secrets.getValue("IOS_DEMO_APPLE_API_KEY")>' > $keyfile
+                          echo '<+secrets.getValue("IOS_DEMO_P8_FILE")>' > $keyfile
 
                           echo "created key file"
 
