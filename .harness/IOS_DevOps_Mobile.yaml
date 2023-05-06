@@ -314,7 +314,6 @@ pipeline:
                           APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
                           LANG: en_US.UTF-8
                           LC_ALL: en_US.UTF-8
-                          SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: <+secrets.getValue("IOS_DEMO_DEFAULT_SMS_PHONE")>
                           ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
                           KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
                       when:
