@@ -151,6 +151,8 @@ pipeline:
 
                           ruby -v
 
+                          sudo xcode-select -switch /Applications/Xcode_14.1.0.app
+
                           bundle install
 
                           # bundle exec fastlane install_dependencies
