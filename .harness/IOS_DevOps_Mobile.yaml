@@ -286,6 +286,7 @@ pipeline:
 
                           bundle exec fastlane download_keys
                           bundle exec fastlane tf
+                        privileged: true
                         envVariables:
                           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
                           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
