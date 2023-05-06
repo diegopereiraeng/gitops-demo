@@ -146,7 +146,7 @@ pipeline:
 
                           security list-keychains
                           security find-identity -v -p codesigning
-
+                          security unlock-keychain -p changeme /Users/anka/Library/Keychains/login.keychain-db
                           sudo gem install bundler
 
                           ruby -v
