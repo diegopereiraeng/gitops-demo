@@ -144,6 +144,9 @@ pipeline:
                         command: |-
                           # sudo gem install fastlane cocoapods addressable bundler
 
+                          security list-keychains
+                          security find-identity -v -p codesigning
+
                           sudo gem install bundler
 
                           ruby -v
