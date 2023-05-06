@@ -22,14 +22,22 @@ pipeline:
                   name: Update Release Repo
                   identifier: updateReleaseRepo
                   timeout: 10m
-                  spec: {}
+                  spec:
+                    variables: []
+                    delegateSelectors:
+                      - cd-demo-se
+                  failureStrategies: []
               - step:
                   type: MergePR
                   name: Merge PR
                   identifier: mergePR
                   spec:
                     deleteSourceBranch: true
+                    variables: []
+                    delegateSelectors:
+                      - cd-demo-se
                   timeout: 10m
+                  failureStrategies: []
               - step:
                   type: GitOpsFetchLinkedApps
                   name: Fetch Linked Apps
