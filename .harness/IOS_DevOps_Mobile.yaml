@@ -142,6 +142,8 @@ pipeline:
 
                           sudo gem install bundler
 
+                          ruby -v
+
                           bundle install
 
                           # bundle exec fastlane install_dependencies
