@@ -316,6 +316,7 @@ pipeline:
                           LC_ALL: en_US.UTF-8
                           ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
                           KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
+                          KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
                       when:
                         stageStatus: Success
                       failureStrategies:
