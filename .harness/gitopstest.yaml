@@ -1,0 +1,23 @@
+connector:
+  name: gitopstest
+  identifier: gitopstest
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: Github
+  spec:
+    url: https://github.com/luisredda
+    validationRepo: harness-gitops-demo
+    authentication:
+      type: Http
+      spec:
+        type: UsernameToken
+        spec:
+          username: luisredda
+          tokenRef: delete_gitops_demo_temp_github_redda
+    apiAccess:
+      type: Token
+      spec:
+        tokenRef: delete_gitops_demo_temp_github_redda
+    executeOnDelegate: false
+    type: Account
