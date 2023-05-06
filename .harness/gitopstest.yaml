@@ -7,7 +7,7 @@ connector:
   type: Github
   spec:
     url: https://github.com/luisredda
-    validationRepo: harness-gitops-demo
+    validationRepo: harness-gitops-lab
     authentication:
       type: Http
       spec:
