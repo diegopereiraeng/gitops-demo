@@ -146,12 +146,10 @@ pipeline:
 
                           security list-keychains
                           security find-identity -v -p codesigning
-                          security unlock-keychain -p harness /Users/anka/Library/Keychains/login.keychain-db
+                          security unlock-keychain -p changeme /Users/anka/Library/Keychains/login.keychain-db
                           sudo gem install bundler
 
                           ruby -v
-
-                          sudo xcode-select -switch /Applications/Xcode_14.1.0.app
 
                           bundle install
 
@@ -314,7 +312,7 @@ pipeline:
                           APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
                           LANG: en_US.UTF-8
                           LC_ALL: en_US.UTF-8
-                          KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
+                          SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: <+secrets.getValue("IOS_DEMO_DEFAULT_SMS_PHONE")>
                       when:
                         stageStatus: Success
                       failureStrategies:
