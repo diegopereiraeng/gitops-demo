@@ -8,7 +8,7 @@ pipeline:
     ci:
       codebase:
         connectorRef: account.Diego_Git
-        repoName: ios_devops_mobile
+        repoName: ios_harness_demo
         build: <+input>
   stages:
     - stage:
@@ -138,19 +138,21 @@ pipeline:
                       spec:
                         shell: Sh
                         command: |-
-                          sudo gem install fastlane cocoapods addressable bundler
+                          # sudo gem install fastlane cocoapods addressable bundler
+
+                          sudo gem install bundler
 
                           bundle install
 
-                          bundle exec fastlane install_dependencies
+                          # bundle exec fastlane install_dependencies
 
-                          keyfile="/private/tmp/harness/AuthKey.p8"
+                          # keyfile="/private/tmp/harness/AuthKey.p8"
 
-                          echo "creating key file"
+                          # echo "creating key file"
 
-                          echo '<+secrets.getValue("diego_apple_personal_key")>' > $keyfile
+                          # echo '<+secrets.getValue("diego_apple_personal_key")>' > $keyfile
 
-                          echo "created key file"
+                          # echo "created key file"
 
                           pwd
 
@@ -202,85 +204,102 @@ pipeline:
                           #   end
                           # end
 
-                          cat fastlane/Fastfile
+                          # cat fastlane/Fastfile
 
-                          rm -f fastlane/Fastfile
+                          # rm -f fastlane/Fastfile
 
-                          cat <<EOF >>fastlane/Fastfile
-                          platform :ios do
-                            before_all do
-                              ENV['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-                            end
+                          # cat <<EOF >>fastlane/Fastfile
+                          # platform :ios do
+                          #   before_all do
+                          #     ENV['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+                          #   end
 
-                            lane :deintegrate do
-                            pod_deintegrate(
-                              podfile: "./Podfile",
-                              verbose: true
-                            )
-                            end
+                          #   lane :deintegrate do
+                          #   pod_deintegrate(
+                          #     podfile: "./Podfile",
+                          #     verbose: true
+                          #   )
+                          #   end
 
-                            desc "Push a new beta build to TestFlight"
-                            lane :beta do
-                              ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
-                              increment_build_number(xcodeproj: "PlatformDevops.xcodeproj")
-                              build_app(
-                                workspace: "PlatformDevops.xcworkspace",
-                                scheme: "PlatformDevops",
-                                sdk: "iphoneos",
-                                export_xcargs: "-allowProvisioningUpdates",
-                                xcargs: "-allowProvisioningUpdates"
-                              )
-                              api_key = app_store_connect_api_key(
-                                key_id: "<+secrets.getValue("apple_store_api_key")>",
-                                issuer_id: "<+secrets.getValue("apple_store_issuer_id")>",
-                                key_filepath: keyfile,
-                                duration: 1200, # optional (maximum 1200)
-                                in_house: false # optional but may be required if using match/sigh
-                              )
-                              app_identifier = "com.devopsmobile.PlatformDevops"
-                              upload_to_testflight(
-                                api_key: api_key,
-                                app_identifier: app_identifier,
-                                skip_submission: true
-                              )
-                            end
+                          #   desc "Push a new beta build to TestFlight"
+                          #   lane :beta do
+                          #     ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
+                          #     increment_build_number(xcodeproj: "PlatformDevops.xcodeproj")
+                          #     build_app(
+                          #       workspace: "PlatformDevops.xcworkspace",
+                          #       scheme: "PlatformDevops",
+                          #       sdk: "iphoneos",
+                          #       export_xcargs: "-allowProvisioningUpdates",
+                          #       xcargs: "-allowProvisioningUpdates"
+                          #     )
+                          #     api_key = app_store_connect_api_key(
+                          #       key_id: "<+secrets.getValue("apple_store_api_key")>",
+                          #       issuer_id: "<+secrets.getValue("apple_store_issuer_id")>",
+                          #       key_filepath: keyfile,
+                          #       duration: 1200, # optional (maximum 1200)
+                          #       in_house: false # optional but may be required if using match/sigh
+                          #     )
+                          #     app_identifier = "com.devopsmobile.PlatformDevops"
+                          #     upload_to_testflight(
+                          #       api_key: api_key,
+                          #       app_identifier: app_identifier,
+                          #       skip_submission: true
+                          #     )
+                          #   end
 
-                            desc "Install dependencies"
-                            lane :install_dependencies do
-                              cocoapods
-                            end
+                          #   desc "Install dependencies"
+                          #   lane :install_dependencies do
+                          #     cocoapods
+                          #   end
 
-                            desc "Update dependencies"
-                            lane :update_dependencies do
-                              ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
-                              update_cocoapods
-                              cocoapods(
-                                clean_install: true
-                              )
-                            end
+                          #   desc "Update dependencies"
+                          #   lane :update_dependencies do
+                          #     ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
+                          #     update_cocoapods
+                          #     cocoapods(
+                          #       clean_install: true
+                          #     )
+                          #   end
 
-                            desc "Update Cocoapods"
-                            lane :update_cocoapods do
-                            cocoapods(
-                              podfile: "./Podfile",
-                              use_bundle_exec: true,
-                              repo_update: true,
-                              verbose: true,
-                              try_repo_update_on_error: true,
-                              clean_install: true
-                            )
-                            end
-                          end
-                          EOF
+                          #   desc "Update Cocoapods"
+                          #   lane :update_cocoapods do
+                          #   cocoapods(
+                          #     podfile: "./Podfile",
+                          #     use_bundle_exec: true,
+                          #     repo_update: true,
+                          #     verbose: true,
+                          #     try_repo_update_on_error: true,
+                          #     clean_install: true
+                          #   )
+                          #   end
+                          # end
+                          # EOF
 
-                          cat fastlane/Fastfile
+                          # cat fastlane/Fastfile
 
                           # cd fastlane
 
-                          bundle exec fastlane ios beta device:"iPhone 14"
+                          # bundle exec fastlane ios beta device:"iPhone 14"
+
+                          bundle exec fastlane tf
                         envVariables:
                           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
                           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
+                          APP_IDENTIFIER: <+secrets.getValue("IOS_DEMO_APP_IDENTIFIER")>
+                          APPLE_ID: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                          FASTLANE_USER: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                          FASTLANE_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_PASSWORD")>
+                          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
+                          ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
+                          TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
+                          WORKSPACE: Harness.xcworkspace
+                          SCHEME: Harness
+                          CONFIGURATION: "\"\""
+                          MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                          MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                          APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
+                          LANG: en_US.UTF-8
+                          LC_ALL: en_US.UTF-8
                       when:
                         stageStatus: Success
                       failureStrategies: []
