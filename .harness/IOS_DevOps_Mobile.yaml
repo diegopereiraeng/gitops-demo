@@ -303,6 +303,13 @@ pipeline:
                       when:
                         stageStatus: Success
                       failureStrategies: []
+              - step:
+                  type: Run
+                  name: Logs
+                  identifier: Logs
+                  spec:
+                    shell: Sh
+                    command: cat /Users/anka/Library/Logs/gym/Harness-Harness.log
           platform:
             os: MacOS
             arch: Arm64
