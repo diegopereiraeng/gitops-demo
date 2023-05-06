@@ -312,6 +312,7 @@ pipeline:
                           APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
                           LANG: en_US.UTF-8
                           LC_ALL: en_US.UTF-8
+                          KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
                       when:
                         stageStatus: Success
                       failureStrategies:
