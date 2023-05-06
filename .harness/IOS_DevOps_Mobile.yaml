@@ -164,7 +164,9 @@ pipeline:
                           echo "created key file"
 
 
-                          export KEY_PATH="/private/tmp/harness/AuthKey.p8"
+                          export KEY_PATH=$keyfile
+
+                          echo $KEY_PATH
                           pwd
 
                           # bundle update
