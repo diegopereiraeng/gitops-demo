@@ -281,6 +281,8 @@ pipeline:
 
                           # bundle exec fastlane ios beta device:"iPhone 14"
 
+
+                          bundle exec fastlane download_keys
                           bundle exec fastlane tf
                         envVariables:
                           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
