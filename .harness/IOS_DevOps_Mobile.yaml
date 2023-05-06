@@ -34,6 +34,10 @@ pipeline:
 
                           ls -ltra /Applications
 
+                          security list-keychains
+
+                          security find-identity -v -p codesigning
+
                           sudo gem install cocoapods
 
                           pod install
