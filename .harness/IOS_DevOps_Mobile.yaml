@@ -302,7 +302,12 @@ pipeline:
                           LC_ALL: en_US.UTF-8
                       when:
                         stageStatus: Success
-                      failureStrategies: []
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
               - step:
                   type: Run
                   name: Logs
@@ -310,6 +315,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: cat /Users/anka/Library/Logs/gym/Harness-Harness.log
+                  when:
+                    stageStatus: All
+                  failureStrategies: []
           platform:
             os: MacOS
             arch: Arm64
