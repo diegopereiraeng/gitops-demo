@@ -12,9 +12,8 @@ pipeline:
         build: <+input>
   stages:
     - stage:
-        name: Build IOS
+        name: Build and Publish to TestFlight - IOS
         identifier: Build_IOS
-        description: ""
         type: CI
         spec:
           cloneCodebase: true
