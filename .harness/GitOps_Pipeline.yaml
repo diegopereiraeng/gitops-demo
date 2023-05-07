@@ -23,7 +23,10 @@ pipeline:
                   identifier: updateReleaseRepo
                   timeout: 10m
                   spec:
-                    variables: []
+                    variables:
+                      - name: ff_key
+                        type: String
+                        value: newone
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
