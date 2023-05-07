@@ -152,6 +152,8 @@ pipeline:
 
                           ruby -v
 
+                          pod deintegrate
+
                           bundle install
 
                           # bundle exec fastlane install_dependencies
