@@ -21,8 +21,8 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Install Certificates
-                  identifier: Install_Certificates
+                  name: Certificates - Build and Upload to TestFlight IOS
+                  identifier: Build_IOS
                   spec:
                     shell: Sh
                     command: |-
@@ -54,55 +54,6 @@ pipeline:
                       pwd
 
                       bundle exec fastlane download_keys
-                    privileged: true
-                    envVariables:
-                      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
-                      FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
-                      APP_IDENTIFIER: <+secrets.getValue("IOS_DEMO_APP_IDENTIFIER")>
-                      APPLE_ID: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
-                      FASTLANE_USER: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
-                      FASTLANE_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_PASSWORD")>
-                      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
-                      ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
-                      TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
-                      WORKSPACE: HarnessMobile.xcworkspace
-                      SCHEME: HarnessMobile
-                      CONFIGURATION: "\"\""
-                      MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
-                      MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
-                      APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
-                      LANG: en_US.UTF-8
-                      LC_ALL: en_US.UTF-8
-                      APP_STORE_CONNECT_API_KEY_ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
-                      APP_STORE_CONNECT_API_KEY_KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
-                      KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
-                  when:
-                    stageStatus: Success
-                  failureStrategies:
-                    - onFailure:
-                        errors:
-                          - AllErrors
-                        action:
-                          type: Ignore
-              - step:
-                  type: Run
-                  name: Build and Upload to TestFlight IOS
-                  identifier: Build_IOS
-                  spec:
-                    shell: Sh
-                    command: |-
-                      keyfile="/private/tmp/harness/AuthKey.p8"
-
-                      echo "creating key file"
-
-                      echo '<+secrets.getValue("IOS_DEMO_P8_FILE")>' > $keyfile
-
-                      echo "created key file"
-
-                      export KEY_PATH=$keyfile
-
-                      echo $KEY_PATH
-                      pwd
 
                       bundle exec fastlane build_ios device:"iPhone 14"
                     privileged: true
