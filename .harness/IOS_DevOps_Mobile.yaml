@@ -136,7 +136,7 @@ pipeline:
                       failureStrategies: []
                   - step:
                       type: Run
-                      name: Build IOS
+                      name: Build and Upload to TestFlight IOS
                       identifier: Build_IOS
                       spec:
                         shell: Sh
