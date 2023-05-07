@@ -19,316 +19,176 @@ pipeline:
           cloneCodebase: true
           execution:
             steps:
-              - parallel:
-                  - step:
-                      type: Run
-                      name: Build
-                      identifier: Build
-                      spec:
-                        shell: Sh
-                        command: |
-                          #sudo xcode-select -switch /Applications/Xcode_14.2.0.app
-
-                          ls -ltra
-
-                          ls -ltra /Applications
-
-                          security list-keychains
-
-                          security find-identity -v -p codesigning
-
-                          sudo gem install cocoapods
-
-                          pod install
-
-                          keyfile="/private/tmp/harness/AuthKey.p8"
-                          certfile="/private/tmp/harness/certificate.pem"
-                          personalcertfile="/private/tmp/harness/cert.pem"
-
-                          echo "creating personalcertfile file"
-
-                          echo '<+secrets.getValue("diego_apple_personal_cert")>' > $personalcertfile
-
-                          echo "created personalcertfile file"
-
-                          pwd
-
-                          echo "creating key file"
-
-                          echo '<+secrets.getValue("diego_apple_personal_key")>' > $keyfile
-
-                          echo "created key file"
-
-                          pwd
-
-                          echo "creating cert file"
-
-                          echo '<+secrets.getValue("diego_apple_cert")>' > $certfile
-
-                          echo "created cert file"
-
-                          ls -ltra
-
-                          security default-keychain -s /Users/anka/Library/Keychains/login.keychain-db
-
-                          security list-keychains
-
-                          security find-identity -v -p codesigning
-
-                          security find-certificate -a -p /Library/Keychains/System.keychain
-
-                          security find-certificate -a -p /Users/anka/Library/Keychains/login.keychain-db
-
-                          # prsonal cert key .p12 pem
-                          openssl pkcs12 -export -inkey $keyfile -in $personalcertfile -out /private/tmp/harness/converted.p12 -passout pass:<+secrets.getValue("my_cert_pass")>
-
-
-                          security import /private/tmp/harness/converted.p12 -P <+secrets.getValue("my_cert_pass")> -k /Users/anka/Library/Keychains/login.keychain-db
-
-                          # security import certificate.pem -k /Library/Keychains/System.keychain
-                          # security import certificate.pem -k /Users/anka/Library/Keychains/login.keychain-db
-
-
-                          # openssl pkcs8 -nocrypt -in /private/tmp/harness/AuthKey.p8 -outform DER -out AuthKey.der
-                          # openssl pkcs12 -export -inkey AuthKey.der -out AuthKey.p12 -passout pass:harnessDiego
-                          # security import AuthKey.p12 -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
-
-
-                          # openssl pkcs8 -nocrypt -in /$keyfile -outform PEM -out /private/tmp/harness/AuthKey.pem -passout pass:harnessDiego
-
-                          #   openssl pkcs8 -nocrypt -in $keyfile -out /private/tmp/harness/AuthKey.p12 -passin pass:harnessDiego
-                          # openssl pkcs12 -export -out /private/tmp/harness/pkcs12.cert -inkey $keyfile -in $certfile
-
-                          # security import /private/tmp/harness/pkcs12.cert -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db -f pkcs12
-                          # security import /private/tmp/harness/AuthKey.pem -P harnessDiego -A -k /Users/anka/Library/Keychains/login.keychain-db
-
-
-                          # echo "revoking existing development certificate"
-
-                          # sudo xcode-select --reset
-                          # sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-14-5
-                          # sudo xcrun revokesimulator com.apple.CoreSimulator.SimRuntime.iOS-15-0
-
-                          echo "building"
-
-                          xcodebuild -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -authenticationKeyPath /private/tmp/harness/converted.p12 -authenticationKeyID <+secrets.getValue("apple_store_api_key")> -authenticationKeyIssuerID <+secrets.getValue("apple_store_issuer_id")> -allowProvisioningUpdates
-
-                          echo "archiving"
-
-                          xcodebuild archive -workspace PlatformDevops.xcworkspace -scheme PlatformDevops -configuration Release -archivePath ./Artifact/PlatformDevops.xcarchive
-
-                          echo "publishing"
-
-                          xcodebuild -exportArchive -archivePath ./Artifact/PlatformDevops.xcarchive -exportPath ./Artifact/PlatformDevops.ipa -exportOptionsPlist HarnessConfig.plist
-
-                          ls -ltra ./Artifact
-
-
-                          altool --upload-app -f ./Artifact/PlatformDevops.ipa -t ios -u diegopereiraeng@gmail.com
-
-                          xcodebuild -exportArchive -archivePath ./Artifact -exportPath YourExportPath -exportOptionsPlist HarnessConfig.plist
-                        privileged: true
-                        envVariables:
-                          IPHONEOS_DEPLOYMENT_TARGET: 16.0.99
-                      when:
-                        stageStatus: Success
-                        condition: "\"!\" == \"2\""
-                      failureStrategies: []
-                  - step:
-                      type: Run
-                      name: Build and Upload to TestFlight IOS
-                      identifier: Build_IOS
-                      spec:
-                        shell: Sh
-                        command: |-
-                          # sudo gem install fastlane cocoapods addressable bundler
-                          ls -ltra /Applications
-
-                          security list-keychains
-                          security find-identity -v -p codesigning
-                          security unlock-keychain -p changeme /Users/anka/Library/Keychains/login.keychain-db
-                          sudo gem install bundler
-
-                          ruby -v
-
-                          pod deintegrate
-
-                          bundle install
-
-                          # bundle exec fastlane install_dependencies
-
-                          keyfile="/private/tmp/harness/AuthKey.p8"
-
-                          echo "creating key file"
-
-                          echo '<+secrets.getValue("IOS_DEMO_P8_FILE")>' > $keyfile
-
-                          echo "created key file"
-
-
-                          export KEY_PATH=$keyfile
-
-                          echo $KEY_PATH
-                          pwd
-
-                          # bundle update
-
-                          # bundle exec fastlane install_plugins
-
-                          # platform :ios do
-                          #   desc "Build the app"
-                          #   lane :build do
-                          #     cocoapods(
-                          #       clean: true,
-                          #       repo_update: true
-                          #     )
-                          #     keyfile="/private/tmp/harness/AuthKey.p8"
-                          #     sh "echo 'creating key file'"
-                          #     sh "echo '<+secrets.getValue(\"apple_store_developer_apikey\")>' > #{keyfile}"
-                          #     sh "echo 'created key file'"
-                          #     sh "pwd"
-                          #     sh "ls -ltra"
-                          #     sh "echo 'building'"
-                          #     gym(
-                          #       workspace: "PlatformDevops.xcworkspace",
-                          #       scheme: "PlatformDevops",
-                          #       configuration: "Release",
-                          #       export_options: {
-                          #         authenticationKeyPath: keyfile,
-                          #         authenticationKeyID: "<+secrets.getValue(\"apple_store_api_key\")>",
-                          #         authenticationKeyIssuerID: "<+secrets.getValue(\"apple_store_issuer_id\")>",
-                          #         allowProvisioningUpdates: true
-                          #       }
-                          #     )
-                          #     sh "echo 'archiving'"
-                          #     archive(
-                          #       workspace: "PlatformDevops.xcworkspace",
-                          #       scheme: "PlatformDevops",
-                          #       configuration: "Release",
-                          #       export_archive: true,
-                          #       export_options: {
-                          #         exportPath: "./Artifact/PlatformDevops.ipa",
-                          #         exportOptionsPlist: "HarnessConfig.plist"
-                          #       }
-                          #     )
-                          #     sh "echo 'publishing'"
-                          #     upload_to_app_store(
-                          #       ipa: "./Artifact/PlatformDevops.ipa"
-                          #     )
-                          #     sh "ls -ltra ./Artifact"
-                          #   end
-                          # end
-
-                          # cat fastlane/Fastfile
-
-                          # rm -f fastlane/Fastfile
-
-                          # cat <<EOF >>fastlane/Fastfile
-                          # platform :ios do
-                          #   before_all do
-                          #     ENV['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-                          #   end
-
-                          #   lane :deintegrate do
-                          #   pod_deintegrate(
-                          #     podfile: "./Podfile",
-                          #     verbose: true
-                          #   )
-                          #   end
-
-                          #   desc "Push a new beta build to TestFlight"
-                          #   lane :beta do
-                          #     ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
-                          #     increment_build_number(xcodeproj: "PlatformDevops.xcodeproj")
-                          #     build_app(
-                          #       workspace: "PlatformDevops.xcworkspace",
-                          #       scheme: "PlatformDevops",
-                          #       sdk: "iphoneos",
-                          #       export_xcargs: "-allowProvisioningUpdates",
-                          #       xcargs: "-allowProvisioningUpdates"
-                          #     )
-                          #     api_key = app_store_connect_api_key(
-                          #       key_id: "<+secrets.getValue("apple_store_api_key")>",
-                          #       issuer_id: "<+secrets.getValue("apple_store_issuer_id")>",
-                          #       key_filepath: keyfile,
-                          #       duration: 1200, # optional (maximum 1200)
-                          #       in_house: false # optional but may be required if using match/sigh
-                          #     )
-                          #     app_identifier = "com.devopsmobile.PlatformDevops"
-                          #     upload_to_testflight(
-                          #       api_key: api_key,
-                          #       app_identifier: app_identifier,
-                          #       skip_submission: true
-                          #     )
-                          #   end
-
-                          #   desc "Install dependencies"
-                          #   lane :install_dependencies do
-                          #     cocoapods
-                          #   end
-
-                          #   desc "Update dependencies"
-                          #   lane :update_dependencies do
-                          #     ENV["IPHONEOS_DEPLOYMENT_TARGET"] = "13.0"
-                          #     update_cocoapods
-                          #     cocoapods(
-                          #       clean_install: true
-                          #     )
-                          #   end
-
-                          #   desc "Update Cocoapods"
-                          #   lane :update_cocoapods do
-                          #   cocoapods(
-                          #     podfile: "./Podfile",
-                          #     use_bundle_exec: true,
-                          #     repo_update: true,
-                          #     verbose: true,
-                          #     try_repo_update_on_error: true,
-                          #     clean_install: true
-                          #   )
-                          #   end
-                          # end
-                          # EOF
-
-                          # cat fastlane/Fastfile
-
-                          # cd fastlane
-
-                          # bundle exec fastlane ios beta device:"iPhone 14"
-
-
-                          bundle exec fastlane download_keys
-                          bundle exec fastlane tf device:"iPhone 14"
-                        privileged: true
-                        envVariables:
-                          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
-                          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
-                          APP_IDENTIFIER: <+secrets.getValue("IOS_DEMO_APP_IDENTIFIER")>
-                          APPLE_ID: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
-                          FASTLANE_USER: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
-                          FASTLANE_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_PASSWORD")>
-                          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
-                          ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
-                          TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
-                          WORKSPACE: HarnessMobile.xcworkspace
-                          SCHEME: HarnessMobile
-                          CONFIGURATION: "\"\""
-                          MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
-                          MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
-                          APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
-                          LANG: en_US.UTF-8
-                          LC_ALL: en_US.UTF-8
-                          APP_STORE_CONNECT_API_KEY_ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
-                          APP_STORE_CONNECT_API_KEY_KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
-                          KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
-                      when:
-                        stageStatus: Success
-                      failureStrategies:
-                        - onFailure:
-                            errors:
-                              - AllErrors
-                            action:
-                              type: Ignore
+              - step:
+                  type: Run
+                  name: Install Certificates
+                  identifier: Install_Certificates
+                  spec:
+                    shell: Sh
+                    command: |-
+                      # sudo gem install fastlane cocoapods addressable bundler
+                      ls -ltra /Applications
+
+                      security list-keychains
+                      security find-identity -v -p codesigning
+
+                      sudo gem install bundler
+
+                      ruby -v
+
+                      pod deintegrate
+
+                      bundle install
+
+                      keyfile="/private/tmp/harness/AuthKey.p8"
+
+                      echo "creating key file"
+
+                      echo '<+secrets.getValue("IOS_DEMO_P8_FILE")>' > $keyfile
+
+                      echo "created key file"
+
+                      export KEY_PATH=$keyfile
+
+                      echo $KEY_PATH
+                      pwd
+
+                      bundle exec fastlane download_keys
+                    privileged: true
+                    envVariables:
+                      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
+                      FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
+                      APP_IDENTIFIER: <+secrets.getValue("IOS_DEMO_APP_IDENTIFIER")>
+                      APPLE_ID: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                      FASTLANE_USER: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                      FASTLANE_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_PASSWORD")>
+                      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
+                      ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
+                      TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
+                      WORKSPACE: HarnessMobile.xcworkspace
+                      SCHEME: HarnessMobile
+                      CONFIGURATION: "\"\""
+                      MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                      MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                      APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
+                      LANG: en_US.UTF-8
+                      LC_ALL: en_US.UTF-8
+                      APP_STORE_CONNECT_API_KEY_ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
+                      APP_STORE_CONNECT_API_KEY_KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
+                      KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
+                  when:
+                    stageStatus: Success
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
+              - step:
+                  type: Run
+                  name: Build IOS
+                  identifier: Build_IOS
+                  spec:
+                    shell: Sh
+                    command: |-
+                      keyfile="/private/tmp/harness/AuthKey.p8"
+
+                      echo "creating key file"
+
+                      echo '<+secrets.getValue("IOS_DEMO_P8_FILE")>' > $keyfile
+
+                      echo "created key file"
+
+                      export KEY_PATH=$keyfile
+
+                      echo $KEY_PATH
+                      pwd
+
+                      bundle exec fastlane build device:"iPhone 14"
+                    privileged: true
+                    envVariables:
+                      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
+                      FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
+                      APP_IDENTIFIER: <+secrets.getValue("IOS_DEMO_APP_IDENTIFIER")>
+                      APPLE_ID: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                      FASTLANE_USER: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                      FASTLANE_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_PASSWORD")>
+                      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
+                      ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
+                      TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
+                      WORKSPACE: HarnessMobile.xcworkspace
+                      SCHEME: HarnessMobile
+                      CONFIGURATION: "\"\""
+                      MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                      MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                      APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
+                      LANG: en_US.UTF-8
+                      LC_ALL: en_US.UTF-8
+                      APP_STORE_CONNECT_API_KEY_ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
+                      APP_STORE_CONNECT_API_KEY_KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
+                      KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
+                  when:
+                    stageStatus: Success
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
+              - step:
+                  type: Run
+                  name: Upload to TestFlight IOS
+                  identifier: Upload_TestFlight
+                  spec:
+                    shell: Sh
+                    command: |-
+
+
+                      keyfile="/private/tmp/harness/AuthKey.p8"
+
+                      echo "creating key file"
+
+                      echo '<+secrets.getValue("IOS_DEMO_P8_FILE")>' > $keyfile
+
+                      echo "created key file"
+
+
+                      export KEY_PATH=$keyfile
+
+                      echo $KEY_PATH
+                      pwd
+
+                      bundle exec fastlane upload_testflight
+                    privileged: true
+                    envVariables:
+                      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
+                      FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "4"
+                      APP_IDENTIFIER: <+secrets.getValue("IOS_DEMO_APP_IDENTIFIER")>
+                      APPLE_ID: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                      FASTLANE_USER: <+secrets.getValue("IOS_DEMO_APPLE_ID")>
+                      FASTLANE_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_PASSWORD")>
+                      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
+                      ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
+                      TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
+                      WORKSPACE: HarnessMobile.xcworkspace
+                      SCHEME: HarnessMobile
+                      CONFIGURATION: "\"\""
+                      MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                      MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
+                      APP_STORE_CONNECT_APPLE_ID: <+secrets.getValue("IOS_DEMO_APP_STORE_CONNECT_APPLE_ID")>
+                      LANG: en_US.UTF-8
+                      LC_ALL: en_US.UTF-8
+                      APP_STORE_CONNECT_API_KEY_ISSUER_ID: <+secrets.getValue("IOS_DEMO_ISSUER_ID")>
+                      APP_STORE_CONNECT_API_KEY_KEY_ID: <+secrets.getValue("IOS_DEMO_API_KEY_ID")>
+                      KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_KEYCHAIN_PASSWORD")>
+                  when:
+                    stageStatus: Success
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
               - step:
                   type: Run
                   name: Logs
