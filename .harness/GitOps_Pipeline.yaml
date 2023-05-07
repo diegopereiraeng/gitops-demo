@@ -26,7 +26,7 @@ pipeline:
                     variables:
                       - name: ff_key
                         type: String
-                        value: newone
+                        value: newone2
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
