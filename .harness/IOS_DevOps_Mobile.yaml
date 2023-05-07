@@ -334,7 +334,7 @@ pipeline:
                   identifier: Logs
                   spec:
                     shell: Sh
-                    command: cat /Users/anka/Library/Logs/gym/Harness-Harness.log
+                    command: cat /Users/anka/Library/Logs/gym/HarnessMobile-HarnessMobile.log
                   when:
                     stageStatus: All
                   failureStrategies: []
