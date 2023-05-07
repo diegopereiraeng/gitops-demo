@@ -1,5 +1,5 @@
 pipeline:
-  name: MOBILE - IOS DevOps Mobile
+  name: MOBILE - IOS Harness Mobile
   identifier: IOS_DevOps_Mobile
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
