@@ -309,8 +309,8 @@ pipeline:
                           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: <+secrets.getValue("IOS_DEMO_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD")>
                           ITC_TEAM_ID: <+secrets.getValue("IOS_DEMO_ITC_TEAM_ID")>
                           TEAM_ID: <+secrets.getValue("IOS_DEMO_TEAM_ID")>
-                          WORKSPACE: Harness.xcworkspace
-                          SCHEME: Harness
+                          WORKSPACE: HarnessMobile.xcworkspace
+                          SCHEME: HarnessMobile
                           CONFIGURATION: "\"\""
                           MATCH_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
                           MATCH_KEYCHAIN_PASSWORD: <+secrets.getValue("IOS_DEMO_MATCH_PASSWORD")>
