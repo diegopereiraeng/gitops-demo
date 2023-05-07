@@ -104,7 +104,7 @@ pipeline:
                       echo $KEY_PATH
                       pwd
 
-                      bundle exec fastlane build device:"iPhone 14"
+                      bundle exec fastlane build_ios device:"iPhone 14"
                     privileged: true
                     envVariables:
                       FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "30"
