@@ -143,6 +143,7 @@ pipeline:
                         shell: Sh
                         command: |-
                           # sudo gem install fastlane cocoapods addressable bundler
+                          ls -ltra /Applications
 
                           security list-keychains
                           security find-identity -v -p codesigning
