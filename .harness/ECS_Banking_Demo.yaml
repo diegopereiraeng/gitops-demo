@@ -445,9 +445,9 @@ pipeline:
                         timeout: 10m
                         spec:
                           loadBalancer: <+input>
-                          prodListenerRuleArn: ""
+                          prodListenerRuleArn: <+input>
                           stageListener: <+input>
-                          stageListenerRuleArn: ""
+                          stageListenerRuleArn: <+input>
                           prodListener: <+input>
                   when:
                     stageStatus: Success
