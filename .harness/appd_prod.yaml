@@ -8,6 +8,6 @@ connector:
   spec:
     username: uitest@harness.io
     accountname: harness-test
-    controllerUrl: ' https://harness-test.saas.appdynamics.com/controller/'
+    controllerUrl: https://harness-test.saas.appdynamics.com/controller/
     passwordRef: account.appd_prod
     authType: UsernamePassword
