@@ -1,0 +1,13 @@
+connector:
+  name: appd_prod
+  identifier: appd_prod
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: AppDynamics
+  spec:
+    username: uitest@harness.io
+    accountname: harness-test
+    controllerUrl: ' https://harness-test.saas.appdynamics.com/controller/'
+    passwordRef: account.appd_prod
+    authType: UsernamePassword
