@@ -6,8 +6,8 @@ connector:
   projectIdentifier: GIT_FLOW_DEMO
   type: AppDynamics
   spec:
-    username: banking-payments
     accountname: econocombrasil
     controllerUrl: https://econocombrasil.saas.appdynamics.com/controller/
-    passwordRef: account.diegoappdypass
-    authType: UsernamePassword
+    clientSecretRef: account.diegoappdypass
+    clientId: banking-payments
+    authType: ApiClientToken
