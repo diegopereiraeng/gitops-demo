@@ -447,8 +447,8 @@ pipeline:
                           loadBalancer: <+input>
                           stageListener: <+input>
                           prodListener: <+input>
-                          prodListenerRuleArn: ""
-                          stageListenerRuleArn: ""
+                          prodListenerRuleArn: <+input>
+                          stageListenerRuleArn: <+input>
                   when:
                     stageStatus: Success
                     condition: <+pipeline.variables.deployment_type> == "bluegreen"
