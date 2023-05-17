@@ -1595,7 +1595,7 @@ pipeline:
                             value: Version <+artifact.tag> deployed with Success
                       timeout: 10m
                       when:
-                        stageStatus: All
+                        stageStatus: Success
                       failureStrategies: []
                   - step:
                       type: MergePR
