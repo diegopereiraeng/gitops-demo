@@ -445,10 +445,10 @@ pipeline:
                         timeout: 10m
                         spec:
                           loadBalancer: <+input>
-                          prodListenerRuleArn: <+input>
                           stageListener: <+input>
-                          stageListenerRuleArn: <+input>
                           prodListener: <+input>
+                          prodListenerRuleArn: ""
+                          stageListenerRuleArn: ""
                   when:
                     stageStatus: Success
                     condition: <+pipeline.variables.deployment_type> == "bluegreen"
