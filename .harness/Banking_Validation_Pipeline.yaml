@@ -1526,7 +1526,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == test
+                                  condition: <+pipeline.variables.firstDeploy> != true
                         - step:
                             name: Canary Delete
                             identifier: canaryDelete
