@@ -1485,7 +1485,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == false
+                                  condition: <+pipeline.variables.firstDeploy> != true
                             - step:
                                 type: ShellScript
                                 name: Stress Test Validation List
@@ -1510,7 +1510,7 @@ pipeline:
                                         type: MarkAsSuccess
                                 when:
                                   stageStatus: Success
-                                  condition: <+pipeline.variables.firstDeploy> == false
+                                  condition: <+pipeline.variables.firstDeploy> != true
                             - step:
                                 type: Chaos
                                 name: Pod CPU Stress
