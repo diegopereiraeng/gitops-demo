@@ -557,12 +557,6 @@ pipeline:
                           load_balancer_name: <+execution.steps.blueGreenDepoyment.steps.EcsBlueGreenCreateService.spec.loadBalancer>
             rollbackSteps:
               - step:
-                  type: EcsCanaryDelete
-                  name: Ecs Canary Delete Rollback
-                  identifier: Ecs_Canary_Delete_Rollback
-                  spec: {}
-                  timeout: 10m
-              - step:
                   name: ECS Blue Green Rollback
                   identifier: EcsBlueGreenRollback
                   type: EcsBlueGreenRollback
