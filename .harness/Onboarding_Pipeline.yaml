@@ -597,7 +597,7 @@ pipeline:
 
                                 if [ $template_saved == "true" ]; then
                                     response_slo_auth_errors=`curl -s -o response_slo_auth_errors.txt -w "%{http_code}" -X POST \
-                                    'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
+                                    'https://app.harness.io/gateway/cv/api/slo/v2?routingId='$acc_id'&accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_errors"`
@@ -610,7 +610,7 @@ pipeline:
                                     fi
 
                                     response_slo_auth_rt=`curl -s -o response_slo_auth_rt.txt -w "%{http_code}" -X POST \
-                                    'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
+                                    'https://app.harness.io/gateway/cv/api/slo/v2?routingId='$acc_id'&accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_auth_rt"`
@@ -621,7 +621,7 @@ pipeline:
                                     fi
 
                                     response_slo_val_errors=`curl -s -o response_slo_val_errors.txt -w "%{http_code}" -X POST \
-                                    'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
+                                    'https://app.harness.io/gateway/cv/api/slo/v2?routingId='$acc_id'&accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_errors"`
@@ -632,7 +632,7 @@ pipeline:
                                     fi
 
                                     response_slo_val_rt=`curl -s -o response_slo_val_rt.txt -w "%{http_code}" -X POST \
-                                    'https://app.harness.io/gateway/cv/api/slo?accountId='$acc_id'' \
+                                    'https://app.harness.io/gateway/cv/api/slo/v2?routingId='$acc_id'&accountId='$acc_id'' \
                                     -H 'Content-Type: application/json' \
                                     -H 'x-api-key: <+secrets.getValue("diegopatharness")>' \
                                     -d "$slo_val_rt"`
