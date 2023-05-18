@@ -30,153 +30,178 @@ pipeline:
                         script: |
                           cat <<EOF > slo_auth_errors.json
                           {
-                            "orgIdentifier": "default",
-                            "projectIdentifier": "GIT_FLOW_DEMO",
-                            "identifier": "Authorization_Error_Rate",
-                            "name": "Authorization Error Rate",
-                            "tags": {},
-                            "userJourneyRef": "Payments",
-                            "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
-                            "healthSourceRef": "promprod",
-                            "type": "Availability",
-                            "serviceLevelIndicators": [
-                              {
-                                "name": "Authorization_Error_Rate_Authorization_Error_Rate",
-                                "identifier": "Authorization_Error_Rate_Authorization_Error_Rate",
-                                "type": "Availability",
-                                "spec": {
-                                  "type": "Threshold",
+                              "name": "Authorization Error Rate - Diego",
+                              "type": "Simple",
+                              "identifier": "Authorization_Error_Rate_michaelbredman_test",
+                              "userJourneyRefs": [
+                                  "Payments"
+                              ],
+                              "orgIdentifier": "default",
+                              "projectIdentifier": "GIT_FLOW_DEMO",
+                              "notificationRuleRefs": [],
+                              "sloTarget": {
+                                  "sloTargetPercentage": 95,
+                                  "type": "Rolling",
                                   "spec": {
-                                    "metric1": "Authorization_Error_Rate",
-                                    "thresholdValue": 20,
-                                    "thresholdType": "<="
+                                      "periodLength": "1d"
                                   }
-                                },
-                                "sliMissingDataType": "Good"
-                              }
-                            ],
-                            "target": {
-                              "type": "Rolling",
-                              "sloTargetPercentage": 95,
+                              },
                               "spec": {
-                                "periodLength": "1d"
+                                  "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
+                                  "healthSourceRef": "promprod",
+                                  "serviceLevelIndicatorType": "Availability",
+                                  "serviceLevelIndicators": [
+                                      {
+                                          "name": "Authorization_Error_Rate_Authorization_Error_Rate",
+                                          "identifier": "Authorization_Error_Rate_Authorization_Error_Rate",
+                                          "type": "Window",
+                                          "spec": {
+                                              "sliMissingDataType": "Good",
+                                              "type": "Threshold",
+                                              "spec": {
+                                                  "metric1": "Authorization_Error_Rate",
+                                                  "thresholdType": "<",
+                                                  "thresholdValue": 20,
+                                                  "considerAllConsecutiveMinutesFromStartAsBad": "",
+                                                  "considerConsecutiveMinutes": null
+                                              }
+                                          }
+                                      }
+                                  ]
                               }
-                            },
-                            "notificationRuleRefs": []
                           }
                           EOF
 
                           cat <<EOF > slo_auth_rt.json
                           {
-                            "orgIdentifier": "default",
-                            "projectIdentifier": "GIT_FLOW_DEMO",
-                            "identifier": "Authorization_Response_Time",
-                            "name": "Authorization Response Time",
-                            "tags": {},
-                            "userJourneyRef": "Payments",
-                            "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
-                            "healthSourceRef": "promprod",
-                            "type": "Latency",
-                            "serviceLevelIndicators": [
-                              {
-                                "name": "Authorization_Response_Time_Authorization_Response_Time",
-                                "identifier": "Authorization_Response_Time_Authorization_Response_Time",
-                                "type": "Latency",
-                                "spec": {
-                                  "type": "Threshold",
+                              "name": "Authorization Response Time - Diego",
+                              "type": "Simple",
+                              "identifier": "Authorization_Error_Rate_michaelbredman_test",
+                              "userJourneyRefs": [
+                                  "Payments"
+                              ],
+                              "orgIdentifier": "default",
+                              "projectIdentifier": "GIT_FLOW_DEMO",
+                              "notificationRuleRefs": [],
+                              "sloTarget": {
+                                  "sloTargetPercentage": 95,
+                                  "type": "Rolling",
                                   "spec": {
-                                    "metric1": "Authorization_Response_Time",
-                                    "thresholdValue": 2,
-                                    "thresholdType": "<="
+                                      "periodLength": "1d"
                                   }
-                                },
-                                "sliMissingDataType": "Good"
-                              }
-                            ],
-                            "target": {
-                              "type": "Rolling",
-                              "sloTargetPercentage": 95,
+                              },
                               "spec": {
-                                "periodLength": "1d"
+                                  "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
+                                  "healthSourceRef": "promprod",
+                                  "serviceLevelIndicatorType": "Availability",
+                                  "serviceLevelIndicators": [
+                                      {
+                                          "name": "Authorization_Response_Time_Authorization_Response_Time",
+                                          "identifier": "Authorization_Response_Time_Authorization_Response_Time",
+                                          "type": "Window",
+                                          "spec": {
+                                              "sliMissingDataType": "Good",
+                                              "type": "Threshold",
+                                              "spec": {
+                                                  "metric1": "Authorization_Response_Time",
+                                                  "thresholdType": "<=",
+                                                  "thresholdValue": 2,
+                                                  "considerAllConsecutiveMinutesFromStartAsBad": "",
+                                                  "considerConsecutiveMinutes": null
+                                              }
+                                          }
+                                      }
+                                  ]
                               }
-                            },
-                            "notificationRuleRefs": []
                           }
                           EOF
 
                           cat <<EOF > slo_val_errors.json
                           {
-                            "orgIdentifier": "default",
-                            "projectIdentifier": "GIT_FLOW_DEMO",
-                            "identifier": "Validation_Process_Error_Rate_Diego",
-                            "name": "Validation Process Error Rate - Diego",
-                            "tags": {},
-                            "userJourneyRef": "Payments",
-                            "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
-                            "healthSourceRef": "promprod",
-                            "type": "Availability",
-                            "serviceLevelIndicators": [
-                              {
-                                "name": "Validation_Process_Error_Rate_Diego_Validation_Process_Error_Rate",
-                                "identifier": "Validation_Process_Error_Rate_Diego_Validation_Process_Error_Rate",
-                                "type": "Availability",
-                                "spec": {
-                                  "type": "Threshold",
+                              "name": "Validation Process Error Rate - Diego",
+                              "type": "Simple",
+                              "identifier": "Authorization_Error_Rate_michaelbredman_test",
+                              "userJourneyRefs": [
+                                  "Payments"
+                              ],
+                              "orgIdentifier": "default",
+                              "projectIdentifier": "GIT_FLOW_DEMO",
+                              "notificationRuleRefs": [],
+                              "sloTarget": {
+                                  "sloTargetPercentage": 95,
+                                  "type": "Rolling",
                                   "spec": {
-                                    "metric1": "Validation_Process_Error_Rate",
-                                    "thresholdValue": 20,
-                                    "thresholdType": "<="
+                                      "periodLength": "1d"
                                   }
-                                },
-                                "sliMissingDataType": "Good"
-                              }
-                            ],
-                            "target": {
-                              "type": "Rolling",
-                              "sloTargetPercentage": 80,
+                              },
                               "spec": {
-                                "periodLength": "1d"
+                                  "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
+                                  "healthSourceRef": "promprod",
+                                  "serviceLevelIndicatorType": "Availability",
+                                  "serviceLevelIndicators": [
+                                      {
+                                          "name": "Validation_Process_Error_Rate_Diego_Validation_Process_Error_Rate",
+                                          "identifier": "Validation_Process_Error_Rate_Diego_Validation_Process_Error_Rate",
+                                          "type": "Window",
+                                          "spec": {
+                                              "sliMissingDataType": "Good",
+                                              "type": "Threshold",
+                                              "spec": {
+                                                  "metric1": "Validation_Process_Error_Rate",
+                                                  "thresholdType": "<",
+                                                  "thresholdValue": 20,
+                                                  "considerAllConsecutiveMinutesFromStartAsBad": "",
+                                                  "considerConsecutiveMinutes": null
+                                              }
+                                          }
+                                      }
+                                  ]
                               }
-                            },
-                            "notificationRuleRefs": []
                           }
+
                           EOF
 
                           cat <<EOF > slo_val_rt.json
                           {
-                            "orgIdentifier": "default",
-                            "projectIdentifier": "GIT_FLOW_DEMO",
-                            "identifier": "Payment_Process_Response_Time",
-                            "name": "Validation Process Response Time",
-                            "tags": {},
-                            "userJourneyRef": "Payments",
-                            "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
-                            "healthSourceRef": "promprod",
-                            "type": "Latency",
-                            "serviceLevelIndicators": [
-                              {
-                                "name": "Payment_Process_Response_Time_Validation_Process_Response_Time",
-                                "identifier": "Payment_Process_Response_Time_Validation_Process_Response_Time",
-                                "type": "Latency",
-                                "spec": {
-                                  "type": "Threshold",
+                              "name": "Validation Process Response Time",
+                              "type": "Simple",
+                              "identifier": "Authorization_Error_Rate_michaelbredman_test",
+                              "userJourneyRefs": [
+                                  "Payments"
+                              ],
+                              "orgIdentifier": "default",
+                              "projectIdentifier": "GIT_FLOW_DEMO",
+                              "notificationRuleRefs": [],
+                              "sloTarget": {
+                                  "sloTargetPercentage": 95,
+                                  "type": "Rolling",
                                   "spec": {
-                                    "metric1": "Validation_Process_Response_Time",
-                                    "thresholdValue": 1.2,
-                                    "thresholdType": "<="
+                                      "periodLength": "1d"
                                   }
-                                },
-                                "sliMissingDataType": "Good"
-                              }
-                            ],
-                            "target": {
-                              "type": "Rolling",
-                              "sloTargetPercentage": 95,
+                              },
                               "spec": {
-                                "periodLength": "1d"
+                                  "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
+                                  "healthSourceRef": "promprod",
+                                  "serviceLevelIndicatorType": "Availability",
+                                  "serviceLevelIndicators": [
+                                      {
+                                          "name": "Payment_Process_Response_Time_Validation_Process_Response_Time",
+                                          "identifier": "Payment_Process_Response_Time_Validation_Process_Response_Time",
+                                          "type": "Window",
+                                          "spec": {
+                                              "sliMissingDataType": "Good",
+                                              "type": "Threshold",
+                                              "spec": {
+                                                  "metric1": "Validation_Process_Response_Time",
+                                                  "thresholdType": "",
+                                                  "thresholdValue": 1.2,
+                                                  "considerAllConsecutiveMinutesFromStartAsBad": "",
+                                                  "considerConsecutiveMinutes": null
+                                              }
+                                          }
+                                      }
+                                  ]
                               }
-                            },
-                            "notificationRuleRefs": []
                           }
                           EOF
 
