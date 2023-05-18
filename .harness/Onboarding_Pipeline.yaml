@@ -93,7 +93,7 @@ pipeline:
                               "spec": {
                                   "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
                                   "healthSourceRef": "promprod",
-                                  "serviceLevelIndicatorType": "Availability",
+                                  "serviceLevelIndicatorType": "Latency",
                                   "serviceLevelIndicators": [
                                       {
                                           "name": "Authorization_Response_Time_Authorization_Response_Time",
@@ -182,7 +182,7 @@ pipeline:
                               "spec": {
                                   "monitoredServiceRef": "paymentsvalidationdiegopereiraeng_prod",
                                   "healthSourceRef": "promprod",
-                                  "serviceLevelIndicatorType": "Availability",
+                                  "serviceLevelIndicatorType": "Latency",
                                   "serviceLevelIndicators": [
                                       {
                                           "name": "Payment_Process_Response_Time_Validation_Process_Response_Time",
@@ -585,16 +585,14 @@ pipeline:
 
                                 echo "Creating SLOs"
                                 echo "1#"
-                                slo_auth_errors=`cat slo_auth_errors.json | sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Authorization Error Rate - $git_user\"" |  jq  "(.identifier?) = \"Authorization_Error_Rate_$git_user\"" | jq  "(.serviceLevelIndicators[].identifier) = \"Authorization_Error_Rate_$git_user\""`
-
+                                slo_auth_errors=`cat slo_auth_errors.json | sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.spec.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Authorization Error Rate - $git_user\"" |  jq  "(.identifier?) = \"Authorization_Error_Rate_$git_user\"" | jq  "(.spec.serviceLevelIndicators[].identifier) = \"Authorization_Error_Rate_$git_user\""`
                                 echo "$slo_auth_errors"
-
                                 echo "2#"
-                                slo_auth_rt=`cat slo_auth_rt.json |sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Authorization Response Time - $git_user\"" | jq  "(.identifier?) = \"Authorization_Response_Time_$git_user\"" | jq  "(.serviceLevelIndicators[].identifier) = \"Authorization_Response_Time_$git_user\"" `
+                                slo_auth_rt=`cat slo_auth_rt.json |sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.spec.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Authorization Response Time - $git_user\"" | jq  "(.identifier?) = \"Authorization_Response_Time_$git_user\"" | jq  "(.spec.serviceLevelIndicators[].identifier) = \"Authorization_Response_Time_$git_user\"" `
                                 echo "3#"
-                                slo_val_errors=`cat slo_val_errors.json |sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Validation Process Error Rate - $git_user\"" | jq  "(.identifier?) = \"Validation_Process_Error_Rate_$git_user\"" | jq  "(.serviceLevelIndicators[].identifier) = \"Validation_Process_Error_Rate_$git_user\""`
+                                slo_val_errors=`cat slo_val_errors.json |sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.spec.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Validation Process Error Rate - $git_user\"" | jq  "(.identifier?) = \"Validation_Process_Error_Rate_$git_user\"" | jq  "(.spec.serviceLevelIndicators[].identifier) = \"Validation_Process_Error_Rate_$git_user\""`
                                 echo "4#"
-                                slo_val_rt=`cat slo_val_rt.json |sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Validation Process Response Time - $git_user\"" | jq  "(.identifier?) = \"Validation_Process_Response_Time_$git_user\"" | jq  "(.serviceLevelIndicators[].identifier) = \"Validation_Process_Response_Time_$git_user\""`
+                                slo_val_rt=`cat slo_val_rt.json |sed  "s/&gt;/>/g" | sed  "s/&lt;/</g" | jq "(.orgIdentifier?) = \"$org_id\"" | jq "(.projectIdentifier?) = \"$project_id\"" | jq "(.spec.monitoredServiceRef?) = \"$monit_service\"" |  jq  "(.name?) = \"Validation Process Response Time - $git_user\"" | jq  "(.identifier?) = \"Validation_Process_Response_Time_$git_user\"" | jq  "(.spec.serviceLevelIndicators[].identifier) = \"Validation_Process_Response_Time_$git_user\""`
 
 
                                 if [ $template_saved == "true" ]; then
