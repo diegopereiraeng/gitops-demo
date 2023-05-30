@@ -30,6 +30,9 @@ pipeline:
                       - name: hello3
                         type: String
                         value: newvalue
+                      - name: hello4.test1
+                        type: String
+                        value: hellothere
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
