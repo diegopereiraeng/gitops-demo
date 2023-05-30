@@ -26,7 +26,7 @@ pipeline:
                     variables:
                       - name: image
                         type: String
-                        value: luisredda/harness-java-demo-k8s:latest
+                        value: luisredda/harness-java-demo-k8s:latests
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
