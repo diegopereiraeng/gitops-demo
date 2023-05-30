@@ -24,15 +24,9 @@ pipeline:
                   timeout: 10m
                   spec:
                     variables:
-                      - name: ff_key
+                      - name: image
                         type: String
-                        value: <+input>
-                      - name: hello3
-                        type: String
-                        value: newvalue
-                      - name: hello4.test1
-                        type: String
-                        value: hellothere
+                        value: luisredda/harness-java-demo-k8s:latest
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
