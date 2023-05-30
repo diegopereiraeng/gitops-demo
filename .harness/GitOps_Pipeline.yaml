@@ -24,9 +24,9 @@ pipeline:
                   timeout: 10m
                   spec:
                     variables:
-                      - name: spec.template.spec.containers.image
+                      - name: images.newTag
                         type: String
-                        value: luisredda/harness-java-demo-k8s:latests
+                        value: "33"
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
