@@ -24,7 +24,7 @@ pipeline:
                   timeout: 10m
                   spec:
                     variables:
-                      - name: image
+                      - name: metadata.spec.template.spec.containers.image
                         type: String
                         value: luisredda/harness-java-demo-k8s:latests
                     delegateSelectors:
