@@ -27,6 +27,9 @@ pipeline:
                       - name: ff_key
                         type: String
                         value: <+input>
+                      - name: hello3
+                        type: String
+                        value: newvalue
                     delegateSelectors:
                       - cd-demo-se
                   failureStrategies: []
