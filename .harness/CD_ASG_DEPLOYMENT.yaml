@@ -64,6 +64,8 @@ pipeline:
                       #repo="java-restful-web-services"
                       repo=<+pipeline.properties.ci.codebase.repoName>
 
+                      echo "git url:  https://api.github.com/repos/${gitAccount}/${repo}/releases"
+
                       printf "Harness\n\nPushing to Github Releases\nFile: $FILE\nVersion: $version\nGit Account: $gitAccount\nRepo: $repo"
 
                       body=`echo "{\"tag_name\":\"${version}\",\"name\": \"Release Version ${version}\",\"body\": \"New Version ${version}\"}"`
