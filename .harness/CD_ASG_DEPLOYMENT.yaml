@@ -174,7 +174,7 @@ pipeline:
                       AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
                       AWS_AMI_SERVICE: <+pipeline.variables.aws_ami_service>
                       ARTIFACT: "<+pipeline.stages.Build.spec.execution.steps.Push.output.outputVariables.file_name> "
-                      AWS_AMI_VERSION: <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>
+                      AWS_AMI_VERSION: <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>-<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.sequence>
                   timeout: 10m
         tags: {}
         when:
