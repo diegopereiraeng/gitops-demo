@@ -134,13 +134,13 @@ pipeline:
                       export AWS_SECRET_ACCESS_KEY=<+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
 
 
-                      cat <<EOF > build-latam-java-app.json
-                      fileStore.getAsString("/packer/build-latam-java-app.json")
-                      EOF
+                      # cat <<EOF > build-latam-java-app.json
+                      <+fileStore.getAsString("/packer/build-latam-java-app.json")>
+                      # EOF
 
-                      cat <<EOF > packages.sh
-                      fileStore.getAsString("/packer/packages.sh")
-                      EOF
+                      # cat <<EOF > packages.sh
+                      <+fileStore.getAsString("/packer/packages.sh")>
+                      # EOF
 
                       export aws_ami_service="<+pipeline.variables.aws_ami_service>"
                       export artifact="Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
