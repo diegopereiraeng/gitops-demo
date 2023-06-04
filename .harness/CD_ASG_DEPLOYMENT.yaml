@@ -133,11 +133,12 @@ pipeline:
                       export AWS_ACCESS_KEY_ID=<+secrets.getValue('AWS_ACCESS_KEY_ID')>
                       export AWS_SECRET_ACCESS_KEY=<+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
 
-
+                      cat <<EOF > build-latam-java-app.json
                       <+fileStore.getAsString("/packer/build-latam-java-app.json")>
-
+                      EOF
+                      cat <<EOF > packages.sh
                       <+fileStore.getAsString("/packer/packages.sh")>
-
+                      EOF
                       ls -ltra
 
                       export aws_ami_service="<+pipeline.variables.aws_ami_service>"
