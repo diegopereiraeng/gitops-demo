@@ -1,5 +1,5 @@
 pipeline:
-  name: CD - ASG DEPLOYMENT - BETA
+  name: CD - ASG BANKING_APP DEPLOYMENT - BETA
   identifier: CD_ASG_DEPLOYMENT
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
