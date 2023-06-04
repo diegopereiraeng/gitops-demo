@@ -141,12 +141,12 @@ pipeline:
                       EOF
                       ls -ltra
 
-                      export aws_ami_service="<+pipeline.variables.aws_ami_service>"
-                      export artifact="Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
-                      export aws_ami_version="<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
+                      export AWS_AMI_SERVICE="<+pipeline.variables.aws_ami_service>"
+                      export ARTIFACT="Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
+                      export AWS_AMI_VERSION="<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       echo "triggeredBy=<+pipeline.triggeredBy.email>" 
 
-                      packer build -var "aws_ami_service=$aws_ami_service" -var "artifact=$artifact" -var "aws_ami_version=$aws_ami_version" -var "triggeredBy=<+pipeline.triggeredBy.email>" build-latam-java-app.json
+                      packer build -var "aws_ami_service=${AWS_AMI_SERVICE}" -var "artifact=${ARTIFACT}" -var "aws_ami_version=${AWS_AMI_VERSION}" -var "triggeredBy=<+pipeline.triggeredBy.email>" build-latam-java-app.json
                     shell: Sh
                     infrastructure:
                       type: KubernetesDirect
