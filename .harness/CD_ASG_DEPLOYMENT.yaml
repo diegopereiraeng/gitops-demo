@@ -130,8 +130,7 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: hashicorp/packer:1.9
                     command: |
-                      export AWS_ACCESS_KEY_ID=<+secrets.getValue('AWS_ACCESS_KEY_ID')>
-                      export AWS_SECRET_ACCESS_KEY=<+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
+
 
                       cat <<EOF > build-latam-java-app.json
                       <+fileStore.getAsString("/packer/build-latam-java-app.json")>
@@ -141,9 +140,9 @@ pipeline:
                       EOF
                       ls -ltra
 
-                      export AWS_AMI_SERVICE="<+pipeline.variables.aws_ami_service>"
-                      export ARTIFACT="Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
-                      export AWS_AMI_VERSION="<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
+                      echo "AWS_AMI_SERVICE=<+pipeline.variables.aws_ami_service>"
+                      echo "ARTIFACT=Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
+                      echo "AWS_AMI_VERSION=<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       echo "triggeredBy=<+pipeline.triggeredBy.email>" 
 
                       packer build -var "aws_ami_service=${AWS_AMI_SERVICE}" -var "artifact=${ARTIFACT}" -var "aws_ami_version=${AWS_AMI_VERSION}" -var "triggeredBy=<+pipeline.triggeredBy.email>" build-latam-java-app.json
@@ -167,7 +166,12 @@ pipeline:
                           allowPrivilegeEscalation: true
                         nodeSelector: {}
                     outputVariables: []
-                    envVariables: {}
+                    envVariables:
+                      AWS_ACCESS_KEY_ID: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
+                      AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
+                      AWS_AMI_SERVICE: <+pipeline.variables.aws_ami_service>
+                      ARTIFACT: Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>
+                      AWS_AMI_VERSION: <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>
                   timeout: 10m
         tags: {}
         when:
