@@ -17,6 +17,8 @@ pipeline:
         description: ""
         type: CI
         spec:
+          caching:
+            enabled: true
           cloneCodebase: true
           execution:
             steps:
