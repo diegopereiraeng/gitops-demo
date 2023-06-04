@@ -158,7 +158,6 @@ pipeline:
         tags: {}
         when:
           pipelineStatus: Success
-          condition: "false"
     - stage:
         name: Deploy ASG
         identifier: Deploy_ASG
