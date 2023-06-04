@@ -130,15 +130,22 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: hashicorp/packer:1.9
                     command: |
-                      export AWS_ACCESS_KEY_ID=${secrets.getValue('AWS_ACCESS_KEY_ID')}
-                      export AWS_SECRET_ACCESS_KEY=${secrets.getValue('AWS_SECRET_ACCESS_KEY')}
+                      export AWS_ACCESS_KEY_ID=<+secrets.getValue('AWS_ACCESS_KEY_ID')>
+                      export AWS_SECRET_ACCESS_KEY=<+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
+
+
+                      cat <<EOF > build-latam-java-app.json
+                      fileStore.getAsString("/packer/build-latam-java-app.json")
+                      EOF
+
+                      cat <<EOF > packages.sh
+                      fileStore.getAsString("/packer/packages.sh")
+                      EOF
 
                       export aws_ami_service="<+pipeline.variables.aws_ami_service>"
                       export artifact="Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       export aws_ami_version="<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       echo "triggeredBy=<+pipeline.triggeredBy.email>" 
-
-
 
                       packer build -var "aws_ami_service=${aws_ami_service}" -var "artifact=${artifact}" -var "aws_ami_version=${aws_ami_version}" -var "triggeredBy=<+pipeline.triggeredBy.email>" build-latam-java-app.json
                     shell: Sh
@@ -212,4 +219,4 @@ pipeline:
     - name: aws_ami_service
       type: String
       description: ""
-      value: <+input>
+      value: Banking-JAR
