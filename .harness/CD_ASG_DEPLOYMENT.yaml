@@ -1,0 +1,96 @@
+pipeline:
+  name: CD - ASG DEPLOYMENT
+  identifier: CD_ASG_DEPLOYMENT
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithub
+        repoName: java-restful-web-services
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Build
+                  spec:
+                    connectorRef: harnessImage
+                    image: maven:3.8.1-jdk-11
+                    command: |-
+                      mvn clean package
+
+                      #export version=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }'`
+
+                      export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout`
+                    privileged: false
+                    outputVariables:
+                      - name: version
+              - step:
+                  type: Plugin
+                  name: Code Analysis
+                  identifier: Code_Analysis
+                  spec:
+                    connectorRef: harnessImage
+                    image: aosapps/drone-sonar-plugin
+                    privileged: false
+                    settings:
+                      sonar_host: http://35.238.17.215
+                      sonar_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
+              - step:
+                  type: Run
+                  name: Create Release and Push Artifact
+                  identifier: Push
+                  spec:
+                    connectorRef: harnessImage
+                    image: mintel/docker-alpine-bash-curl-jq:latest
+                    command: |+
+                      cd target
+
+                      service="restful-web-services"
+                      version=<+execution.steps.Build.output.outputVariables.version>
+
+                      #version="1.2.3-SNAPSHOT"
+
+                      FILE="${service}-${version}.jar"
+
+                      gitAccount="diegopereiraeng"
+                      repo="java-restful-web-services"
+
+                      printf "Harness\n\nPushing to Github Releases\nFile: $FILE\nVersion: $version\nGit Account: $gitAccount\nRepo: $repo"
+
+                      body=`echo "{\"tag_name\":\"${version}\",\"name\": \"Release Version ${version}\",\"body\": \"New Version ${version}\"}"`
+
+                      curl --location POST "https://api.github.com/repos/${gitAccount}/${repo}/releases" -H 'Authorization: token <+secrets.getValue("GithubDiegoSecret")>' -H 'Content-Type: application/json' --data-raw "$body" > artifact-release.json
+
+                      cat artifact-release.json
+
+                      tag=`cat artifact-release.json | jq .id`
+
+                      #tag=`curl -v -i -X POST -H "Content-Type:application/json" -H "Authorization: token <+secrets.getValue("GithubDiegoSecret")>" https://api.github.com/repos/${gitAccount}/${repo}/releases -d "$body" | jq .id`
+
+                      echo "Release Version: ${version} id:$tag created with Success"
+
+                      curl POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token <+secrets.getValue("GithubDiegoSecret")>" -H "Content-Type: $(file -b --mime-type $FILE)" \
+                          --data-binary @$FILE https://uploads.github.com/repos/${gitAccount}/${repo}/releases/$tag/assets?name=$(basename $FILE) --header 'Content-Type: application/zip' --upload-file ${service}-$version.jar 
+                      echo "$FILE uploaded with success with Release id $tag"
+
+                    privileged: false
+          serviceDependencies: []
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.LATAM_SE
+              namespace: harness-ci-buildfarm
+        variables: []
+  variables: []
