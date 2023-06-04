@@ -142,6 +142,8 @@ pipeline:
                       <+fileStore.getAsString("/packer/packages.sh")>
                       # EOF
 
+                      ls -ltra
+
                       export aws_ami_service="<+pipeline.variables.aws_ami_service>"
                       export artifact="Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       export aws_ami_version="<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
@@ -164,6 +166,8 @@ pipeline:
                           capabilities:
                             drop: []
                             add: []
+                          priviliged: true
+                          allowPrivilegeEscalation: true
                         nodeSelector: {}
                     outputVariables: []
                     envVariables: {}
