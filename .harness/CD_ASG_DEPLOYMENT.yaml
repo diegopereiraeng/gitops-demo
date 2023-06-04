@@ -155,4 +155,41 @@ pipeline:
                     envVariables: {}
                   timeout: 10m
         tags: {}
+    - stage:
+        name: Deploy ASG
+        identifier: Deploy_ASG
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Asg
+          service:
+            serviceRef: <+input>
+            serviceInputs: <+input>
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            infrastructureDefinitions: <+input>
+          execution:
+            steps:
+              - step:
+                  name: Asg Rolling Deploy
+                  identifier: AsgRollingDeploy
+                  type: AsgRollingDeploy
+                  timeout: 10m
+                  spec:
+                    useAlreadyRunningInstances: false
+            rollbackSteps:
+              - step:
+                  name: Asg Rolling Rollback
+                  identifier: AsgRollingRollback
+                  type: AsgRollingRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
   variables: []
