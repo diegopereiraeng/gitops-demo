@@ -93,4 +93,66 @@ pipeline:
               connectorRef: account.LATAM_SE
               namespace: harness-ci-buildfarm
         variables: []
+    - stage:
+        name: Build Packer
+        identifier: Build_Packer
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Setup
+                  identifier: Setup
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |+
+                          mkdir -p "${WINGS_RUNTIME_PATH}"
+
+                          echo "aws_ami_service=${service.name}"
+                          echo "artifact=${artifact.metadata.ReleaseName}" 
+                          echo "aws_ami_version=${artifact.buildNo}" 
+                          echo "triggeredBy=${deploymentTriggeredBy}" 
+
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+              - step:
+                  type: Container
+                  name: Build Packer
+                  identifier: Build_Packer
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: packer
+                    command: |
+                      export AWS_ACCESS_KEY_ID=${secrets.getValue('AWS_ACCESS_KEY_ID')}
+                      export AWS_SECRET_ACCESS_KEY=${secrets.getValue('AWS_SECRET_ACCESS_KEY')}
+
+                      packer build -var "aws_ami_service=${service.name}" -var "artifact=${artifact.metadata.ReleaseName}" -var "aws_ami_version=${artifact.buildNo}" -var "triggeredBy=${deploymentTriggeredBy}" build-latam-java-app.json
+                    shell: Sh
+                    infrastructure:
+                      type: KubernetesDirect
+                      spec:
+                        connectorRef: account.cddemose
+                        namespace: harness-build-farm
+                        resources:
+                          limits:
+                            cpu: "0.5"
+                            memory: 500Mi
+                        annotations: {}
+                        labels: {}
+                        containerSecurityContext:
+                          capabilities:
+                            drop: []
+                            add: []
+                        nodeSelector: {}
+                    outputVariables: []
+                    envVariables: {}
+                  timeout: 10m
+        tags: {}
   variables: []
