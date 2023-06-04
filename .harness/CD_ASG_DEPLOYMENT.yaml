@@ -240,7 +240,6 @@ pipeline:
                 type: StageRollback
         when:
           pipelineStatus: Success
-          condition: "false"
   variables:
     - name: git_account
       type: String
