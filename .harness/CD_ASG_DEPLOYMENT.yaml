@@ -134,9 +134,9 @@ pipeline:
                       export AWS_SECRET_ACCESS_KEY=<+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
 
 
-                      <+fileStore.getAsString("/packer/build-latam-java-app.json")>
+                      json=`<+fileStore.getAsString("/packer/build-latam-java-app.json")>`
 
-                      <+fileStore.getAsString("/packer/packages.sh")>
+                      package=`<+fileStore.getAsString("/packer/packages.sh")>`
 
                       ls -ltra
 
