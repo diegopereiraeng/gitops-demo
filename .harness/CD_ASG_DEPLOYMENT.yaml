@@ -25,8 +25,6 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
-                    caching:
-                      enabled: true
                     connectorRef: account.DockerHubDiego
                     image: maven:3.8.1-jdk-11
                     shell: Sh
@@ -42,6 +40,7 @@ pipeline:
                     outputVariables:
                       - name: version
                       - name: sequence
+                    imagePullPolicy: IfNotPresent
               - step:
                   type: Run
                   name: Create Release and Push Artifact
