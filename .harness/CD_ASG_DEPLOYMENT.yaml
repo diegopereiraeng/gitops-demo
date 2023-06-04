@@ -144,7 +144,7 @@ pipeline:
                       ls -ltra
 
                       echo "AWS_AMI_SERVICE=<+pipeline.variables.aws_ami_service>"
-                      echo "ARTIFACT=<+pipeline.stages.Build.spec.execution.steps.Push.output.outputVariables.file_name>""
+                      echo "ARTIFACT=<+pipeline.stages.Build.spec.execution.steps.Push.output.outputVariables.file_name>"
                       echo "AWS_AMI_VERSION=<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       echo "triggeredBy=<+pipeline.triggeredBy.email>" 
 
