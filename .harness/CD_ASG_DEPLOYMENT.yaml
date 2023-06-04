@@ -7,7 +7,7 @@ pipeline:
   properties:
     ci:
       codebase:
-        connectorRef: account.diegogithub
+        connectorRef: account.diegogithubapp
         repoName: java-restful-web-services
         build: <+input>
   stages:
@@ -25,73 +25,69 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
-                    connectorRef: harnessImage
+                    connectorRef: account.DockerHubDiego
                     image: maven:3.8.1-jdk-11
+                    shell: Sh
                     command: |-
-                      mvn clean package
+                      mvn package
 
                       #export version=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }'`
 
                       export version=`mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout`
+
+                      export sequence=<+pipeline.sequenceId>
                     privileged: false
                     outputVariables:
                       - name: version
-              - step:
-                  type: Plugin
-                  name: Code Analysis
-                  identifier: Code_Analysis
-                  spec:
-                    connectorRef: harnessImage
-                    image: aosapps/drone-sonar-plugin
-                    privileged: false
-                    settings:
-                      sonar_host: http://35.238.17.215
-                      sonar_token: 9be106a1849c3b98f5beb1cc4b916674432944e0
+                      - name: sequence
               - step:
                   type: Run
                   name: Create Release and Push Artifact
                   identifier: Push
                   spec:
-                    connectorRef: harnessImage
+                    connectorRef: account.DockerHubDiego
                     image: mintel/docker-alpine-bash-curl-jq:latest
+                    shell: Sh
                     command: |+
                       cd target
 
                       service="restful-web-services"
-                      version=<+execution.steps.Build.output.outputVariables.version>
+                      version=<+execution.steps.Build.output.outputVariables.version>-<+execution.steps.Build.output.outputVariables.sequence>
 
                       #version="1.2.3-SNAPSHOT"
 
                       FILE="${service}-${version}.jar"
 
-                      gitAccount="diegopereiraeng"
-                      repo="java-restful-web-services"
+                      #gitAccount="diegopereiraeng"
+                      gitAccount=<+pipeline.variables.git_account>
+                      #repo="java-restful-web-services"
+                      repo=<+pipeline.properties.ci.codebase.repoName>
 
                       printf "Harness\n\nPushing to Github Releases\nFile: $FILE\nVersion: $version\nGit Account: $gitAccount\nRepo: $repo"
 
                       body=`echo "{\"tag_name\":\"${version}\",\"name\": \"Release Version ${version}\",\"body\": \"New Version ${version}\"}"`
 
-                      curl --location POST "https://api.github.com/repos/${gitAccount}/${repo}/releases" -H 'Authorization: token <+secrets.getValue("GithubDiegoSecret")>' -H 'Content-Type: application/json' --data-raw "$body" > artifact-release.json
+                      curl --location POST "https://api.github.com/repos/${gitAccount}/${repo}/releases" -H 'Authorization: token <+secrets.getValue("diegogittoken")>' -H 'Content-Type: application/json' --data-raw "$body" > artifact-release.json
 
                       cat artifact-release.json
 
                       tag=`cat artifact-release.json | jq .id`
 
-                      #tag=`curl -v -i -X POST -H "Content-Type:application/json" -H "Authorization: token <+secrets.getValue("GithubDiegoSecret")>" https://api.github.com/repos/${gitAccount}/${repo}/releases -d "$body" | jq .id`
+                      #tag=`curl -v -i -X POST -H "Content-Type:application/json" -H "Authorization: token <+secrets.getValue("diegogittoken")>" https://api.github.com/repos/${gitAccount}/${repo}/releases -d "$body" | jq .id`
 
                       echo "Release Version: ${version} id:$tag created with Success"
 
-                      curl POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token <+secrets.getValue("GithubDiegoSecret")>" -H "Content-Type: $(file -b --mime-type $FILE)" \
+                      curl POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token <+secrets.getValue("diegogittoken")>" -H "Content-Type: $(file -b --mime-type $FILE)" \
                           --data-binary @$FILE https://uploads.github.com/repos/${gitAccount}/${repo}/releases/$tag/assets?name=$(basename $FILE) --header 'Content-Type: application/zip' --upload-file ${service}-$version.jar 
                       echo "$FILE uploaded with success with Release id $tag"
 
                     privileged: false
-          serviceDependencies: []
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.LATAM_SE
-              namespace: harness-ci-buildfarm
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
         variables: []
     - stage:
         name: Build Packer
@@ -155,6 +151,9 @@ pipeline:
                     envVariables: {}
                   timeout: 10m
         tags: {}
+        when:
+          pipelineStatus: Success
+          condition: "false"
     - stage:
         name: Deploy ASG
         identifier: Deploy_ASG
@@ -192,4 +191,11 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
-  variables: []
+        when:
+          pipelineStatus: Success
+          condition: "false"
+  variables:
+    - name: git_account
+      type: String
+      description: ""
+      value: diegopereiraeng
