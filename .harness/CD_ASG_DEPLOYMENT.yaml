@@ -70,17 +70,17 @@ pipeline:
 
                       body=`echo "{\"tag_name\":\"${version}\",\"name\": \"Release Version ${version}\",\"body\": \"New Version ${version}\"}"`
 
-                      curl --location POST "https://api.github.com/repos/${gitAccount}/${repo}/releases" -H 'Authorization: token <+secrets.getValue("diegogittoken")>' -H 'Content-Type: application/json' --data-raw "$body" > artifact-release.json
+                      curl --location POST "https://api.github.com/repos/${gitAccount}/${repo}/releases" -H 'Authorization: token <+secrets.getValue("account.diegogittoken")>' -H 'Content-Type: application/json' --data-raw "$body" > artifact-release.json
 
                       cat artifact-release.json
 
                       tag=`cat artifact-release.json | jq .id`
 
-                      #tag=`curl -v -i -X POST -H "Content-Type:application/json" -H "Authorization: token <+secrets.getValue("diegogittoken")>" https://api.github.com/repos/${gitAccount}/${repo}/releases -d "$body" | jq .id`
+                      #tag=`curl -v -i -X POST -H "Content-Type:application/json" -H "Authorization: token <+secrets.getValue("account.diegogittoken")>" https://api.github.com/repos/${gitAccount}/${repo}/releases -d "$body" | jq .id`
 
                       echo "Release Version: ${version} id:$tag created with Success"
 
-                      curl POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token <+secrets.getValue("diegogittoken")>" -H "Content-Type: $(file -b --mime-type $FILE)" \
+                      curl POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token <+secrets.getValue("account.diegogittoken")>" -H "Content-Type: $(file -b --mime-type $FILE)" \
                           --data-binary @$FILE https://uploads.github.com/repos/${gitAccount}/${repo}/releases/$tag/assets?name=$(basename $FILE) --header 'Content-Type: application/zip' --upload-file ${service}-$version.jar 
                       echo "$FILE uploaded with success with Release id $tag"
 
