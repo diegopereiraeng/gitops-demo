@@ -51,7 +51,7 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: mintel/docker-alpine-bash-curl-jq:latest
                     shell: Sh
-                    command: |+
+                    command: |-
                       cd target
 
                       service="restful-web-services"
@@ -86,7 +86,10 @@ pipeline:
                           --data-binary @$FILE https://uploads.github.com/repos/${gitAccount}/${repo}/releases/$tag/assets?name=$(basename $FILE) --header 'Content-Type: application/zip' --upload-file ${service}-<+execution.steps.Build.output.outputVariables.version>.jar 
                       echo "$FILE uploaded with success with Release id $tag"
 
+                      export file_name=$(basename $FILE)
                     privileged: false
+                    outputVariables:
+                      - name: file_name
           platform:
             os: Linux
             arch: Amd64
@@ -141,12 +144,12 @@ pipeline:
                       ls -ltra
 
                       echo "AWS_AMI_SERVICE=<+pipeline.variables.aws_ami_service>"
-                      echo "ARTIFACT=Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
+                      echo "ARTIFACT=<+pipeline.stages.Build.spec.execution.steps.Push.output.outputVariables.file_name>""
                       echo "AWS_AMI_VERSION=<+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>" 
                       echo "triggeredBy=<+pipeline.triggeredBy.email>" 
 
                       packer build -var "aws_ami_service=${AWS_AMI_SERVICE}" -var "artifact=${ARTIFACT}" -var "aws_ami_version=${AWS_AMI_VERSION}" -var "triggeredBy=<+pipeline.triggeredBy.email>" build-latam-java-app.json
-                    shell: Sh
+                    shell: Bash
                     infrastructure:
                       type: KubernetesDirect
                       spec:
@@ -170,7 +173,7 @@ pipeline:
                       AWS_ACCESS_KEY_ID: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
                       AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
                       AWS_AMI_SERVICE: <+pipeline.variables.aws_ami_service>
-                      ARTIFACT: Release Version <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>
+                      ARTIFACT: "<+pipeline.stages.Build.spec.execution.steps.Push.output.outputVariables.file_name> "
                       AWS_AMI_VERSION: <+pipeline.stages.Build.spec.execution.steps.Build.output.outputVariables.version>
                   timeout: 10m
         tags: {}
@@ -224,4 +227,4 @@ pipeline:
     - name: aws_ami_service
       type: String
       description: ""
-      value: Banking-JAR
+      value: latam-java-app
