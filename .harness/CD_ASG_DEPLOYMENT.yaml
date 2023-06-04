@@ -135,10 +135,10 @@ pipeline:
                     command: |
 
 
-                      cat <<EOF > build-latam-java-app.json
+                      cat <<'EOF' > build-latam-java-app.json
                       <+fileStore.getAsString("/packer/build-latam-java-app.json")>
                       EOF
-                      cat <<EOF > packages.sh
+                      cat <<'EOF' > packages.sh
                       <+fileStore.getAsString("/packer/packages.sh")>
                       EOF
                       ls -ltra
