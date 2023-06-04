@@ -81,7 +81,7 @@ pipeline:
                       echo "Release Version: ${version} id:$tag created with Success"
 
                       curl POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token <+secrets.getValue("account.diegogittoken")>" -H "Content-Type: $(file -b --mime-type $FILE)" \
-                          --data-binary @$FILE https://uploads.github.com/repos/${gitAccount}/${repo}/releases/$tag/assets?name=$(basename $FILE) --header 'Content-Type: application/zip' --upload-file ${service}-$version.jar 
+                          --data-binary @$FILE https://uploads.github.com/repos/${gitAccount}/${repo}/releases/$tag/assets?name=$(basename $FILE) --header 'Content-Type: application/zip' --upload-file ${service}-<+execution.steps.Build.output.outputVariables.version>.jar 
                       echo "$FILE uploaded with success with Release id $tag"
 
                     privileged: false
