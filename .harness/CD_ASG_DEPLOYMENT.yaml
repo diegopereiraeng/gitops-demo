@@ -129,14 +129,14 @@ pipeline:
                   spec:
                     connectorRef: account.DockerHubDiego
                     image: hashicorp/packer:1.9
-                    command: |-
+                    command: |
                       export AWS_ACCESS_KEY_ID=<+secrets.getValue('AWS_ACCESS_KEY_ID')>
                       export AWS_SECRET_ACCESS_KEY=<+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
 
 
-                      json=`<+fileStore.getAsString("/packer/build-latam-java-app.json")>`
+                      <+fileStore.getAsString("/packer/build-latam-java-app.json")>
 
-                      package=`<+fileStore.getAsString("/packer/packages.sh")>`
+                      <+fileStore.getAsString("/packer/packages.sh")>
 
                       ls -ltra
 
@@ -146,11 +146,6 @@ pipeline:
                       echo "triggeredBy=<+pipeline.triggeredBy.email>" 
 
                       packer build -var "aws_ami_service=$aws_ami_service" -var "artifact=$artifact" -var "aws_ami_version=$aws_ami_version" -var "triggeredBy=<+pipeline.triggeredBy.email>" build-latam-java-app.json
-
-                      # cat <<EOF > build-latam-java-app.json
-                      # EOF
-                      # cat <<EOF > packages.sh
-                      # EOF
                     shell: Sh
                     infrastructure:
                       type: KubernetesDirect
