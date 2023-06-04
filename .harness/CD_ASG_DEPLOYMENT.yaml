@@ -196,6 +196,22 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: AsgCanaryDeploy
+                  name: AsgCanaryDeploy_1
+                  identifier: AsgCanaryDeploy_1
+                  spec:
+                    instanceSelection:
+                      type: Count
+                      spec:
+                        count: 1
+                  timeout: 10s
+              - step:
+                  type: AsgCanaryDelete
+                  name: AsgCanaryDelete
+                  identifier: AsgCanaryDelete
+                  spec: {}
+                  timeout: 10m
+              - step:
                   name: Asg Rolling Deploy
                   identifier: AsgRollingDeploy
                   type: AsgRollingDeploy
@@ -203,6 +219,12 @@ pipeline:
                   spec:
                     useAlreadyRunningInstances: false
             rollbackSteps:
+              - step:
+                  type: AsgCanaryDelete
+                  name: AsgCanaryDelete_Rollback
+                  identifier: AsgCanaryDelete_Rollback
+                  spec: {}
+                  timeout: 10m
               - step:
                   name: Asg Rolling Rollback
                   identifier: AsgRollingRollback
