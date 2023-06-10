@@ -9,41 +9,32 @@ template:
       connectorRef: account.DockerHubDiego
       image: curlimages/curl:7.82.0
       shell: Sh
-      command: |-
-        echo "Sonar Result: <+execution.steps.Sonar_Scan_Vulnerabilities.status>"
-        echo "Sonar QG Result: <+execution.steps.Sonar_Scan.status>"
-        echo "Snyk Result: <+execution.steps.snyk.status>"
-        echo "Bandit Result: <+execution.steps.bandit.status>"
+      command: |+
+        # status="<+execution.steps.Sonar_Scan_Vulnerabilities.status>"
+        # name="harness-ci/sonarqube"
 
-        if [[ "<+execution.steps.Sonar_Scan.status>" == "SUCCEEDED" ]]; then
-        curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
-          -d '{"state":"success","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan passed","context":"harness-ci/sonarqube"}'
+        echo "Send Commit Status"
+
+        if [[ "$status" == "SUCCEEDED" ]]; then
+          state="success"
+          description="$name scan passed for <+pipeline.properties.ci.codebase.repoName>"
+        elif [[ "$status" == "PENDING" ]]; then
+          state="pending"
+          description="$name scan pending for <+pipeline.properties.ci.codebase.repoName>"
         else
-        curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
-          -d '{"state":"failure","target_url":"http://sonar.harness-demo.site/dashboard?id=payments-validation","description":"sonarqube scan failed","context":"harness-ci/sonarqube"}'
+          state="failure"
+          description="$name scan failed for <+pipeline.properties.ci.codebase.repoName>"
         fi
 
-
         curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
           -X POST \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
-          -d '{"state":"success","target_url":"https://app.snyk.io/","description":"snyk scan passed","context":"harness-ci/snyk"}'
+          https://api.github.com/repos/diegopereiraeng/<+pipeline.properties.ci.codebase.repoName>/statuses/<+codebase.commitSha> \
+          -d "{\"state\":\"$state\",\"target_url\":\"http://sonar.harness-demo.site/dashboard?id=<+pipeline.properties.ci.codebase.repoName>\",\"description\":\"$description\",\"context\":\"$name\"}"
 
-
-        curl -i -u diegopereiraeng:<+secrets.getValue("account.diegogittoken")> \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/diegopereiraeng/payments-validation/statuses/<+codebase.commitSha> \
-          -d '{"state":"success","target_url":"https://bandit.readthedocs.io/","description":"bandit scan passed","context":"harness-ci/bandit"}'
-
-          
+      envVariables:
+        status: <+input>
+        name: <+input>
       imagePullPolicy: IfNotPresent
     when:
       stageStatus: Success
