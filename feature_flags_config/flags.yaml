@@ -1,0 +1,4125 @@
+featureFlags:
+  flags:
+  - flag:
+      name: FRONT_USER_MSG
+      identifier: ALL_ALERT_MODAL
+      description: Send a message to user
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        variations:
+        - identifier: "Off"
+          value: "off"
+        - identifier: Welcome
+          value: on|success|Welcome to Feature Flags Demo|Please use your company
+            email for better experience! <3
+        - identifier: Bem_vindo
+          value: on|success|Bem vindo a demo de Feature Flags|Por favor use o email
+            de sua empresa para melhor experiencia! <3
+        - identifier: Bienvenido
+          value: on|success|Bienvenido a la demostración de Feature Flags | ¡Utilice
+            el correo electrónico de su empresa para obtener una mejor experiencia!
+            <3
+        - identifier: Video_Platform
+          value: on|image|Harness|<video width=“200" height="300" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
+            autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
+        - identifier: Platform_Path
+          value: on|image|Harness|<video class="videoInsert" src="https://cms.harness.io/uploads/hero_animation_v6_91c8255745.mp4"
+            autoplay loop>Sorry, your browser doesn t support embedded videos.</video>
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Welcome
+          offVariation: "Off"
+        state: "on"
+      - identifier: harnesspov
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: ricardogarzaatdaccommx
+          variation: Bienvenido
+      - identifier: demose
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
+        - targets:
+          - identifier: gabsthesregmailcom
+          variation: Bienvenido
+        - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
+      - identifier: salazarch
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "on"
+        targetRules:
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Bem_vindo
+      - identifier: fbreton
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+  - flag:
+      name: FRONT_Show Youtube Video
+      identifier: ALL_YOUTUBE_MODAL
+      description: Show Youtube video using youtube video ID
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        variations:
+        - identifier: "OFF"
+          value: "off"
+        - identifier: Captain_Canary
+          value: VSHVo9jHMAk
+        - identifier: Feature_Flags
+          value: Zf51EDcDa80
+        - identifier: Platform_Demo_PTBR
+          value: heGSrKvVHgs
+      prerequisites:
+      - flagIdentifier: bug_process_response
+        variations:
+        - "true"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: demose
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Captain_Canary
+          offVariation: "OFF"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Captain_Canary
+          offVariation: "OFF"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+        rules:
+        - priority: 100
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 100
+                variation: "OFF"
+              - weight: 0
+                variation: Captain_Canary
+              - weight: 0
+                variation: Feature_Flags
+              - weight: 0
+                variation: Platform_Demo_PTBR
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
+        targetRules:
+        - targets:
+          - identifier: diegoharnessio
+          variation: Feature_Flags
+      - identifier: andymarshallff
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: qa
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: gacerioni
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: Captain_Canary
+      - identifier: salazarch
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: izacsaulgmailcom
+          variation: Captain_Canary
+        - targets:
+          - identifier: GuestMonterrey
+          variation: Feature_Flags
+      - identifier: gnogueira7
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+        targetRules:
+        - targets:
+          - identifier: luisreddagmailcom
+          - identifier: GuestSantana-de-Parnaiba
+          variation: "OFF"
+      - identifier: fbreton
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+        rules:
+        - priority: 100
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 0
+                variation: "OFF"
+              - weight: 0
+                variation: Captain_Canary
+              - weight: 100
+                variation: Feature_Flags
+              - weight: 0
+                variation: Platform_Demo_PTBR
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
+      - identifier: prod
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: GuestMexico-City
+          variation: Feature_Flags
+  - flag:
+      name: AUTHORIZATION_BETA_EXPERIMENT
+      identifier: AUTHORIZATION_BETA_EXPERIMENT
+      description: Increased Error Rate and RT for auth API in Validation App
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+  - flag:
+      name: PAYMENTS_PROCESS_V2
+      identifier: bug_process_response
+      description: Increased response time version in Payments App
+      permanent: false
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: FRONT_Color_Mode
+      identifier: Color_Mode
+      description: Change the main color (banner, menu,etc)
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        variations:
+        - identifier: Dark
+          value: '#222'
+        - identifier: Blue
+          value: '#2196F3'
+        - identifier: Green
+          value: '#008A60'
+        - identifier: Pink
+          value: '#C2368E'
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "on"
+      - identifier: demose
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Green
+          offVariation: Blue
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "on"
+      - identifier: gnogueira7
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: Blue
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
+      - identifier: ldhertert
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "on"
+        targetRules:
+        - targets:
+          - identifier: luisreddagmailcom
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Blue
+      - identifier: fbreton
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "on"
+  - flag:
+      name: FRONT_Halloween Mode
+      identifier: Halloween
+      description: Enable Halloween Theme in page - (Bug - needs refresh to turn back)
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: FRONT_Halloween_Jack
+      identifier: HalloweenJack
+      description: enable the draggable halloween character
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: GuestUnknown
+          variation: "true"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: FRONT_Maintenance_Mode
+      identifier: Home_Maintenance
+      description: Put app into Maintenance Mode
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: GuestSo-Paulo
+          variation: "false"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+        rules:
+        - priority: 1
+          serve:
+            serveVariation: "true"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
+        - priority: 2
+          serve:
+            serveVariation: "true"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
+        targetRules:
+        - targets:
+          - identifier: Guest
+          variation: "true"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: luisreddagmailcom
+          - identifier: GuestSantana-de-Parnaiba
+          variation: "false"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: FRONT_Menu Profile
+      identifier: Home_Menu
+      description: |-
+        Premium for additional features
+
+        Visitor to no feature (signup)
+      permanent: true
+      spec:
+        type: json
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        variations:
+        - identifier: Basic
+          value: '[ { "type": "fa-users", "name": "Home" },   { "type": "fa-eye",
+            "name": "Activities" },   { "type": "fa-users", "name": "Bills" },   {
+            "type": "fa-bullseye", "name": "Services" },   { "type": "fa-bell", "name":
+            "Insurance" },   { "type": "fa-history", "name": "Help" },   { "type":
+            "fa-cog", "name": "Settings" , "name": "Novo Menu"} ,   { "type": "fa-cog",
+            "name": "Settings" , "name": "Demo FF"} ]'
+        - identifier: Visitor
+          value: '[    { "type": "fa-users", "name": "Sign in" },   { "type": "fa-eye",
+            "name": "Sign up" },   { "type": "fa-users", "name": "Harness" },   {
+            "type": "fa-users", "name": "Demo FF" },{ "type": "fa-users", "name":
+            "Red" }  ]'
+        - identifier: Premium
+          value: '[    { "type": "fa-users", "name": "Home" },   { "type": "fa-eye",
+            "name": "Payments","href": "./payments.html" },   { "type": "fa-users",
+            "name": "Bills" },   { "type": "fa-bullseye", "name": "Services" },   {
+            "type": "fa-hand-holding-usd", "name": "Loans" },   { "type": "fa-bell",
+            "name": "Insurance" },   { "type": "fa-bank", "name": "Crypto" },   {
+            "type": "fa-history", "name": "Help" },   { "type": "fa-cog", "name":
+            "Settings" },{"type": "fa-cog" , "name": "Time" } ]'
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
+      - identifier: harnesspov
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
+      - identifier: demose
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Premium
+          offVariation: Premium
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
+      - identifier: qa
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
+      - identifier: salazarch
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
+      - identifier: gnogueira7
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "on"
+      - identifier: fbreton
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+  - flag:
+      name: FRONT_Home_RegionMAP
+      identifier: Home_RegionMAP
+      description: Add Region Map in Home - Logged area
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: FRONT_Enable Signup
+      identifier: Index_SignUp_Enable
+      description: Enable the Signup feature in Login page
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        variations:
+        - identifier: "ON"
+          value: "on"
+        - identifier: "OFF"
+          value: "off"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "ON"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - TZ_central
+      - identifier: harnesspov
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: demose
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: guinogueira7
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+        targetRules:
+        - targets:
+          - identifier: GuestToluca
+          variation: "ON"
+      - identifier: andymarshallff
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: qa
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: rnharness
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: salazarch
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: gnogueira7
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "OFF"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
+      - identifier: ldhertert
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "ON"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
+        targetRules:
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: "ON"
+      - identifier: fbreton
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+      - identifier: prod
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "on"
+  - flag:
+      name: ios_demo_feature
+      identifier: ios_demo_feature
+      description: ""
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: ios_free_feature
+      identifier: ios_free_feature
+      description: ""
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: ios_home_message_feature
+      identifier: ios_home_message_feature
+      description: ""
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        variations:
+        - identifier: Hi_Engineer
+          value: Hi Engineer
+        - identifier: Harness_FF
+          value: Harness FF
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: Hi_Engineer
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Exception3456
+      - identifier: andymarshallff
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+  - flag:
+      name: ios_premium_feature
+      identifier: ios_premium_feature
+      description: ""
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: FRONT_Menu Version
+      identifier: Menu_Version
+      description: |-
+        V1 for large menu
+        v2 for compact menu
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: V2
+          offVariation: V1
+        variations:
+        - identifier: V1
+          value: v1
+        - identifier: V2
+          value: v2
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "on"
+      - identifier: andymarshallff
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "on"
+      - identifier: salazarch
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "on"
+      - identifier: fbreton
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+        rules:
+        - priority: 100
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 0
+                variation: V1
+              - weight: 100
+                variation: V2
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
+      - identifier: prod
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+  - flag:
+      name: NEW_PROMO_ENABLE_2
+      identifier: NEW_PROMO_ENABLE_2
+      description: 'Habilitar nueva promoción '
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        variations:
+        - identifier: Promo_Norte
+          value: https://www.fahorro.com/static/frontend/Never8/default/es_MX/images/logo.png
+        - identifier: Promo_Centro_Occidente
+          value: https://elukelele.com/wp-content/uploads/2022/09/saving-phar-1-1-1280x720.jpg
+        - identifier: Sin_Promo
+          value: "off"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Promo_Centro_Occidente
+          offVariation: Sin_Promo
+        state: "on"
+        rules:
+        - priority: 0
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 25
+                variation: Promo_Norte
+              - weight: 25
+                variation: Sin_Promo
+              - weight: 50
+                variation: Promo_Centro_Occidente
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
+  - flag:
+      name: FRONT_SHOW QRCODE
+      identifier: QRCODE
+      description: Show qr code for login page - dynamic
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        variations:
+        - identifier: "On"
+          value: "true"
+        - identifier: "Off"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "on"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "On"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - TZ_central
+      - identifier: harnesspov
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: demose
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: guinogueira7
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: gacerioni
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+        rules:
+        - priority: 0
+          serve:
+            serveVariation: "Off"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
+      - identifier: ldhertert
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "on"
+        rules:
+        - priority: 0
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 50
+                variation: "On"
+              - weight: 50
+                variation: "Off"
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Guests
+        targetRules:
+        - targets:
+          - identifier: luisreddagmailcom
+          - identifier: GuestSantana-de-Parnaiba
+          variation: "Off"
+      - identifier: fbreton
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "on"
+      - identifier: crizstian
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+  - flag:
+      name: FRONT_Title and Menu Text Color
+      identifier: Text_Color_Mode
+      description: Change the Text color of Title and Menu
+      permanent: true
+      spec:
+        type: string
+        default:
+          onVariation: Black
+          offVariation: White
+        variations:
+        - identifier: Black
+          value: '#222'
+        - identifier: White
+          value: '#fff'
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "on"
+        targetRules:
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Black
+        - targets:
+          - identifier: luisreddagmailcom
+          variation: White
+      - identifier: fbreton
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+  - flag:
+      name: VALIDATION_BETA_EXPERIMENT
+      identifier: VALIDATION_BETA_EXPERIMENT
+      description: Flag for new experiments to be tested during production rollout
+        only
+      permanent: true
+      spec:
+        type: boolean
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
+      - identifier: poharav
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
+      - identifier: jkharnessio
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
+      - identifier: gnogueira7
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "on"
+      - identifier: francislabs
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+      - identifier: rwharness
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
