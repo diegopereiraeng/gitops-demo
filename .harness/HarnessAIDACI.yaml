@@ -51,9 +51,11 @@ pipeline:
                       name: <+pipeline.properties.ci.codebase.repoName>
                       type: repository
                       variant: <+pipeline.properties.ci.codebase.build.build.spec.branch>
+                      workspace: /harness
                     advanced:
                       log:
-                        level: info
+                        level: debug
+                      fail_on_severity: high
                     auth:
                       access_token: <+secrets.getValue("account.harnesssonartoken")>
                       domain: http://sonar.harness-demo.site
