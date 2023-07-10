@@ -58,7 +58,7 @@ pipeline:
                             level: debug
                           fail_on_severity: high
                         auth:
-                          access_token: <+secrets.getValue("account.harnesssonartoken")>
+                          access_token: sqa_fac17ad9f133623959a64b80755164cb1830482c
                           domain: http://sonar.harness-demo.site
                           ssl: false
                         tool:
