@@ -56,6 +56,8 @@ pipeline:
                       log:
                         level: debug
                       fail_on_severity: high
+                    settings:
+                      repository_branch: <+pipeline.properties.ci.codebase.build.build.spec.branch>
                     auth:
                       access_token: <+secrets.getValue("account.harnesssonartoken")>
                       domain: http://sonar.harness-demo.site
