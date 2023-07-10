@@ -59,7 +59,7 @@ pipeline:
                     auth:
                       access_token: <+secrets.getValue("account.harnesssonartoken")>
                       domain: http://sonar.harness-demo.site
-                      ssl: true
+                      ssl: false
                     tool:
                       java:
                         binaries: target/classes
