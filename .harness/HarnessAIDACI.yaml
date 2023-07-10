@@ -1,0 +1,42 @@
+pipeline:
+  name: Harness-AIDA-CI
+  identifier: HarnessAIDACI
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: harness-aida
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Java
+        identifier: Build_Java
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: RunTests
+                  name: Run Tests - Package
+                  identifier: Run_Tests_Package
+                  spec:
+                    language: Java
+                    buildTool: Maven
+                    args: package
+                    runOnlySelectedTests: true
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "**/*.xml"
