@@ -40,3 +40,25 @@ pipeline:
                       spec:
                         paths:
                           - "**/*.xml"
+              - step:
+                  type: Sonarqube
+                  name: Sonarqube
+                  identifier: Sonarqube
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      name: <+pipeline.properties.ci.codebase.repoName>
+                      type: repository
+                      variant: <+pipeline.properties.ci.codebase.build.build.spec.branch>
+                    advanced:
+                      log:
+                        level: info
+                    auth:
+                      access_token: <+secrets.getValue("account.harnesssonartoken")>
+                      domain: http://sonar.harness-demo.site
+                      ssl: true
+                    tool:
+                      java:
+                        binaries: target/classes
+                      project_key: <+pipeline.properties.ci.codebase.repoName>
