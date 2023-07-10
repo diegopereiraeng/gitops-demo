@@ -40,27 +40,47 @@ pipeline:
                       spec:
                         paths:
                           - "**/*.xml"
-              - step:
-                  type: Sonarqube
-                  name: Sonarqube
-                  identifier: Sonarqube
-                  spec:
-                    mode: orchestration
-                    config: default
-                    target:
-                      name: <+pipeline.properties.ci.codebase.repoName>
-                      type: repository
-                      variant: <+codebase.branch>
-                      workspace: /harness
-                    advanced:
-                      log:
-                        level: debug
-                      fail_on_severity: high
-                    auth:
-                      access_token: <+secrets.getValue("account.harnesssonartoken")>
-                      domain: http://sonar.harness-demo.site
-                      ssl: false
-                    tool:
-                      java:
-                        binaries: target/classes
-                      project_key: <+pipeline.properties.ci.codebase.repoName>
+              - parallel:
+                  - step:
+                      type: Sonarqube
+                      name: Sonarqube
+                      identifier: Sonarqube
+                      spec:
+                        mode: orchestration
+                        config: default
+                        target:
+                          name: <+pipeline.properties.ci.codebase.repoName>
+                          type: repository
+                          variant: <+codebase.branch>
+                          workspace: /harness
+                        advanced:
+                          log:
+                            level: debug
+                          fail_on_severity: high
+                        auth:
+                          access_token: <+secrets.getValue("account.harnesssonartoken")>
+                          domain: http://sonar.harness-demo.site
+                          ssl: false
+                        tool:
+                          java:
+                            binaries: target/classes
+                          project_key: <+pipeline.properties.ci.codebase.repoName>
+                  - step:
+                      type: Security
+                      name: Sonar
+                      identifier: Sonar
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: repository
+                          product_name: sonarqube
+                          product_config_name: default
+                          product_access_token: <+secrets.getValue("account.harnesssonartoken")>
+                          product_project_key: <+pipeline.properties.ci.codebase.repoName>
+                          bypass_ssl_check: "true"
+                          log_level: DEBUG
+                          verify_ssl: "false"
+                          repository_project: <+pipeline.properties.ci.codebase.repoName>
+                          product_domain: http://sonar.harness-demo.site
+                          repository_branch: <+codebase.branch>
