@@ -84,3 +84,4 @@ pipeline:
                           repository_project: <+pipeline.properties.ci.codebase.repoName>
                           product_domain: http://sonar.harness-demo.site
                           repository_branch: <+codebase.branch>
+                          product_java_binaries: target/classes
