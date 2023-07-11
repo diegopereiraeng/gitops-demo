@@ -67,17 +67,6 @@ pipeline:
                           list1 = add_item(1)
                           list2 = add_item(2)
                           print(list1, list2)
-                  - step:
-                      type: Run
-                      name: ZeroDivisionError - Dividing by Zero
-                      identifier: ZeroDivisionError_Dividing_by_Zero
-                      spec:
-                        shell: Python
-                        command: |-
-                          dividend = 10
-                          divisor = 0
-                          result = dividend / divisor
-                          print(result)
               - parallel:
                   - step:
                       type: Sonarqube
