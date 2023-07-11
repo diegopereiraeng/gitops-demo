@@ -113,3 +113,37 @@ pipeline:
                           product_domain: http://sonar.harness-demo.site
                           repository_branch: <+codebase.branch>
                           product_java_binaries: target/classes
+                  - step:
+                      type: Background
+                      name: Dind
+                      identifier: Dind
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: docker:dind
+                        shell: Sh
+              - step:
+                  type: Run
+                  name: Docker Build
+                  identifier: Docker_Build
+                  spec:
+                    shell: Sh
+                    command: docker build . -t diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>:test
+              - step:
+                  type: AquaTrivy
+                  name: AquaTrivy
+                  identifier: AquaTrivy
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      name: <+pipeline.properties.ci.codebase.repoName>
+                      type: container
+                      variant: test
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    image:
+                      type: local_image
+                      name: diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
+                      tag: test
