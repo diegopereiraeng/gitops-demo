@@ -42,6 +42,44 @@ pipeline:
                           - "**/*.xml"
               - parallel:
                   - step:
+                      type: Run
+                      name: python - Inefficient String Concatenation in a Loop
+                      identifier: python_Inefficient_String_Concatenation_in_a_Loop
+                      spec:
+                        shell: Python
+                        command: |-
+                          result = ""
+                          values = [1, 2, 3, 4, 5]
+                          for value in values:
+                              result += str(value)
+                          print(result)
+                  - step:
+                      type: Run
+                      name: Mutable Default Argument in a Function
+                      identifier: Mutable_Default_Argument_in_a_Function
+                      spec:
+                        shell: Sh
+                        command: |
+                          def add_item(item, my_list=[]):
+                              my_list.append(item)
+                              return my_list
+
+                          list1 = add_item(1)
+                          list2 = add_item(2)
+                          print(list1, list2)
+                  - step:
+                      type: Run
+                      name: ZeroDivisionError - Dividing by Zero
+                      identifier: ZeroDivisionError_Dividing_by_Zero
+                      spec:
+                        shell: Sh
+                        command: |-
+                          dividend = 10
+                          divisor = 0
+                          result = dividend / divisor
+                          print(result)
+              - parallel:
+                  - step:
                       type: Sonarqube
                       name: Sonarqube
                       identifier: Sonarqube
