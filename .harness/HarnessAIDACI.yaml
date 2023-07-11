@@ -101,6 +101,7 @@ pipeline:
                           ssl: false
                         tool:
                           java:
+                            libraries: lib/**/*.jar
                             binaries: target/classes
                           project_key: <+pipeline.properties.ci.codebase.repoName>
                   - step:
