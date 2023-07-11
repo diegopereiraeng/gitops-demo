@@ -58,7 +58,7 @@ pipeline:
                             level: debug
                           fail_on_severity: high
                         auth:
-                          access_token: sqp_7c2e74b9825669407522e79e58765380a90165c6
+                          access_token: a
                           domain: http://sonar.harness-demo.site
                           ssl: false
                         tool:
