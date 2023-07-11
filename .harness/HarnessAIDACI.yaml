@@ -51,14 +51,14 @@ pipeline:
                           result = ""
                           values = [1, 2, 3, 4, 5]
                           for value in values:
-                              result += str(value)
+                            result += str(value)
                           print(result)
                   - step:
                       type: Run
                       name: Mutable Default Argument in a Function
                       identifier: Mutable_Default_Argument_in_a_Function
                       spec:
-                        shell: Sh
+                        shell: Python
                         command: |
                           def add_item(item, my_list=[]):
                               my_list.append(item)
@@ -72,7 +72,7 @@ pipeline:
                       name: ZeroDivisionError - Dividing by Zero
                       identifier: ZeroDivisionError_Dividing_by_Zero
                       spec:
-                        shell: Sh
+                        shell: Python
                         command: |-
                           dividend = 10
                           divisor = 0
