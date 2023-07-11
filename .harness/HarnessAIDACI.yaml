@@ -52,7 +52,7 @@ pipeline:
                           values = [1, 2, 3, 4, 5]
                           for value in values:
                             result += str(value)
-                          print(result)
+                          print result
                   - step:
                       type: Run
                       name: Mutable Default Argument in a Function
