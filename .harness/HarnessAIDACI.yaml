@@ -113,6 +113,9 @@ pipeline:
                           product_domain: http://sonar.harness-demo.site
                           repository_branch: <+codebase.branch>
                           product_java_binaries: target/classes
+                      when:
+                        stageStatus: Success
+                        condition: "false"
                   - step:
                       type: Background
                       name: Dind
