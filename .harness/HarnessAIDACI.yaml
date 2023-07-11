@@ -93,6 +93,9 @@ pipeline:
                             libraries: lib/**/*.jar
                             binaries: target/classes
                           project_key: <+pipeline.properties.ci.codebase.repoName>
+                      when:
+                        stageStatus: Success
+                        condition: "false"
                   - step:
                       type: Security
                       name: Sonar
@@ -115,7 +118,6 @@ pipeline:
                           product_java_binaries: target/classes
                       when:
                         stageStatus: Success
-                        condition: "false"
                   - step:
                       type: Background
                       name: Dind
