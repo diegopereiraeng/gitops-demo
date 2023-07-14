@@ -114,11 +114,6 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "Off"
-          offVariation: "Off"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "Off"
@@ -141,16 +136,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
-        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
+        - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -221,6 +216,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "Off"
           offVariation: "Off"
@@ -352,11 +352,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-      - identifier: qa
-        default:
-          onVariation: Feature_Flags
-          offVariation: "OFF"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "OFF"
@@ -486,6 +481,11 @@ featureFlags:
         - targets:
           - identifier: GuestMexico-City
           variation: Feature_Flags
+      - identifier: qa
+        default:
+          onVariation: Feature_Flags
+          offVariation: "OFF"
+        state: "off"
   - flag:
       name: AUTHORIZATION_BETA_EXPERIMENT
       identifier: AUTHORIZATION_BETA_EXPERIMENT
@@ -582,11 +582,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -677,6 +672,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
   - flag:
       name: PAYMENTS_PROCESS_V2
       identifier: bug_process_response
@@ -773,11 +773,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "on"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -868,6 +863,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
   - flag:
       name: FRONT_Color_Mode
       identifier: Color_Mode
@@ -964,11 +964,6 @@ featureFlags:
           offVariation: Blue
         state: "off"
       - identifier: asv108
-        default:
-          onVariation: Dark
-          offVariation: Blue
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Dark
           offVariation: Blue
@@ -1077,6 +1072,11 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "on"
+      - identifier: qa
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
   - flag:
       name: FRONT_Halloween Mode
       identifier: Halloween
@@ -1173,11 +1173,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -1264,6 +1259,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1364,11 +1364,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -1459,6 +1454,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1559,11 +1559,6 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: asv108
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1684,6 +1679,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
   - flag:
       name: FRONT_Menu Profile
       identifier: Home_Menu
@@ -1799,11 +1799,6 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "on"
-      - identifier: qa
-        default:
-          onVariation: Premium
-          offVariation: Basic
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: Premium
@@ -1890,6 +1885,11 @@ featureFlags:
           offVariation: Basic
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: qa
         default:
           onVariation: Premium
           offVariation: Basic
@@ -1990,11 +1990,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -2081,6 +2076,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2194,11 +2194,6 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
-      - identifier: qa
-        default:
-          onVariation: "ON"
-          offVariation: "OFF"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "ON"
@@ -2311,6 +2306,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
+      - identifier: qa
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
   - flag:
       name: ios_demo_feature
       identifier: ios_demo_feature
@@ -2407,11 +2407,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -2498,6 +2493,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2598,11 +2598,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -2689,6 +2684,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2798,11 +2798,6 @@ featureFlags:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: Harness_FF
-          offVariation: Hi_Engineer
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: Harness_FF
@@ -2889,6 +2884,11 @@ featureFlags:
           offVariation: Hi_Engineer
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: qa
         default:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
@@ -2989,11 +2989,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -3080,6 +3075,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
         default:
           onVariation: "true"
           offVariation: "false"
@@ -3178,11 +3178,6 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: asv108
-        default:
-          onVariation: V2
-          offVariation: V1
-        state: "off"
-      - identifier: qa
         default:
           onVariation: V2
           offVariation: V1
@@ -3292,6 +3287,11 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
   - flag:
       name: NEW_PROMO_ENABLE_2
       identifier: NEW_PROMO_ENABLE_2
@@ -3386,11 +3386,6 @@ featureFlags:
           offVariation: Sin_Promo
         state: "off"
       - identifier: asv108
-        default:
-          onVariation: Sin_Promo
-          offVariation: Sin_Promo
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Sin_Promo
           offVariation: Sin_Promo
@@ -3502,6 +3497,11 @@ featureFlags:
             op: segmentMatch
             values:
             - Beta_Users
+      - identifier: qa
+        default:
+          onVariation: Sin_Promo
+          offVariation: Sin_Promo
+        state: "off"
   - flag:
       name: FRONT_SHOW QRCODE
       identifier: QRCODE
@@ -3603,11 +3603,6 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: asv108
-        default:
-          onVariation: "On"
-          offVariation: "Off"
-        state: "off"
-      - identifier: qa
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -3731,6 +3726,11 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: qa
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
   - flag:
       name: FRONT_Title and Menu Text Color
       identifier: Text_Color_Mode
@@ -3823,11 +3823,6 @@ featureFlags:
           offVariation: White
         state: "off"
       - identifier: asv108
-        default:
-          onVariation: Black
-          offVariation: White
-        state: "off"
-      - identifier: qa
         default:
           onVariation: Black
           offVariation: White
@@ -3929,6 +3924,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: qa
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
   - flag:
       name: VALIDATION_BETA_EXPERIMENT
       identifier: VALIDATION_BETA_EXPERIMENT
@@ -4026,11 +4026,6 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
       - identifier: tkouhsari
         default:
           onVariation: "true"
@@ -4121,5 +4116,10 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
