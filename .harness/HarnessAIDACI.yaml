@@ -152,3 +152,9 @@ pipeline:
                       type: local_image
                       name: diegokoala/<+<+<+pipeline.properties.ci.codebase.repoName>.replaceAll(".git","")>.replaceAll(".*/","")>
                       tag: test
+  variables:
+    - name: secret
+      type: Secret
+      description: ""
+      required: false
+      value: <+input>
