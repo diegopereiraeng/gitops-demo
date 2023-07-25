@@ -2213,7 +2213,7 @@ featureFlags:
         default:
           onVariation: "ON"
           offVariation: "OFF"
-        state: "on"
+        state: "off"
       - identifier: salazarch
         default:
           onVariation: "ON"
@@ -3874,11 +3874,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestSantana-de-Parnaiba
-          variation: Black
-        - targets:
           - identifier: luisreddagmailcom
           variation: White
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Black
       - identifier: fbreton
         default:
           onVariation: Black
