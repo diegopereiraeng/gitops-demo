@@ -1,0 +1,15 @@
+connector:
+  name: Diego-Nexus
+  identifier: DiegoNexus
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: Nexus
+  spec:
+    nexusServerUrl: https://nexus.harness-demo.site
+    version: 3.x
+    auth:
+      type: UsernamePassword
+      spec:
+        username: harness
+        passwordRef: diegonexus
