@@ -13,3 +13,5 @@ connector:
       spec:
         username: harness
         passwordRef: diegonexus
+    delegateSelectors:
+    - harness-se-delegate-cost
