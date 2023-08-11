@@ -158,3 +158,8 @@ pipeline:
       description: ""
       required: false
       value: <+input>
+    - name: variable
+      type: String
+      description: ""
+      required: false
+      value: <+input>.default(var1).allowedValues(var1,var2,var3)
