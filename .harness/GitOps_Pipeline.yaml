@@ -24,12 +24,11 @@ pipeline:
                   timeout: 10m
                   spec:
                     variables:
-                      - name: images.newTag
+                      - name: images
                         type: String
                         value: "33"
                     delegateSelectors:
                       - cd-demo-se
-                  failureStrategies: []
               - step:
                   type: MergePR
                   name: Merge PR
