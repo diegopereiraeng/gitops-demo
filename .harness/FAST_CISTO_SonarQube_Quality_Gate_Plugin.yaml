@@ -27,11 +27,40 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Build
-                  identifier: Build
+                  identifier: build_harness_sonar
+                  name: Build Harness Sonar
                   spec:
                     shell: Sh
-                    command: echo "Build"
+                    command: |-
+                      apk add --no-cache --update git
+                      cd /harness
+                      mkdir -p binary
+                      go env GOCACHE
+                      go get github.com/sirupsen/logrus
+                      go get github.com/pelletier/go-toml/cmd/tomll
+                      go get github.com/urfave/cli
+                      go get github.com/joho/godotenv
+                      GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/harness-sonar
+              - step:
+                  type: Plugin
+                  name: Check Sonar
+                  identifier: run_sonar
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: plugins/sonarqube-scanner:v2.0.2-java17
+                    privileged: false
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "**/**/*.xml"
+                    settings:
+                      sonar_host: http://34.100.11.50
+                      sonar_token: 60878847cea1a31d817f0deee3daa7868c431433
+                      sources: /harness
+                      binaries: /harness/binary
+                      sonar_name: sonarqube-scanner
+                      sonar_key: sonarqube-scanner
               - step:
                   type: Run
                   identifier: test
@@ -42,11 +71,11 @@ pipeline:
                       go install github.com/jstemmer/go-junit-report/v2@latest
                       go test -v ./... | tee report.out
                       cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
-                    reports:
+                      reports:
                       type: JUnit
                       spec:
-                        paths:
-                          - report.xml
+                    paths:
+                      - report.xml
                   when:
                     stageStatus: Success
                     condition: "false"
