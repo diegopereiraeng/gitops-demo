@@ -60,7 +60,7 @@ pipeline:
                             level: debug
                           fail_on_severity: critical
                           args:
-                            cli: "-l odc.log  --enableExperimental --go"
+                            cli: "-l odc.log  --enableExperimental"
                         imagePullPolicy: IfNotPresent
                   - step:
                       type: Sonarqube
