@@ -41,26 +41,46 @@ pipeline:
                       go get github.com/urfave/cli
                       go get github.com/joho/godotenv
                       GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/harness-sonar
-              - step:
-                  type: Plugin
-                  name: Check Sonar
-                  identifier: run_sonar
-                  spec:
-                    connectorRef: account.DockerHubDiego
-                    image: plugins/sonarqube-scanner:v2.0.2-java17
-                    privileged: false
-                    reports:
-                      type: JUnit
+              - parallel:
+                  - step:
+                      type: Plugin
+                      name: Check Sonar
+                      identifier: run_sonar
                       spec:
-                        paths:
-                          - "**/**/*.xml"
-                    settings:
-                      sonar_host: http://34.100.11.50
-                      sonar_token: 60878847cea1a31d817f0deee3daa7868c431433
-                      sources: /harness
-                      binaries: /harness/binary
-                      sonar_name: sonarqube-scanner
-                      sonar_key: sonarqube-scanner
+                        connectorRef: account.DockerHubDiego
+                        image: plugins/sonarqube-scanner:v2.0.2-java17
+                        privileged: false
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - "**/*.xml"
+                        settings:
+                          sonar_host: http://sonar.harness-demo.site
+                          sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
+                          sources: /harness
+                          binaries: /harness/binary
+                          sonar_name: sonarqube-scanner
+                          sonar_key: sonarqube-scanner
+                        imagePullPolicy: IfNotPresent
+                  - step:
+                      type: Owasp
+                      name: Owasp_Scan
+                      identifier: Owasp_Scan
+                      spec:
+                        mode: orchestration
+                        config: default
+                        target:
+                          name: " <+pipeline.properties.ci.codebase.repoName>"
+                          type: repository
+                          variant: " <+codebase.branch> "
+                        advanced:
+                          log:
+                            level: debug
+                          fail_on_severity: critical
+                          args:
+                            cli: "-l odc.log --project  <+pipeline.properties.ci.codebase.repoName>  --enableExperimental --format JSON -n --scan /harness --out /harness/owasp/output.json"
+                        imagePullPolicy: IfNotPresent
               - step:
                   type: Run
                   identifier: test
@@ -79,21 +99,3 @@ pipeline:
                   when:
                     stageStatus: Success
                     condition: "false"
-              - step:
-                  type: Owasp
-                  name: Owasp_Scan
-                  identifier: Owasp_Scan
-                  spec:
-                    mode: orchestration
-                    config: default
-                    target:
-                      name: " <+pipeline.properties.ci.codebase.repoName>"
-                      type: repository
-                      variant: " <+codebase.branch> "
-                    advanced:
-                      log:
-                        level: debug
-                      fail_on_severity: critical
-                      args:
-                        cli: "-l odc.log --project  <+pipeline.properties.ci.codebase.repoName>  --enableExperimental --format JSON -n --scan /harness --out /harness/owasp/output.json"
-                    imagePullPolicy: IfNotPresent
