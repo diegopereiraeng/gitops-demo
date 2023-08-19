@@ -60,7 +60,7 @@ pipeline:
                             level: debug
                           fail_on_severity: critical
                           args:
-                            cli: "-l odc.log --project  <+pipeline.properties.ci.codebase.repoName>  --enableExperimental --format JSON -n --scan /harness --out /harness/owasp/output.json"
+                            cli: "-l odc.log --project  <+pipeline.properties.ci.codebase.repoName>  --enableExperimental --go -n"
                         imagePullPolicy: IfNotPresent
                   - step:
                       type: Sonarqube
@@ -70,20 +70,20 @@ pipeline:
                         mode: orchestration
                         config: default
                         target:
-                          name: " <+pipeline.properties.ci.codebase.repoName>"
+                          name: <+pipeline.properties.ci.codebase.repoName>
                           type: repository
-                          variant: " <+codebase.branch> "
+                          variant: <+codebase.branch>
                         advanced:
                           log:
                             level: debug
                           fail_on_severity: critical
                         imagePullPolicy: IfNotPresent
                         auth:
-                          access_token: <+secrets.getValue("account. harnesssonartoken")>
+                          access_token: <+secrets.getValue("account.harnesssonartoken")>
                           domain: http://sonar.harness-demo.site
                           ssl: true
                         tool:
-                          project_key: " <+pipeline.properties.ci.codebase.repoName> "
+                          project_key: <+pipeline.properties.ci.codebase.repoName>
               - parallel:
                   - step:
                       type: Run
@@ -118,7 +118,7 @@ pipeline:
                               - "**/*.xml"
                         settings:
                           sonar_host: http://sonar.harness-demo.site
-                          sonar_token: <+secrets.getValue("account. harnesssonartoken")>
+                          sonar_token: <+secrets.getValue("account.harnesssonartoken")>
                           sources: /harness
                           binaries: /harness/binary
                           sonar_name: sonarqube-scanner
