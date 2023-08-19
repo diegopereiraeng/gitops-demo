@@ -32,7 +32,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      apk add --no-cache --update git
+                      apt-get update -y
+                      apt-get install -y git
+
                       cd /harness
                       mkdir -p binary
                       go env GOCACHE
