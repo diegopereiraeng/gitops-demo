@@ -45,27 +45,6 @@ pipeline:
                       GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/harness-sonar
               - parallel:
                   - step:
-                      type: Plugin
-                      name: Check Sonar
-                      identifier: run_sonar
-                      spec:
-                        connectorRef: account.DockerHubDiego
-                        image: plugins/sonarqube-scanner:v2.0.2-java17
-                        privileged: false
-                        reports:
-                          type: JUnit
-                          spec:
-                            paths:
-                              - "**/*.xml"
-                        settings:
-                          sonar_host: http://sonar.harness-demo.site
-                          sonar_token: squ_85fe22cb008dc9b5f02104541952792fdf8596d8
-                          sources: /harness
-                          binaries: /harness/binary
-                          sonar_name: sonarqube-scanner
-                          sonar_key: sonarqube-scanner
-                        imagePullPolicy: IfNotPresent
-                  - step:
                       type: Owasp
                       name: Owasp_Scan
                       identifier: Owasp_Scan
@@ -83,21 +62,66 @@ pipeline:
                           args:
                             cli: "-l odc.log --project  <+pipeline.properties.ci.codebase.repoName>  --enableExperimental --format JSON -n --scan /harness --out /harness/owasp/output.json"
                         imagePullPolicy: IfNotPresent
-              - step:
-                  type: Run
-                  identifier: test
-                  name: Test
-                  spec:
-                    shell: Sh
-                    command: |-
-                      go install github.com/jstemmer/go-junit-report/v2@latest
-                      go test -v ./... | tee report.out
-                      cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
-                      reports:
-                      type: JUnit
+                  - step:
+                      type: Sonarqube
+                      name: Sonarqube_Scan
+                      identifier: Sonarqube_Scan
                       spec:
-                    paths:
-                      - report.xml
-                  when:
-                    stageStatus: Success
-                    condition: "false"
+                        mode: orchestration
+                        config: default
+                        target:
+                          name: " <+pipeline.properties.ci.codebase.repoName>"
+                          type: repository
+                          variant: " <+codebase.branch> "
+                        advanced:
+                          log:
+                            level: debug
+                          fail_on_severity: critical
+                        imagePullPolicy: IfNotPresent
+                        auth:
+                          access_token: <+secrets.getValue("account. harnesssonartoken")>
+                          domain: http://sonar.harness-demo.site
+                          ssl: true
+                        tool:
+                          project_key: " <+pipeline.properties.ci.codebase.repoName> "
+              - parallel:
+                  - step:
+                      type: Run
+                      identifier: test
+                      name: Test
+                      spec:
+                        shell: Sh
+                        command: |-
+                          go install github.com/jstemmer/go-junit-report/v2@latest
+                          go test -v ./... | tee report.out
+                          cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
+                          reports:
+                          type: JUnit
+                          spec:
+                        paths:
+                          - report.xml
+                      when:
+                        stageStatus: Success
+                        condition: "false"
+                  - step:
+                      type: Plugin
+                      name: Check Sonar
+                      identifier: run_sonar
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: plugins/sonarqube-scanner:v2.0.2-java17
+                        privileged: false
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - "**/*.xml"
+                        settings:
+                          sonar_host: http://sonar.harness-demo.site
+                          sonar_token: <+secrets.getValue("account. harnesssonartoken")>
+                          sources: /harness
+                          binaries: /harness/binary
+                          sonar_name: sonarqube-scanner
+                          sonar_key: sonarqube-scanner
+                          skip_scan: "true"
+                        imagePullPolicy: IfNotPresent
