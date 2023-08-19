@@ -1,0 +1,70 @@
+pipeline:
+  name: FAST CI-STO - SonarQube Quality Gate Plugin
+  identifier: FAST_CISTO_SonarQube_Quality_Gate_Plugin
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: sonarqube-scanner
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Golang
+        identifier: Build_Golang
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Build
+                  spec:
+                    shell: Sh
+                    command: echo "Build"
+              - step:
+                  type: Run
+                  identifier: test
+                  name: Test
+                  spec:
+                    shell: Sh
+                    command: |-
+                      go install github.com/jstemmer/go-junit-report/v2@latest
+                      go test -v ./... | tee report.out
+                      cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - report.xml
+                  when:
+                    stageStatus: Success
+                    condition: "false"
+              - step:
+                  type: Owasp
+                  name: Owasp_Scan
+                  identifier: Owasp_Scan
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      name: " <+pipeline.properties.ci.codebase.repoName>"
+                      type: repository
+                      variant: " <+codebase.branch> "
+                    advanced:
+                      log:
+                        level: debug
+                      fail_on_severity: critical
+                      args:
+                        cli: "-l odc.log --project  <+pipeline.properties.ci.codebase.repoName>  --enableExperimental --format JSON -n --scan /harness --out /harness/owasp/output.json"
+                    imagePullPolicy: IfNotPresent
