@@ -124,4 +124,4 @@ pipeline:
                           sonar_name: sonarqube-scanner
                           sonar_key: sonarqube-scanner
                           skip_scan: "true"
-                        imagePullPolicy: IfNotPresent
+                        imagePullPolicy: Always
