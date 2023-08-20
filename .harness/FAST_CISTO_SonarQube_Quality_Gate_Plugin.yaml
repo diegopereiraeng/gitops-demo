@@ -148,28 +148,6 @@ pipeline:
               - parallel:
                   - step:
                       type: AquaTrivy
-                      name: AquaTrivy Java 11
-                      identifier: AquaTrivy_Java_11
-                      spec:
-                        mode: orchestration
-                        config: default
-                        target:
-                          name: <+pipeline.properties.ci.codebase.repoName>
-                          type: container
-                          variant: "<+codebase.branch> "
-                        advanced:
-                          log:
-                            level: debug
-                          fail_on_severity: critical
-                        privileged: true
-                        imagePullPolicy: IfNotPresent
-                        image:
-                          type: docker_v2
-                          name: diegokoala/harness-cie-sonarqube-scanner
-                          domain: docker.io
-                          tag: test-java11-<+codebase.shortCommitSha>
-                  - step:
-                      type: AquaTrivy
                       name: AquaTrivy Java 17
                       identifier: AquaTrivy_Java_17
                       spec:
@@ -190,3 +168,25 @@ pipeline:
                           name: diegokoala/harness-cie-sonarqube-scanner
                           domain: docker.io
                           tag: test-java17-<+codebase.shortCommitSha>
+                  - step:
+                      type: AquaTrivy
+                      name: AquaTrivy Java 11
+                      identifier: AquaTrivy_Java_11
+                      spec:
+                        mode: orchestration
+                        config: default
+                        target:
+                          name: <+pipeline.properties.ci.codebase.repoName>
+                          type: container
+                          variant: "<+codebase.branch> "
+                        advanced:
+                          log:
+                            level: debug
+                          fail_on_severity: critical
+                        privileged: true
+                        imagePullPolicy: IfNotPresent
+                        image:
+                          type: docker_v2
+                          name: diegokoala/harness-cie-sonarqube-scanner
+                          domain: docker.io
+                          tag: test-java11-<+codebase.shortCommitSha>
