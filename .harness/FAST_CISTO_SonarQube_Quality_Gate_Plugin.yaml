@@ -109,7 +109,7 @@ pipeline:
                       identifier: run_sonar
                       spec:
                         connectorRef: account.DockerHubDiego
-                        image: plugins/sonarqube-scanner:v2.0.2-java17
+                        image: plugins/sonarqube-scanner:v2.0.3-java17
                         privileged: false
                         reports:
                           type: JUnit
