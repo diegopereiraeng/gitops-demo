@@ -132,7 +132,7 @@ pipeline:
                       identifier: Build_And_Push_Java_17
                       spec:
                         connectorRef: account.DockerHubDiego
-                        repo: harness-cie-sonarqube-scanner
+                        repo: diegokoala/harness-cie-sonarqube-scanner
                         tags:
                           - test-java17-<+codebase.shortCommitSha>
                         dockerfile: DockerfileJava17
@@ -142,7 +142,7 @@ pipeline:
                       identifier: Build_And_Push_Java_11
                       spec:
                         connectorRef: account.DockerHubDiego
-                        repo: harness-cie-sonarqube-scanner
+                        repo: diegokoala/harness-cie-sonarqube-scanner
                         tags:
                           - test-java11-<+codebase.shortCommitSha>
               - parallel:
