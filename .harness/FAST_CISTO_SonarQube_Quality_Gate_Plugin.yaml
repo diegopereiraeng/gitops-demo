@@ -28,7 +28,7 @@ pipeline:
               - step:
                   type: Run
                   identifier: build_harness_sonar
-                  name: Build Harness Sonar
+                  name: Build Go
                   spec:
                     shell: Sh
                     command: |-
