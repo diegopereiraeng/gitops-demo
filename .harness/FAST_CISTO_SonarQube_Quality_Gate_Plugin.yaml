@@ -114,7 +114,7 @@ pipeline:
                           type: JUnit
                           spec:
                             paths:
-                              - "**/*.xml"
+                              - sonarResults.xml
                         settings:
                           sonar_host: http://sonar.harness-demo.site
                           sonar_token: <+secrets.getValue("account.harnesssonartoken")>
