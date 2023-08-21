@@ -189,3 +189,6 @@ pipeline:
                           name: diegokoala/harness-cie-sonarqube-scanner
                           domain: docker.io
                           tag: test-java11-<+codebase.shortCommitSha>
+          caching:
+            enabled: true
+            paths: []
