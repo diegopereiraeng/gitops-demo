@@ -64,7 +64,7 @@ pipeline:
                         imagePullPolicy: IfNotPresent
                   - step:
                       type: Sonarqube
-                      name: Sonarqube_Scan
+                      name: Sonarqube Scan Vulnerability
                       identifier: Sonarqube_Scan
                       spec:
                         mode: orchestration
@@ -88,7 +88,7 @@ pipeline:
                   - step:
                       type: Run
                       identifier: test
-                      name: Test
+                      name: Unit Tests
                       spec:
                         shell: Sh
                         command: |-
@@ -104,7 +104,7 @@ pipeline:
                         stageStatus: Success
                   - step:
                       type: Plugin
-                      name: Check Sonar
+                      name: Check Sonar Quality Gate
                       identifier: run_sonar
                       spec:
                         connectorRef: account.DockerHubDiego
