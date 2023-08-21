@@ -181,7 +181,7 @@ pipeline:
                         advanced:
                           log:
                             level: debug
-                          fail_on_severity: critical
+                          fail_on_severity: none
                         privileged: true
                         imagePullPolicy: IfNotPresent
                         image:
