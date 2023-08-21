@@ -192,3 +192,4 @@ pipeline:
           caching:
             enabled: true
             paths: []
+            key: sonarqube-scanner
