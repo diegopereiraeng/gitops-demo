@@ -35,7 +35,6 @@ pipeline:
                         command: |-
                           apt-get update -y
                           apt-get install -y git
-
                           cd /harness
                           mkdir -p binary
                           go env GOCACHE
@@ -62,9 +61,9 @@ pipeline:
                         mode: orchestration
                         config: default
                         target:
-                          name: " <+pipeline.properties.ci.codebase.repoName>"
+                          name: <+pipeline.properties.ci.codebase.repoName>
                           type: repository
-                          variant: " <+codebase.branch> "
+                          variant: <+codebase.branch>
                         advanced:
                           log:
                             level: debug
