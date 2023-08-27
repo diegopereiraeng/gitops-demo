@@ -1,0 +1,261 @@
+template:
+  name: Plugin Build Factory
+  type: Pipeline
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  spec:
+    properties:
+      ci:
+        codebase:
+          connectorRef: account.diegogithubapp
+          repoName: <+pipeline.variables.repo_name>
+          build: <+input>
+    stages:
+      - stage:
+          name: Build Golang
+          identifier: Build_Golang
+          type: CI
+          spec:
+            cloneCodebase: true
+            platform:
+              os: Linux
+              arch: Amd64
+            runtime:
+              type: Cloud
+              spec: {}
+            execution:
+              steps:
+                - parallel:
+                    - step:
+                        type: Run
+                        identifier: build_harness_sonar
+                        name: Build Go
+                        spec:
+                          shell: Sh
+                          command: |-
+                            apt-get update -y
+                            apt-get install -y git
+                            cd /harness
+                            mkdir -p binary
+                            go env GOCACHE
+                            # go get github.com/sirupsen/logrus
+                            # go get github.com/pelletier/go-toml/cmd/tomll
+                            # go get github.com/urfave/cli
+                            # go get github.com/joho/godotenv
+                            go mod download
+                            GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+                    - step:
+                        type: Run
+                        name: GitLeak - Secret Scan
+                        identifier: GitLeak_Secret_Scan
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: zricethezav/gitleaks:latest
+                          shell: Sh
+                          command: gitleaks detect --source=. --report-format=sarif --report-path=/shared/customer_artifacts/gitleaks-results.sarif --exit-code 0
+                - parallel:
+                    - step:
+                        type: Owasp
+                        name: Owasp_Scan
+                        identifier: Owasp_Scan
+                        spec:
+                          mode: orchestration
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: repository
+                            variant: <+codebase.branch>
+                          advanced:
+                            log:
+                              level: debug
+                            fail_on_severity: critical
+                            args:
+                              cli: "-l odc.log  --enableExperimental"
+                          imagePullPolicy: IfNotPresent
+                    - step:
+                        type: Sonarqube
+                        name: Sonarqube Scan Vulnerability
+                        identifier: Sonarqube_Scan
+                        spec:
+                          mode: orchestration
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: repository
+                            variant: <+codebase.branch>
+                          advanced:
+                            log:
+                              level: debug
+                            fail_on_severity: critical
+                          imagePullPolicy: IfNotPresent
+                          auth:
+                            access_token: <+secrets.getValue("account.harnesssonartoken")>
+                            domain: http://sonar.harness-demo.site
+                            ssl: true
+                          tool:
+                            project_key: <+pipeline.properties.ci.codebase.repoName>
+                    - step:
+                        type: Security
+                        name: GitLeak Secret Scan Ingestion
+                        identifier: GitLeak_Secret_Scan_Ingestion
+                        spec:
+                          privileged: true
+                          settings:
+                            product_name: external
+                            product_config_name: default
+                            policy_type: ingestionOnly
+                            scan_type: repository
+                            repository_project: <+pipeline.properties.ci.codebase.repoName>
+                            repository_branch: <+codebase.branch>
+                            customer_artifacts_path: /shared/customer_artifacts
+                            manual_upload_filename: gitleaks-results.sarif
+                - parallel:
+                    - step:
+                        type: Run
+                        identifier: test
+                        name: Unit Tests
+                        spec:
+                          shell: Sh
+                          command: |-
+                            go install github.com/jstemmer/go-junit-report/v2@latest
+                            go test -v ./... | tee report.out
+                            cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - report.xml
+                        when:
+                          stageStatus: Success
+                    - step:
+                        type: Plugin
+                        name: Check Sonar Quality Gate
+                        identifier: run_sonar
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: plugins/sonarqube-scanner:v2.0.3-java17
+                          privileged: false
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - sonarResults.xml
+                          settings:
+                            sonar_host: http://sonar.harness-demo.site
+                            sonar_token: <+secrets.getValue("account.harnesssonartoken")>
+                            sources: /harness
+                            binaries: /harness/binary
+                            sonar_name: sonarqube-scanner
+                            sonar_key: sonarqube-scanner
+                            skip_scan: "true"
+                          imagePullPolicy: Always
+                - parallel:
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Build And Push Java 17
+                        identifier: Build_And_Push_Java_17
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          repo: diegokoala/harness-cie-sonarqube-scanner
+                          tags:
+                            - test-java17-<+codebase.shortCommitSha>
+                          dockerfile: DockerfileJava17
+                        when:
+                          stageStatus: Success
+                          condition: <+pipeline.variables.repo_name> == "sonarqube-scanner"
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Build And Push Java 11
+                        identifier: Build_And_Push_Java_11
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          repo: diegokoala/harness-cie-sonarqube-scanner
+                          tags:
+                            - test-<+codebase.shortCommitSha>
+                        when:
+                          stageStatus: Success
+                          condition: <+pipeline.variables.repo_name> == "sonarqube-scanner"
+                    - step:
+                        type: BuildAndPushDockerRegistry
+                        name: Build And Push Generic
+                        identifier: Build_And_Push_Generic
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          repo: diegokoala/<+pipeline.variables.image_name>
+                          tags:
+                            - test-<+codebase.shortCommitSha>
+                        when:
+                          stageStatus: Success
+                          condition: <+pipeline.variables.repo_name> != "sonarqube-scanner"
+                - parallel:
+                    - step:
+                        type: AquaTrivy
+                        name: AquaTrivy Java 17
+                        identifier: AquaTrivy_Java_17
+                        spec:
+                          mode: orchestration
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: container
+                            variant: "<+codebase.branch> "
+                          advanced:
+                            log:
+                              level: debug
+                            fail_on_severity: critical
+                          privileged: true
+                          imagePullPolicy: IfNotPresent
+                          image:
+                            type: docker_v2
+                            name: diegokoala/harness-cie-sonarqube-scanner
+                            domain: docker.io
+                            tag: test-java17-<+codebase.shortCommitSha>
+                        when:
+                          stageStatus: Success
+                          condition: <+pipeline.variables.repo_name> == "sonarqube-scanner"
+                    - step:
+                        type: AquaTrivy
+                        name: AquaTrivy Container Scan
+                        identifier: AquaTrivy_Java_11
+                        spec:
+                          mode: orchestration
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: container
+                            variant: "<+codebase.branch> "
+                          advanced:
+                            log:
+                              level: debug
+                            fail_on_severity: none
+                          privileged: true
+                          imagePullPolicy: IfNotPresent
+                          image:
+                            type: docker_v2
+                            name: diegokoala/<+pipeline.variables.image_name>
+                            domain: docker.io
+                            tag: "test-<+codebase.shortCommitSha> "
+            caching:
+              enabled: true
+              paths: []
+              key: sonarqube-scanner
+            sharedPaths:
+              - /shared/customer_artifacts
+    variables:
+      - name: plugin_name
+        type: String
+        description: your plugin binary name
+        required: false
+        value: <+input>
+      - name: repo_name
+        type: String
+        description: ""
+        required: false
+        value: <+input>
+      - name: image_name
+        type: String
+        description: ""
+        required: false
+        value: <+input>
+  identifier: Plugin_Build_Factory
+  versionLabel: 0.0.1
