@@ -101,11 +101,14 @@ pipeline:
                       spec:
                         privileged: true
                         settings:
-                          policy_type: orchestratedScan
+                          product_name: external
+                          product_config_name: default
+                          policy_type: ingestionOnly
                           scan_type: repository
-                          product_name: a
-                          product_config_name: a
-                          ss: /harness/gitleaks-results.sarif
+                          repository_project: <+pipeline.properties.ci.codebase.repoName>
+                          repository_branch: <+codebase.branch>
+                          customer_artifacts_path: /shared/customer_artifacts
+                          manual_upload_filename: gitleaks-results.sarif
               - parallel:
                   - step:
                       type: Run
