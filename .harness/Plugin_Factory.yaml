@@ -1,0 +1,24 @@
+pipeline:
+  name: Plugin Factory
+  identifier: Plugin_Factory
+  template:
+    templateRef: Plugin_Build_Factory
+    versionLabel: 0.0.1
+    templateInputs:
+      properties:
+        ci:
+          codebase:
+            build: <+input>
+      variables:
+        - name: plugin_name
+          type: String
+          value: <+input>
+        - name: repo_name
+          type: String
+          value: <+input>
+        - name: image_name
+          type: String
+          value: <+input>
+  tags: {}
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
