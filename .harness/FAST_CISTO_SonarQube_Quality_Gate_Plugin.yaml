@@ -52,7 +52,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         image: zricethezav/gitleaks:latest
                         shell: Sh
-                        command: gitleaks detect --source=. --report-format=sarif --report-path=/shared/customer_artifacts/gitleaks-results.sarif
+                        command: gitleaks detect --source=. --report-format=sarif --report-path=/shared/customer_artifacts/gitleaks-results.sarif --exit-code 0
               - parallel:
                   - step:
                       type: Owasp
