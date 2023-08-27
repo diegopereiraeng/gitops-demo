@@ -38,11 +38,12 @@ pipeline:
                           cd /harness
                           mkdir -p binary
                           go env GOCACHE
-                          go get github.com/sirupsen/logrus
-                          go get github.com/pelletier/go-toml/cmd/tomll
-                          go get github.com/urfave/cli
-                          go get github.com/joho/godotenv
-                          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/harness-sonar
+                          # go get github.com/sirupsen/logrus
+                          # go get github.com/pelletier/go-toml/cmd/tomll
+                          # go get github.com/urfave/cli
+                          # go get github.com/joho/godotenv
+                          go mod download
+                          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
                   - step:
                       type: Run
                       name: GitLeak - Secret Scan
@@ -219,3 +220,9 @@ pipeline:
             key: sonarqube-scanner
           sharedPaths:
             - /shared/customer_artifacts
+  variables:
+    - name: plugin_name
+      type: String
+      description: your plugin binary name
+      required: false
+      value: <+input>
