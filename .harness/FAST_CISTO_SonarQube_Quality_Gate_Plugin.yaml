@@ -25,24 +25,34 @@ pipeline:
             spec: {}
           execution:
             steps:
-              - step:
-                  type: Run
-                  identifier: build_harness_sonar
-                  name: Build Go
-                  spec:
-                    shell: Sh
-                    command: |-
-                      apt-get update -y
-                      apt-get install -y git
+              - parallel:
+                  - step:
+                      type: Run
+                      identifier: build_harness_sonar
+                      name: Build Go
+                      spec:
+                        shell: Sh
+                        command: |-
+                          apt-get update -y
+                          apt-get install -y git
 
-                      cd /harness
-                      mkdir -p binary
-                      go env GOCACHE
-                      go get github.com/sirupsen/logrus
-                      go get github.com/pelletier/go-toml/cmd/tomll
-                      go get github.com/urfave/cli
-                      go get github.com/joho/godotenv
-                      GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/harness-sonar
+                          cd /harness
+                          mkdir -p binary
+                          go env GOCACHE
+                          go get github.com/sirupsen/logrus
+                          go get github.com/pelletier/go-toml/cmd/tomll
+                          go get github.com/urfave/cli
+                          go get github.com/joho/godotenv
+                          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/harness-sonar
+                  - step:
+                      type: Run
+                      name: GitLeak - Secret Scan
+                      identifier: GitLeak_Secret_Scan
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: zricethezav/gitleaks:latest
+                        shell: Sh
+                        command: gitleaks detect --source=. --report-format=sarif --report-path=/shared/customer_artifacts/gitleaks-results.sarif
               - parallel:
                   - step:
                       type: Owasp
@@ -84,6 +94,18 @@ pipeline:
                           ssl: true
                         tool:
                           project_key: <+pipeline.properties.ci.codebase.repoName>
+                  - step:
+                      type: Security
+                      name: GitLeak Secret Scan Ingestion
+                      identifier: GitLeak_Secret_Scan_Ingestion
+                      spec:
+                        privileged: true
+                        settings:
+                          policy_type: orchestratedScan
+                          scan_type: repository
+                          product_name: a
+                          product_config_name: a
+                          ss: /harness/gitleaks-results.sarif
               - parallel:
                   - step:
                       type: Run
@@ -193,3 +215,5 @@ pipeline:
             enabled: true
             paths: []
             key: sonarqube-scanner
+          sharedPaths:
+            - /shared/customer_artifacts
