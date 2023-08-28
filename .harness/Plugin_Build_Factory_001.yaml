@@ -266,12 +266,11 @@ template:
                     identifier: Plugin_Test
                     spec:
                       connectorRef: account.DockerHubDiego
-                      image: diegokoala/harness-junit-converter:latest
+                      image: diegokoala/<+pipeline.variables.image_name>:<+pipeline.stages.Build_Golang.spec.execution.steps.build_harness_sonar.output.outputVariables.tag>
                       reports:
                         type: JUnit
                         spec:
-                          paths:
-                            - "**/**/*.xml"
+                          paths: <+input>
                       settings: <+input>
     variables:
       - name: plugin_name
