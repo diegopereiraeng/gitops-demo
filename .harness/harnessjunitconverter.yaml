@@ -14,6 +14,29 @@ inputSet:
                 type: branch
                 spec:
                   branch: main
+        stages:
+          - stage:
+              identifier: Plugin_E2E_Tests
+              type: CI
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: Plugin_Test
+                        type: Plugin
+                        spec:
+                          settings:
+                            json_content: "{\"test_junit_name\": \"MyTestSuite\", \"test_junit_package\": \"com.example\", \"test_junit_time\": 50, \"test_junit_list\": [{\"test_junit_list_name\": \"TestCase1\", \"test_junit_list_class_name\": \"TestClass1\", \"test_junit_list_failure\": \"\", \"test_junit_list_time\": 10}, {\"test_junit_list_name\": \"TestCase2\", \"test_junit_list_class_name\": \"TestClass2\", \"test_junit_list_failure\": \"Some Failure\", \"test_junit_list_time\": 15}, {\"test_junit_list_name\": \"TestCase3\", \"test_junit_list_class_name\": \"TestClass3\", \"test_junit_list_failure\": \"\", \"test_junit_list_time\": 25}]}"
+                            test_name: test_junit_name
+                            test_description: test_junit_package
+                            test_junit_time: test_junit_time
+                            test_junit_package: test_junit_package
+                            test_junit_name: test_junit_name
+                            test_junit_list: test_junit_list
+                            test_junit_list_name: test_junit_list_name
+                            test_junit_list_class_name: test_junit_list_class_name
+                            test_junit_list_failure: test_junit_list_failure
+                            test_junit_list_time: test_junit_list_time
         variables:
           - name: plugin_name
             type: String
@@ -24,4 +47,6 @@ inputSet:
           - name: image_name
             type: String
             value: harness-junit-converter
-  object Object: pipeline.template.templateInputs.properties.ci.codebase
+          - name: report_path
+            type: String
+            value: "*-junit.xml"
