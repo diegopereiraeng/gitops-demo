@@ -270,7 +270,8 @@ template:
                       reports:
                         type: JUnit
                         spec:
-                          paths: <+input>
+                          paths:
+                            - <+pipeline.variables.report_path>
                       settings: <+input>
     variables:
       - name: plugin_name
