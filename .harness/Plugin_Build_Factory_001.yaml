@@ -246,6 +246,33 @@ template:
               key: sonarqube-scanner
             sharedPaths:
               - /shared/customer_artifacts
+      - stage:
+          name: Plugin E2E Tests
+          identifier: Plugin_E2E_Tests
+          type: CI
+          spec:
+            cloneCodebase: true
+            platform:
+              os: Linux
+              arch: Amd64
+            runtime:
+              type: Cloud
+              spec: {}
+            execution:
+              steps:
+                - step:
+                    type: Plugin
+                    name: Plugin Test
+                    identifier: Plugin_Test
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      image: diegokoala/harness-junit-converter:latest
+                      reports:
+                        type: JUnit
+                        spec:
+                          paths:
+                            - "**/**/*.xml"
+                      settings: <+input>
     variables:
       - name: plugin_name
         type: String
