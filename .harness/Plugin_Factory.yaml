@@ -3,12 +3,27 @@ pipeline:
   identifier: Plugin_Factory
   template:
     templateRef: Plugin_Build_Factory
-    versionLabel: 0.0.1
     templateInputs:
       properties:
         ci:
           codebase:
             build: <+input>
+      stages:
+        - stage:
+            identifier: Plugin_E2E_Tests
+            type: CI
+            spec:
+              execution:
+                steps:
+                  - step:
+                      identifier: Plugin_Test
+                      type: Plugin
+                      spec:
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths: <+input>
+                        settings: <+input>
       variables:
         - name: plugin_name
           type: String
@@ -19,14 +34,6 @@ pipeline:
         - name: image_name
           type: String
           value: <+input>
-      stages:
-        - stage:
-            spec:
-              execution:
-                steps:
-                  - step:
-                      spec:
-                        settings: <+input>
   tags: {}
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
