@@ -13,7 +13,7 @@ inputSet:
               build:
                 type: branch
                 spec:
-                  branch: main
+                  branch: <+input>
         stages:
           - stage:
               identifier: Plugin_E2E_Tests
