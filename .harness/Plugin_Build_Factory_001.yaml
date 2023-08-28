@@ -55,6 +55,39 @@ template:
                           command: gitleaks detect --source=. --report-format=sarif --report-path=/shared/customer_artifacts/gitleaks-results.sarif --exit-code 0
                 - parallel:
                     - step:
+                        type: Run
+                        identifier: test
+                        name: Unit Tests
+                        spec:
+                          shell: Sh
+                          command: |-
+                            go install github.com/jstemmer/go-junit-report/v2@latest
+                            go test -v ./... | tee report.out
+                            cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - report.xml
+                        when:
+                          stageStatus: Success
+                    - step:
+                        type: Security
+                        name: GitLeak Secret Scan Ingestion
+                        identifier: GitLeak_Secret_Scan_Ingestion
+                        spec:
+                          privileged: true
+                          settings:
+                            product_name: external
+                            product_config_name: default
+                            policy_type: ingestionOnly
+                            scan_type: repository
+                            repository_project: <+pipeline.properties.ci.codebase.repoName>
+                            repository_branch: <+codebase.branch>
+                            customer_artifacts_path: /shared/customer_artifacts
+                            manual_upload_filename: gitleaks-results.sarif
+                - parallel:
+                    - step:
                         type: Owasp
                         name: Owasp_Scan
                         identifier: Owasp_Scan
@@ -94,61 +127,28 @@ template:
                             ssl: true
                           tool:
                             project_key: <+pipeline.properties.ci.codebase.repoName>
-                    - step:
-                        type: Security
-                        name: GitLeak Secret Scan Ingestion
-                        identifier: GitLeak_Secret_Scan_Ingestion
+                - step:
+                    type: Plugin
+                    name: Check Sonar Quality Gate
+                    identifier: run_sonar
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      image: plugins/sonarqube-scanner:v2.0.3-java17
+                      privileged: false
+                      reports:
+                        type: JUnit
                         spec:
-                          privileged: true
-                          settings:
-                            product_name: external
-                            product_config_name: default
-                            policy_type: ingestionOnly
-                            scan_type: repository
-                            repository_project: <+pipeline.properties.ci.codebase.repoName>
-                            repository_branch: <+codebase.branch>
-                            customer_artifacts_path: /shared/customer_artifacts
-                            manual_upload_filename: gitleaks-results.sarif
-                - parallel:
-                    - step:
-                        type: Run
-                        identifier: test
-                        name: Unit Tests
-                        spec:
-                          shell: Sh
-                          command: |-
-                            go install github.com/jstemmer/go-junit-report/v2@latest
-                            go test -v ./... | tee report.out
-                            cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
-                          reports:
-                            type: JUnit
-                            spec:
-                              paths:
-                                - report.xml
-                        when:
-                          stageStatus: Success
-                    - step:
-                        type: Plugin
-                        name: Check Sonar Quality Gate
-                        identifier: run_sonar
-                        spec:
-                          connectorRef: account.DockerHubDiego
-                          image: plugins/sonarqube-scanner:v2.0.3-java17
-                          privileged: false
-                          reports:
-                            type: JUnit
-                            spec:
-                              paths:
-                                - sonarResults.xml
-                          settings:
-                            sonar_host: http://sonar.harness-demo.site
-                            sonar_token: <+secrets.getValue("account.harnesssonartoken")>
-                            sources: /harness
-                            binaries: /harness/binary
-                            sonar_name: sonarqube-scanner
-                            sonar_key: sonarqube-scanner
-                            skip_scan: "true"
-                          imagePullPolicy: Always
+                          paths:
+                            - sonarResults.xml
+                      settings:
+                        sonar_host: http://sonar.harness-demo.site
+                        sonar_token: <+secrets.getValue("account.harnesssonartoken")>
+                        sources: /harness
+                        binaries: /harness/binary
+                        sonar_name: sonarqube-scanner
+                        sonar_key: sonarqube-scanner
+                        skip_scan: "true"
+                      imagePullPolicy: Always
                 - parallel:
                     - step:
                         type: BuildAndPushDockerRegistry
