@@ -239,7 +239,7 @@ template:
                             type: docker_v2
                             name: diegokoala/<+pipeline.variables.image_name>
                             domain: docker.io
-                            tag: "test-<+codebase.shortCommitSha> "
+                            tag: unstable-<+codebase.shortCommitSha>
             caching:
               enabled: true
               paths: []
