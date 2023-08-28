@@ -273,6 +273,19 @@ template:
                           paths:
                             - <+pipeline.variables.report_path>
                       settings: <+input>
+                - step:
+                    type: BuildAndPushDockerRegistry
+                    name: Build And Push Generic
+                    identifier: Build_And_Push_Generic
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      repo: diegokoala/<+pipeline.variables.image_name>
+                      tags:
+                        - stable-<+codebase.shortCommitSha>
+                        - latest
+                    when:
+                      stageStatus: Success
+                      condition: <+pipeline.variables.repo_name> != "sonarqube-scanner"
     variables:
       - name: plugin_name
         type: String
