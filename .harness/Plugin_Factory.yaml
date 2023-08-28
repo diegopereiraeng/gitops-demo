@@ -19,6 +19,14 @@ pipeline:
         - name: image_name
           type: String
           value: <+input>
+      stages:
+        - stage:
+            spec:
+              execution:
+                steps:
+                  - step:
+                      spec:
+                        settings: {}
   tags: {}
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
