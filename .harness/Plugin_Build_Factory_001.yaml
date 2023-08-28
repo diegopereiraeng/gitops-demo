@@ -44,6 +44,11 @@ template:
                             # go get github.com/joho/godotenv
                             go mod download
                             GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+
+
+                            export tag="unstable-<+codebase.shortCommitSha>"
+                          outputVariables:
+                            - name: tag
                     - step:
                         type: Run
                         name: GitLeak - Secret Scan
@@ -183,7 +188,7 @@ template:
                           connectorRef: account.DockerHubDiego
                           repo: diegokoala/<+pipeline.variables.image_name>
                           tags:
-                            - test-<+codebase.shortCommitSha>
+                            - unstable-<+codebase.shortCommitSha>
                         when:
                           stageStatus: Success
                           condition: <+pipeline.variables.repo_name> != "sonarqube-scanner"
