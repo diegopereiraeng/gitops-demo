@@ -132,6 +132,18 @@ template:
                             ssl: true
                           tool:
                             project_key: <+pipeline.properties.ci.codebase.repoName>
+                    - step:
+                        type: Run
+                        name: Hadolint - Dockerfile Scan
+                        identifier: Hadolint_Dockerfile_Scan
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: hadolint/hadolint:latest-alpine
+                          shell: Sh
+                          command: |-
+                            hadolint -f json Dockerfile > hadolint_results.json
+
+                            cat hadolint_results.json
                 - step:
                     type: Plugin
                     name: Check Sonar Quality Gate
