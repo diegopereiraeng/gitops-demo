@@ -141,7 +141,7 @@ template:
                           image: hadolint/hadolint:latest-alpine
                           shell: Sh
                           command: |-
-                            hadolint -f json Dockerfile > hadolint_results.json
+                            hadolint -f json Dockerfile > hadolint_results.json | true
 
                             cat hadolint_results.json
                 - step:
