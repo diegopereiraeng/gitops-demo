@@ -2517,6 +2517,10 @@ featureFlags:
           value: "true"
         - identifier: "false"
           value: "false"
+      prerequisites:
+      - flagIdentifier: ios_home_message_feature
+        variations:
+        - Harness_FF
       environments:
       - identifier: intercam
         default:
@@ -3664,11 +3668,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestSantana-de-Parnaiba
-          variation: Black
-        - targets:
           - identifier: luisreddagmailcom
           variation: White
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Black
       - identifier: fbreton
         default:
           onVariation: Black
