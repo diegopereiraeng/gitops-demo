@@ -196,7 +196,7 @@ template:
                               paths:
                                 - "**/**/*.xml"
                           settings:
-                            json_file: hadolint_results.json
+                            json_file_name: hadolint_results.json
                             test_name: hado_lint
                             test_description: check Dockerfile code quality, consider time as the line of the code
                             test_junit_time: "0"
