@@ -144,28 +144,53 @@ template:
                             hadolint -f json Dockerfile > hadolint_results.json | true
 
                             cat hadolint_results.json
-                - step:
-                    type: Plugin
-                    name: Check Sonar Quality Gate
-                    identifier: run_sonar
-                    spec:
-                      connectorRef: account.DockerHubDiego
-                      image: plugins/sonarqube-scanner:v2.0.3-java17
-                      privileged: false
-                      reports:
-                        type: JUnit
+                - parallel:
+                    - step:
+                        type: Plugin
+                        name: Check Sonar Quality Gate
+                        identifier: run_sonar
                         spec:
-                          paths:
-                            - sonarResults.xml
-                      settings:
-                        sonar_host: http://sonar.harness-demo.site
-                        sonar_token: <+secrets.getValue("account.harnesssonartoken")>
-                        sources: /harness
-                        binaries: /harness/binary
-                        sonar_name: sonarqube-scanner
-                        sonar_key: sonarqube-scanner
-                        skip_scan: "true"
-                      imagePullPolicy: Always
+                          connectorRef: account.DockerHubDiego
+                          image: plugins/sonarqube-scanner:v2.0.3-java17
+                          privileged: false
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - sonarResults.xml
+                          settings:
+                            sonar_host: http://sonar.harness-demo.site
+                            sonar_token: <+secrets.getValue("account.harnesssonartoken")>
+                            sources: /harness
+                            binaries: /harness/binary
+                            sonar_name: sonarqube-scanner
+                            sonar_key: sonarqube-scanner
+                            skip_scan: "true"
+                          imagePullPolicy: Always
+                    - step:
+                        type: Plugin
+                        name: Hado Lint Scan
+                        identifier: hado_lint
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/harness-junit-converter:latest
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - "**/**/*.xml"
+                          settings:
+                            json_file: hadolint_results.json
+                            test_name: hado_lint
+                            test_description: check Dockerfile code quality, consider time as the line of the code
+                            test_junit_time: "0"
+                            test_junit_package: hado_lint
+                            test_junit_name: hado_lint
+                            test_junit_list: .
+                            test_junit_list_name: code
+                            test_junit_list_class_name: file
+                            test_junit_list_failure: message
+                            test_junit_list_time: line
                 - parallel:
                     - step:
                         type: BuildAndPushDockerRegistry
