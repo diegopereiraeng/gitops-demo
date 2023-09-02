@@ -38,7 +38,7 @@ template:
                             cd /harness
 
                             bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-
+                            touch /home/ubuntu/.gvm/environments/default
                             source /home/ubuntu/.gvm/scripts/gvm
 
                             gvm install go1.21.0 -B
