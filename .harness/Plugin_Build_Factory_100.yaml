@@ -31,14 +31,16 @@ template:
                         identifier: build_harness_sonar
                         name: Build Go
                         spec:
-                          shell: Sh
+                          shell: Bash
                           command: |-
                             apt-get update -y
                             apt-get install -y git
                             cd /harness
 
                             bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
                             source /home/ubuntu/.gvm/scripts/gvm
+
                             gvm install go1.21
                             gvm use go1.21
 
