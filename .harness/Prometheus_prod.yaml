@@ -1,0 +1,8 @@
+connector:
+  name: Prometheus_prod
+  identifier: Prometheus_prod
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: Prometheus
+  spec:
+    url: http://34.121.168.55:8080/
