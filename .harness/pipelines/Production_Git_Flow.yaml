@@ -357,7 +357,6 @@ pipeline:
                               - envs/dev/services/gitflow-app-ff/values.yaml
                             repoName: values-k8s
                             branch: main
-                variables: []
             serviceRef: BankingAppUI
           infrastructure:
             environmentRef: dev
@@ -536,12 +535,30 @@ pipeline:
                       name: Kube Score
                       identifier: Kube_Score
                       steps:
-                        - step:
-                            type: DownloadManifests
-                            name: DownloadManifests
-                            identifier: DownloadManifests
-                            spec: {}
-                            timeout: 10m
+                        - parallel:
+                            - step:
+                                type: DownloadManifests
+                                name: DownloadManifests
+                                identifier: DownloadManifests
+                                spec: {}
+                                timeout: 10m
+                                failureStrategies:
+                                  - onFailure:
+                                      errors:
+                                        - AllErrors
+                                      action:
+                                        type: Ignore
+                            - step:
+                                type: GitClone
+                                name: GitClone Manifests
+                                identifier: GitClone_Manifests
+                                spec:
+                                  connectorRef: account.diegogithubapp
+                                  repoName: k8s-manifests-templates
+                                  build:
+                                    type: branch
+                                    spec:
+                                      branch: main
                         - step:
                             type: Run
                             name: Kube Score
