@@ -441,96 +441,124 @@ pipeline:
                         executionTarget: {}
                       timeout: 10m
                       failureStrategies: []
-              - stepGroup:
-                  name: Canary Deployment
-                  identifier: canaryDepoyment
-                  steps:
-                    - step:
-                        type: JiraUpdate
-                        name: "Update JIRA "
-                        identifier: Update_JIRA_Start
-                        spec:
-                          connectorRef: BankingJira
-                          issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
-                          transitionTo:
-                            transitionName: ""
-                            status: In Progress
-                          fields:
-                            - name: Comment
-                              value: Dev Canary started
-                        timeout: 1d
-                        failureStrategies: []
-                    - step:
-                        name: Canary Deployment
-                        identifier: canaryDeployment
-                        type: K8sCanaryDeploy
-                        timeout: 10m
-                        spec:
-                          instanceSelection:
-                            type: Count
+              - parallel:
+                  - stepGroup:
+                      name: Canary Deployment
+                      identifier: canaryDepoyment
+                      steps:
+                        - step:
+                            type: JiraUpdate
+                            name: "Update JIRA "
+                            identifier: Update_JIRA_Start
                             spec:
-                              count: 1
-                          skipDryRun: false
-                    - step:
-                        type: JiraUpdate
-                        name: Update JIRA Ready for Testing
-                        identifier: Update_JIRA_Ready_for_Testing
-                        spec:
-                          connectorRef: BankingJira
-                          issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
-                          transitionTo:
-                            transitionName: ""
-                            status: QA Test
-                          fields:
-                            - name: Comment
-                              value: Ready for testing. Successfully passed sonarcube artifact scan.
-                        timeout: 1d
-                        failureStrategies: []
-                    - step:
-                        type: Verify
-                        name: Deployment Verification
-                        identifier: verify_prod
-                        spec:
-                          type: Rolling
-                          spec:
-                            sensitivity: MEDIUM
-                            duration: 5m
-                            deploymentTag: <+serviceConfig.artifacts.primary.tag>
-                        timeout: 2h
-                        failureStrategies:
-                          - onFailure:
-                              errors:
-                                - Verification
-                              action:
-                                type: ManualIntervention
+                              connectorRef: BankingJira
+                              issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                              transitionTo:
+                                transitionName: ""
+                                status: In Progress
+                              fields:
+                                - name: Comment
+                                  value: Dev Canary started
+                            timeout: 1d
+                            failureStrategies: []
+                        - step:
+                            name: Canary Deployment
+                            identifier: canaryDeployment
+                            type: K8sCanaryDeploy
+                            timeout: 10m
+                            spec:
+                              instanceSelection:
+                                type: Count
                                 spec:
-                                  timeout: 2h
-                                  onTimeout:
-                                    action:
-                                      type: StageRollback
-                          - onFailure:
-                              errors:
-                                - Unknown
-                              action:
-                                type: ManualIntervention
-                                spec:
-                                  timeout: 2h
-                                  onTimeout:
-                                    action:
-                                      type: Ignore
-                    - step:
-                        name: Canary Delete
-                        identifier: canaryDelete
-                        type: K8sCanaryDelete
-                        timeout: 10m
-                        spec: {}
-                  rollbackSteps:
-                    - step:
-                        name: Canary Delete
-                        identifier: canaryDelete
-                        type: K8sCanaryDelete
-                        timeout: 10m
-                        spec: {}
+                                  count: 1
+                              skipDryRun: false
+                        - step:
+                            type: JiraUpdate
+                            name: Update JIRA Ready for Testing
+                            identifier: Update_JIRA_Ready_for_Testing
+                            spec:
+                              connectorRef: BankingJira
+                              issueKey: <+pipeline.stages.Deploy_Banking_App_Dev.spec.execution.steps.Create_JIRA_to_track_deployment.issue.key>
+                              transitionTo:
+                                transitionName: ""
+                                status: QA Test
+                              fields:
+                                - name: Comment
+                                  value: Ready for testing. Successfully passed sonarcube artifact scan.
+                            timeout: 1d
+                            failureStrategies: []
+                        - step:
+                            type: Verify
+                            name: Deployment Verification
+                            identifier: verify_prod
+                            spec:
+                              type: Rolling
+                              spec:
+                                sensitivity: MEDIUM
+                                duration: 5m
+                                deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                            timeout: 2h
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - Verification
+                                  action:
+                                    type: ManualIntervention
+                                    spec:
+                                      timeout: 2h
+                                      onTimeout:
+                                        action:
+                                          type: StageRollback
+                              - onFailure:
+                                  errors:
+                                    - Unknown
+                                  action:
+                                    type: ManualIntervention
+                                    spec:
+                                      timeout: 2h
+                                      onTimeout:
+                                        action:
+                                          type: Ignore
+                        - step:
+                            name: Canary Delete
+                            identifier: canaryDelete
+                            type: K8sCanaryDelete
+                            timeout: 10m
+                            spec: {}
+                      rollbackSteps:
+                        - step:
+                            name: Canary Delete
+                            identifier: canaryDelete
+                            type: K8sCanaryDelete
+                            timeout: 10m
+                            spec: {}
+                  - stepGroup:
+                      name: Kube Score
+                      identifier: Kube_Score
+                      steps:
+                        - step:
+                            type: DownloadManifests
+                            name: DownloadManifests
+                            identifier: DownloadManifests
+                            spec: {}
+                            timeout: 10m
+                        - step:
+                            type: Run
+                            name: Kube Score
+                            identifier: Kube_Score
+                            spec:
+                              connectorRef: account.DockerHubDiego
+                              image: zegl/kube-score:latest
+                              shell: Sh
+                              command: |-
+                                ls -ltra
+
+                                kube-score score **/*.yaml
+                      stepGroupInfra:
+                        type: KubernetesDirect
+                        spec:
+                          connectorRef: account.cddemose
+                          namespace: dev
               - stepGroup:
                   name: Primary Deployment
                   identifier: primaryDepoyment
