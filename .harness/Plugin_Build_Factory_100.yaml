@@ -39,7 +39,7 @@ template:
                             wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 
                             echo $PATH
-
+                            mkdir -p /home/ubuntu/go-install
                             tar -C /home/ubuntu/go-install -xzf go1.21.0.linux-amd64.tar.gz
                             nano ~/.profile
                             export GOROOT=/home/ubuntu/go-install/go
