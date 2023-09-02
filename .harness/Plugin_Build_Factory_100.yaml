@@ -41,10 +41,15 @@ template:
                             # export GOROOT_BOOTSTRAP=$GOROOT
 
                             chmod 777 -R /home/ubuntu/.gvm
-                            /home/ubuntu/.gvm/scripts/gvm listall go1.21.0 -B
+
+                            source /home/ubuntu/.gvm/scripts/gvm
+
+                            # /home/ubuntu/.gvm/scripts/gvm listall go1.21.0 -B
+                            gvm listall go1.21.0 -B
 
                             # gvm install go1.21.0 -B
-                            /home/ubuntu/.gvm/scripts/gvm use go1.21.0 --default
+                            # /home/ubuntu/.gvm/scripts/gvm use go1.21.0 --default
+                            gvm use go1.21.0 --default
 
 
                             mkdir -p binary
