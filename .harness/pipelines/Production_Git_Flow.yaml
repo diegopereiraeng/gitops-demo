@@ -536,18 +536,6 @@ pipeline:
                       identifier: Kube_Score
                       steps:
                         - step:
-                            type: DownloadManifests
-                            name: DownloadManifests
-                            identifier: DownloadManifests
-                            spec: {}
-                            timeout: 10m
-                            failureStrategies:
-                              - onFailure:
-                                  errors:
-                                    - AllErrors
-                                  action:
-                                    type: Ignore
-                        - step:
                             type: GitClone
                             name: GitClone Manifests
                             identifier: GitClone_Manifests
