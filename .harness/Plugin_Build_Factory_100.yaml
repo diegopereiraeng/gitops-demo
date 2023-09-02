@@ -35,21 +35,33 @@ template:
                           command: |-
                             apt-get update -y
                             apt-get install -y git
+
+                            wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+                            mv /usr/local/go /usr/local/go-1.23
+                            rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
+
+                            export GOROOT=/usr/local/go
+                            export GOPATH=$HOME/go
+                            export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+                            source ~/.profile
+
+                            go version
+
                             cd /harness
 
-                            bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+                            # bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
                             # export GOROOT_BOOTSTRAP=$GOROOT
 
-                            chmod 777 -R /home/ubuntu/.gvm
+                            # chmod 777 -R /home/ubuntu/.gvm
 
-                            source /home/ubuntu/.gvm/scripts/gvm
+                            # source /home/ubuntu/.gvm/scripts/gvm
 
-                            # /home/ubuntu/.gvm/scripts/gvm listall go1.21.0 -B
-                            gvm listall go1.21.0 -B
+                            # # /home/ubuntu/.gvm/scripts/gvm listall go1.21.0 -B
+                            # gvm listall go1.21.0 -B
 
-                            # gvm install go1.21.0 -B
-                            # /home/ubuntu/.gvm/scripts/gvm use go1.21.0 --default
-                            gvm use go1.21.0 --default
+                            # # gvm install go1.21.0 -B
+                            # # /home/ubuntu/.gvm/scripts/gvm use go1.21.0 --default
+                            # gvm use go1.21.0 --default
 
 
                             mkdir -p binary
