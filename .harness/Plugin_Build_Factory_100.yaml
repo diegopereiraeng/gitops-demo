@@ -44,9 +44,9 @@ template:
                             mv /usr/bin/go /usr/bin/go-1.23
                             rm -rf /usr/bin/go && tar -C /usr/bin -xzf go1.21.0.linux-amd64.tar.gz
 
-                            export GOROOT=/usr/local/go
-                            export GOPATH=$HOME/go
-                            export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+                            export GOROOT=/usr/bin/go
+                            export GOPATH=/usr/bin/go
+                            # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
                             source ~/.profile
 
                             go version
