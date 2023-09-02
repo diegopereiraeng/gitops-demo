@@ -100,7 +100,7 @@ template:
                         identifier: Git_Leak_Secret_Scan_Ingestion
                         spec:
                           mode: ingestion
-                          config: default
+                          config: sarif
                           target:
                             name: <+pipeline.properties.ci.codebase.repoName>
                             type: repository
