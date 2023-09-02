@@ -56,6 +56,7 @@ template:
                           privileged: true
                           outputVariables:
                             - name: tag
+                          runAsUser: "0"
                     - step:
                         type: Run
                         name: GitLeak - Secret Scan
