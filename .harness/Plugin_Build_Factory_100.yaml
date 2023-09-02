@@ -91,25 +91,6 @@ template:
                             customer_artifacts_path: /shared/customer_artifacts
                             manual_upload_filename: gitleaks-results.sarif
                     - step:
-                        type: CustomIngest
-                        name: Git Leak Secret Scan Ingestion
-                        identifier: Git_Leak_Secret_Scan_Ingestion
-                        spec:
-                          mode: ingestion
-                          config: sarif
-                          target:
-                            name: <+pipeline.properties.ci.codebase.repoName>
-                            type: repository
-                            variant: <+codebase.branch>
-                          advanced:
-                            log:
-                              level: info
-                          ingestion:
-                            file: /shared/customer_artifacts/gitleaks-results.sarif
-                        when:
-                          stageStatus: Success
-                          condition: "false"
-                    - step:
                         type: Gitleaks
                         name: Gitleaks
                         identifier: Gitleaks
