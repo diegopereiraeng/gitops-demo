@@ -542,7 +542,7 @@ pipeline:
                               command: |-
                                 ls -ltra
 
-                                kube-score score **/*.yaml
+                                kube-score score /harness/k8s-manifests-templates/templates/envs/dev/*.yaml
                       stepGroupInfra:
                         type: KubernetesDirect
                         spec:
