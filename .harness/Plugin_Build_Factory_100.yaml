@@ -39,14 +39,19 @@ template:
                             wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 
                             echo $PATH
-                            mkdir -p /home/ubuntu/go-install
-                            tar -C /home/ubuntu/go-install -xzf go1.21.0.linux-amd64.tar.gz
-                            cat <<EOF >> ~/.profile
-                            export GOROOT=/home/ubuntu/go-install/go
-                            export GOPATH=/home/ubuntu/go-install
-                            export PATH=\$PATH:\$GOROOT/bin:\$GOPATH
-                            EOF
-                            source ~/.profile  # or source ~/.bashrc
+
+                            rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
+
+                            export PATH=$PATH:/usr/local/go/bin
+
+                            # mkdir -p /home/ubuntu/go-install
+                            # tar -C /home/ubuntu/go-install -xzf go1.21.0.linux-amd64.tar.gz
+                            # cat <<EOF >> ~/.profile
+                            # export GOROOT=/home/ubuntu/go-install/go
+                            # export GOPATH=/home/ubuntu/go-install
+                            # export PATH=\$PATH:\$GOROOT/bin:\$GOPATH
+                            # EOF
+                            # source ~/.profile  # or source ~/.bashrc
 
                             # whereis go
 
