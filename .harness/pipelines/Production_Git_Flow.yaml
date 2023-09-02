@@ -66,6 +66,7 @@ pipeline:
                         imagePullPolicy: Always
                       when:
                         stageStatus: Success
+                        condition: "false"
                       failureStrategies:
                         - onFailure:
                             errors:
@@ -103,7 +104,6 @@ pipeline:
                       name: Brakeman Scan
                       identifier: Brakeman_Scan
                       spec:
-                        connectorRef: account.DockerHubDiego
                         privileged: true
                         settings:
                           policy_type: manualUpload
@@ -118,6 +118,7 @@ pipeline:
                         imagePullPolicy: Always
                       when:
                         stageStatus: Success
+                        condition: "false"
                       failureStrategies:
                         - onFailure:
                             errors:
@@ -130,7 +131,6 @@ pipeline:
                       name: OWASP
                       identifier: OWASP
                       spec:
-                        connectorRef: account.DockerHubDiego
                         privileged: true
                         settings:
                           policy_type: manualUpload
@@ -151,6 +151,7 @@ pipeline:
                               type: Ignore
                       when:
                         stageStatus: Success
+                        condition: "false"
                   - step:
                       type: Run
                       name: Lint Check
@@ -220,6 +221,54 @@ pipeline:
                               type: Ignore
                       when:
                         stageStatus: Success
+                  - step:
+                      type: Sonarqube
+                      name: Sonarqube Vulnerability
+                      identifier: Sonarqube_Vulnerability
+                      spec:
+                        mode: ingestion
+                        config: default
+                        target:
+                          name: <+pipeline.properties.ci.codebase.repoName>
+                          type: repository
+                          variant: "<+codebase.branch> "
+                        advanced:
+                          log:
+                            level: info
+                        ingestion:
+                          file: /harness/tests/scan_tools/sonarqube/test_data/001
+                  - step:
+                      type: Owasp
+                      name: Owasp
+                      identifier: Owasp
+                      spec:
+                        mode: ingestion
+                        config: default
+                        target:
+                          name: <+pipeline.properties.ci.codebase.repoName>
+                          type: repository
+                          variant: <+codebase.branch>
+                        advanced:
+                          log:
+                            level: info
+                        ingestion:
+                          file: /harness/tests/scan_tools/owasp/test_data/001
+                  - step:
+                      type: Brakeman
+                      name: Brakeman
+                      identifier: Brakeman
+                      spec:
+                        mode: ingestion
+                        config: default
+                        target:
+                          name: <+pipeline.properties.ci.codebase.repoName>
+                          type: repository
+                          variant: <+codebase.branch>
+                        advanced:
+                          log:
+                            level: info
+                        ingestion:
+                          file: /harness/tests/scan_tools/brakeman/test_data/001
               - step:
                   type: Run
                   name: Build Image
