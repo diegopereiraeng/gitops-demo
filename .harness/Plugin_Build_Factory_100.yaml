@@ -31,13 +31,17 @@ template:
                         identifier: build_harness_sonar
                         name: Build Go
                         spec:
-                          connectorRef: account.DockerHubDiego
-                          image: golang:1.21.0
                           shell: Sh
                           command: |-
                             apt-get update -y
                             apt-get install -y git
                             cd /harness
+
+                            bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+                            source /home/ubuntu/.gvm/scripts/gvm
+                            gvm install go1.21
+                            gvm use go1.21
+
 
                             mkdir -p binary
                             go env GOCACHE
@@ -65,12 +69,7 @@ template:
                         spec:
                           shell: Bash
                           command: |-
-                            apt-get install bison
 
-                            bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-
-                            gvm install go1.21
-                            gvm use go1.21
 
                             go install github.com/jstemmer/go-junit-report/v2@latest
                             go test -v ./... | tee report.out
