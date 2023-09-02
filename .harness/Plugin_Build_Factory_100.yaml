@@ -41,13 +41,9 @@ template:
 
                             mkdir -p binary
                             go env GOCACHE
-                            # go get github.com/sirupsen/logrus
-                            # go get github.com/pelletier/go-toml/cmd/tomll
-                            # go get github.com/urfave/cli
-                            # go get github.com/joho/godotenv
+
                             go mod download
                             GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
-
 
                             export tag="unstable-<+codebase.shortCommitSha>"
                           outputVariables:
@@ -101,6 +97,25 @@ template:
                         spec:
                           mode: ingestion
                           config: sarif
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: repository
+                            variant: <+codebase.branch>
+                          advanced:
+                            log:
+                              level: info
+                          ingestion:
+                            file: /shared/customer_artifacts/gitleaks-results.sarif
+                        when:
+                          stageStatus: Success
+                          condition: "false"
+                    - step:
+                        type: Gitleaks
+                        name: Gitleaks
+                        identifier: Gitleaks
+                        spec:
+                          mode: ingestion
+                          config: default
                           target:
                             name: <+pipeline.properties.ci.codebase.repoName>
                             type: repository
