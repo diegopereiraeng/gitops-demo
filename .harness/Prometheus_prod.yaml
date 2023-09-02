@@ -6,3 +6,5 @@ connector:
   type: Prometheus
   spec:
     url: http://34.121.168.55:8080/
+    delegateSelectors:
+    - cd-demo-se
