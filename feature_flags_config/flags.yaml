@@ -847,7 +847,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: rwharness
         default:
           onVariation: "true"
@@ -3664,11 +3664,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: luisreddagmailcom
-          variation: White
-        - targets:
           - identifier: GuestSantana-de-Parnaiba
           variation: Black
+        - targets:
+          - identifier: luisreddagmailcom
+          variation: White
       - identifier: fbreton
         default:
           onVariation: Black
