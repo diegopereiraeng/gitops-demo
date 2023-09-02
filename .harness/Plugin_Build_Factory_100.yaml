@@ -40,10 +40,10 @@ template:
                             bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
                             export GOROOT_BOOTSTRAP=$GOROOT
 
-                            source /home/ubuntu/.gvm/scripts/gvm | true
+                            /home/ubuntu/.gvm/scripts/gvm listall go1.21.0 -B
 
-                            gvm install go1.21.0 -B
-                            gvm use go1.21.0 --default
+                            # gvm install go1.21.0 -B
+                            /home/ubuntu/.gvm/scripts/gvm use go1.21.0 --default
 
 
                             mkdir -p binary
