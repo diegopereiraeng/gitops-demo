@@ -278,34 +278,52 @@ pipeline:
                     image: docker:latest
                     shell: Sh
                     command: docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
-              - step:
-                  type: Security
-                  name: Aqua
-                  identifier: Aqua
-                  spec:
-                    connectorRef: account.DockerHubDiego
-                    privileged: true
-                    settings:
-                      product_name: aqua-trivy
-                      product_config_name: aqua-trivy
-                      policy_type: manualUpload
-                      scan_type: container
-                      container_type: local_image
-                      container_domain: docker.io
-                      container_project: nodegoat
-                      container_tag: local
-                      fail_on_severity: HIGH
-                      customer_artifacts_path: /harness/tests/scan_tools/aqua_trivy/test_data
-                      manual_upload_filename: "005"
-                    imagePullPolicy: Always
-                  failureStrategies:
-                    - onFailure:
-                        errors:
-                          - AllErrors
-                        action:
-                          type: Ignore
-                  when:
-                    stageStatus: Success
+              - parallel:
+                  - step:
+                      type: Security
+                      name: Aqua
+                      identifier: Aqua
+                      spec:
+                        privileged: true
+                        settings:
+                          product_name: aqua-trivy
+                          product_config_name: aqua-trivy
+                          policy_type: manualUpload
+                          scan_type: container
+                          container_type: local_image
+                          container_domain: docker.io
+                          container_project: nodegoat
+                          container_tag: local
+                          fail_on_severity: HIGH
+                          customer_artifacts_path: /harness/tests/scan_tools/aqua_trivy/test_data
+                          manual_upload_filename: "005"
+                        imagePullPolicy: Always
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - AllErrors
+                            action:
+                              type: Ignore
+                      when:
+                        stageStatus: Success
+                        condition: "false"
+                  - step:
+                      type: AquaTrivy
+                      name: AquaTrivy
+                      identifier: AquaTrivy
+                      spec:
+                        mode: ingestion
+                        config: default
+                        target:
+                          name: <+pipeline.properties.ci.codebase.repoName>
+                          type: container
+                          variant: <+codebase.branch>
+                        advanced:
+                          log:
+                            level: info
+                        privileged: false
+                        ingestion:
+                          file: /harness/tests/scan_tools/aqua_trivy/test_data/005
               - parallel:
                   - step:
                       type: BuildAndPushDockerRegistry
