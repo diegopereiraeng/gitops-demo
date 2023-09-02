@@ -38,11 +38,12 @@ template:
                             cd /harness
 
                             bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-                            touch /home/ubuntu/.gvm/environments/default
+                            export GOROOT_BOOTSTRAP=$GOROOT
+
                             source /home/ubuntu/.gvm/scripts/gvm
 
                             gvm install go1.21.0 -B
-                            gvm use go1.21.0
+                            gvm use go1.21.0 --default
 
 
                             mkdir -p binary
