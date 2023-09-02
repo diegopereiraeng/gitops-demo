@@ -36,6 +36,9 @@ template:
                             apt-get update -y
                             apt-get install -y git
                             cd /harness
+                            gvm list
+
+                            gvm use 1.21
                             mkdir -p binary
                             go env GOCACHE
                             # go get github.com/sirupsen/logrus
