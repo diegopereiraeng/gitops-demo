@@ -41,8 +41,8 @@ template:
 
                             source /home/ubuntu/.gvm/scripts/gvm
 
-                            gvm install go1.21
-                            gvm use go1.21
+                            gvm install go1.21.0 -B
+                            gvm use go1.21.0
 
 
                             mkdir -p binary
