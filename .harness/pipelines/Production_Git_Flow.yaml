@@ -535,30 +535,29 @@ pipeline:
                       name: Kube Score
                       identifier: Kube_Score
                       steps:
-                        - parallel:
-                            - step:
-                                type: DownloadManifests
-                                name: DownloadManifests
-                                identifier: DownloadManifests
-                                spec: {}
-                                timeout: 10m
-                                failureStrategies:
-                                  - onFailure:
-                                      errors:
-                                        - AllErrors
-                                      action:
-                                        type: Ignore
-                            - step:
-                                type: GitClone
-                                name: GitClone Manifests
-                                identifier: GitClone_Manifests
+                        - step:
+                            type: DownloadManifests
+                            name: DownloadManifests
+                            identifier: DownloadManifests
+                            spec: {}
+                            timeout: 10m
+                            failureStrategies:
+                              - onFailure:
+                                  errors:
+                                    - AllErrors
+                                  action:
+                                    type: Ignore
+                        - step:
+                            type: GitClone
+                            name: GitClone Manifests
+                            identifier: GitClone_Manifests
+                            spec:
+                              connectorRef: account.diegogithubapp
+                              repoName: k8s-manifests-templates
+                              build:
+                                type: branch
                                 spec:
-                                  connectorRef: account.diegogithubapp
-                                  repoName: k8s-manifests-templates
-                                  build:
-                                    type: branch
-                                    spec:
-                                      branch: main
+                                  branch: main
                         - step:
                             type: Run
                             name: Kube Score
