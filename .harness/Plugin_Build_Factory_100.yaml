@@ -31,14 +31,14 @@ template:
                         identifier: build_harness_sonar
                         name: Build Go
                         spec:
+                          connectorRef: account.DockerHubDiego
+                          image: golang:1.21.0
                           shell: Sh
                           command: |-
                             apt-get update -y
                             apt-get install -y git
                             cd /harness
-                            gvm list
 
-                            gvm use 1.21
                             mkdir -p binary
                             go env GOCACHE
                             # go get github.com/sirupsen/logrus
