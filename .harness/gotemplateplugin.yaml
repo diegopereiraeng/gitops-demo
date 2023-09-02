@@ -1,0 +1,44 @@
+inputSet:
+  name: go-template-plugin
+  identifier: gotemplateplugin
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  pipeline:
+    identifier: Plugin_Factory
+    template:
+      templateInputs:
+        properties:
+          ci:
+            codebase:
+              build:
+                type: branch
+                spec:
+                  branch: <+trigger.branch>
+        stages:
+          - stage:
+              identifier: Plugin_E2E_Tests
+              type: CI
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: Plugin_Test
+                        type: Plugin
+                        spec:
+                          settings:
+                            template: /app/test/template/deployment.yaml
+                            values: /app/test/values/values.yaml
+                            output: /app/test/results/
+        variables:
+          - name: plugin_name
+            type: String
+            value: go-template-plugin
+          - name: repo_name
+            type: String
+            value: go-template-plugin
+          - name: image_name
+            type: String
+            value: go-template-plugin
+          - name: report_path
+            type: String
+            value: "*-output.yaml"
