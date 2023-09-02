@@ -628,7 +628,7 @@ pipeline:
                       stepGroupInfra:
                         type: KubernetesDirect
                         spec:
-                          connectorRef: account.cddemose
+                          connectorRef: account.k8scidemose
                           namespace: dev
               - stepGroup:
                   name: Primary Deployment
