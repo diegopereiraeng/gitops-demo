@@ -65,6 +65,13 @@ template:
                         spec:
                           shell: Sh
                           command: |-
+                            apt-get install bison
+
+                            bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
+                            gvm install go1.21
+                            gvm use go1.21
+
                             go install github.com/jstemmer/go-junit-report/v2@latest
                             go test -v ./... | tee report.out
                             cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
