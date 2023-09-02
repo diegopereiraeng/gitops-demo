@@ -40,14 +40,22 @@ template:
 
                             echo $PATH
 
-                            whereis go
-                            mv /usr/bin/go /usr/bin/go-1.23
-                            rm -rf /usr/bin/go && tar -C /usr/bin -xzf go1.21.0.linux-amd64.tar.gz
+                            tar -C /home/ubuntu/go-install -xzf go1.21.0.linux-amd64.tar.gz
+                            nano ~/.profile
+                            export GOROOT=/home/ubuntu/go-install/go
+                            export GOPATH=$HOME/go
+                            export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+                            source ~/.profile  # or source ~/.bashrc
 
-                            export GOROOT=/usr/bin/go
-                            export GOPATH=/usr/bin/go
-                            # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-                            source ~/.profile
+                            # whereis go
+
+                            # mv /usr/bin/go /usr/bin/go-1.23
+                            # rm -rf /usr/bin/go && tar -C /usr/bin -xzf go1.21.0.linux-amd64.tar.gz
+
+                            # export GOROOT=/usr/bin/go
+                            # export GOPATH=/usr/bin/go
+                            # # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+                            # source ~/.profile
 
                             go version
 
