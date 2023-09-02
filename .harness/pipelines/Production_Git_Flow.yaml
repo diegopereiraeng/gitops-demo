@@ -628,8 +628,8 @@ pipeline:
                       stepGroupInfra:
                         type: KubernetesDirect
                         spec:
-                          connectorRef: account.k8scidemose
-                          namespace: dev
+                          connectorRef: account.harness_demo
+                          namespace: harness-delegate-ng
               - stepGroup:
                   name: Primary Deployment
                   identifier: primaryDepoyment
