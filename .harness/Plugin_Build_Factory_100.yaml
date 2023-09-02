@@ -63,7 +63,7 @@ template:
                         identifier: test
                         name: Unit Tests
                         spec:
-                          shell: Sh
+                          shell: Bash
                           command: |-
                             apt-get install bison
 
