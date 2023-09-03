@@ -520,29 +520,28 @@ pipeline:
                       name: Kube Score
                       identifier: Kube_Score
                       steps:
-                        - parallel:
-                            - step:
-                                type: GitClone
-                                name: GitClone Manifests
-                                identifier: GitClone_Manifests
+                        - step:
+                            type: GitClone
+                            name: GitClone Manifests
+                            identifier: GitClone_Manifests
+                            spec:
+                              connectorRef: account.diegogithubapp
+                              repoName: k8s-manifests-templates
+                              build:
+                                type: branch
                                 spec:
-                                  connectorRef: account.diegogithubapp
-                                  repoName: k8s-manifests-templates
-                                  build:
-                                    type: branch
-                                    spec:
-                                      branch: main
-                            - step:
-                                type: GitClone
-                                name: GitClone values
-                                identifier: GitClone_values
+                                  branch: main
+                        - step:
+                            type: GitClone
+                            name: GitClone values
+                            identifier: GitClone_values
+                            spec:
+                              connectorRef: account.diegogithubapp
+                              repoName: values-k8s
+                              build:
+                                type: branch
                                 spec:
-                                  connectorRef: account.diegogithubapp
-                                  repoName: values-k8s
-                                  build:
-                                    type: branch
-                                    spec:
-                                      branch: main
+                                  branch: main
                         - step:
                             type: Plugin
                             name: Template Render
@@ -554,6 +553,7 @@ pipeline:
                                 template: /harness/k8s-manifests-templates/templates/envs/dev/
                                 values: /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
                                 output: /harness/template-results/
+                              imagePullPolicy: IfNotPresent
                         - step:
                             type: Run
                             name: Kube Score
@@ -566,6 +566,7 @@ pipeline:
                                 ls -ltra
 
                                 kube-score score /harness/k8s-manifests-templates/templates/envs/dev/*.yaml
+                              imagePullPolicy: IfNotPresent
                       stepGroupInfra:
                         type: KubernetesDirect
                         spec:
