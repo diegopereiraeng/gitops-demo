@@ -186,7 +186,7 @@ pipeline:
                           log:
                             level: info
                         ingestion:
-                          file: /harness/tests/scan_tools/brakeman/test_data/001_refined_issues
+                          file: /harness/tests/scan_tools/brakeman/test_data/001
               - step:
                   type: Run
                   name: Build Image
