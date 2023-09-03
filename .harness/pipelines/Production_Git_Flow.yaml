@@ -308,7 +308,7 @@ pipeline:
                     spec:
                       connectorRef: account.DockerHubDiego
                       imagePath: diegokoala/harness-ff-bankingapp
-                      tag: <+pipeline.variables.tag>-<+pipeline.sequenceId>
+                      tag: <+pipeline.variables.tag>-<+codebase.shortCommitSha>
                     type: DockerRegistry
                 manifestOverrideSets: []
                 manifests:
