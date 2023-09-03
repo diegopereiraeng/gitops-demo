@@ -275,28 +275,29 @@ pipeline:
                   name: Kube Score Dev
                   identifier: kube_score
                   steps:
-                    - step:
-                        type: GitClone
-                        name: GitClone Manifests
-                        identifier: GitClone_Manifests
-                        spec:
-                          connectorRef: account.diegogithubapp
-                          repoName: k8s-manifests-templates
-                          build:
-                            type: branch
+                    - parallel:
+                        - step:
+                            type: GitClone
+                            name: GitClone Manifests
+                            identifier: GitClone_Manifests
                             spec:
-                              branch: main
-                    - step:
-                        type: GitClone
-                        name: GitClone Values
-                        identifier: GitClone_Values
-                        spec:
-                          connectorRef: account.diegogithubapp
-                          repoName: values-k8s
-                          build:
-                            type: branch
+                              connectorRef: account.diegogithubapp
+                              repoName: k8s-manifests-templates
+                              build:
+                                type: branch
+                                spec:
+                                  branch: main
+                        - step:
+                            type: GitClone
+                            name: GitClone Values
+                            identifier: GitClone_Values
                             spec:
-                              branch: main
+                              connectorRef: account.diegogithubapp
+                              repoName: values-k8s
+                              build:
+                                type: branch
+                                spec:
+                                  branch: main
                     - step:
                         type: Plugin
                         name: Template Render
