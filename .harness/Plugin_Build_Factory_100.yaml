@@ -125,21 +125,6 @@ template:
                         when:
                           stageStatus: Success
                     - step:
-                        type: Security
-                        name: GitLeak Secret Scan Ingestion
-                        identifier: GitLeak_Secret_Scan_Ingestion
-                        spec:
-                          privileged: true
-                          settings:
-                            product_name: external
-                            product_config_name: default
-                            policy_type: ingestionOnly
-                            scan_type: repository
-                            repository_project: <+pipeline.properties.ci.codebase.repoName>
-                            repository_branch: <+codebase.branch>
-                            customer_artifacts_path: /shared/customer_artifacts
-                            manual_upload_filename: gitleaks-results.sarif
-                    - step:
                         type: Gitleaks
                         name: Gitleaks
                         identifier: Gitleaks
