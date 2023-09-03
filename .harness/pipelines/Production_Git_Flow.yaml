@@ -80,7 +80,8 @@ pipeline:
                           command: |-
                             ls -ltra
 
-                            kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
+                            # kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
+                            kube-score score /harness/template-results/*.yaml -o json | true
                           imagePullPolicy: IfNotPresent
                     - step:
                         type: CustomIngest
@@ -99,6 +100,9 @@ pipeline:
                           imagePullPolicy: IfNotPresent
                           ingestion:
                             file: /harness/kubescore.sarif
+                        when:
+                          stageStatus: Success
+                          condition: "false"
               - parallel:
                   - step:
                       type: RestoreCacheGCS
