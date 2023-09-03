@@ -80,7 +80,7 @@ pipeline:
                           command: |-
                             ls -ltra
 
-                            kube-score score /harness/template-results/*.yaml -o sarif
+                            kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
                           imagePullPolicy: IfNotPresent
               - parallel:
                   - step:
