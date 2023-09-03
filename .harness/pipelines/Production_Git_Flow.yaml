@@ -88,14 +88,17 @@ pipeline:
                         identifier: Kube_Score_Ingestion
                         spec:
                           mode: ingestion
-                          config: default
+                          config: sarif
                           target:
                             name: <+pipeline.properties.ci.codebase.repoName>
                             type: configuration
                             variant: dev
                           advanced:
                             log:
-                              level: info
+                              level: debug
+                          settings:
+                            configuration_type: manifest
+                          imagePullPolicy: IfNotPresent
                           ingestion:
                             file: /harness/kubescore.sarif
               - parallel:
