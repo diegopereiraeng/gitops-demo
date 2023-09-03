@@ -518,7 +518,7 @@ pipeline:
                             spec: {}
                   - stepGroup:
                       name: Kube Score
-                      identifier: Kube_Score
+                      identifier: kube_score
                       steps:
                         - step:
                             type: GitClone
@@ -572,6 +572,8 @@ pipeline:
                         spec:
                           connectorRef: account.harness_demo
                           namespace: harness-delegate-ng
+                          containerSecurityContext:
+                            privileged: true
               - stepGroup:
                   name: Primary Deployment
                   identifier: primaryDepoyment
