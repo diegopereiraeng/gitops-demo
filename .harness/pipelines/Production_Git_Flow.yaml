@@ -88,7 +88,7 @@ pipeline:
                         identifier: Kube_Score_Ingestion
                         spec:
                           mode: ingestion
-                          config: sarif
+                          config: default
                           target:
                             name: k8s-manifests-templates
                             type: repository
