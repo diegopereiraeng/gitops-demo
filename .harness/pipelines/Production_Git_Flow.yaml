@@ -87,26 +87,51 @@ pipeline:
                             # cat human.log
                             cat kubescore.json
                           imagePullPolicy: IfNotPresent
-                    - step:
-                        type: CustomIngest
-                        name: Kube Score Ingestion
-                        identifier: Kube_Score_Ingestion
-                        spec:
-                          mode: ingestion
-                          config: default
-                          target:
-                            name: k8s-manifests-templates
-                            type: repository
-                            variant: dev
-                          advanced:
-                            log:
-                              level: debug
-                          imagePullPolicy: IfNotPresent
-                          ingestion:
-                            file: /harness/kubescore.sarif
-                        when:
-                          stageStatus: Success
-                          condition: "false"
+                    - parallel:
+                        - step:
+                            type: CustomIngest
+                            name: Kube Score Ingestion
+                            identifier: Kube_Score_Ingestion
+                            spec:
+                              mode: ingestion
+                              config: default
+                              target:
+                                name: k8s-manifests-templates
+                                type: repository
+                                variant: dev
+                              advanced:
+                                log:
+                                  level: debug
+                              imagePullPolicy: IfNotPresent
+                              ingestion:
+                                file: /harness/kubescore.sarif
+                            when:
+                              stageStatus: Success
+                              condition: "false"
+                        - step:
+                            type: Plugin
+                            name: Kube Score Quality Ingestion
+                            identifier: kubescore_quality
+                            spec:
+                              connectorRef: YourDockerHubAccount
+                              image: diegokoala/harness-junit-converter:latest
+                              reports:
+                                type: JUnit
+                                spec:
+                                  paths:
+                                    - "**/**/*.xml"
+                              settings:
+                                json_file_name: /harness/kubescore.json
+                                test_name: object_name
+                                test_description: checks[].check.name
+                                test_junit_time: checks[].grade
+                                test_junit_package: type_meta.apiVersion
+                                test_junit_name: checks[].check.id
+                                test_junit_list: checks
+                                test_junit_list_name: check.name
+                                test_junit_list_class_name: type_meta.kind
+                                test_junit_list_failure: checks[].comments[].summary
+                                test_junit_list_time: checks[].grade
               - parallel:
                   - step:
                       type: RestoreCacheGCS
