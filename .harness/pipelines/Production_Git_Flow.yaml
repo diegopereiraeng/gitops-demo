@@ -82,6 +82,22 @@ pipeline:
 
                             kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
                           imagePullPolicy: IfNotPresent
+                    - step:
+                        type: CustomIngest
+                        name: Kube Score Ingestion
+                        identifier: Kube_Score_Ingestion
+                        spec:
+                          mode: ingestion
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: configuration
+                            variant: dev
+                          advanced:
+                            log:
+                              level: info
+                          ingestion:
+                            file: /harness/kubescore.sarif
               - parallel:
                   - step:
                       type: RestoreCacheGCS
