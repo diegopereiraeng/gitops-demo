@@ -304,7 +304,10 @@ pipeline:
                         identifier: Values_Variables_Translation
                         spec:
                           shell: Sh
-                          command: cat /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml > /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
+                          command: |-
+                            cat /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
+                            cat /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml > /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
+                            cat /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
                     - step:
                         type: Plugin
                         name: Template Render
