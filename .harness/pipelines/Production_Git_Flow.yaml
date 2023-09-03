@@ -90,14 +90,12 @@ pipeline:
                           mode: ingestion
                           config: sarif
                           target:
-                            name: <+pipeline.properties.ci.codebase.repoName>
-                            type: configuration
+                            name: k8s-manifests-templates
+                            type: repository
                             variant: dev
                           advanced:
                             log:
                               level: debug
-                          settings:
-                            configuration_type: manifest
                           imagePullPolicy: IfNotPresent
                           ingestion:
                             file: /harness/kubescore.sarif
