@@ -272,7 +272,7 @@ pipeline:
                         stageStatus: Success
                       failureStrategies: []
               - stepGroup:
-                  name: Kube Score
+                  name: Kube Score Dev
                   identifier: kube_score
                   steps:
                     - step:
