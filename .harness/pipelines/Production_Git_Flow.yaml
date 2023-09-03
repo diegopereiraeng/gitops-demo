@@ -542,6 +542,9 @@ pipeline:
                                 type: branch
                                 spec:
                                   branch: main
+                            when:
+                              stageStatus: Success
+                              condition: "false"
                         - step:
                             type: Plugin
                             name: Template Render
