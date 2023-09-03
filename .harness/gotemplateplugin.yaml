@@ -28,7 +28,7 @@ inputSet:
                           settings:
                             template: /app/test/template/deployment.yaml
                             values: /app/test/values/values.yaml
-                            output: /app/test/results/
+                            output: /harness/template-results/
         variables:
           - name: plugin_name
             type: String
