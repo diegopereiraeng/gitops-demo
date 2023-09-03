@@ -271,6 +271,57 @@ pipeline:
                       when:
                         stageStatus: Success
                       failureStrategies: []
+              - stepGroup:
+                  name: Kube Score
+                  identifier: kube_score
+                  steps:
+                    - step:
+                        type: GitClone
+                        name: GitClone Manifests
+                        identifier: GitClone_Manifests
+                        spec:
+                          connectorRef: account.diegogithubapp
+                          repoName: k8s-manifests-templates
+                          build:
+                            type: branch
+                            spec:
+                              branch: main
+                    - step:
+                        type: GitClone
+                        name: GitClone Values
+                        identifier: GitClone_Values
+                        spec:
+                          connectorRef: account.diegogithubapp
+                          repoName: values-k8s
+                          build:
+                            type: branch
+                            spec:
+                              branch: main
+                    - step:
+                        type: Plugin
+                        name: Template Render
+                        identifier: Template_Render
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/go-template-plugin:latest
+                          settings:
+                            template: /harness/k8s-manifests-templates/templates/envs/dev/
+                            values: /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
+                            output: /harness/template-results/
+                          imagePullPolicy: IfNotPresent
+                    - step:
+                        type: Run
+                        name: Kube Score
+                        identifier: Kube_Score
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: zegl/kube-score:latest
+                          shell: Sh
+                          command: |-
+                            ls -ltra
+
+                            kube-score score /harness/template-results/*.yaml
+                          imagePullPolicy: IfNotPresent
           serviceConfig:
             serviceRef: ""
             serviceDefinition:
