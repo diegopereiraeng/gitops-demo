@@ -565,7 +565,7 @@ pipeline:
                               command: |-
                                 ls -ltra
 
-                                kube-score score /harness/k8s-manifests-templates/templates/envs/dev/*.yaml
+                                kube-score score /harness/template-results/*.yaml
                               imagePullPolicy: IfNotPresent
                       stepGroupInfra:
                         type: KubernetesDirect
