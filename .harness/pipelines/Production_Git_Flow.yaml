@@ -77,14 +77,15 @@ pipeline:
                           connectorRef: account.DockerHubDiego
                           image: zegl/kube-score:latest
                           shell: Sh
-                          command: |
+                          command: |-
                             ls -ltra
 
                             # kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
-                            kube-score score /harness/template-results/*.yaml -o json > kubescore.json | true
+                            kube-score score /harness/template-results/*.yaml -o ci > kubescore.json | true
                             kube-score score /harness/template-results/*.yaml > human.log | true
 
                             cat human.log
+                            cat kubescore.json
                           imagePullPolicy: IfNotPresent
                     - step:
                         type: CustomIngest
