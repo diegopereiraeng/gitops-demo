@@ -81,7 +81,7 @@ pipeline:
                             ls -ltra
 
                             # kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
-                            kube-score score /harness/template-results/*.yaml -o json | true
+                            kube-score score /harness/template-results/*.yaml -o json 
                           imagePullPolicy: IfNotPresent
                     - step:
                         type: CustomIngest
