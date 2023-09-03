@@ -251,7 +251,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         repo: diegokoala/harness-ff-bankingapp
                         tags:
-                          - <+pipeline.variables.tag>-<+pipeline.sequenceId>
+                          - <+pipeline.variables.tag>-<+codebase.shortCommitSha>
                           - dev
                         buildArgs:
                           FFKEY: <+pipeline.variables.ffkey>
