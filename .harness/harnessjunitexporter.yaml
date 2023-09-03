@@ -7,10 +7,6 @@ inputSet:
     identifier: Plugin_Factory
     template:
       templateInputs:
-        properties:
-          ci:
-            codebase:
-              build: <+input>
         stages:
           - stage:
               identifier: Plugin_E2E_Tests
