@@ -615,6 +615,9 @@ pipeline:
                           namespace: harness-delegate-ng
                           containerSecurityContext:
                             privileged: true
+                      when:
+                        stageStatus: Success
+                        condition: "false"
               - stepGroup:
                   name: Primary Deployment
                   identifier: primaryDepoyment
