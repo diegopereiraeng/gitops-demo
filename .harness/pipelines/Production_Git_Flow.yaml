@@ -309,7 +309,7 @@ pipeline:
                             template: /harness/k8s-manifests-templates/templates/envs/dev/
                             values: /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
                             output: /harness/template-results/
-                          imagePullPolicy: IfNotPresent
+                          imagePullPolicy: Always
                     - step:
                         type: Run
                         name: Kube Score
