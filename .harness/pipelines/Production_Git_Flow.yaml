@@ -119,9 +119,9 @@ pipeline:
                                 type: JUnit
                                 spec:
                                   paths:
-                                    - "**/**/*.xml"
+                                    - "**/*.xml"
                               settings:
-                                json_file_name: tests/nested-json.json
+                                json_file_name: kubescore.json
                                 test_name: object_name
                                 test_description: file_name
                                 test_junit_time: file_row
