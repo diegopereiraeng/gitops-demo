@@ -109,11 +109,11 @@ pipeline:
                               stageStatus: Success
                               condition: "false"
                         - step:
+                            name: Kube Score Ingestion
+                            identifier: kube_score
                             type: Plugin
-                            name: Kube Score Quality Ingestion
-                            identifier: kubescore_quality
                             spec:
-                              connectorRef: account.DockerHubDiego
+                              connectorRef: <Docker_Registry>
                               image: diegokoala/harness-junit-converter:latest
                               reports:
                                 type: JUnit
@@ -121,17 +121,19 @@ pipeline:
                                   paths:
                                     - "**/**/*.xml"
                               settings:
-                                json_file_name: /harness/kubescore.json
+                                json_file_name: tests/nested-json.json
                                 test_name: object_name
-                                test_description: checks[].check.name
-                                test_junit_time: checks[].grade
-                                test_junit_package: type_meta.apiVersion
-                                test_junit_name: checks[].check.id
+                                test_description: file_name
+                                test_junit_time: file_row
+                                test_junit_package: file_name
+                                test_junit_name: object_name
                                 test_junit_list: checks
-                                test_junit_list_name: check.name
-                                test_junit_list_class_name: type_meta.kind
-                                test_junit_list_failure: checks[].comments[].summary
-                                test_junit_list_time: checks[].grade
+                                test_junit_list_name: name
+                                test_junit_list_class_name: comment
+                                test_junit_list_failure: comments[].summary
+                                test_junit_list_time: grade
+                                nested_json_list: true
+                                test_junit_skip_field: skipped
               - parallel:
                   - step:
                       type: RestoreCacheGCS
