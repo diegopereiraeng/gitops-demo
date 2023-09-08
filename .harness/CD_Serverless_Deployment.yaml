@@ -1,0 +1,108 @@
+pipeline:
+  name: CD - Serverless Deployment - DONT USE IT
+  identifier: CD_Serverless_Deployment
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Deploy Serverless Dev
+        identifier: Deploy_Serverless_Dev
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: ServerlessAwsLambda
+          execution:
+            steps:
+              - stepGroup:
+                  steps:
+                    - step:
+                        type: DownloadManifests
+                        name: DownloadManifests
+                        identifier: DownloadManifests
+                        spec: {}
+                        failureStrategies: []
+                    - step:
+                        identifier: Serverless_Aws_Lambda_Prepare_Rollback
+                        type: ServerlessAwsLambdaPrepareRollbackV2
+                        name: Serverless Aws Lambda Prepare Rollback
+                        timeout: 10m
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: harnessdev/serverless-preparerollback:1.82.0-latest
+                          imagePullPolicy: Always
+                          resources:
+                            limits:
+                              memory: 2G
+                    - step:
+                        identifier: Serverless_Aws_Lambda_Package
+                        type: ServerlessAwsLambdaPackageV2
+                        name: Serverless Aws Lambda Package
+                        timeout: 10m
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: harnessdev/serverless-package:1.82.0-latest
+                          resources:
+                            limits:
+                              memory: 1G
+                          imagePullPolicy: Always
+                        when:
+                          stageStatus: Success
+                        failureStrategies: []
+                    - step:
+                        identifier: Serverless_Aws_Lambda_Deploy
+                        type: ServerlessAwsLambdaDeployV2
+                        name: Serverless Aws Lambda Deploy
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: harnessdev/serverless-deploy:1.82.0-latest
+                          imagePullPolicy: Always
+                          resources:
+                            limits:
+                              memory: 1G
+                        timeout: 10m
+                        when:
+                          stageStatus: Success
+                  name: Serverless Step Group
+                  identifier: serverless_step_group
+                  sharedPaths: []
+                  stepGroupInfra:
+                    type: KubernetesDirect
+                    spec:
+                      connectorRef: <+input>
+                      namespace: default
+            rollbackSteps:
+              - stepGroup:
+                  identifier: serverless_rollback_step_group
+                  name: Serverless Rollback Step Group
+                  steps:
+                    - step:
+                        identifier: Serverless_Aws_Lambda_Rollback
+                        type: ServerlessAwsLambdaRollbackV2
+                        name: Serverless Aws Lambda Rollback
+                        timeout: 10m
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: harnessdev/serverless-rollback:1.82.0-latest
+                          imagePullPolicy: Always
+                          resources:
+                            limits:
+                              memory: 2G
+                  stepGroupInfra:
+                    type: KubernetesDirect
+                    spec:
+                      connectorRef: <+input>
+                      namespace: default
+          service:
+            serviceRef: serverless
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions: <+input>
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
