@@ -23,6 +23,13 @@ pipeline:
                       echo "Build"
 
                       echo '<+pipeline.variables.trigger_payload>'
+
+
+                      cat <<EOF > payload.json
+                      <+pipeline.variables.trigger_payload>
+                      EOF
+                      echo "Payload"
+                      cat payload.json
           platform:
             os: Linux
             arch: Amd64
