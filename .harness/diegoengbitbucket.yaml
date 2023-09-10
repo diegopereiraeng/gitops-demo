@@ -6,19 +6,19 @@ connector:
   projectIdentifier: GIT_FLOW_DEMO
   type: Bitbucket
   spec:
-    url: https://bitbucket.org/
+    url: https://bitbucket.org
     validationRepo: diegokoala/serverless-function
     authentication:
       type: Http
       spec:
         type: UsernamePassword
         spec:
-          username: diegopereiraeng@gmail.com
+          username: diegokoala
           passwordRef: diegoengbitbucket
     apiAccess:
       type: UsernameToken
       spec:
-        username: diegopereiraeng@gmail.com
+        username: diegokoala
         tokenRef: diegoengbitbucket
     executeOnDelegate: false
     type: Account
