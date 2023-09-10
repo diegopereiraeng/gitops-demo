@@ -1,0 +1,24 @@
+connector:
+  name: diego-eng-bitbucket
+  identifier: diegoengbitbucket
+  description: ""
+  orgIdentifier: default
+  projectIdentifier: GIT_FLOW_DEMO
+  type: Bitbucket
+  spec:
+    url: https://bitbucket.org/
+    validationRepo: diegokoala/serverless-function
+    authentication:
+      type: Http
+      spec:
+        type: UsernamePassword
+        spec:
+          username: diegopereiraeng@gmail.com
+          passwordRef: diegoengbitbucket
+    apiAccess:
+      type: UsernameToken
+      spec:
+        username: diegopereiraeng@gmail.com
+        tokenRef: diegoengbitbucket
+    executeOnDelegate: false
+    type: Account
