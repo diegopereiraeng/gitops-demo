@@ -6,6 +6,29 @@ pipeline:
   tags: {}
   stages:
     - stage:
+        name: Build NodeJS
+        identifier: Build_NodeJS
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build NodeJS
+                  identifier: Build_NodeJS
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "Build"
+                      echo "<+pipeline.variables.trigger_payload>"
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+    - stage:
         name: Deploy Serverless Dev
         identifier: Deploy_Serverless_Dev
         description: ""
@@ -106,3 +129,15 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+  properties:
+    ci:
+      codebase:
+        connectorRef: diegoengbitbucket
+        repoName: diegokoala/serverless-function
+        build: <+input>
+  variables:
+    - name: trigger_payload
+      type: String
+      description: ""
+      required: false
+      value: <+input>
