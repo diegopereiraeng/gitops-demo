@@ -21,7 +21,8 @@ pipeline:
                     shell: Sh
                     command: |-
                       echo "Build"
-                      echo "<+pipeline.variables.trigger_payload>"
+
+                      echo '<+pipeline.variables.trigger_payload>'
           platform:
             os: Linux
             arch: Amd64
