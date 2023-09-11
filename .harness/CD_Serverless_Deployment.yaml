@@ -36,6 +36,221 @@ pipeline:
           runtime:
             type: Cloud
             spec: {}
+    - stage:
+        name: Email
+        identifier: Email
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: Email
+                  name: Email
+                  identifier: Email
+                  spec:
+                    to: diego.pereira@harness.io
+                    cc: ""
+                    subject: Commit Insights - Abbott Notification
+                    body: |
+
+                      <html>
+                      <head>
+                          <style>
+                              body {
+                                  font-family: Arial, sans-serif;
+                                  margin: 0;
+                                  background-color: #f0f0f0;
+                              }
+                              .header {
+                                  background-color: #0B5ED7; 
+                                  color: white; 
+                                  padding: 20px; 
+                                  text-align: center; 
+                                  font-size: 24px;
+                                  border-bottom: 2px solid #fff;
+                              } 
+                              .section {
+                                  padding: 20px;
+                                  background-color: #fff;
+                                  margin: 10px 20px;
+                                  border-radius: 8px;
+                                  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                              }
+                              .green {
+                                  background-color: rgba(40, 167, 69, 0.1);
+                              }
+                              .red {
+                                  background-color: rgba(203, 36, 49, 0.1);
+                              }
+                              .orange {
+                                  background-color: rgba(227, 98, 9, 0.1);
+                              }
+                              table {
+                                  width: 100%; 
+                                  border-collapse: collapse; 
+                                  margin-bottom: 20px;
+                              }
+                              th, td {
+                                  border: 1px solid #ccc; 
+                                  padding: 8px; 
+                                  text-align: left; 
+                              }
+                              th {
+                                  background-color: #f8f8f8;
+                              }
+                          </style>
+                      </head>
+                      <body>
+                          <div class="header">
+                              Commit Insights Report
+                          </div>
+                          <div class="section">
+                              <strong>Repository Name:</strong> sonarqube-scanner<br>
+                              <strong>Branch Name:</strong> main<br>
+                              <strong>Trigger Type:</strong> branch<br>
+                          </div>
+                          <div class="section">
+                              <strong>Committers:</strong> Diego Pereira
+                          </div>
+                          <div class="section">
+                              <strong>Participants:</strong> 
+                          </div>
+                          <div class="section">
+                              <strong>File Changes:</strong>
+                              <table>
+                                  <tr>
+                                      <th>Committer/Reviewer</th>
+                                      <th>Status</th>
+                                      <th>File Name</th>
+                                      <th>Commit Hash</th>
+                                      <th>Title</th>
+                                      <th>Date</th>
+                                  </tr>
+                                  
+                                  <tr class="orange">
+                                      <td>Diego Pereira</td>
+                                      <td>Modified</td>
+                                      <td>git.go</td>
+                                      <td>edc3a86f8850cea6f92437ed7300c93b8bba10b4</td>
+                                      <td>second commit</td>
+                                      <td>2023-09-08 21:06:49</td>
+                                  </tr>
+                                  
+                                  <tr class="green">
+                                      <td>Diego Pereira</td>
+                                      <td>Added</td>
+                                      <td>go.sum</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="green">
+                                      <td>Diego Pereira</td>
+                                      <td>Added</td>
+                                      <td>commit-insights</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="orange">
+                                      <td>Diego Pereira</td>
+                                      <td>Modified</td>
+                                      <td>git.go</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="green">
+                                      <td>Diego Pereira</td>
+                                      <td>Added</td>
+                                      <td>go.mod</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="orange">
+                                      <td>Diego Pereira</td>
+                                      <td>Modified</td>
+                                      <td>main.go</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="green">
+                                      <td>Diego Pereira</td>
+                                      <td>Added</td>
+                                      <td>git</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="orange">
+                                      <td>Diego Pereira</td>
+                                      <td>Modified</td>
+                                      <td>main</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="green">
+                                      <td>Diego Pereira</td>
+                                      <td>Added</td>
+                                      <td>gitinfo.go</td>
+                                      <td>fb030c13b7a6dfa1bd1472bc3671fed3e1188e1a</td>
+                                      <td>a lot of ehancments</td>
+                                      <td>2023-09-09 19:42:15</td>
+                                  </tr>
+                                  
+                                  <tr class="red">
+                                      <td>Diego Pereira</td>
+                                      <td>Deleted</td>
+                                      <td>commit-insights</td>
+                                      <td>c34c603eff0775c2cda292bb62a145396af3257b</td>
+                                      <td>delete binary files</td>
+                                      <td>2023-09-09 19:43:56</td>
+                                  </tr>
+                                  
+                                  <tr class="green">
+                                      <td>Diego Pereira</td>
+                                      <td>Added</td>
+                                      <td>.gitignore</td>
+                                      <td>c34c603eff0775c2cda292bb62a145396af3257b</td>
+                                      <td>delete binary files</td>
+                                      <td>2023-09-09 19:43:56</td>
+                                  </tr>
+                                  
+                                  <tr class="red">
+                                      <td>Diego Pereira</td>
+                                      <td>Deleted</td>
+                                      <td>git</td>
+                                      <td>c34c603eff0775c2cda292bb62a145396af3257b</td>
+                                      <td>delete binary files</td>
+                                      <td>2023-09-09 19:43:56</td>
+                                  </tr>
+                                  
+                                  <tr class="red">
+                                      <td>Diego Pereira</td>
+                                      <td>Deleted</td>
+                                      <td>main</td>
+                                      <td>c34c603eff0775c2cda292bb62a145396af3257b</td>
+                                      <td>delete binary files</td>
+                                      <td>2023-09-09 19:43:56</td>
+                                  </tr>
+                                  
+                              </table>
+                          </div>
+                      </body>
+                      </html>
+                  timeout: 10m
+        tags: {}
   properties:
     ci:
       codebase:
