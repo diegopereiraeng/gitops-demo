@@ -371,7 +371,7 @@ featureFlags:
         default:
           onVariation: Feature_Flags
           offVariation: "OFF"
-        state: "on"
+        state: "off"
         targetRules:
         - targets:
           - identifier: Guest
@@ -1818,7 +1818,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "on"
+        state: "off"
       - identifier: salazarch
         default:
           onVariation: Premium
