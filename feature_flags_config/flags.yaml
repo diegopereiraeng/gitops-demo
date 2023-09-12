@@ -370,7 +370,7 @@ featureFlags:
       - identifier: gacerioni
         default:
           onVariation: Feature_Flags
-          offVariation: "OFF"
+          offVariation: Captain_Canary
         state: "on"
         targetRules:
         - targets:
@@ -3664,11 +3664,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: luisreddagmailcom
-          variation: White
-        - targets:
           - identifier: GuestSantana-de-Parnaiba
           variation: Black
+        - targets:
+          - identifier: luisreddagmailcom
+          variation: White
       - identifier: fbreton
         default:
           onVariation: Black
