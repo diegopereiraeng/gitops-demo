@@ -767,7 +767,7 @@ pipeline:
                 type: StageRollback
         tags: {}
     - stage:
-        name: Functional Test in Dev
+        name: Lighthouse and Functional Test in Dev
         identifier: Functional_Test_Dev
         type: CI
         spec:
@@ -776,32 +776,48 @@ pipeline:
             useFromStage: Build_Container_and_Push
           execution:
             steps:
-              - step:
-                  type: Run
-                  name: Function BankingApp Test
-                  identifier: Function_BankingApp_Test
-                  spec:
-                    connectorRef: account.DockerHubDiego
-                    image: maven:alpine
-                    shell: Sh
-                    command: |-
-                      apk add git
-
-                      git clone https://github.com/diegopereiraeng/selenium-tests-ci.git
-
-                      cd selenium-tests-ci
-
-                      mvn test -Dtest=io.harness.sel.test.BankingAppTest
-                    privileged: true
-                    reports:
-                      type: JUnit
+              - parallel:
+                  - step:
+                      type: Run
+                      name: Function BankingApp Test
+                      identifier: Function_BankingApp_Test
                       spec:
-                        paths:
-                          - "**/*.xml"
-                  when:
-                    stageStatus: Success
-                    condition: <+pipeline.variables.gitEvent> == "PR"
-                  failureStrategies: []
+                        connectorRef: account.DockerHubDiego
+                        image: maven:alpine
+                        shell: Sh
+                        command: |-
+                          apk add git
+
+                          git clone https://github.com/diegopereiraeng/selenium-tests-ci.git
+
+                          cd selenium-tests-ci
+
+                          mvn test -Dtest=io.harness.sel.test.BankingAppTest
+                        privileged: true
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - "**/*.xml"
+                      when:
+                        stageStatus: Success
+                        condition: <+pipeline.variables.gitEvent> == "PR" AND false
+                  - step:
+                      type: Run
+                      name: LightHouse
+                      identifier: LightHouse
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: node:16.16
+                        shell: Sh
+                        command: |-
+                          npm init -y
+                          npm install -g lighthouse
+
+                          node ./scripts/lighthouse/lighthouse.js
+                        outputVariables:
+                          - name: CATEGORIES_LOGIN
+                          - name: CATEGORIES_HOME
             rollbackSteps: []
           serviceConfig:
             serviceRef: ""
@@ -809,6 +825,9 @@ pipeline:
               type: Kubernetes
               spec:
                 variables: []
+          caching:
+            enabled: false
+            paths: []
         when:
           pipelineStatus: Success
           condition: <+pipeline.variables.target> == "qa" && <+pipeline.variables.gitEvent> == "PR"
