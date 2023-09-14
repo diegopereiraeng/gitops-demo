@@ -801,7 +801,7 @@ pipeline:
                               - "**/*.xml"
                       when:
                         stageStatus: Success
-                        condition: <+pipeline.variables.gitEvent> == "PR" AND false
+                        condition: "false"
                   - step:
                       type: Run
                       name: LightHouse
