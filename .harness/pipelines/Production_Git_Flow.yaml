@@ -808,7 +808,7 @@ pipeline:
                       identifier: LightHouse
                       spec:
                         connectorRef: account.DockerHubDiego
-                        image: node:16.16
+                        image: node:18.16
                         shell: Sh
                         command: |-
                           npm init -y
