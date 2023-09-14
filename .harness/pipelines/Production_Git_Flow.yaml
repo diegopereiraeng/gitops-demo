@@ -30,110 +30,6 @@ pipeline:
                   - dockerd-entrypoint.sh
           execution:
             steps:
-              - stepGroup:
-                  name: Kube Score Dev
-                  identifier: kube_score
-                  steps:
-                    - parallel:
-                        - step:
-                            type: GitClone
-                            name: GitClone Manifests
-                            identifier: GitClone_Manifests
-                            spec:
-                              connectorRef: account.diegogithubapp
-                              repoName: k8s-manifests-templates
-                              build:
-                                type: branch
-                                spec:
-                                  branch: main
-                        - step:
-                            type: GitClone
-                            name: GitClone Values
-                            identifier: GitClone_Values
-                            spec:
-                              connectorRef: account.diegogithubapp
-                              repoName: values-k8s
-                              build:
-                                type: branch
-                                spec:
-                                  branch: main
-                    - step:
-                        type: Plugin
-                        name: Template Render
-                        identifier: Template_Render
-                        spec:
-                          connectorRef: account.DockerHubDiego
-                          image: diegokoala/go-template-plugin:latest
-                          settings:
-                            template: /harness/k8s-manifests-templates/templates/envs/dev/
-                            values: /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
-                            output: /harness/template-results/
-                          imagePullPolicy: Always
-                    - step:
-                        type: Run
-                        name: Kube Score
-                        identifier: Kube_Score
-                        spec:
-                          connectorRef: account.DockerHubDiego
-                          image: zegl/kube-score:latest
-                          shell: Sh
-                          command: |-
-                            # ls -ltra
-
-                            # kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
-                            kube-score score /harness/template-results/*.yaml -o json > kubescore.json | true
-                            kube-score score /harness/template-results/*.yaml > human.log | true
-
-                            # cat human.log
-                            cat kubescore.json
-                          imagePullPolicy: IfNotPresent
-                    - parallel:
-                        - step:
-                            type: CustomIngest
-                            name: Kube Score Ingestion
-                            identifier: Kube_Score_Ingestion
-                            spec:
-                              mode: ingestion
-                              config: default
-                              target:
-                                name: k8s-manifests-templates
-                                type: repository
-                                variant: dev
-                              advanced:
-                                log:
-                                  level: debug
-                              imagePullPolicy: IfNotPresent
-                              ingestion:
-                                file: /harness/kubescore.sarif
-                            when:
-                              stageStatus: Success
-                              condition: "false"
-                        - step:
-                            name: Kube Score Ingestion
-                            identifier: kube_score
-                            type: Plugin
-                            spec:
-                              connectorRef: account.DockerHubDiego
-                              image: diegokoala/harness-junit-converter:latest
-                              reports:
-                                type: JUnit
-                                spec:
-                                  paths:
-                                    - "**/*.xml"
-                              settings:
-                                json_file_name: kubescore.json
-                                test_name: object_name
-                                test_description: file_name
-                                test_junit_time: file_row
-                                test_junit_package: file_name
-                                test_junit_name: object_name
-                                test_junit_list: checks
-                                test_junit_list_name: name
-                                test_junit_list_class_name: comment
-                                test_junit_list_failure: comments[].summary
-                                test_junit_list_time: grade
-                                nested_json_list: true
-                                test_junit_skip_field: skipped
               - parallel:
                   - step:
                       type: RestoreCacheGCS
@@ -375,6 +271,110 @@ pipeline:
                       when:
                         stageStatus: Success
                       failureStrategies: []
+              - stepGroup:
+                  name: Kube Score Dev
+                  identifier: kube_score
+                  steps:
+                    - parallel:
+                        - step:
+                            type: GitClone
+                            name: GitClone Manifests
+                            identifier: GitClone_Manifests
+                            spec:
+                              connectorRef: account.diegogithubapp
+                              repoName: k8s-manifests-templates
+                              build:
+                                type: branch
+                                spec:
+                                  branch: main
+                        - step:
+                            type: GitClone
+                            name: GitClone Values
+                            identifier: GitClone_Values
+                            spec:
+                              connectorRef: account.diegogithubapp
+                              repoName: values-k8s
+                              build:
+                                type: branch
+                                spec:
+                                  branch: main
+                    - step:
+                        type: Plugin
+                        name: Template Render
+                        identifier: Template_Render
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/go-template-plugin:latest
+                          settings:
+                            template: /harness/k8s-manifests-templates/templates/envs/dev/
+                            values: /harness/values-k8s/envs/dev/services/gitflow-app-ff/values.yaml
+                            output: /harness/template-results/
+                          imagePullPolicy: Always
+                    - step:
+                        type: Run
+                        name: Kube Score
+                        identifier: Kube_Score
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: zegl/kube-score:latest
+                          shell: Sh
+                          command: |-
+                            # ls -ltra
+
+                            # kube-score score /harness/template-results/*.yaml -o sarif > ./kubescore.sarif | true
+                            kube-score score /harness/template-results/*.yaml -o json > kubescore.json | true
+                            kube-score score /harness/template-results/*.yaml > human.log | true
+
+                            # cat human.log
+                            cat kubescore.json
+                          imagePullPolicy: IfNotPresent
+                    - parallel:
+                        - step:
+                            type: CustomIngest
+                            name: Kube Score Ingestion
+                            identifier: Kube_Score_Ingestion
+                            spec:
+                              mode: ingestion
+                              config: default
+                              target:
+                                name: k8s-manifests-templates
+                                type: repository
+                                variant: dev
+                              advanced:
+                                log:
+                                  level: debug
+                              imagePullPolicy: IfNotPresent
+                              ingestion:
+                                file: /harness/kubescore.sarif
+                            when:
+                              stageStatus: Success
+                              condition: "false"
+                        - step:
+                            name: Kube Score Ingestion
+                            identifier: kube_score
+                            type: Plugin
+                            spec:
+                              connectorRef: account.DockerHubDiego
+                              image: diegokoala/harness-junit-converter:latest
+                              reports:
+                                type: JUnit
+                                spec:
+                                  paths:
+                                    - "**/*.xml"
+                              settings:
+                                json_file_name: kubescore.json
+                                test_name: object_name
+                                test_description: file_name
+                                test_junit_time: file_row
+                                test_junit_package: file_name
+                                test_junit_name: object_name
+                                test_junit_list: checks
+                                test_junit_list_name: name
+                                test_junit_list_class_name: comment
+                                test_junit_list_failure: comments[].summary
+                                test_junit_list_time: grade
+                                nested_json_list: true
+                                test_junit_skip_field: skipped
           serviceConfig:
             serviceRef: ""
             serviceDefinition:
