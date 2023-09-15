@@ -812,6 +812,7 @@ pipeline:
                         shell: Sh
                         command: |-
                           npm init -y
+                          npm install puppeteer
                           npm install -g lighthouse
 
                           node ./scripts/lighthouse/lighthouse.js
