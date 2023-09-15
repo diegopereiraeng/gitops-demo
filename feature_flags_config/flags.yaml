@@ -136,16 +136,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
+        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -319,25 +319,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "off"
-        rules:
-        - priority: 100
-          serve:
-            distribution:
-              bucketBy: identifier
-              variations:
-              - weight: 100
-                variation: "OFF"
-              - weight: 0
-                variation: Captain_Canary
-              - weight: 0
-                variation: Feature_Flags
-              - weight: 0
-                variation: Platform_Demo_PTBR
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
         targetRules:
         - targets:
           - identifier: diegoharnessio
