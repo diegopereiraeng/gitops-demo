@@ -104,6 +104,10 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "on"
+        targetRules:
+        - targets:
+          - identifier: GuestVenustiano-Carranza
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -136,6 +140,9 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: gabsthesregmailcom
+          variation: Bienvenido
+        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
@@ -143,9 +150,6 @@ featureFlags:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
-        - targets:
-          - identifier: gabsthesregmailcom
-          variation: Bienvenido
       - identifier: salazarch
         default:
           onVariation: "Off"
