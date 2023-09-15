@@ -853,9 +853,15 @@ pipeline:
                           echo "//npm.pkg.github.com/:_authToken="$GITHUB_HARNESS_BOT_TOKEN >> .npmrc
                           echo always-auth=true >> .npmrc
                           echo "installing lighthouse"
-                          yarn add lighthouse@^10.3.0
-                          yarn add puppeteer@^5.5.0
-                          yarn add mysql@^2.18.1
+                          # yarn add lighthouse@^10.3.0
+                          # yarn add puppeteer@^5.5.0
+                          # yarn add mysql@^2.18.1
+                          echo "Starting NPM installation"
+                          npm init -y
+
+                          echo "Starting dependency installation"
+                          npm install -g puppeteer -y
+                          npm install -g lighthouse -y
                           echo "running lighthouse"
                           node ./scripts/lighthouse/lighthouse.js Dev
             rollbackSteps: []
