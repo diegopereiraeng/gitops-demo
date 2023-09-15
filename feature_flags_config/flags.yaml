@@ -325,7 +325,26 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
+        state: "on"
+        rules:
+        - priority: 100
+          serve:
+            distribution:
+              bucketBy: identifier
+              variations:
+              - weight: 90
+                variation: "OFF"
+              - weight: 0
+                variation: Captain_Canary
+              - weight: 10
+                variation: Feature_Flags
+              - weight: 0
+                variation: Platform_Demo_PTBR
+          clauses:
+          - attribute: ""
+            op: segmentMatch
+            values:
+            - Beta_Users
         targetRules:
         - targets:
           - identifier: diegoharnessio
@@ -371,11 +390,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestMonterrey
-          variation: Feature_Flags
-        - targets:
           - identifier: izacsaulgmailcom
           variation: Captain_Canary
+        - targets:
+          - identifier: GuestMonterrey
+          variation: Feature_Flags
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -3652,11 +3671,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestSantana-de-Parnaiba
-          variation: Black
-        - targets:
           - identifier: luisreddagmailcom
           variation: White
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Black
       - identifier: fbreton
         default:
           onVariation: Black
