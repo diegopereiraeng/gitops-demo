@@ -1,7 +1,7 @@
 pipeline:
   name: PLATFORM FAST - Banking FrontEnd Pipeline
   identifier: Production_Git_Flow
-  allowStageExecutions: false
+  allowStageExecutions: true
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
   tags: {}
@@ -772,8 +772,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          infrastructure:
-            useFromStage: Build_Container_and_Push
           execution:
             steps:
               - parallel:
@@ -874,6 +872,12 @@ pipeline:
           caching:
             enabled: false
             paths: []
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
         when:
           pipelineStatus: Success
           condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
