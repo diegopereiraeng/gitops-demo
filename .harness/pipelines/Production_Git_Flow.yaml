@@ -811,6 +811,7 @@ pipeline:
                         image: node:18.16
                         shell: Sh
                         command: |-
+                          set -e
                           echo "Starting NPM installation"
                           npm init -y
 
@@ -820,7 +821,7 @@ pipeline:
 
                           echo "Starting LightHouse"
 
-                          node ./scripts/lighthouse/lighthouse.js
+                          node ./scripts/lighthouse/lighthouse.js Dev
                         outputVariables:
                           - name: CATEGORIES_LOGIN
                           - name: CATEGORIES_HOME
