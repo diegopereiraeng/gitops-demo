@@ -811,14 +811,52 @@ pipeline:
                         image: node:18.16
                         shell: Sh
                         command: |-
+                          echo "Starting NPM installation"
                           npm init -y
-                          npm install puppeteer
+
+                          echo "Starting dependency installation"
+                          npm install -g puppeteer
                           npm install -g lighthouse
+
+                          echo "Starting LightHouse"
 
                           node ./scripts/lighthouse/lighthouse.js
                         outputVariables:
                           - name: CATEGORIES_LOGIN
                           - name: CATEGORIES_HOME
+                  - step:
+                      type: Run
+                      name: LightHouse2
+                      identifier: LightHouse2
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: node:18.16
+                        shell: Sh
+                        command: |-
+                          set -e
+                          export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+                          apt-get update && apt-get install -y \
+                            apt-transport-https \
+                            ca-certificates \
+                            gnupg \
+                            --no-install-recommends \
+                            && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+                            && wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_105.0.5195.52-1_amd64.deb \
+                            && apt install -y /tmp/chrome.deb \
+                            && rm /tmp/chrome.deb \
+                            && apt-get update && apt-get install -y fontconfig --no-install-recommends \
+                            && apt-get purge --auto-remove -y gnupg \
+                            && rm -rf /var/lib/apt/lists/*
+                          # Set up Github Package Registry token
+                          echo @harness:registry=https://npm.pkg.github.com > .npmrc
+                          echo "//npm.pkg.github.com/:_authToken="$GITHUB_HARNESS_BOT_TOKEN >> .npmrc
+                          echo always-auth=true >> .npmrc
+                          echo "installing lighthouse"
+                          yarn add lighthouse@^10.3.0
+                          yarn add puppeteer@^5.5.0
+                          yarn add mysql@^2.18.1
+                          echo "running lighthouse"
+                          node ./scripts/lighthouse/lighthouse.js Dev
             rollbackSteps: []
           serviceConfig:
             serviceRef: ""
