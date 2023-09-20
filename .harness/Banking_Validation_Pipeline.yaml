@@ -85,12 +85,12 @@ pipeline:
                           if output_file_path:
                               # Writing the JSON data to the file specified in DRONE_OUTPUT
                               with open(output_file_path, 'w') as json_file:
-                                  json_file.write(json_content)
+                                  json_file.write("POM_FILE_JSON=\""+json_content+"\"")
                           else:
                               print("DRONE_OUTPUT environment variable is not set")
                           print("Environment variable set")
 
-                          print("file content:")
+                          print("output_file_path file content:")
                           with open(output_file_path, 'r') as file:
                               print(file.read())
                           print("pom.xml to pom.json conversion completed")
