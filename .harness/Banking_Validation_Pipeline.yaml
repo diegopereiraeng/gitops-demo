@@ -79,14 +79,21 @@ pipeline:
                           print(json_content)
                           print("Setting the environment variable")
                           # Setting the environment variable
-                          os.environ['POM_JSON'] = json_content
+                          # Get the file path from the DRONE_OUTPUT environment variable
+                          output_file_path = os.getenv('DRONE_OUTPUT')
+
+                          if output_file_path:
+                              # Writing the JSON data to the file specified in DRONE_OUTPUT
+                              with open(output_file_path, 'w') as json_file:
+                                  json_file.write(json_content)
+                          else:
+                              print("DRONE_OUTPUT environment variable is not set")
                           print("Environment variable set")
-                          print("Environment variable value:")
-                          print(os.environ['POM_JSON'])
-                          print(os.environ['DRONE_OUTPUT'])
+
+                          print("file content:")
+                          with open(output_file_path, 'r') as file:
+                              print(file.read())
                           print("pom.xml to pom.json conversion completed")
-                        outputVariables:
-                          - name: POM_JSON
               - parallel:
                   - step:
                       type: RunTests
