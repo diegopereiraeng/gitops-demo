@@ -39,7 +39,7 @@ pipeline:
                       identifier: POM_Check
                       spec:
                         shell: Python
-                        command: |-
+                        command: |
                           import xml.etree.ElementTree as ET
                           import json
                           import os
@@ -55,7 +55,7 @@ pipeline:
                                   parent_dict[element.tag] = child_dict or element.text
                               
                               parse_element(root, data_dict)
-                              return json.dumps(data_dict, indent=4)
+                              return json.dumps(data_dict)  # Removed indent parameter to minify the JSON
 
                           print("Starting pom.xml to pom.json conversion")
 
@@ -90,9 +90,13 @@ pipeline:
                               print("DRONE_OUTPUT environment variable is not set")
                           print("Environment variable set")
 
-                          print("output_file_path file content:")
-                          with open(output_file_path, 'r') as file:
-                              print(file.read())
+                          if output_file_path:
+                              print("output_file_path file content:")
+                              with open(output_file_path, 'r') as file:
+                                  print(file.read())
+                          else:
+                              print("No output file to read")
+
                           print("pom.xml to pom.json conversion completed")
               - parallel:
                   - step:
