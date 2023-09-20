@@ -23,54 +23,55 @@ pipeline:
           cloneCodebase: true
           execution:
             steps:
-              - step:
-                  type: Run
-                  name: POM Check
-                  identifier: POM_Check
-                  spec:
-                    shell: Python
-                    command: |
-                      import xml.etree.ElementTree as ET
-                      import json
-                      import os
+              - parallel:
+                  - step:
+                      type: RestoreCacheGCS
+                      name: Restore Cache
+                      identifier: Restore_Cache
+                      spec:
+                        connectorRef: account.SalesGCP
+                        bucket: latam-cie-cache
+                        key: <+pipeline.properties.ci.codebase.repoName>
+                        archiveFormat: Tar
+                  - step:
+                      type: Run
+                      name: POM Check
+                      identifier: POM_Check
+                      spec:
+                        shell: Python
+                        command: |
+                          import xml.etree.ElementTree as ET
+                          import json
+                          import os
 
-                      def xml_to_json(xml_str):
-                          data_dict = {}
-                          root = ET.XML(xml_str)
-                          
-                          def parse_element(element, parent_dict):
-                              child_dict = {}
-                              for child in element:
-                                  parse_element(child, child_dict)
-                              parent_dict[element.tag] = child_dict or element.text
-                          
-                          parse_element(root, data_dict)
-                          return json.dumps(data_dict, indent=4)
+                          def xml_to_json(xml_str):
+                              data_dict = {}
+                              root = ET.XML(xml_str)
+                              
+                              def parse_element(element, parent_dict):
+                                  child_dict = {}
+                                  for child in element:
+                                      parse_element(child, child_dict)
+                                  parent_dict[element.tag] = child_dict or element.text
+                              
+                              parse_element(root, data_dict)
+                              return json.dumps(data_dict, indent=4)
 
-                      # Reading the XML file
-                      with open('pom.xml', 'r') as file:
-                          xml_content = file.read()
+                          # Reading the XML file
+                          with open('pom.xml', 'r') as file:
+                              xml_content = file.read()
 
-                      # Converting XML to JSON
-                      json_content = xml_to_json(xml_content)
+                          # Converting XML to JSON
+                          json_content = xml_to_json(xml_content)
 
-                      # Writing the JSON data to a file
-                      with open('pom.json', 'w') as json_file:
-                          json_file.write(json_content)
+                          # Writing the JSON data to a file
+                          with open('pom.json', 'w') as json_file:
+                              json_file.write(json_content)
 
-                      # Setting the environment variable
-                      os.environ['POM_JSON'] = json_content
-                    outputVariables:
-                      - name: POM_JSON
-              - step:
-                  type: RestoreCacheGCS
-                  name: Restore Cache
-                  identifier: Restore_Cache
-                  spec:
-                    connectorRef: account.SalesGCP
-                    bucket: latam-cie-cache
-                    key: <+pipeline.properties.ci.codebase.repoName>
-                    archiveFormat: Tar
+                          # Setting the environment variable
+                          os.environ['POM_JSON'] = json_content
+                        outputVariables:
+                          - name: POM_JSON
               - parallel:
                   - step:
                       type: RunTests
