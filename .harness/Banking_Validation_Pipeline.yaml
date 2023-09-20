@@ -39,7 +39,7 @@ pipeline:
                       identifier: POM_Check
                       spec:
                         shell: Python
-                        command: |
+                        command: |-
                           import xml.etree.ElementTree as ET
                           import json
                           import os
@@ -57,19 +57,33 @@ pipeline:
                               parse_element(root, data_dict)
                               return json.dumps(data_dict, indent=4)
 
+                          print("Starting pom.xml to pom.json conversion")
+
+                          print("Reading pom.xml")
                           # Reading the XML file
                           with open('pom.xml', 'r') as file:
                               xml_content = file.read()
-
+                          print("pom.xml read")
+                          print("POM XML Content:")
+                          print(xml_content)
+                          print("Converting pom.xml to pom.json")
                           # Converting XML to JSON
                           json_content = xml_to_json(xml_content)
-
+                          print("pom.xml converted to pom.json")
+                          print("Writing pom.json")
                           # Writing the JSON data to a file
                           with open('pom.json', 'w') as json_file:
                               json_file.write(json_content)
-
+                          print("pom.json written")
+                          print("POM JSON Content:")
+                          print(json_content)
+                          print("Setting the environment variable")
                           # Setting the environment variable
                           os.environ['POM_JSON'] = json_content
+
+                          print("Environment variable set")
+
+                          print("pom.xml to pom.json conversion completed")
                         outputVariables:
                           - name: POM_JSON
               - parallel:
