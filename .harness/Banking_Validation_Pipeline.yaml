@@ -98,6 +98,9 @@ pipeline:
                               print("No output file to read")
 
                           print("pom.xml to pom.json conversion completed")
+                      enforce:
+                        policySets:
+                          - account.STO_NO_CRITICALS
               - parallel:
                   - step:
                       type: RunTests
