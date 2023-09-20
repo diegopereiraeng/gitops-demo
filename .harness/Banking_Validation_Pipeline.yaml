@@ -80,9 +80,10 @@ pipeline:
                           print("Setting the environment variable")
                           # Setting the environment variable
                           os.environ['POM_JSON'] = json_content
-
                           print("Environment variable set")
-
+                          print("Environment variable value:")
+                          print(os.environ['POM_JSON'])
+                          print(os.environ['DRONE_OUTPUT'])
                           print("pom.xml to pom.json conversion completed")
                         outputVariables:
                           - name: POM_JSON
