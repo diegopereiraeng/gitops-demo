@@ -225,8 +225,8 @@ template:
                             sonar_token: <+secrets.getValue("account.harnesssonartoken")>
                             sources: /harness
                             binaries: /harness/binary
-                            sonar_name: sonarqube-scanner
-                            sonar_key: sonarqube-scanner
+                            sonar_name: <+pipeline.properties.ci.codebase.repoName>
+                            sonar_key: <+pipeline.properties.ci.codebase.repoName>
                             skip_scan: "true"
                           imagePullPolicy: Always
                     - step:
