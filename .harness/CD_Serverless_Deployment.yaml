@@ -30,6 +30,8 @@ pipeline:
                       EOF
                       echo "Payload"
                       cat payload.json
+
+                      env
           platform:
             os: Linux
             arch: Amd64
