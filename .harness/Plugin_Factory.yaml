@@ -1,5 +1,5 @@
 pipeline:
-  name: CI-STO - Plugin Factory
+  name: CI-STO - GoLang Plugin Factory
   identifier: Plugin_Factory
   template:
     templateRef: Plugin_Build_Factory
