@@ -181,6 +181,19 @@ template:
                             ssl: true
                           tool:
                             project_key: <+pipeline.properties.ci.codebase.repoName>
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Retry
+                                spec:
+                                  retryCount: 1
+                                  onRetryFailure:
+                                    action:
+                                      type: MarkAsFailure
+                                  retryIntervals:
+                                    - 30s
                     - step:
                         type: Run
                         name: Hadolint - Dockerfile Scan
