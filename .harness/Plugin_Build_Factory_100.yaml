@@ -359,19 +359,29 @@ template:
               spec: {}
             execution:
               steps:
-                - step:
-                    type: Plugin
-                    name: Plugin Test
-                    identifier: Plugin_Test
-                    spec:
-                      connectorRef: account.DockerHubDiego
-                      image: diegokoala/<+pipeline.variables.image_name>:<+pipeline.stages.Build_Golang.spec.execution.steps.build_harness_sonar.output.outputVariables.tag>
-                      reports:
-                        type: JUnit
+                - parallel:
+                    - step:
+                        type: Plugin
+                        name: Plugin Test
+                        identifier: Plugin_Test
                         spec:
-                          paths:
-                            - <+pipeline.variables.report_path>
-                      settings: <+input>
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/<+pipeline.variables.image_name>:<+pipeline.stages.Build_Golang.spec.execution.steps.build_harness_sonar.output.outputVariables.tag>
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - <+pipeline.variables.report_path>
+                          settings: <+input>
+                    - step:
+                        type: Run
+                        name: Commit-Insights
+                        identifier: CommitInsights
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/<+pipeline.variables.image_name>:<+pipeline.stages.Build_Golang.spec.execution.steps.build_harness_sonar.output.outputVariables.tag>
+                          shell: Sh
+                          command: /app/commit-insights --accID=6_vVHzo9Qeu9fXvj-AcbC --harness_secret=<+secrets.getValue("diegopatharness")>
                 - step:
                     type: BuildAndPushDockerRegistry
                     name: Build And Push Generic
