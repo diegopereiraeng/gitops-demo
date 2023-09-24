@@ -518,5 +518,6 @@ template:
         description: report_path like **/*-junit.xml
         required: false
         value: <+input>
+    allowStageExecutions: true
   identifier: Plugin_Build_Factory
   versionLabel: 1.0.0
