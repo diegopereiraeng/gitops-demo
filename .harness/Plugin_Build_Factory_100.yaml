@@ -373,6 +373,18 @@ template:
                             - <+pipeline.variables.report_path>
                       settings: <+input>
                 - step:
+                    type: Run
+                    name: Build
+                    identifier: Build
+                    spec:
+                      shell: Sh
+                      command: |
+                        mkdir -p binary
+                        go env GOCACHE
+
+                        go mod download
+                        GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+                - step:
                     type: BuildAndPushDockerRegistry
                     name: Build And Push Generic
                     identifier: Build_And_Push_Generic
