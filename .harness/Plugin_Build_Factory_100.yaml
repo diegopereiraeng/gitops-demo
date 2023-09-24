@@ -472,7 +472,7 @@ template:
                         identifier: PipelineHTMLGenerator
                         spec:
                           connectorRef: account.DockerHubDiego
-                          image: diegokoala/pipeline-html-generator:llatest
+                          image: diegokoala/pipeline-html-generator:latest
                           command: /app/pipeline-html-generator --acc_id=6_vVHzo9Qeu9fXvj-AcbCQ --org_id=<+org.identifier> --project_id=<+project.identifier> --pipeline_id=<+pipeline.identifier> --repo_name=<+pipeline.variables.repo_name> --branch=<+pipeline.properties.ci.codebase.build.spec.branch>  --harness_secret=<+secrets.getValue("harnesssatokenplugin")> --harness_pipe_execution_url=<+pipeline.executionUrl>
                           shell: Sh
                           infrastructure:
