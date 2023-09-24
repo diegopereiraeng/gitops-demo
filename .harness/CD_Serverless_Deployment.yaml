@@ -83,8 +83,8 @@ pipeline:
                         infrastructure:
                           type: KubernetesDirect
                           spec:
-                            connectorRef: account.cddemose
-                            namespace: dev
+                            connectorRef: account.harness_demo
+                            namespace: harness-delegate-ng
                             resources:
                               limits:
                                 cpu: "0.1"
