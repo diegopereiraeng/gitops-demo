@@ -424,7 +424,7 @@ template:
                       to: diego.pereira@harness.io
                       cc: ""
                       subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name>
-                      body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.parallel.steps.CommitInsights.output.outputVariables.REPORT>
+                      body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT>
                     timeout: 10m
           tags: {}
     variables:
