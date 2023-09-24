@@ -193,7 +193,7 @@ template:
                                     action:
                                       type: MarkAsFailure
                                   retryIntervals:
-                                    - 30s
+                                    - 1m
                     - step:
                         type: Run
                         name: Hadolint - Dockerfile Scan
