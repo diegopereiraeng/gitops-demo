@@ -372,18 +372,29 @@ template:
                           paths:
                             - <+pipeline.variables.report_path>
                       settings: <+input>
-                - step:
-                    type: Run
-                    name: Build
-                    identifier: Build
-                    spec:
-                      shell: Sh
-                      command: |
-                        mkdir -p binary
-                        go env GOCACHE
+                - parallel:
+                    - step:
+                        type: Run
+                        name: Build
+                        identifier: Build
+                        spec:
+                          shell: Sh
+                          command: |
+                            mkdir -p binary
+                            go env GOCACHE
 
-                        go mod download
-                        GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+                            go mod download
+                            GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+                    - step:
+                        type: Plugin
+                        name: Commit-Insights
+                        identifier: CommitInsights
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/commit-insights:latest
+                          settings:
+                            harness_secret: <+secrets.getValue("harnesssatokenplugin")>
+                          imagePullPolicy: Always
                 - step:
                     type: BuildAndPushDockerRegistry
                     name: Build And Push Generic
