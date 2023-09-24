@@ -426,36 +426,71 @@ template:
                       subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name>
                       body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT>
                     timeout: 10m
-                - stepGroup:
-                    name: Dashboard notification
-                    identifier: Dashboard_notification
-                    steps:
-                      - step:
-                          type: Plugin
-                          name: Pipeline HTML Generator
-                          identifier: Pipeline_HTML_Generator
+                - parallel:
+                    - stepGroup:
+                        name: Dashboard notification
+                        identifier: Dashboard_notification
+                        steps:
+                          - step:
+                              type: Plugin
+                              name: Pipeline HTML Generator
+                              identifier: Pipeline_HTML_Generator
+                              spec:
+                                connectorRef: account.DockerHubDiego
+                                image: diegokoala/pipeline-html-generator:latest
+                                settings:
+                                  harness_secret: <+secrets.getValue("harnesssatokenplugin")>
+                                  org_id: <+org.identifier>
+                                  project_id: <+project.identifier>
+                                  pipeline_id: <+pipeline.identifier>
+                                  repo_name: <+pipeline.variables.repo_name>
+                                  branch: <+pipeline.properties.ci.codebase.build.spec.branch>
+                                  harness_pipe_execution_url: <+pipeline.executionUrl>
+                              failureStrategies:
+                                - onFailure:
+                                    errors:
+                                      - AllErrors
+                                    action:
+                                      type: Ignore
+                        stepGroupInfra:
+                          type: KubernetesDirect
                           spec:
-                            connectorRef: account.DockerHubDiego
-                            image: diegokoala/pipeline-html-generator:latest
-                            settings:
-                              harness_secret: <+secrets.getValue("harnesssatokenplugin")>
-                              org_id: <+org.identifier>
-                              project_id: <+project.identifier>
-                              pipeline_id: <+pipeline.identifier>
-                              repo_name: <+pipeline.variables.repo_name>
-                              branch: <+pipeline.properties.ci.codebase.build.spec.branch>
-                              harness_pipe_execution_url: <+pipeline.executionUrl>
-                          failureStrategies:
-                            - onFailure:
-                                errors:
-                                  - AllErrors
-                                action:
-                                  type: Ignore
-                    stepGroupInfra:
-                      type: KubernetesDirect
-                      spec:
-                        connectorRef: account.harness_demo
-                        namespace: harness-delegate-ng
+                            connectorRef: account.harness_demo
+                            namespace: harness-delegate-ng
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: MarkAsSuccess
+                    - step:
+                        type: Container
+                        name: PipelineHTMLGenerator
+                        identifier: PipelineHTMLGenerator
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/pipeline-html-generator:llatest
+                          command: /app/pipeline-html-generator --acc_id=6_vVHzo9Qeu9fXvj-AcbCQ --org_id=<+org.identifier> --project_id=<+project.identifier> --pipeline_id=<+pipeline.identifier> --repo_name=<+pipeline.variables.repo_name> --branch=<+pipeline.properties.ci.codebase.build.spec.branch>  --harness_secret=<+secrets.getValue("harnesssatokenplugin")> --harness_pipe_execution_url=<+pipeline.executionUrl>
+                          shell: Sh
+                          infrastructure:
+                            type: KubernetesDirect
+                            spec:
+                              connectorRef: account.harness_demo
+                              namespace: harness-delegate-ng
+                              resources:
+                                limits:
+                                  cpu: "0.5"
+                                  memory: 500Mi
+                              annotations: {}
+                              labels: {}
+                              containerSecurityContext:
+                                capabilities:
+                                  drop: []
+                                  add: []
+                              nodeSelector: {}
+                          outputVariables: []
+                          envVariables: {}
+                        timeout: 10m
           tags: {}
     variables:
       - name: plugin_name
