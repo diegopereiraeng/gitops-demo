@@ -463,6 +463,9 @@ template:
                                 - AllErrors
                               action:
                                 type: MarkAsSuccess
+                        when:
+                          stageStatus: Success
+                          condition: "false"
                     - step:
                         type: Container
                         name: PipelineHTMLGenerator
