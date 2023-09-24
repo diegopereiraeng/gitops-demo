@@ -493,7 +493,8 @@ template:
                                   drop: []
                                   add: []
                               nodeSelector: {}
-                          outputVariables: []
+                          outputVariables:
+                            - name: HARNESS_EXECUTION_ID
                           envVariables: {}
                         timeout: 10m
           tags: {}
