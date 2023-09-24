@@ -437,6 +437,12 @@ template:
                           spec:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/pipeline-html-generator:latest
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - AllErrors
+                                action:
+                                  type: Ignore
                     stepGroupInfra:
                       type: KubernetesDirect
                       spec:
