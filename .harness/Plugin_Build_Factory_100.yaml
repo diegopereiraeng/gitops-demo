@@ -480,7 +480,8 @@ template:
 
                             cat PipelineHTMLGenerator.env
                             # Parse the original .env file and produce a new one suitable for sourcing
-                            awk -F'=' '{ gsub(/ /, "", $1); gsub(/ /, "", $2); print $1 "=" "\"" $2 "\"" }' PipelineHTMLGenerator.env > SourcedPipelineHTMLGenerator.env
+                            awk 'BEGIN{FS=OFS="="} {gsub(/["]/, "\\\\\"", $2); print $1 "=" "\"" $2 "\""}' PipelineHTMLGenerator.env > SourcedPipelineHTMLGenerator.env
+
 
                             source SourcedPipelineHTMLGenerator.env
                           shell: Sh
