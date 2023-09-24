@@ -486,7 +486,7 @@ template:
                             set +H  # Disable history expansion
                             source SourcedPipelineHTMLGenerator.env
                             set -H  # Enable history expansion
-                          shell: Sh
+                          shell: Bash
                           infrastructure:
                             type: KubernetesDirect
                             spec:
