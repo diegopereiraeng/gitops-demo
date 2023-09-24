@@ -437,6 +437,14 @@ template:
                           spec:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/pipeline-html-generator:latest
+                            settings:
+                              harness_secret: <+secrets.getValue("harnesssatokenplugin")>
+                              org_id: <+org.identifier>
+                              project_id: <+project.identifier>
+                              pipeline_id: <+pipeline.identifier>
+                              repo_name: <+pipeline.variables.repo_name>
+                              branch: <+pipeline.properties.ci.codebase.build.spec.branch>
+                              harness_pipe_execution_url: <+pipeline.executionUrl>
                           failureStrategies:
                             - onFailure:
                                 errors:
