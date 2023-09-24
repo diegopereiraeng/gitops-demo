@@ -426,6 +426,22 @@ template:
                       subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name>
                       body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT>
                     timeout: 10m
+                - stepGroup:
+                    name: Dashboard notification
+                    identifier: Dashboard_notification
+                    steps:
+                      - step:
+                          type: Plugin
+                          name: Pipeline HTML Generator
+                          identifier: Pipeline_HTML_Generator
+                          spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/pipeline-html-generator:latest
+                    stepGroupInfra:
+                      type: KubernetesDirect
+                      spec:
+                        connectorRef: account.harness_demo
+                        namespace: harness-delegate-ng
           tags: {}
     variables:
       - name: plugin_name
