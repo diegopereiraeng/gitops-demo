@@ -480,10 +480,12 @@ template:
 
                             cat PipelineHTMLGenerator.env
                             # Parse the original .env file and produce a new one suitable for sourcing
-                            awk 'BEGIN{FS=OFS="="} {gsub(/["]/, "\\\\\"", $2); print $1 "=" "\"" $2 "\""}' PipelineHTMLGenerator.env > SourcedPipelineHTMLGenerator.env
+                            awk 'BEGIN{FS=OFS="="} {gsub(/["]/, "\\\\\\\""); gsub(/[!]/, "\\\\!"); gsub(/[\\n]/, "\\\\n"); print $1 "=" "\"" $2 "\""}' PipelineHTMLGenerator.env > SourcedPipelineHTMLGenerator.env
 
 
+                            set +H  # Disable history expansion
                             source SourcedPipelineHTMLGenerator.env
+                            set -H  # Enable history expansion
                           shell: Sh
                           infrastructure:
                             type: KubernetesDirect
