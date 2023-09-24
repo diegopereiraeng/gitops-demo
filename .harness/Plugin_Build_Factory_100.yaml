@@ -473,7 +473,7 @@ template:
                         spec:
                           connectorRef: account.DockerHubDiego
                           image: diegokoala/pipeline-html-generator:latest
-                          command: |
+                          command: |+
 
                             /bin/pipeline-html-generator --org_id=<+org.identifier> --project_id=<+project.identifier> --pipeline_id=<+pipeline.identifier> --repo_name=<+pipeline.variables.repo_name> --branch=<+codebase.branch>  --harness_secret=<+secrets.getValue("harnesssatokenplugin")> --harness_pipe_execution_url=<+pipeline.executionUrl>
                             env
@@ -483,10 +483,9 @@ template:
                             awk 'BEGIN{FS=OFS="="} {gsub(/["]/, "\\\\\\\""); gsub(/[!]/, "\\\\!"); gsub(/[\\n]/, "\\\\n"); print $1 "=" "\"" $2 "\""}' PipelineHTMLGenerator.env > SourcedPipelineHTMLGenerator.env
 
 
-                            set +H  # Disable history expansion
                             source SourcedPipelineHTMLGenerator.env
-                            set -H  # Enable history expansion
-                          shell: Bash
+
+                          shell: Sh
                           infrastructure:
                             type: KubernetesDirect
                             spec:
