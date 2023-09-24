@@ -408,6 +408,25 @@ template:
                     when:
                       stageStatus: Success
                       condition: <+pipeline.variables.repo_name> != "sonarqube-scanner"
+      - stage:
+          name: Notification
+          identifier: Notification
+          description: ""
+          type: Custom
+          spec:
+            execution:
+              steps:
+                - step:
+                    type: Email
+                    name: Email
+                    identifier: Email
+                    spec:
+                      to: diego.pereira@harness.io
+                      cc: ""
+                      subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name>
+                      body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.parallel.steps.CommitInsights.output.outputVariables.REPORT>
+                    timeout: 10m
+          tags: {}
     variables:
       - name: plugin_name
         type: String
