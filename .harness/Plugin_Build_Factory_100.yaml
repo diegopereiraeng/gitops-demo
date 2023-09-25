@@ -418,12 +418,12 @@ template:
               steps:
                 - step:
                     type: Email
-                    name: Email
+                    name: Commit Insights
                     identifier: Email
                     spec:
                       to: diego.pereira@harness.io
                       cc: ""
-                      subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name>
+                      subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name> - Commit Insights
                       body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT>
                     timeout: 10m
                 - parallel:
@@ -504,6 +504,16 @@ template:
                             - name: PIPELINE_STATUS
                           envVariables: {}
                         timeout: 10m
+                - step:
+                    type: Email
+                    name: Production Pipeline Notification
+                    identifier: Production_Pipeline_Notification
+                    spec:
+                      to: diego.pereira@harness.io
+                      cc: ""
+                      subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name> - Pipeline Details
+                      body: <+pipeline.stages.Notification.spec.execution.steps.PipelineHTMLGenerator.ContainerStep.output.outputVariables.HTML_REPORT>
+                    timeout: 10m
           tags: {}
     variables:
       - name: plugin_name
