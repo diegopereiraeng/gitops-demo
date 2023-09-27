@@ -483,12 +483,12 @@ template:
                           infrastructure:
                             type: KubernetesDirect
                             spec:
-                              connectorRef: account.harness_demo
+                              connectorRef: account.cddemose
                               namespace: harness-delegate-ng
                               resources:
                                 limits:
-                                  cpu: "0.5"
-                                  memory: 500Mi
+                                  cpu: "0.1"
+                                  memory: 100Mi
                               annotations: {}
                               labels: {}
                               containerSecurityContext:
