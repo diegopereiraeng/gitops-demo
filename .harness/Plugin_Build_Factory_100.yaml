@@ -526,6 +526,10 @@ template:
                           body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT><+pipeline.stages.Notification.spec.execution.steps.PipelineHTMLGenerator.ContainerStep.output.outputVariables.HTML_REPORT>
                         timeout: 10m
           tags: {}
+          delegateSelectors:
+            - aws-serverless-elasticbeanstalk
+            - cd-demo-se
+            - harness-demo
     variables:
       - name: plugin_name
         type: String
