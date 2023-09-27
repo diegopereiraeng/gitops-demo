@@ -425,6 +425,8 @@ template:
                       cc: ""
                       subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name> - Commit Insights
                       body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT>
+                      delegateSelectors:
+                        - aws-serverless-elasticbeanstalk
                     timeout: 10m
                 - parallel:
                     - stepGroup:
@@ -514,6 +516,8 @@ template:
                           cc: ""
                           subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name> - Pipeline Details
                           body: <+pipeline.stages.Notification.spec.execution.steps.PipelineHTMLGenerator.ContainerStep.output.outputVariables.HTML_REPORT>
+                          delegateSelectors:
+                            - aws-serverless-elasticbeanstalk
                         timeout: 10m
                     - step:
                         type: Email
@@ -524,6 +528,8 @@ template:
                           cc: ""
                           subject: Commit Insights + Pipeline Details Notification
                           body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT><+pipeline.stages.Notification.spec.execution.steps.PipelineHTMLGenerator.ContainerStep.output.outputVariables.HTML_REPORT>
+                          delegateSelectors:
+                            - aws-serverless-elasticbeanstalk
                         timeout: 10m
           tags: {}
           delegateSelectors:
