@@ -1,0 +1,35 @@
+pipeline:
+  name: Sirius
+  identifier: Sirius
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: payments-validation
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Build
+                  spec:
+                    shell: Sh
+                    command: mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
