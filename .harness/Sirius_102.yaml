@@ -1,0 +1,149 @@
+template:
+  name: Sirius
+  type: Pipeline
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  spec:
+    properties:
+      ci:
+        codebase:
+          connectorRef: account.diegogithubapp
+          repoName: payments-validation
+          build: <+input>
+    stages:
+      - stage:
+          name: Build
+          identifier: Build
+          description: ""
+          type: CI
+          spec:
+            cloneCodebase: true
+            platform:
+              os: Linux
+              arch: Amd64
+            runtime:
+              type: Cloud
+              spec: {}
+            execution:
+              steps:
+                - step:
+                    type: Run
+                    name: Build
+                    identifier: Build
+                    spec:
+                      shell: Sh
+                      command: mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+      - stage:
+          name: Deploy2
+          identifier: Deploy2
+          description: ""
+          type: Deployment
+          spec:
+            deploymentType: Kubernetes
+            service:
+              serviceRef: <+input>
+              serviceInputs: <+input>
+            environment:
+              environmentRef: <+input>
+              deployToAll: false
+              environmentInputs: <+input>
+              serviceOverrideInputs: <+input>
+              infrastructureDefinitions: <+input>
+            execution:
+              steps:
+                - stepGroup:
+                    name: Canary Deployment
+                    identifier: canaryDepoyment
+                    steps:
+                      - step:
+                          name: Canary Deployment
+                          identifier: canaryDeployment
+                          type: K8sCanaryDeploy
+                          timeout: 10m
+                          spec:
+                            instanceSelection:
+                              type: Count
+                              spec:
+                                count: 1
+                            skipDryRun: false
+                      - step:
+                          type: Verify
+                          name: Verify_1
+                          identifier: Verify_1
+                          spec:
+                            isMultiServicesOrEnvs: false
+                            type: Canary
+                            monitoredService:
+                              type: Template
+                              spec:
+                                monitoredServiceTemplateRef: account.Prometheus_Template
+                                versionLabel: ""
+                                templateInputs:
+                                  type: Application
+                                  serviceRef: <+input>
+                                  environmentRef: <+input>
+                            spec:
+                              sensitivity: MEDIUM
+                              duration: 15m
+                              deploymentTag: <+artifacts.primary.tag>
+                          timeout: 2h
+                          failureStrategies:
+                            - onFailure:
+                                errors:
+                                  - Verification
+                                action:
+                                  type: ManualIntervention
+                                  spec:
+                                    timeout: 2h
+                                    onTimeout:
+                                      action:
+                                        type: StageRollback
+                            - onFailure:
+                                errors:
+                                  - Unknown
+                                action:
+                                  type: ManualIntervention
+                                  spec:
+                                    timeout: 2h
+                                    onTimeout:
+                                      action:
+                                        type: Ignore
+                      - step:
+                          name: Canary Delete
+                          identifier: canaryDelete
+                          type: K8sCanaryDelete
+                          timeout: 10m
+                          spec: {}
+                - stepGroup:
+                    name: Primary Deployment
+                    identifier: primaryDepoyment
+                    steps:
+                      - step:
+                          name: Rolling Deployment
+                          identifier: rollingDeployment
+                          type: K8sRollingDeploy
+                          timeout: 10m
+                          spec:
+                            skipDryRun: false
+              rollbackSteps:
+                - step:
+                    name: Canary Delete
+                    identifier: rollbackCanaryDelete
+                    type: K8sCanaryDelete
+                    timeout: 10m
+                    spec: {}
+                - step:
+                    name: Rolling Rollback
+                    identifier: rollingRollback
+                    type: K8sRollingRollback
+                    timeout: 10m
+                    spec: {}
+          tags: {}
+          failureStrategies:
+            - onFailure:
+                errors:
+                  - AllErrors
+                action:
+                  type: StageRollback
+  identifier: Sirius
+  versionLabel: 1.0.2
