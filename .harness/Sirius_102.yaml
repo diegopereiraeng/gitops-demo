@@ -14,7 +14,6 @@ template:
       - stage:
           name: Build
           identifier: Build
-          description: ""
           type: CI
           spec:
             cloneCodebase: true
@@ -33,6 +32,16 @@ template:
                     spec:
                       shell: Sh
                       command: mvn package -Dmaven.test.skip=true -Dmaven.repo.local=$PROJ_DIR/.m2/repository
+                - step:
+                    name: Test
+                    identifier: Test
+                    template:
+                      templateRef: Sirius2
+                      versionLabel: 1.0.0
+                      templateInputs:
+                        type: Run
+                        spec:
+                          envVariables: <+input>
       - stage:
           name: Deploy2
           identifier: Deploy2
