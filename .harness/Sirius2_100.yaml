@@ -1,0 +1,15 @@
+template:
+  name: Sirius2
+  identifier: Sirius2
+  versionLabel: 1.0.0
+  type: Step
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: Run
+    spec:
+      shell: Sh
+      command: echo "$TEST"
+      envVariables:
+        TEST: <+input>
