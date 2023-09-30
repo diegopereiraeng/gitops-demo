@@ -36,7 +36,7 @@ pipeline:
                           content: |-
                             bucket = "diego-aws-storage"
                             key    = "tf_state_files/sonartf"
-                            region = "us-east-1"
+                            region = "us-east-2"
                       environmentVariables:
                         - name: AWS_ACCESS_KEY_ID
                           value: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
