@@ -15,7 +15,7 @@ pipeline:
             steps:
               - step:
                   type: TerraformPlan
-                  name: Terraform Deploy Sonar
+                  name: Terraform Plan Deploy Sonar
                   identifier: TerraformPlan_1
                   spec:
                     provisionerIdentifier: sonartf
@@ -48,5 +48,14 @@ pipeline:
                       workspace: prod
                       exportTerraformHumanReadablePlan: true
                       skipRefreshCommand: false
+                  timeout: 10m
+              - step:
+                  type: TerraformApply
+                  name: Terraform Apply Deploy Sonar
+                  identifier: Terraform_Apply_Deploy_Sonar
+                  spec:
+                    provisionerIdentifier: sonartf
+                    configuration:
+                      type: InheritFromPlan
                   timeout: 10m
         tags: {}
