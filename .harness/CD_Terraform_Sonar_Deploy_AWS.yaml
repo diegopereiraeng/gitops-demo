@@ -1,0 +1,36 @@
+pipeline:
+  name: CD - Terraform Sonar Deploy AWS
+  identifier: CD_Terraform_Sonar_Deploy_AWS
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Deploy Sonar Terraform
+        identifier: Deploy_Sonar_Terraform
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: TerraformPlan
+                  name: TerraformPlan_1
+                  identifier: TerraformPlan_1
+                  spec:
+                    provisionerIdentifier: tf
+                    configuration:
+                      command: Apply
+                      configFiles:
+                        store:
+                          spec:
+                            connectorRef: account.diegogithubapp
+                            repoName: terraform-templates
+                            gitFetchType: Branch
+                            branch: main
+                            folderPath: aws/sonar
+                          type: Github
+                      secretManagerRef: harnessSecretManager
+                      skipRefreshCommand: false
+                  timeout: 10m
+        tags: {}
