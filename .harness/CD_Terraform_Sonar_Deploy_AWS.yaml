@@ -42,12 +42,11 @@ pipeline:
 
                       aws ec2 describe-images --image-ids $LATEST_AMI_ID --region us-east-1
 
-
-                      aws ec2 describe-image-attribute --image-id $LATEST_AMI_ID --attribute launchPermission --region us-east-1
-
                     envVariables:
                       AWS_ACCESS_KEY_ID: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
                       AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
+                    outputVariables:
+                      - name: LATEST_AMI_ID
     - stage:
         name: Deploy Sonar Terraform
         identifier: Deploy_Sonar_Terraform
@@ -87,6 +86,12 @@ pipeline:
                         - name: AWS_SECRET_ACCESS_KEY
                           value: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
                           type: String
+                      varFiles:
+                        - varFile:
+                            spec:
+                              content: ami_id=<+pipeline.stages.Check_AWS_Permissions.spec.execution.steps.Check_AWS.output.outputVariables.LATEST_AMI_ID>
+                            identifier: vars
+                            type: Inline
                       secretManagerRef: harnessSecretManager
                       workspace: prod
                       exportTerraformHumanReadablePlan: true
