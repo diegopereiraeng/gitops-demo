@@ -27,7 +27,7 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: amazon/aws-cli:latest
                     shell: Sh
-                    command: |
+                    command: |+
                       #!/bin/bash
                       LATEST_AMI_ID=$(aws ec2 describe-images \
                           --owners amazon \
@@ -42,11 +42,16 @@ pipeline:
                       aws ec2 describe-images --image-ids $LATEST_AMI_ID --region us-east-1
 
                       aws ec2 describe-key-pairs --region us-east-1
+
+                      KEYPAIR_ID=$(aws ec2 describe-key-pairs --region us-east-1 --query 'KeyPairs[?KeyName==`diego-pereira`].KeyPairId' --output text)
+
+
                     envVariables:
                       AWS_ACCESS_KEY_ID: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
                       AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
                     outputVariables:
                       - name: LATEST_AMI_ID
+                      - name: KEYPAIR_ID
           caching:
             enabled: false
             paths: []
@@ -92,7 +97,9 @@ pipeline:
                       varFiles:
                         - varFile:
                             spec:
-                              content: ami_id="<+pipeline.stages.Check_AWS_Permissions.spec.execution.steps.Check_AWS.output.outputVariables.LATEST_AMI_ID>"
+                              content: |-
+                                ami_id="<+pipeline.stages.Check_AWS_Permissions.spec.execution.steps.Check_AWS.output.outputVariables.LATEST_AMI_ID>"
+                                keypair_id="<+pipeline.stages.Check_AWS_Permissions.spec.execution.steps.Check_AWS.output.outputVariables.KEYPAIR_ID>"
                             identifier: vars
                             type: Inline
                       secretManagerRef: harnessSecretManager
