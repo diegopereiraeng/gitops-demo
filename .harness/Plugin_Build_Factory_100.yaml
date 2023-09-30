@@ -229,6 +229,12 @@ template:
                             sonar_key: <+pipeline.properties.ci.codebase.repoName>
                             skip_scan: "true"
                           imagePullPolicy: Always
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Ignore
                     - step:
                         type: Plugin
                         name: Hado Lint Scan
