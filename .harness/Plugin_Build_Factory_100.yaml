@@ -259,44 +259,17 @@ template:
                             test_junit_list_class_name: file
                             test_junit_list_failure: message
                             test_junit_list_time: line
-                - parallel:
-                    - step:
-                        type: BuildAndPushDockerRegistry
-                        name: Build And Push Java 17
-                        identifier: Build_And_Push_Java_17
-                        spec:
-                          connectorRef: account.DockerHubDiego
-                          repo: diegokoala/harness-cie-sonarqube-scanner
-                          tags:
-                            - test-java17-<+codebase.shortCommitSha>
-                          dockerfile: DockerfileJava17
-                        when:
-                          stageStatus: Success
-                          condition: <+pipeline.variables.repo_name> == "sonarqube-scanner"
-                    - step:
-                        type: BuildAndPushDockerRegistry
-                        name: Build And Push Java 11
-                        identifier: Build_And_Push_Java_11
-                        spec:
-                          connectorRef: account.DockerHubDiego
-                          repo: diegokoala/harness-cie-sonarqube-scanner
-                          tags:
-                            - test-<+codebase.shortCommitSha>
-                        when:
-                          stageStatus: Success
-                          condition: <+pipeline.variables.repo_name> == "sonarqube-scanner"
-                    - step:
-                        type: BuildAndPushDockerRegistry
-                        name: Build And Push Generic
-                        identifier: Build_And_Push_Generic
-                        spec:
-                          connectorRef: account.DockerHubDiego
-                          repo: diegokoala/<+pipeline.variables.image_name>
-                          tags:
-                            - unstable-<+codebase.shortCommitSha>
-                        when:
-                          stageStatus: Success
-                          condition: <+pipeline.variables.repo_name> != "sonarqube-scanner"
+                - step:
+                    type: BuildAndPushDockerRegistry
+                    name: Build And Push Generic
+                    identifier: Build_And_Push_Generic
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      repo: diegokoala/<+pipeline.variables.image_name>
+                      tags:
+                        - unstable-<+codebase.shortCommitSha>
+                    when:
+                      stageStatus: Success
                 - parallel:
                     - step:
                         type: AquaTrivy
