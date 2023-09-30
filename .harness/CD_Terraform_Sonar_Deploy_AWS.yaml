@@ -22,17 +22,28 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Check AWS
+                  name: Get Latest AMI ID for Amazon Linux 2
                   identifier: Check_AWS
                   spec:
                     connectorRef: account.DockerHubDiego
                     image: amazon/aws-cli:latest
                     shell: Sh
                     command: |+
-                      aws ec2 describe-images --image-ids ami-08d5c2c27495d734a --region us-east-1
+                      #!/bin/bash
+                      LATEST_AMI_ID=$(aws ec2 describe-images \
+                          --owners amazon \
+                          --filters 'Name=name,Values=amzn2-ami-hvm-2.0.*-x86_64-gp2' 'Name=state,Values=available' \
+                          --query 'sort_by(Images, &CreationDate) | [-1].ImageId' \
+                          --output text \
+                          --region us-east-1)
+
+                      echo "Latest AMI ID: $LATEST_AMI_ID"
 
 
-                      aws ec2 describe-image-attribute --image-id ami-08d5c2c27495d734a --attribute launchPermission --region us-east-1
+                      aws ec2 describe-images --image-ids $LATEST_AMI_ID --region us-east-1
+
+
+                      aws ec2 describe-image-attribute --image-id $LATEST_AMI_ID --attribute launchPermission --region us-east-1
 
                     envVariables:
                       AWS_ACCESS_KEY_ID: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
