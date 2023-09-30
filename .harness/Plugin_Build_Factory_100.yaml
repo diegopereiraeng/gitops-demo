@@ -177,7 +177,7 @@ template:
                           imagePullPolicy: IfNotPresent
                           auth:
                             access_token: <+secrets.getValue("account.harnesssonartoken")>
-                            domain: http://sonar.harness-demo.site
+                            domain: https://sonar.harness-demo.site
                             ssl: true
                           tool:
                             project_key: <+pipeline.properties.ci.codebase.repoName>
@@ -221,7 +221,7 @@ template:
                               paths:
                                 - sonarResults.xml
                           settings:
-                            sonar_host: http://sonar.harness-demo.site
+                            sonar_host: https://sonar.harness-demo.site
                             sonar_token: <+secrets.getValue("account.harnesssonartoken")>
                             sources: /harness
                             binaries: /harness/binary
