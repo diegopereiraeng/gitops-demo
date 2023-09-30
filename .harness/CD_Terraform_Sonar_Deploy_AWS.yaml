@@ -6,6 +6,38 @@ pipeline:
   tags: {}
   stages:
     - stage:
+        name: Check AWS Permissions
+        identifier: Check_AWS_Permissions
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Check AWS
+                  identifier: Check_AWS
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: amazon/aws-cli:latest
+                    shell: Sh
+                    command: |+
+                      aws ec2 describe-images --image-ids ami-08d5c2c27495d734a --region us-east-1
+
+
+                      aws ec2 describe-image-attribute --image-id ami-08d5c2c27495d734a --attribute launchPermission --region us-east-1
+
+                    envVariables:
+                      AWS_ACCESS_KEY_ID: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
+                      AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
+    - stage:
         name: Deploy Sonar Terraform
         identifier: Deploy_Sonar_Terraform
         description: ""
