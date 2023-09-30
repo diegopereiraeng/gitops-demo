@@ -91,7 +91,7 @@ pipeline:
                       varFiles:
                         - varFile:
                             spec:
-                              content: ami_id=<+pipeline.stages.Check_AWS_Permissions.spec.execution.steps.Check_AWS.output.outputVariables.LATEST_AMI_ID>
+                              content: ami_id="<+pipeline.stages.Check_AWS_Permissions.spec.execution.steps.Check_AWS.output.outputVariables.LATEST_AMI_ID>"
                             identifier: vars
                             type: Inline
                       secretManagerRef: harnessSecretManager
