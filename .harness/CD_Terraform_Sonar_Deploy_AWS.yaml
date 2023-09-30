@@ -15,10 +15,10 @@ pipeline:
             steps:
               - step:
                   type: TerraformPlan
-                  name: TerraformPlan_1
+                  name: Terraform Deploy Sonar
                   identifier: TerraformPlan_1
                   spec:
-                    provisionerIdentifier: tf
+                    provisionerIdentifier: sonartf
                     configuration:
                       command: Apply
                       configFiles:
@@ -30,7 +30,23 @@ pipeline:
                             branch: main
                             folderPath: aws/sonar
                           type: Github
+                      backendConfig:
+                        type: Inline
+                        spec:
+                          content: |-
+                            bucket = "diego-aws-storage"
+                            key    = "tf_state_files/sonartf"
+                            region = "us-east-1"
+                      environmentVariables:
+                        - name: AWS_ACCESS_KEY_ID
+                          value: <+secrets.getValue('AWS_ACCESS_KEY_ID')>
+                          type: String
+                        - name: AWS_SECRET_ACCESS_KEY
+                          value: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
+                          type: String
                       secretManagerRef: harnessSecretManager
+                      workspace: prod
+                      exportTerraformHumanReadablePlan: true
                       skipRefreshCommand: false
                   timeout: 10m
         tags: {}
