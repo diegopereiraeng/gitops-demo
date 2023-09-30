@@ -6,9 +6,8 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: Check AWS Permissions
+        name: AWS
         identifier: Check_AWS_Permissions
-        description: ""
         type: CI
         spec:
           cloneCodebase: false
@@ -47,6 +46,9 @@ pipeline:
                       AWS_SECRET_ACCESS_KEY: <+secrets.getValue('AWS_SECRET_ACCESS_KEY')>
                     outputVariables:
                       - name: LATEST_AMI_ID
+          caching:
+            enabled: false
+            paths: []
     - stage:
         name: Deploy Sonar Terraform
         identifier: Deploy_Sonar_Terraform
