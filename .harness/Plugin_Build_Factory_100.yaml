@@ -213,7 +213,7 @@ template:
                         identifier: run_sonar
                         spec:
                           connectorRef: account.DockerHubDiego
-                          image: plugins/sonarqube-scanner:v2.0.3-java17
+                          image: plugins/sonarqube-scanner:v2.1.0
                           privileged: false
                           reports:
                             type: JUnit
