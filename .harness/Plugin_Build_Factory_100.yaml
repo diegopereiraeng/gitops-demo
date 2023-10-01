@@ -360,7 +360,6 @@ template:
                         - latest
                     when:
                       stageStatus: Success
-                      condition: <+pipeline.variables.repo_name> != "sonarqube-scanner"
       - stage:
           name: Notification
           identifier: Notification
