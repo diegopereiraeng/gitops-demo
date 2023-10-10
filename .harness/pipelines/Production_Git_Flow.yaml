@@ -559,7 +559,7 @@ pipeline:
                                 type: Count
                                 spec:
                                   count: 1
-                              skipDryRun: false
+                              skipDryRun: true
                         - step:
                             type: JiraUpdate
                             name: Update JIRA Ready for Testing
