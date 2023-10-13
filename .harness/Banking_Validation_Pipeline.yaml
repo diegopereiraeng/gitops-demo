@@ -1333,7 +1333,6 @@ pipeline:
                                       repoName: terraform-onboarding-payments-validation
                                       branch: main
                                       folderPath: banking-demo-dns
-                                secretManagerRef: harnessSecretManager
                                 environmentVariables:
                                   - name: GOOGLE_CREDENTIALS
                                     value: <+secrets.getValue("diego_gc_sa_text")>
@@ -1342,13 +1341,15 @@ pipeline:
                                   - varFile:
                                       identifier: Vars
                                       spec:
-                                        content: |-
+                                        content: |
                                           project="sales-209522"
                                           region="us-central1-c"
                                           gitUser="<+pipeline.variables.virtualPath>"
-                                          ipAddress="34.121.101.100"
+                                          ipAddress="34.170.43.19"
                                       type: Inline
+                                secretManagerRef: harnessSecretManager
                                 exportTerraformHumanReadablePlan: true
+                                skipRefreshCommand: false
                               provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
                             timeout: 10m
                             failureStrategies:
