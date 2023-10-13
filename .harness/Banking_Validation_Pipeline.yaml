@@ -1345,7 +1345,7 @@ pipeline:
                                           project="sales-209522"
                                           region="us-central1-c"
                                           gitUser="<+pipeline.variables.virtualPath>"
-                                          ipAddress="34.170.43.19"
+                                          ipAddress="34.121.101.100"
                                       type: Inline
                                 secretManagerRef: harnessSecretManager
                                 exportTerraformHumanReadablePlan: true
