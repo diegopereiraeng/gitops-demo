@@ -390,11 +390,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: izacsaulgmailcom
-          variation: Captain_Canary
-        - targets:
           - identifier: GuestMonterrey
           variation: Feature_Flags
+        - targets:
+          - identifier: izacsaulgmailcom
+          variation: Captain_Canary
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -864,7 +864,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "on"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
