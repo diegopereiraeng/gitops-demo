@@ -21,7 +21,7 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: ubuntu:23.10
                     shell: Sh
-                    command: winrmcp
+                    command: winrmcp --help
               - step:
                   type: Run
                   name: Build NodeJS
