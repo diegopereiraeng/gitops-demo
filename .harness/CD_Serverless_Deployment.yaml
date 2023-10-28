@@ -15,6 +15,15 @@ pipeline:
             steps:
               - step:
                   type: Run
+                  name: Winrmcp
+                  identifier: Winrmcp
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: ubuntu:23.10
+                    shell: Sh
+                    command: winrmcp
+              - step:
+                  type: Run
                   name: Build NodeJS
                   identifier: Build_NodeJS
                   spec:
