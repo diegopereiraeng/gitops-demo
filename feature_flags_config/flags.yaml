@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestVenustiano-Carranza
-          variation: Bienvenido
-        - targets:
           - identifier: GuestMexico-City
           variation: Welcome
+        - targets:
+          - identifier: GuestVenustiano-Carranza
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -143,16 +143,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
-        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
+        - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -228,6 +228,11 @@ featureFlags:
           offVariation: "Off"
         state: "off"
       - identifier: qa
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: diego
         default:
           onVariation: "Off"
           offVariation: "Off"
@@ -493,6 +498,11 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
   - flag:
       name: AUTHORIZATION_BETA_EXPERIMENT
       identifier: AUTHORIZATION_BETA_EXPERIMENT
@@ -684,6 +694,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
   - flag:
       name: PAYMENTS_PROCESS_V2
       identifier: bug_process_response
@@ -875,6 +890,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: diego
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
   - flag:
       name: FRONT_Color_Mode
       identifier: Color_Mode
@@ -1084,6 +1104,11 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
   - flag:
       name: FRONT_Halloween Mode
       identifier: Halloween
@@ -1271,6 +1296,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1466,6 +1496,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1691,6 +1726,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
   - flag:
       name: FRONT_Menu Profile
       identifier: Home_Menu
@@ -1901,6 +1941,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
   - flag:
       name: FRONT_Home_RegionMAP
       identifier: Home_RegionMAP
@@ -2088,6 +2133,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2318,6 +2368,11 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
   - flag:
       name: ios_demo_feature
       identifier: ios_demo_feature
@@ -2505,6 +2560,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2709,6 +2769,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
   - flag:
       name: ios_home_message_feature
       identifier: ios_home_message_feature
@@ -2909,6 +2974,11 @@ featureFlags:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
   - flag:
       name: ios_premium_feature
       identifier: ios_premium_feature
@@ -3096,6 +3166,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
         default:
           onVariation: "true"
           offVariation: "false"
@@ -3304,6 +3379,11 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: qa
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: diego
         default:
           onVariation: V2
           offVariation: V1
@@ -3537,6 +3617,11 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
   - flag:
       name: FRONT_Title and Menu Text Color
       identifier: Text_Color_Mode
@@ -3735,6 +3820,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: diego
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
   - flag:
       name: VALIDATION_BETA_EXPERIMENT
       identifier: VALIDATION_BETA_EXPERIMENT
@@ -3925,6 +4015,11 @@ featureFlags:
       - identifier: qa
         default:
           onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
+        default:
+          onVariation: "false"
           offVariation: "false"
         state: "off"
   projectIdentifier: GIT_FLOW_DEMO
