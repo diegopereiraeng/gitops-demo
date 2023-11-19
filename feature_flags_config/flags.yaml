@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestMexico-City
-          variation: Welcome
-        - targets:
           - identifier: GuestVenustiano-Carranza
           variation: Bienvenido
+        - targets:
+          - identifier: GuestMexico-City
+          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -143,16 +143,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
+        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -3765,11 +3765,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: luisreddagmailcom
-          variation: White
-        - targets:
           - identifier: GuestSantana-de-Parnaiba
           variation: Black
+        - targets:
+          - identifier: luisreddagmailcom
+          variation: White
       - identifier: fbreton
         default:
           onVariation: Black
