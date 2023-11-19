@@ -681,6 +681,8 @@ pipeline:
                             - cd-demo-se
                         timeout: 10m
                         failureStrategies: []
+                  delegateSelectors:
+                    - cd-demo-se
               - stepGroup:
                   name: Trigger Creation
                   identifier: Trigger_Creation
