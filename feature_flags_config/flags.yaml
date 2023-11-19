@@ -3765,11 +3765,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestSantana-de-Parnaiba
-          variation: Black
-        - targets:
           - identifier: luisreddagmailcom
           variation: White
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Black
       - identifier: fbreton
         default:
           onVariation: Black
@@ -3966,7 +3966,7 @@ featureFlags:
         default:
           onVariation: "false"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: fbreton
         default:
           onVariation: "false"
