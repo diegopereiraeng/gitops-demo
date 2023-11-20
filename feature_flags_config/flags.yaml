@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestVenustiano-Carranza
-          variation: Bienvenido
-        - targets:
           - identifier: GuestMexico-City
           variation: Welcome
+        - targets:
+          - identifier: GuestVenustiano-Carranza
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -143,16 +143,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: GuestUnknown
+          - identifier: shibagmailcom
+          variation: Welcome
+        - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
         - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
-        - targets:
-          - identifier: GuestUnknown
-          - identifier: shibagmailcom
-          variation: Welcome
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -395,11 +395,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestMonterrey
-          variation: Feature_Flags
-        - targets:
           - identifier: izacsaulgmailcom
           variation: Captain_Canary
+        - targets:
+          - identifier: GuestMonterrey
+          variation: Feature_Flags
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -869,7 +869,7 @@ featureFlags:
         default:
           onVariation: "true"
           offVariation: "false"
-        state: "off"
+        state: "on"
       - identifier: rwharness
         default:
           onVariation: "true"
@@ -3765,11 +3765,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: luisreddagmailcom
-          variation: White
-        - targets:
           - identifier: GuestSantana-de-Parnaiba
           variation: Black
+        - targets:
+          - identifier: luisreddagmailcom
+          variation: White
       - identifier: fbreton
         default:
           onVariation: Black
