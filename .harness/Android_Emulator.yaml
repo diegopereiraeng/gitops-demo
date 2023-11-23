@@ -1,0 +1,37 @@
+pipeline:
+  name: Android Emulator
+  identifier: Android_Emulator
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: android_emulator
+        build: <+input>
+  stages:
+    - stage:
+        name: Image Build
+        identifier: Image_Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push Image
+                  identifier: Build_and_Push_Image
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    repo: diegokoala/android_emulator
+                    tags:
+                      - latest
