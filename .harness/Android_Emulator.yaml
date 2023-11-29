@@ -8,7 +8,7 @@ pipeline:
     ci:
       codebase:
         connectorRef: account.diegogithubapp
-        repoName: android_emulator
+        repoName: <+input>
         build: <+input>
   stages:
     - stage:
