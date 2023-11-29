@@ -24,7 +24,7 @@ pipeline:
                   name: Queue_1
                   identifier: Queue_1
                   spec:
-                    key: test1
+                    key: group1
                     scope: Pipeline
                   timeout: 10m
         tags: {}
