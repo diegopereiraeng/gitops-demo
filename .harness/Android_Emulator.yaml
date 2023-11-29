@@ -12,6 +12,23 @@ pipeline:
         build: <+input>
   stages:
     - stage:
+        name: test-queue
+        identifier: testqueue
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: Queue
+                  name: Queue_1
+                  identifier: Queue_1
+                  spec:
+                    key: test1
+                    scope: Pipeline
+                  timeout: 10m
+        tags: {}
+    - stage:
         name: Image Build
         identifier: Image_Build
         description: ""
