@@ -52,7 +52,7 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: diegokoala/python-utils
                     shell: Python
-                    command: |
+                    command: |-
                       import winrm
 
                       # Dados da conexão com a máquina remota
@@ -64,7 +64,7 @@ pipeline:
                       session = winrm.Session(remote_host, auth=(username, password))
 
                       # Script PowerShell que será executado na máquina remota
-                      ps_script = """
+                      ps_script = r"""
                       $address = 'http://localhost:8080/upload'
                       $passwordEsperado = 'senhaSegura123'
                       $listener = New-Object System.Net.HttpListener
