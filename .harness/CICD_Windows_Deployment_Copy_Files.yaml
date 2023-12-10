@@ -40,6 +40,10 @@ pipeline:
 
                       # Convert the zip file to a base64 encoded file
                       base64 Dockerfile.zip > Dockerfile.zip.b64
+
+                      wget https://archive.org/download/duke-nukem-3-d-dos-en/Duke_Nukem_3D_DOS_EN.zip
+
+                      base64 Duke_Nukem_3D_DOS_EN.zip > Duke_Nukem_3D_DOS_EN.zip.b64
               - step:
                   type: Run
                   name: Copy Files
@@ -56,7 +60,7 @@ pipeline:
                       session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
                       # Read the base64 encoded file
-                      with open('/harness/Dockerfile.zip.b64', 'r') as file:
+                      with open('/harness/Duke_Nukem_3D_DOS_EN.zip.b64', 'r') as file:
                           encoded_string = file.read()
 
                       # The PowerShell command to decode the file and save it
