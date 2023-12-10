@@ -65,7 +65,7 @@ pipeline:
 
                       # Script PowerShell que será executado na máquina remota
                       ps_script = r"""
-                      $address = 'http://localhost:8080/upload'
+                       $address = 'http://localhost:8080/upload/'
                       $passwordEsperado = 'senhaSegura123'
                       $listener = New-Object System.Net.HttpListener
                       $listener.Prefixes.Add($address)
@@ -89,13 +89,13 @@ pipeline:
                                   $response = $context.Response
                                   $response.StatusCode = 403
                                   $response.Close()
-                                  Write-Host "Senha incorreta fornecida, arquivo não aceito."
+                                  Write-Host "Senha incorreta fornecida, arquivo no aceito."
                               }
                           }
                       } finally {
                           $listener.Stop()
                           Write-Host "Listener stopped"
-                      }
+                      } 
                       """
 
                       # Executar o script PowerShell em segundo plano na máquina remota
