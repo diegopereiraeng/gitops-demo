@@ -1,0 +1,75 @@
+pipeline:
+  name: CI-CD - Windows Deployment - Copy Files
+  identifier: CICD_Windows_Deployment_Copy_Files
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.diegogithubapp
+        repoName: abc
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Windows
+        identifier: Build_Windows
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build Windows
+                  identifier: Build_Windows
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: diegokoala/python-utils
+                    shell: Sh
+                    command: |-
+                      # Zip the Dockerfile
+                      zip Dockerfile.zip /harness/Dockerfile
+
+                      # Convert the zip file to a base64 encoded file
+                      base64 Dockerfile.zip > Dockerfile.zip.b64
+              - step:
+                  type: Run
+                  name: Copy Files
+                  identifier: Copy_Files
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    image: diegokoala/python-utils
+                    shell: Python
+                    command: |
+                      import winrm
+                      import base64
+
+                      # Set up the connection (replace with your actual credentials and host IP)
+                      session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+
+                      # Read the base64 encoded file
+                      with open('/harness/Dockerfile.zip.b64', 'r') as file:
+                          encoded_string = file.read()
+
+                      # The PowerShell command to decode the file and save it
+                      ps_script = """
+                      $fileContent = '{}'
+                      $decodedBytes = [System.Convert]::FromBase64String($fileContent)
+                      [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\Dockerfile.zip', $decodedBytes)
+                      """.format(encoded_string)
+
+                      # Execute the command
+                      response = session.run_ps(ps_script)
+
+                      if response.status_code == 0:
+                          print("File transferred successfully.")
+                      else:
+                          print("Error in file transfer:", response.std_err)
