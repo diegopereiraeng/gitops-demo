@@ -8,7 +8,7 @@ pipeline:
     ci:
       codebase:
         connectorRef: account.diegogithubapp
-        repoName: abc
+        repoName: python-utils
         build: <+input>
   stages:
     - stage:
