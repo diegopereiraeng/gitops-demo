@@ -2101,7 +2101,7 @@ pipeline:
     barriers:
       - name: ff-verification-prod
         identifier: ffverificationprod
-      - name: ff-verification-qa
+      - name: ff_verification_qa
         identifier: ffverificationqa
       - name: ff-verification-dev
         identifier: ffverificationdev
