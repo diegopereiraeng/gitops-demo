@@ -1184,6 +1184,9 @@ pipeline:
                             spec:
                               barrierRef: ffverificationqa
                             timeout: 4h
+                            when:
+                              stageStatus: Success
+                              condition: <+pipeline.variables.hotfix> == "no"
                         - parallel:
                             - step:
                                 type: ShellScript
