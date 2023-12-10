@@ -44,6 +44,8 @@ pipeline:
                       wget https://archive.org/download/duke-nukem-3-d-dos-en/Duke_Nukem_3D_DOS_EN.zip
 
                       base64 Duke_Nukem_3D_DOS_EN.zip > Duke_Nukem_3D_DOS_EN.zip.b64
+
+                      ls -ltra
               - step:
                   type: Background
                   name: Start Upload Server
