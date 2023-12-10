@@ -152,12 +152,9 @@ pipeline:
                           file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
                           password_header = {'Password': 'senhaSegura123'}
 
-                          # Use 'files' para multipart/form-data
                           with open(file_path, 'rb') as file:
-                              files = {'file': (file_path, file)}
-                              response = requests.post(url, headers=password_header, files=files)
+                              response = requests.post(url, headers=password_header, data=file)
 
-                          # Verifica a resposta
                           if response.status_code == 200:
                               print("Arquivo enviado com sucesso.")
                           else:
