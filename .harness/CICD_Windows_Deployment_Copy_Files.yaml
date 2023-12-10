@@ -148,14 +148,14 @@ pipeline:
                         command: |
                           import requests
 
-                          # Detalhes do arquivo e do servidor remoto
                           url = 'http://35.223.187.17:8080/upload'
                           file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
                           password_header = {'Password': 'senhaSegura123'}
 
-                          # Abre o arquivo e o envia para o servidor
+                          # Use 'files' para multipart/form-data
                           with open(file_path, 'rb') as file:
-                              response = requests.post(url, headers=password_header, data=file)
+                              files = {'file': (file_path, file)}
+                              response = requests.post(url, headers=password_header, files=files)
 
                           # Verifica a resposta
                           if response.status_code == 200:
