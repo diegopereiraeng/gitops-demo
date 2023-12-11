@@ -147,7 +147,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         image: diegokoala/python-utils
                         shell: Python
-                        command: |
+                        command: |+
                           # import requests
 
                           # url = 'http://35.223.187.17:8080/upload'
@@ -164,5 +164,7 @@ pipeline:
 
                           from winrmcp import Client
 
-                          c = winrmcp.WinRMCP('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
-                          c.copy_file('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
+                          client = Client('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+
+                          client.copy('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
+
