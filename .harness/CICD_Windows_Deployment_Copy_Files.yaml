@@ -150,36 +150,42 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         image: diegokoala/python-utils
                         shell: Python
-                        command: |+
+                        command: |
                           import winrm
                           import base64
+                          import os
 
-                          # Set up the connection (replace with your actual credentials and host IP)
+                          # Configurar a conexão
                           session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
-                          # Read the base64 encoded file
-                          with open('/harness/Duke_Nukem_3D_DOS_EN.zip.b64_part1', 'r') as file:
-                              encoded_string = file.read()
+                          # Diretório e prefixo das partes do arquivo
+                          dir_path = '/harness/'
+                          file_prefix = 'Duke_Nukem_3D_DOS_EN.zip.b64_part'
 
-                          # The PowerShell command to decode the file and save it
-                          ps_script = """
-                          $fileContent = '{}'
-                          $decodedBytes = [System.Convert]::FromBase64String($fileContent)
-                          [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\Dockerfile.zip', $decodedBytes)
-                          """.format(encoded_string)
+                          # Encontrar todas as partes
+                          part_files = [f for f in os.listdir(dir_path) if f.startswith(file_prefix)]
 
-                          # Execute the command
-                          response = session.run_ps(ps_script)
+                          # Enviar cada parte
+                          for part_file in part_files:
+                              with open(os.path.join(dir_path, part_file), 'r') as file:
+                                  encoded_string = file.read()
 
-                          if response.status_code == 0:
-                              print("File transferred successfully.")
-                          else:
-                              print("Error in file transfer:", response.std_err)
+                              # Comando PowerShell para decodificar e salvar o arquivo
+                              ps_script = """
+                              $fileContent = '{}'
+                              $decodedBytes = [System.Convert]::FromBase64String($fileContent)
+                              [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\{}', $decodedBytes)
+                              """.format(encoded_string, part_file)
 
+                              # Executar o comando
+                              response = session.run_ps(ps_script)
 
+                              if response.status_code == 0:
+                                  print(f"{part_file} transferred successfully.")
+                              else:
+                                  print(f"Error in transferring {part_file}:", response.std_err)
                       when:
                         stageStatus: Success
-                        condition: "false"
                   - step:
                       type: Run
                       name: Send Files
@@ -209,3 +215,6 @@ pipeline:
 
                           client.copy('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
 
+                      when:
+                        stageStatus: Success
+                        condition: "false"
