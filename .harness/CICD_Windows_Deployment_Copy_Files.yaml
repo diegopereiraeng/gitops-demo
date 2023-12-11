@@ -56,19 +56,21 @@ pipeline:
                     shell: Python
                     command: |
                       $filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
-                      $partSize = 10MB  # Tamanho de cada parte
-                      $partPath = "/harness/Duke_Nukem_3D_DOS_EN_part"
 
-                      # Dividir o arquivo
-                      $buffer = New-Object byte[] $partSize
-                      $fileStream = [System.IO.File]::OpenRead($filePath)
-                      $partNum = 0
+                      def split_file(file_path, part_size):
+                          part_num = 1
+                          with open(file_path, 'rb') as file:
+                              while True:
+                                  data = file.read(part_size)
+                                  if not data:
+                                      break
+                                  part_file_name = f"{file_path}_part{part_num}"
+                                  with open(part_file_name, 'wb') as part_file:
+                                      part_file.write(data)
+                                  part_num += 1
 
-                      while (($readLen = $fileStream.Read($buffer, 0, $partSize)) -ne 0) {
-                          $partFileName = "{0}_{1:D5}" -f $partPath, ++$partNum
-                          [System.IO.File]::WriteAllBytes($partFileName, $buffer[0..($readLen-1)])
-                      }
-                      $fileStream.Close()
+                      # Exemplo de uso
+                      split_file(filePath, 10*1024*1024)  # 10 MB por parte
               - parallel:
                   - step:
                       type: Background
