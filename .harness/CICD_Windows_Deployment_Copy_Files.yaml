@@ -162,7 +162,7 @@ pipeline:
                           # else:
                           #     print("Falha ao enviar o arquivo:", response.status_code)
 
-                          from winrmcp import winrmcp
+                          from winrmcp import Client
 
                           c = winrmcp.WinRMCP('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
                           c.copy_file('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
