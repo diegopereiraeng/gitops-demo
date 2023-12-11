@@ -46,62 +46,98 @@ pipeline:
                       base64 Duke_Nukem_3D_DOS_EN.zip > Duke_Nukem_3D_DOS_EN.zip.b64
 
                       ls -ltra
+
+                      du -h
               - step:
-                  type: Background
-                  name: Start Upload Server
-                  identifier: Upload_Server
+                  type: Run
+                  name: Split Files
+                  identifier: Split_Files
                   spec:
-                    connectorRef: account.DockerHubDiego
-                    image: diegokoala/python-utils
                     shell: Python
-                    command: |-
-                      import winrm
+                    command: |
+                      $filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
+                      $partSize = 10MB  # Tamanho de cada parte
+                      $partPath = "/harness/Duke_Nukem_3D_DOS_EN_part"
 
-                      # Dados da conexão com a máquina remota
-                      remote_host = "35.223.187.17"
-                      username = "diego_pereira"
-                      password = "<+secrets.getValue("windows_diego")>"
+                      # Dividir o arquivo
+                      $buffer = New-Object byte[] $partSize
+                      $fileStream = [System.IO.File]::OpenRead($filePath)
+                      $partNum = 0
 
-                      # Inicializa a sessão WinRM
-                      session = winrm.Session(remote_host, auth=(username, password))
+                      while (($readLen = $fileStream.Read($buffer, 0, $partSize)) -ne 0) {
+                          $partFileName = "{0}_{1:D5}" -f $partPath, ++$partNum
+                          [System.IO.File]::WriteAllBytes($partFileName, $buffer[0..($readLen-1)])
+                      }
+                      $fileStream.Close()
+              - parallel:
+                  - step:
+                      type: Background
+                      name: Start Upload Server
+                      identifier: Upload_Server
+                      spec:
+                        connectorRef: account.DockerHubDiego
+                        image: diegokoala/python-utils
+                        shell: Python
+                        command: |-
+                          import winrm
 
-                      # Script PowerShell que será executado na máquina remota
-                      ps_script = r"""
-                       $address = 'http://localhost:8080/upload/'
-                      $passwordEsperado = 'senhaSegura123'
-                      $listener = New-Object System.Net.HttpListener
-                      $listener.Prefixes.Add($address)
-                      $listener.Start()
-                      Write-Host "Listening on $address"
-                      try {
-                          $context = $listener.GetContext()
-                          $request = $context.Request
-                          if ($request.HttpMethod -eq 'POST') {
-                              $receivedPassword = $request.Headers["Password"]
-                              if ($receivedPassword -eq $passwordEsperado) {
-                                  $filePath = "C:\Users\diego_pereira\Desktop\uploadedfile.zip"
-                                  $fileStream = [System.IO.File]::OpenWrite($filePath)
-                                  $request.InputStream.CopyTo($fileStream)
-                                  $fileStream.Close()
-                                  Write-Host "File uploaded to $filePath"
-                                  $response = $context.Response
-                                  $response.StatusCode = 200
-                                  $response.Close()
-                              } else {
-                                  $response = $context.Response
-                                  $response.StatusCode = 403
-                                  $response.Close()
-                                  Write-Host "Senha incorreta fornecida, arquivo no aceito."
+                          # Dados da conexão com a máquina remota
+                          remote_host = "35.223.187.17"
+                          username = "diego_pereira"
+                          password = "<+secrets.getValue("windows_diego")>"
+
+                          # Inicializa a sessão WinRM
+                          session = winrm.Session(remote_host, auth=(username, password))
+
+                          # Script PowerShell que será executado na máquina remota
+                          ps_script = r"""
+                           $address = 'http://localhost:8080/upload/'
+                          $passwordEsperado = 'senhaSegura123'
+                          $listener = New-Object System.Net.HttpListener
+                          $listener.Prefixes.Add($address)
+                          $listener.Start()
+                          Write-Host "Listening on $address"
+                          try {
+                              $context = $listener.GetContext()
+                              $request = $context.Request
+                              if ($request.HttpMethod -eq 'POST') {
+                                  $receivedPassword = $request.Headers["Password"]
+                                  if ($receivedPassword -eq $passwordEsperado) {
+                                      $filePath = "C:\Users\diego_pereira\Desktop\uploadedfile.zip"
+                                      $fileStream = [System.IO.File]::OpenWrite($filePath)
+                                      $request.InputStream.CopyTo($fileStream)
+                                      $fileStream.Close()
+                                      Write-Host "File uploaded to $filePath"
+                                      $response = $context.Response
+                                      $response.StatusCode = 200
+                                      $response.Close()
+                                  } else {
+                                      $response = $context.Response
+                                      $response.StatusCode = 403
+                                      $response.Close()
+                                      Write-Host "Senha incorreta fornecida, arquivo no aceito."
+                                  }
                               }
-                          }
-                      } finally {
-                          $listener.Stop()
-                          Write-Host "Listener stopped"
-                      } 
-                      """
+                          } finally {
+                              $listener.Stop()
+                              Write-Host "Listener stopped"
+                          } 
+                          """
 
-                      # Executar o script PowerShell em segundo plano na máquina remota
-                      session.run_ps(ps_script)
+                          # Executar o script PowerShell em segundo plano na máquina remota
+                          session.run_ps(ps_script)
+                      when:
+                        stageStatus: Success
+                        condition: "false"
+                  - step:
+                      type: Run
+                      name: Check Files
+                      identifier: Check_Files
+                      spec:
+                        shell: Sh
+                        command: |-
+                          ls -ltra
+                          du -h
               - parallel:
                   - step:
                       type: Run
