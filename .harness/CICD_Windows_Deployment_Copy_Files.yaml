@@ -164,7 +164,7 @@ pipeline:
 
                           from winrmcp import Client
 
-                          client = Client('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+                          client = Client('35.223.187.17:5985', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
                           client.copy('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
 
