@@ -72,7 +72,7 @@ pipeline:
 
                       # Main
                       filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
-                      split_file(filePath, 256 * 1024)  # 500 KB por
+                      split_file(filePath, 64 * 1024)  # 500 KB por
               - parallel:
                   - step:
                       type: Background
