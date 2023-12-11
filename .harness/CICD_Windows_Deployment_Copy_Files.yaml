@@ -55,8 +55,6 @@ pipeline:
                   spec:
                     shell: Python
                     command: |
-
-
                       def split_file(file_path, part_size):
                           part_num = 1
                           with open(file_path, 'rb') as file:
@@ -65,13 +63,15 @@ pipeline:
                                   if not data:
                                       break
                                   part_file_name = f"{file_path}_part{part_num}"
+                                  print(f"Criando parte {part_num}: {part_file_name}")
                                   with open(part_file_name, 'wb') as part_file:
                                       part_file.write(data)
                                   part_num += 1
+                          print(f"Divisão concluída. Total de {part_num - 1} partes criadas.")
 
                       # Main
                       filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
-                      split_file(filePath, 1*512*512)  # 10 MB por parte
+                      split_file(filePath, 512 * 1024)  # 500 KB por
               - parallel:
                   - step:
                       type: Background
@@ -140,7 +140,7 @@ pipeline:
                         shell: Sh
                         command: |-
                           ls -ltra
-                          du -h
+                          du -h *
               - parallel:
                   - step:
                       type: Run
@@ -152,11 +152,10 @@ pipeline:
                         shell: Python
                         command: |
                           import winrm
-                          import base64
                           import os
 
                           # Configurar a conexão
-                          session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+                          session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', 'senha'))
 
                           # Diretório e prefixo das partes do arquivo
                           dir_path = '/harness/'
@@ -167,23 +166,26 @@ pipeline:
 
                           # Enviar cada parte
                           for part_file in part_files:
+                              print(f"Enviando {part_file}...")
                               with open(os.path.join(dir_path, part_file), 'r') as file:
                                   encoded_string = file.read()
 
                               # Comando PowerShell para decodificar e salvar o arquivo
-                              ps_script = """
-                              $fileContent = '{}'
+                              ps_script = f"""
+                              $fileContent = '{encoded_string}'
                               $decodedBytes = [System.Convert]::FromBase64String($fileContent)
-                              [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\{}', $decodedBytes)
-                              """.format(encoded_string, part_file)
+                              [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\{part_file}', $decodedBytes)
+                              """
 
                               # Executar o comando
                               response = session.run_ps(ps_script)
 
                               if response.status_code == 0:
-                                  print(f"{part_file} transferred successfully.")
+                                  print(f"{part_file} transferido com sucesso.")
                               else:
-                                  print(f"Error in transferring {part_file}:", response.std_err)
+                                  print(f"Erro ao transferir {part_file}: {response.std_err}")
+
+                          print("Processo de envio concluído.")
                       when:
                         stageStatus: Success
                   - step:
