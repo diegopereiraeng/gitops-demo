@@ -155,7 +155,7 @@ pipeline:
                           import os
 
                           # Configurar a conexão
-                          session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', 'senha'))
+                          session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
                           # Diretório e prefixo das partes do arquivo
                           dir_path = '/harness/'
