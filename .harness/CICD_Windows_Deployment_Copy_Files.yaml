@@ -63,7 +63,7 @@ pipeline:
                                   if not data:
                                       break
                                   # part_file_name = f"{file_path}_part{part_num}"
-                                  part_file_name = f"Duke_part{part_num}"
+                                  part_file_name = f"Duke.prt{part_num}"
                                   print(f"Criando parte {part_num}: {part_file_name}")
                                   with open(part_file_name, 'wb') as part_file:
                                       part_file.write(data)
@@ -161,7 +161,7 @@ pipeline:
                           # Diretório e prefixo das partes do arquivo
                           dir_path = '/harness/'
                           # file_prefix = 'Duke_Nukem_3D_DOS_EN.zip.b64_part'
-                          file_prefix = 'Duke_part'
+                          file_prefix = 'Duke.prt'
 
                           # Encontrar todas as partes
                           part_files = [f for f in os.listdir(dir_path) if f.startswith(file_prefix)]
