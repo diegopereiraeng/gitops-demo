@@ -55,7 +55,7 @@ pipeline:
                   spec:
                     shell: Python
                     command: |
-                      $filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
+
 
                       def split_file(file_path, part_size):
                           part_num = 1
@@ -69,7 +69,8 @@ pipeline:
                                       part_file.write(data)
                                   part_num += 1
 
-                      # Exemplo de uso
+                      # Main
+                      filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
                       split_file(filePath, 10*1024*1024)  # 10 MB por parte
               - parallel:
                   - step:
