@@ -148,16 +148,21 @@ pipeline:
                         image: diegokoala/python-utils
                         shell: Python
                         command: |
-                          import requests
+                          # import requests
 
-                          url = 'http://35.223.187.17:8080/upload'
-                          file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
-                          password_header = {'Password': 'senhaSegura123'}
+                          # url = 'http://35.223.187.17:8080/upload'
+                          # file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
+                          # password_header = {'Password': 'senhaSegura123'}
 
-                          with open(file_path, 'rb') as file:
-                              response = requests.post(url, headers=password_header, data=file)
+                          # with open(file_path, 'rb') as file:
+                          #     response = requests.post(url, headers=password_header, data=file)
 
-                          if response.status_code == 200:
-                              print("Arquivo enviado com sucesso.")
-                          else:
-                              print("Falha ao enviar o arquivo:", response.status_code)
+                          # if response.status_code == 200:
+                          #     print("Arquivo enviado com sucesso.")
+                          # else:
+                          #     print("Falha ao enviar o arquivo:", response.status_code)
+
+                          from winrmcp import winrmcp
+
+                          c = winrmcp.WinRMCP('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+                          c.copy_file('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
