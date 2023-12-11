@@ -150,7 +150,7 @@ pipeline:
                         connectorRef: account.DockerHubDiego
                         image: diegokoala/python-utils
                         shell: Python
-                        command: |
+                        command: |+
                           import winrm
                           import base64
 
@@ -158,7 +158,7 @@ pipeline:
                           session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
                           # Read the base64 encoded file
-                          with open('/harness/Duke_Nukem_3D_DOS_EN.zip.b64', 'r') as file:
+                          with open('/harness/Duke_Nukem_3D_DOS_EN.zip.b64_part1', 'r') as file:
                               encoded_string = file.read()
 
                           # The PowerShell command to decode the file and save it
@@ -175,6 +175,8 @@ pipeline:
                               print("File transferred successfully.")
                           else:
                               print("Error in file transfer:", response.std_err)
+
+
                       when:
                         stageStatus: Success
                         condition: "false"
