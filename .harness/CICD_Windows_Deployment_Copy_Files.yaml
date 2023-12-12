@@ -222,3 +222,10 @@ pipeline:
                       when:
                         stageStatus: Success
                         condition: "false"
+              - step:
+                  type: Run
+                  name: Run_6
+                  identifier: Run_6
+                  spec:
+                    shell: Sh
+                    command: aaa
