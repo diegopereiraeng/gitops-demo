@@ -131,6 +131,40 @@ pipeline:
                                       print(f"Exception occurred with chunk {i+1}: {e}")
 
                               print("File transfer completed.")
+                      - step:
+                          type: Run
+                          name: Copy Final
+                          identifier: Copy_Final
+                          spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/python-utils
+                            shell: Powershell
+                            command: |
+                              # PowerShell Core Script for Basic Authentication over WinRM
+
+                              # Print start message
+                              Write-Host "Started"
+
+                              # Variables from Python script
+                              $winrmUrl = 'http://35.223.187.17:5985/wsman'
+                              $username = 'diego_pereira'
+                              $password = '<+secrets.getValue("windows_diego")>' # Replace with actual method to retrieve password
+
+                              # Convert password to SecureString
+                              $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+                              $credential = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
+
+                              # Establish PowerShell Remoting Session
+                              $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck -SkipRevocationCheck
+                              $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
+
+                              # Example command to copy a file on the remote machine
+                              Invoke-Command -Session $session -ScriptBlock {
+                                  Copy-Item -Path "/harness/Duke_Nukem_3D_DOS_EN.zip" -Destination "C:\Users\diego_pereira\Desktop"
+                              }
+
+                              # Close the session
+                              Remove-PSSession -Session $session
                   - parallel:
                       - step:
                           type: Background
