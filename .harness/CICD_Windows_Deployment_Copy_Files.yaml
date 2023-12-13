@@ -155,7 +155,7 @@ pipeline:
                               $credential = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
 
                               # Establish PowerShell Remoting Session
-                              $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck -SkipRevocationCheck
+                              $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck
                               $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
 
                               # Example command to copy a file on the remote machine
