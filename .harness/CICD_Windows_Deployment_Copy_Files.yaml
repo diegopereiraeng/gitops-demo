@@ -87,18 +87,23 @@ pipeline:
                               import winrm
                               import base64
 
+                              print(f"Started")
+
                               # Configure WinRM session
                               session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
+                              print(f"Connected")
                               # Path of the binary file to be copied and the output path
                               binary_file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
                               output_path = 'C:\\Users\\diego_pereira\\Desktop\\Duke_Nukem_3D_DOS_EN.zip'
 
+                              print(f"Splitting")
                               # Read the binary file and encode it in base64
                               with open(binary_file_path, 'rb') as binary_file:
                                   binary_data = binary_file.read()
                                   encoded_data = base64.b64encode(binary_data).decode('utf-8')
 
+                              print(f"Ended split")
                               # Split the encoded data into chunks
                               chunk_size = 2000  # Adjust chunk size as needed
                               chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
