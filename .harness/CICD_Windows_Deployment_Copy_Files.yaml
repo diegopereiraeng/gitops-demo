@@ -146,7 +146,7 @@ pipeline:
                               Write-Host "Started"
 
                               # Variables from Python script
-                              $winrmUrl = 'http://35.223.187.17:5985/wsman'
+                              $winrmUrl = '35.223.187.17'
                               $username = 'diego_pereira'
                               $password = '<+secrets.getValue("windows_diego")>' # Replace with actual method to retrieve password
 
@@ -156,8 +156,7 @@ pipeline:
 
                               # Establish PowerShell Remoting Session
                               $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck
-                              $connectionUri = New-Object System.Uri($winrmUrl)
-                              $session = New-PSSession -ConnectionUri $connectionUri -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
+                              $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
 
                               # Example command to copy a file on the remote machine
                               Invoke-Command -Session $session -ScriptBlock {
