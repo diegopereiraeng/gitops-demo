@@ -49,31 +49,81 @@ pipeline:
                           ls -ltra
 
                           du -h
-                  - step:
-                      type: Run
-                      name: Split Files
-                      identifier: Split_Files
-                      spec:
-                        shell: Python
-                        command: |
-                          def split_file(file_path, part_size):
-                              part_num = 1
-                              with open(file_path, 'rb') as file:
-                                  while True:
-                                      data = file.read(part_size)
-                                      if not data:
-                                          break
-                                      # part_file_name = f"{file_path}_part{part_num}"
-                                      part_file_name = f"Duke.prt{part_num}"
-                                      print(f"Criando parte {part_num}: {part_file_name}")
-                                      with open(part_file_name, 'wb') as part_file:
-                                          part_file.write(data)
-                                      part_num += 1
-                              print(f"Divisão concluída. Total de {part_num - 1} partes criadas.")
+                  - parallel:
+                      - step:
+                          type: Run
+                          name: Split Files
+                          identifier: Split_Files
+                          spec:
+                            shell: Python
+                            command: |
+                              def split_file(file_path, part_size):
+                                  part_num = 1
+                                  with open(file_path, 'rb') as file:
+                                      while True:
+                                          data = file.read(part_size)
+                                          if not data:
+                                              break
+                                          # part_file_name = f"{file_path}_part{part_num}"
+                                          part_file_name = f"Duke.prt{part_num}"
+                                          print(f"Criando parte {part_num}: {part_file_name}")
+                                          with open(part_file_name, 'wb') as part_file:
+                                              part_file.write(data)
+                                          part_num += 1
+                                  print(f"Divisão concluída. Total de {part_num - 1} partes criadas.")
 
-                          # Main
-                          filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
-                          split_file(filePath, 10 * 1024 * 1024)  # 500 KB por
+                              # Main
+                              filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
+                              split_file(filePath, 10 * 1024 * 1024)  # 500 KB por
+                      - step:
+                          type: Run
+                          name: Copy 3
+                          identifier: Copy_3
+                          spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/python-utils
+                            shell: Python
+                            command: |-
+                              import winrm
+                              import os
+                              import base64
+
+                              # Configure WinRM session
+                              session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+
+                              # Path of the binary file to be copied
+                              binary_file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
+
+                              # Read the binary file and encode it in base64
+                              with open(binary_file_path, 'rb') as binary_file:
+                                  binary_data = binary_file.read()
+                                  encoded_data = base64.b64encode(binary_data).decode('utf-8')
+
+                              # Split the encoded data into chunks
+                              chunk_size = 2000
+                              chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
+
+                              # PowerShell script template to convert base64 chunk to binary and append to the file
+                              ps_script_template = """
+                              $chunkPath = 'C:\path\to\temp\chunk{chunk_index}.txt'
+                              [System.IO.File]::WriteAllText($chunkPath, '{chunk_data}')
+                              $chunkData = [System.IO.File]::ReadAllText($chunkPath)
+                              $decodedBytes = [System.Convert]::FromBase64String($chunkData)
+                              [System.IO.File]::WriteAllBytes('C:\path\to\output\binaryfile', $decodedBytes)
+                              Remove-Item $chunkPath
+                              """
+
+                              # Send each chunk and append it to the file on the Windows machine
+                              for i, chunk in enumerate(chunks):
+                                  print(f"Sending chunk {i+1}/{len(chunks)}")
+                                  ps_script = ps_script_template.format(chunk_index=i, chunk_data=chunk)
+                                  response = session.run_ps(ps_script)
+                                  
+                                  if response.status_code != 0:
+                                      print(f"Error sending chunk {i+1}: {response.std_err}")
+                                      break
+
+                              print("File transfer completed.")
                   - parallel:
                       - step:
                           type: Background
@@ -224,55 +274,6 @@ pipeline:
                           when:
                             stageStatus: Success
                             condition: "false"
-                      - step:
-                          type: Run
-                          name: Copy 3
-                          identifier: Copy_3
-                          spec:
-                            connectorRef: account.DockerHubDiego
-                            image: diegokoala/python-utils
-                            shell: Python
-                            command: |-
-                              import winrm
-                              import os
-                              import base64
-
-                              # Configure WinRM session
-                              session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
-
-                              # Path of the binary file to be copied
-                              binary_file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
-
-                              # Read the binary file and encode it in base64
-                              with open(binary_file_path, 'rb') as binary_file:
-                                  binary_data = binary_file.read()
-                                  encoded_data = base64.b64encode(binary_data).decode('utf-8')
-
-                              # Split the encoded data into chunks
-                              chunk_size = 2000
-                              chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
-
-                              # PowerShell script template to convert base64 chunk to binary and append to the file
-                              ps_script_template = """
-                              $chunkPath = 'C:\path\to\temp\chunk{chunk_index}.txt'
-                              [System.IO.File]::WriteAllText($chunkPath, '{chunk_data}')
-                              $chunkData = [System.IO.File]::ReadAllText($chunkPath)
-                              $decodedBytes = [System.Convert]::FromBase64String($chunkData)
-                              [System.IO.File]::WriteAllBytes('C:\path\to\output\binaryfile', $decodedBytes)
-                              Remove-Item $chunkPath
-                              """
-
-                              # Send each chunk and append it to the file on the Windows machine
-                              for i, chunk in enumerate(chunks):
-                                  print(f"Sending chunk {i+1}/{len(chunks)}")
-                                  ps_script = ps_script_template.format(chunk_index=i, chunk_data=chunk)
-                                  response = session.run_ps(ps_script)
-                                  
-                                  if response.status_code != 0:
-                                      print(f"Error sending chunk {i+1}: {response.std_err}")
-                                      break
-
-                              print("File transfer completed.")
         - stage:
             name: deploy windows
             identifier: deploy_windows
