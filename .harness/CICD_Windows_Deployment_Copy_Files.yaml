@@ -145,6 +145,8 @@ pipeline:
                               # Print start message
                               Write-Host "Started"
 
+                              pwsh -Command 'Install-Module -Name PSWSMan'
+
                               # Variables from Python script
                               $winrmUrl = '35.223.187.17'
                               $username = 'diego_pereira'
