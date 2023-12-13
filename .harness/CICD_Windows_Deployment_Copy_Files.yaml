@@ -138,7 +138,7 @@ pipeline:
                           spec:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/python-utils
-                            shell: Powershell
+                            shell: Pwsh
                             command: |
                               # PowerShell Core Script for Basic Authentication over WinRM
 
