@@ -103,39 +103,27 @@ pipeline:
                               chunk_size = 2000  # Adjust chunk size as needed
                               chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
 
+                              print(f"Total number of chunks to send: {len(chunks)}")
+
+                              # PowerShell script template to convert base64 chunk to binary and append to the file
+                              ps_script_template = """
+                              $chunkData = '{chunk_data}'
+                              $decodedBytes = [System.Convert]::FromBase64String($chunkData)
+                              [System.IO.File]::WriteAllBytes('{output_path}', $decodedBytes, [System.IO.FileMode]::Append)
+                              """
+
                               # Send each chunk and append it to the file on the Windows machine
                               for i, chunk in enumerate(chunks):
                                   print(f"Sending chunk {i+1}/{len(chunks)}")
-
-                                  # PowerShell script to create a temporary file with the chunk data
-                                  ps_script_create = f"""
-                                  $chunkData = '{chunk}'
-                                  $chunkBytes = [System.Convert]::FromBase64String($chunkData)
-                                  $tempPath = 'C:\\Users\\diego_pereira\\Desktop\\temp_chunk{i}.bin'
-                                  [System.IO.File]::WriteAllBytes($tempPath, $chunkBytes)
-                                  """
-
-                                  # PowerShell script to append the temporary file to the main file
-                                  ps_script_append = f"""
-                                  $tempPath = 'C:\\Users\\diego_pereira\\Desktop\\temp_chunk{i}.bin'
-                                  $mainPath = '{output_path}'
-                                  $fileStream = [System.IO.File]::Open($mainPath, [System.IO.FileMode]::Append)
-                                  $tempBytes = [System.IO.File]::ReadAllBytes($tempPath)
-                                  $fileStream.Write($tempBytes, 0, $tempBytes.Length)
-                                  $fileStream.Close()
-                                  Remove-Item $tempPath
-                                  """
-
-                                  # Execute the PowerShell scripts
-                                  response_create = session.run_ps(ps_script_create)
-                                  if response_create.status_code != 0:
-                                      print(f"Error creating chunk {i+1}: {response_create.std_err}")
-                                      break
-
-                                  response_append = session.run_ps(ps_script_append)
-                                  if response_append.status_code != 0:
-                                      print(f"Error appending chunk {i+1}: {response_append.std_err}")
-                                      break
+                                  ps_script = ps_script_template.format(chunk_data=chunk, output_path=output_path)
+                                  try:
+                                      response = session.run_ps(ps_script)
+                                      if response.status_code == 0:
+                                          print(f"Chunk {i+1} sent and appended successfully.")
+                                      else:
+                                          print(f"Error with chunk {i+1}: {response.std_err}")
+                                  except Exception as e:
+                                      print(f"Exception occurred with chunk {i+1}: {e}")
 
                               print("File transfer completed.")
                   - parallel:
