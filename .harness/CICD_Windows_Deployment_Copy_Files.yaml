@@ -170,7 +170,7 @@ pipeline:
                               # Enviar cada parte
                               for part_file in part_files:
                                   print(f"Enviando {part_file}...")
-                                  with open(os.path.join(dir_path, part_file), 'r') as file:
+                                  with open(os.path.join(dir_path, part_file), 'rb') as file:
                                       encoded_string = file.read()
 
                                   # Comando PowerShell para decodificar e salvar o arquivo
