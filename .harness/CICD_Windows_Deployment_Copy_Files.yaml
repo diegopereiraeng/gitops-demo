@@ -100,16 +100,14 @@ pipeline:
                                   encoded_data = base64.b64encode(binary_data).decode('utf-8')
 
                               # Split the encoded data into chunks
-                              chunk_size = 2000  # Adjust as needed
+                              chunk_size = 2000  # Adjust chunk size as needed
                               chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
 
-                              # PowerShell script template to append a chunk of data to the output file
+                              # PowerShell script template to convert base64 chunk to binary and append to the file
                               ps_script_template = """
                               $chunkData = '{chunk_data}'
                               $decodedBytes = [System.Convert]::FromBase64String($chunkData)
-                              $fileStream = [System.IO.File]::Open('{output_path}', [System.IO.FileMode]::Append, [System.IO.FileAccess]::Write)
-                              $fileStream.Write($decodedBytes, 0, $decodedBytes.Length)
-                              $fileStream.Close()
+                              [System.IO.File]::WriteAllBytes('{output_path}', $decodedBytes, [System.IO.FileMode]::Append)
                               """
 
                               # Send each chunk and append it to the file on the Windows machine
