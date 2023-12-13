@@ -83,15 +83,14 @@ pipeline:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/python-utils
                             shell: Python
-                            command: |-
+                            command: |
                               import winrm
-                              import os
                               import base64
 
                               # Configure WinRM session
                               session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
 
-                              # Path of the binary file to be copied
+                              # Path of the binary file to be copied and the output path
                               binary_file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
                               output_path = 'C:\\Users\\diego_pereira\\Desktop\\Duke_Nukem_3D_DOS_EN.zip'
 
@@ -101,37 +100,27 @@ pipeline:
                                   encoded_data = base64.b64encode(binary_data).decode('utf-8')
 
                               # Split the encoded data into chunks
-                              chunk_size = 2000
+                              chunk_size = 2000  # Adjust as needed
                               chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
 
-                              # Upload each chunk as a separate file
-                              for i, chunk in enumerate(chunks):
-                                  chunk_file_path = f'/harness/chunk{i}.txt'
-                                  with open(chunk_file_path, 'w') as chunk_file:
-                                      chunk_file.write(chunk)
-                                  
-                                  remote_chunk_path = f'C:\\Users\\diego_pereira\\Desktop\\chunk{i}.txt'
-                                  session.protocol.put_file(chunk_file_path, remote_chunk_path)
-                                  os.remove(chunk_file_path)
-                                  print(f"Chunk {i+1}/{len(chunks)} uploaded")
-
-                              # PowerShell script to reassemble the binary file from chunks
-                              ps_script = f"""
-                              $chunkFiles = Get-ChildItem 'C:\\Users\\diego_pereira\\Desktop' -Filter 'chunk*.txt'
-                              foreach ($chunkFile in $chunkFiles) {{
-                                  $chunkData = [System.IO.File]::ReadAllText($chunkFile.FullName)
-                                  $decodedBytes = [System.Convert]::FromBase64String($chunkData)
-                                  [System.IO.File]::WriteAllBytes('{output_path}', $decodedBytes, 'Append')
-                                  Remove-Item $chunkFile.FullName
-                              }}
+                              # PowerShell script template to append a chunk of data to the output file
+                              ps_script_template = """
+                              $chunkData = '{chunk_data}'
+                              $decodedBytes = [System.Convert]::FromBase64String($chunkData)
+                              [System.IO.File]::WriteAllBytes('{output_path}', $decodedBytes, [System.IO.FileMode]::Append)
                               """
 
-                              # Execute the PowerShell script
-                              response = session.run_ps(ps_script)
-                              if response.status_code == 0:
-                                  print("File reassembled successfully")
-                              else:
-                                  print(f"Error reassembling file: {response.std_err}")
+                              # Send each chunk and append it to the file on the Windows machine
+                              for i, chunk in enumerate(chunks):
+                                  print(f"Sending chunk {i+1}/{len(chunks)}")
+                                  ps_script = ps_script_template.format(chunk_data=chunk, output_path=output_path)
+                                  response = session.run_ps(ps_script)
+                                  
+                                  if response.status_code != 0:
+                                      print(f"Error sending chunk {i+1}: {response.std_err}")
+                                      break
+
+                              print("File transfer completed.")
                   - parallel:
                       - step:
                           type: Background
