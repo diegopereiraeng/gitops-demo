@@ -156,7 +156,8 @@ pipeline:
 
                               # Establish PowerShell Remoting Session
                               $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck
-                              $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
+                              $connectionUri = New-Object System.Uri($winrmUrl)
+                              $session = New-PSSession -ConnectionUri $connectionUri -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
 
                               # Example command to copy a file on the remote machine
                               Invoke-Command -Session $session -ScriptBlock {
