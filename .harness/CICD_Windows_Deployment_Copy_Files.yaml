@@ -167,17 +167,6 @@ pipeline:
                               # Encontrar todas as partes
                               part_files = [f for f in os.listdir(dir_path) if f.startswith(file_prefix)]
 
-                              tools_script = f"""
-                              Invoke-Command -ScriptBlock {  get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb }
-                              """
-                              # Executar o comando
-                              responsetools = session.run_ps(tools_script)
-
-                              if responsetools.status_code == 0:
-                                  print(f"response: {response.std_out}")
-                              else:
-                                  print(f"Erro ao transferir {part_file}: {response.std_err}")
-
                               # Enviar cada parte
                               for part_file in part_files:
                                   print(f"Enviando {part_file}...")
@@ -285,7 +274,12 @@ pipeline:
                                           source:
                                             type: Inline
                                             spec:
-                                              script: Invoke-Command -ScriptBlock {  get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb }
+                                              script: |-
+                                                Invoke-Command -ScriptBlock {  get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb }
+
+                                                Invoke-Command -Session $ses -ScriptBlock {  set-WSManInstance -ResourceURI winrm/config -ValueSet @{MaxEnvelopeSizekb = "256000" }}
+
+                                                get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb
                 rollbackSteps:
                   - stepGroup:
                       name: Phase
