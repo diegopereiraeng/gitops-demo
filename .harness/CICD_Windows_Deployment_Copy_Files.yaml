@@ -107,7 +107,9 @@ pipeline:
                               ps_script_template = """
                               $chunkData = '{chunk_data}'
                               $decodedBytes = [System.Convert]::FromBase64String($chunkData)
-                              [System.IO.File]::WriteAllBytes('{output_path}', $decodedBytes, [System.IO.FileMode]::Append)
+                              $fileStream = [System.IO.File]::Open('{output_path}', [System.IO.FileMode]::Append, [System.IO.FileAccess]::Write)
+                              $fileStream.Write($decodedBytes, 0, $decodedBytes.Length)
+                              $fileStream.Close()
                               """
 
                               # Send each chunk and append it to the file on the Windows machine
