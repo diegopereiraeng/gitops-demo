@@ -277,7 +277,7 @@ pipeline:
                                               script: |-
                                                 Invoke-Command -ScriptBlock {  get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb }
 
-                                                Invoke-Command -Session $ses -ScriptBlock {  set-WSManInstance -ResourceURI winrm/config -ValueSet @{MaxEnvelopeSizekb = "256000" }}
+                                                Invoke-Command -ScriptBlock {  set-WSManInstance -ResourceURI winrm/config -ValueSet @{MaxEnvelopeSizekb = "256000" }}
 
                                                 get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb
                 rollbackSteps:
