@@ -232,7 +232,7 @@ pipeline:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/python-utils
                             shell: Python
-                            command: |
+                            command: |-
                               import winrm
                               import os
                               import base64
@@ -248,21 +248,24 @@ pipeline:
                                   binary_data = binary_file.read()
                                   encoded_data = base64.b64encode(binary_data).decode('utf-8')
 
-                              # Split the encoded data into chunks (PowerShell command size limit consideration)
-                              chunk_size = 2000  # PowerShell command length limit
+                              # Split the encoded data into chunks
+                              chunk_size = 4000
                               chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
 
-                              # PowerShell script template to append a chunk of data to a file
+                              # PowerShell script template to convert base64 chunk to binary and append to the file
                               ps_script_template = """
-                              $chunk = '{chunk_data}'
-                              $data = [System.Convert]::FromBase64String($chunk)
-                              Add-Content -Path 'C:\path\to\output\binaryfile' -Value $data -Encoding Byte
+                              $chunkPath = 'C:\path\to\temp\chunk{chunk_index}.txt'
+                              [System.IO.File]::WriteAllText($chunkPath, '{chunk_data}')
+                              $chunkData = [System.IO.File]::ReadAllText($chunkPath)
+                              $decodedBytes = [System.Convert]::FromBase64String($chunkData)
+                              [System.IO.File]::WriteAllBytes('C:\path\to\output\binaryfile', $decodedBytes)
+                              Remove-Item $chunkPath
                               """
 
                               # Send each chunk and append it to the file on the Windows machine
                               for i, chunk in enumerate(chunks):
                                   print(f"Sending chunk {i+1}/{len(chunks)}")
-                                  ps_script = ps_script_template.format(chunk_data=chunk)
+                                  ps_script = ps_script_template.format(chunk_index=i, chunk_data=chunk)
                                   response = session.run_ps(ps_script)
                                   
                                   if response.status_code != 0:
