@@ -145,6 +145,7 @@ pipeline:
                               # Print start message
                               Write-Host "Started"
 
+                              Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
                               pwsh -Command 'Install-Module -Name PSWSMan'
 
                               # Variables from Python script
