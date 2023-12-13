@@ -93,6 +93,7 @@ pipeline:
 
                               # Path of the binary file to be copied
                               binary_file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
+                              output_path = 'C:\\Users\\diego_pereira\\Desktop\\Duke_Nukem_3D_DOS_EN.zip'
 
                               # Read the binary file and encode it in base64
                               with open(binary_file_path, 'rb') as binary_file:
@@ -103,27 +104,34 @@ pipeline:
                               chunk_size = 2000
                               chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
 
-                              # PowerShell script template to convert base64 chunk to binary and append to the file
-                              ps_script_template = """
-                              $chunkPath = 'C:\path\to\temp\chunk{chunk_index}.txt'
-                              [System.IO.File]::WriteAllText($chunkPath, '{chunk_data}')
-                              $chunkData = [System.IO.File]::ReadAllText($chunkPath)
-                              $decodedBytes = [System.Convert]::FromBase64String($chunkData)
-                              [System.IO.File]::WriteAllBytes('C:\path\to\output\binaryfile', $decodedBytes)
-                              Remove-Item $chunkPath
+                              # Upload each chunk as a separate file
+                              for i, chunk in enumerate(chunks):
+                                  chunk_file_path = f'/harness/chunk{i}.txt'
+                                  with open(chunk_file_path, 'w') as chunk_file:
+                                      chunk_file.write(chunk)
+                                  
+                                  remote_chunk_path = f'C:\\Users\\diego_pereira\\Desktop\\chunk{i}.txt'
+                                  session.protocol.put_file(chunk_file_path, remote_chunk_path)
+                                  os.remove(chunk_file_path)
+                                  print(f"Chunk {i+1}/{len(chunks)} uploaded")
+
+                              # PowerShell script to reassemble the binary file from chunks
+                              ps_script = f"""
+                              $chunkFiles = Get-ChildItem 'C:\\Users\\diego_pereira\\Desktop' -Filter 'chunk*.txt'
+                              foreach ($chunkFile in $chunkFiles) {{
+                                  $chunkData = [System.IO.File]::ReadAllText($chunkFile.FullName)
+                                  $decodedBytes = [System.Convert]::FromBase64String($chunkData)
+                                  [System.IO.File]::WriteAllBytes('{output_path}', $decodedBytes, 'Append')
+                                  Remove-Item $chunkFile.FullName
+                              }}
                               """
 
-                              # Send each chunk and append it to the file on the Windows machine
-                              for i, chunk in enumerate(chunks):
-                                  print(f"Sending chunk {i+1}/{len(chunks)}")
-                                  ps_script = ps_script_template.format(chunk_index=i, chunk_data=chunk)
-                                  response = session.run_ps(ps_script)
-                                  
-                                  if response.status_code != 0:
-                                      print(f"Error sending chunk {i+1}: {response.std_err}")
-                                      break
-
-                              print("File transfer completed.")
+                              # Execute the PowerShell script
+                              response = session.run_ps(ps_script)
+                              if response.status_code == 0:
+                                  print("File reassembled successfully")
+                              else:
+                                  print(f"Error reassembling file: {response.std_err}")
                   - parallel:
                       - step:
                           type: Background
