@@ -191,6 +191,7 @@ pipeline:
                               print("Processo de envio concluído.")
                           when:
                             stageStatus: Success
+                            condition: "false"
                       - step:
                           type: Run
                           name: Send Files
@@ -228,6 +229,8 @@ pipeline:
                           name: Copy 3
                           identifier: Copy_3
                           spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/python-utils
                             shell: Python
                             command: |
                               import winrm
