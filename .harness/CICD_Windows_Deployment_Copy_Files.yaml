@@ -223,6 +223,50 @@ pipeline:
                           when:
                             stageStatus: Success
                             condition: "false"
+                      - step:
+                          type: Run
+                          name: Copy 3
+                          identifier: Copy_3
+                          spec:
+                            shell: Python
+                            command: |
+                              import winrm
+                              import os
+                              import base64
+
+                              # Configure WinRM session
+                              session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+
+                              # Path of the binary file to be copied
+                              binary_file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
+
+                              # Read the binary file and encode it in base64
+                              with open(binary_file_path, 'rb') as binary_file:
+                                  binary_data = binary_file.read()
+                                  encoded_data = base64.b64encode(binary_data).decode('utf-8')
+
+                              # Split the encoded data into chunks (PowerShell command size limit consideration)
+                              chunk_size = 8000  # PowerShell command length limit
+                              chunks = [encoded_data[i:i+chunk_size] for i in range(0, len(encoded_data), chunk_size)]
+
+                              # PowerShell script template to append a chunk of data to a file
+                              ps_script_template = """
+                              $chunk = '{chunk_data}'
+                              $data = [System.Convert]::FromBase64String($chunk)
+                              Add-Content -Path 'C:\path\to\output\binaryfile' -Value $data -Encoding Byte
+                              """
+
+                              # Send each chunk and append it to the file on the Windows machine
+                              for i, chunk in enumerate(chunks):
+                                  print(f"Sending chunk {i+1}/{len(chunks)}")
+                                  ps_script = ps_script_template.format(chunk_data=chunk)
+                                  response = session.run_ps(ps_script)
+                                  
+                                  if response.status_code != 0:
+                                      print(f"Error sending chunk {i+1}: {response.std_err}")
+                                      break
+
+                              print("File transfer completed.")
         - stage:
             name: deploy windows
             identifier: deploy_windows
