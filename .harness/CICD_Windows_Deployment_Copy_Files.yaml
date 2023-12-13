@@ -11,221 +11,331 @@ pipeline:
         repoName: python-utils
         build: <+input>
   stages:
-    - stage:
-        name: Build Windows
-        identifier: Build_Windows
-        description: ""
-        type: CI
-        spec:
-          cloneCodebase: true
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Cloud
-            spec: {}
-          execution:
-            steps:
-              - step:
-                  type: Run
-                  name: Build Windows
-                  identifier: Build_Windows
-                  spec:
-                    connectorRef: account.DockerHubDiego
-                    image: diegokoala/python-utils
-                    shell: Sh
-                    command: |-
-                      # Zip the Dockerfile
-                      zip Dockerfile.zip /harness/Dockerfile
-
-                      # Convert the zip file to a base64 encoded file
-                      base64 Dockerfile.zip > Dockerfile.zip.b64
-
-                      wget https://archive.org/download/duke-nukem-3-d-dos-en/Duke_Nukem_3D_DOS_EN.zip
-
-                      base64 Duke_Nukem_3D_DOS_EN.zip > Duke_Nukem_3D_DOS_EN.zip.b64
-
-                      ls -ltra
-
-                      du -h
-              - step:
-                  type: Run
-                  name: Split Files
-                  identifier: Split_Files
-                  spec:
-                    shell: Python
-                    command: |
-                      def split_file(file_path, part_size):
-                          part_num = 1
-                          with open(file_path, 'rb') as file:
-                              while True:
-                                  data = file.read(part_size)
-                                  if not data:
-                                      break
-                                  # part_file_name = f"{file_path}_part{part_num}"
-                                  part_file_name = f"Duke.prt{part_num}"
-                                  print(f"Criando parte {part_num}: {part_file_name}")
-                                  with open(part_file_name, 'wb') as part_file:
-                                      part_file.write(data)
-                                  part_num += 1
-                          print(f"Divisão concluída. Total de {part_num - 1} partes criadas.")
-
-                      # Main
-                      filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
-                      split_file(filePath, 64 * 1024)  # 500 KB por
-              - parallel:
+    - parallel:
+        - stage:
+            name: Build Windows
+            identifier: Build_Windows
+            description: ""
+            type: CI
+            spec:
+              cloneCodebase: true
+              platform:
+                os: Linux
+                arch: Amd64
+              runtime:
+                type: Cloud
+                spec: {}
+              execution:
+                steps:
                   - step:
-                      type: Background
-                      name: Start Upload Server
-                      identifier: Upload_Server
+                      type: Run
+                      name: Build Windows
+                      identifier: Build_Windows
                       spec:
                         connectorRef: account.DockerHubDiego
                         image: diegokoala/python-utils
-                        shell: Python
-                        command: |-
-                          import winrm
-
-                          # Dados da conexão com a máquina remota
-                          remote_host = "35.223.187.17"
-                          username = "diego_pereira"
-                          password = "<+secrets.getValue("windows_diego")>"
-
-                          # Inicializa a sessão WinRM
-                          session = winrm.Session(remote_host, auth=(username, password))
-
-                          # Script PowerShell que será executado na máquina remota
-                          ps_script = r"""
-                           $address = 'http://localhost:8080/upload/'
-                          $passwordEsperado = 'senhaSegura123'
-                          $listener = New-Object System.Net.HttpListener
-                          $listener.Prefixes.Add($address)
-                          $listener.Start()
-                          Write-Host "Listening on $address"
-                          try {
-                              $context = $listener.GetContext()
-                              $request = $context.Request
-                              if ($request.HttpMethod -eq 'POST') {
-                                  $receivedPassword = $request.Headers["Password"]
-                                  if ($receivedPassword -eq $passwordEsperado) {
-                                      $filePath = "C:\Users\diego_pereira\Desktop\uploadedfile.zip"
-                                      $fileStream = [System.IO.File]::OpenWrite($filePath)
-                                      $request.InputStream.CopyTo($fileStream)
-                                      $fileStream.Close()
-                                      Write-Host "File uploaded to $filePath"
-                                      $response = $context.Response
-                                      $response.StatusCode = 200
-                                      $response.Close()
-                                  } else {
-                                      $response = $context.Response
-                                      $response.StatusCode = 403
-                                      $response.Close()
-                                      Write-Host "Senha incorreta fornecida, arquivo no aceito."
-                                  }
-                              }
-                          } finally {
-                              $listener.Stop()
-                              Write-Host "Listener stopped"
-                          } 
-                          """
-
-                          # Executar o script PowerShell em segundo plano na máquina remota
-                          session.run_ps(ps_script)
-                      when:
-                        stageStatus: Success
-                        condition: "false"
-                  - step:
-                      type: Run
-                      name: Check Files
-                      identifier: Check_Files
-                      spec:
                         shell: Sh
                         command: |-
+                          # Zip the Dockerfile
+                          zip Dockerfile.zip /harness/Dockerfile
+
+                          # Convert the zip file to a base64 encoded file
+                          base64 Dockerfile.zip > Dockerfile.zip.b64
+
+                          wget https://archive.org/download/duke-nukem-3-d-dos-en/Duke_Nukem_3D_DOS_EN.zip
+
+                          base64 Duke_Nukem_3D_DOS_EN.zip > Duke_Nukem_3D_DOS_EN.zip.b64
+
                           ls -ltra
-                          du -h *
-              - parallel:
+
+                          du -h
                   - step:
                       type: Run
-                      name: Copy Files
-                      identifier: Copy_Files
+                      name: Split Files
+                      identifier: Split_Files
                       spec:
-                        connectorRef: account.DockerHubDiego
-                        image: diegokoala/python-utils
                         shell: Python
                         command: |
-                          import winrm
-                          import os
+                          def split_file(file_path, part_size):
+                              part_num = 1
+                              with open(file_path, 'rb') as file:
+                                  while True:
+                                      data = file.read(part_size)
+                                      if not data:
+                                          break
+                                      # part_file_name = f"{file_path}_part{part_num}"
+                                      part_file_name = f"Duke.prt{part_num}"
+                                      print(f"Criando parte {part_num}: {part_file_name}")
+                                      with open(part_file_name, 'wb') as part_file:
+                                          part_file.write(data)
+                                      part_num += 1
+                              print(f"Divisão concluída. Total de {part_num - 1} partes criadas.")
 
-                          # Configurar a conexão
-                          session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+                          # Main
+                          filePath = "/harness/Duke_Nukem_3D_DOS_EN.zip.b64"
+                          split_file(filePath, 64 * 1024)  # 500 KB por
+                  - parallel:
+                      - step:
+                          type: Background
+                          name: Start Upload Server
+                          identifier: Upload_Server
+                          spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/python-utils
+                            shell: Python
+                            command: |-
+                              import winrm
 
-                          # Diretório e prefixo das partes do arquivo
-                          dir_path = '/harness/'
-                          # file_prefix = 'Duke_Nukem_3D_DOS_EN.zip.b64_part'
-                          file_prefix = 'Duke.prt'
+                              # Dados da conexão com a máquina remota
+                              remote_host = "35.223.187.17"
+                              username = "diego_pereira"
+                              password = "<+secrets.getValue("windows_diego")>"
 
-                          # Encontrar todas as partes
-                          part_files = [f for f in os.listdir(dir_path) if f.startswith(file_prefix)]
+                              # Inicializa a sessão WinRM
+                              session = winrm.Session(remote_host, auth=(username, password))
 
-                          # Enviar cada parte
-                          for part_file in part_files:
-                              print(f"Enviando {part_file}...")
-                              with open(os.path.join(dir_path, part_file), 'r') as file:
-                                  encoded_string = file.read()
-
-                              # Comando PowerShell para decodificar e salvar o arquivo
-                              ps_script = f"""
-                              $fileContent = '{encoded_string}'
-                              $decodedBytes = [System.Convert]::FromBase64String($fileContent)
-                              [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\{part_file}', $decodedBytes)
+                              # Script PowerShell que será executado na máquina remota
+                              ps_script = r"""
+                               $address = 'http://localhost:8080/upload/'
+                              $passwordEsperado = 'senhaSegura123'
+                              $listener = New-Object System.Net.HttpListener
+                              $listener.Prefixes.Add($address)
+                              $listener.Start()
+                              Write-Host "Listening on $address"
+                              try {
+                                  $context = $listener.GetContext()
+                                  $request = $context.Request
+                                  if ($request.HttpMethod -eq 'POST') {
+                                      $receivedPassword = $request.Headers["Password"]
+                                      if ($receivedPassword -eq $passwordEsperado) {
+                                          $filePath = "C:\Users\diego_pereira\Desktop\uploadedfile.zip"
+                                          $fileStream = [System.IO.File]::OpenWrite($filePath)
+                                          $request.InputStream.CopyTo($fileStream)
+                                          $fileStream.Close()
+                                          Write-Host "File uploaded to $filePath"
+                                          $response = $context.Response
+                                          $response.StatusCode = 200
+                                          $response.Close()
+                                      } else {
+                                          $response = $context.Response
+                                          $response.StatusCode = 403
+                                          $response.Close()
+                                          Write-Host "Senha incorreta fornecida, arquivo no aceito."
+                                      }
+                                  }
+                              } finally {
+                                  $listener.Stop()
+                                  Write-Host "Listener stopped"
+                              } 
                               """
 
-                              # Executar o comando
-                              response = session.run_ps(ps_script)
+                              # Executar o script PowerShell em segundo plano na máquina remota
+                              session.run_ps(ps_script)
+                          when:
+                            stageStatus: Success
+                            condition: "false"
+                      - step:
+                          type: Run
+                          name: Check Files
+                          identifier: Check_Files
+                          spec:
+                            shell: Sh
+                            command: |-
+                              ls -ltra
+                              du -h *
+                  - parallel:
+                      - step:
+                          type: Run
+                          name: Copy Files
+                          identifier: Copy_Files
+                          spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/python-utils
+                            shell: Python
+                            command: |
+                              import winrm
+                              import os
 
-                              if response.status_code == 0:
-                                  print(f"{part_file} transferido com sucesso.")
+                              # Configurar a conexão
+                              session = winrm.Session('http://35.223.187.17:5985/wsman', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+
+                              # Diretório e prefixo das partes do arquivo
+                              dir_path = '/harness/'
+                              # file_prefix = 'Duke_Nukem_3D_DOS_EN.zip.b64_part'
+                              file_prefix = 'Duke.prt'
+
+                              # Encontrar todas as partes
+                              part_files = [f for f in os.listdir(dir_path) if f.startswith(file_prefix)]
+
+                              tools_script = f"""
+                              Invoke-Command -ScriptBlock {  get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb }
+                              """
+                              # Executar o comando
+                              responsetools = session.run_ps(tools_script)
+
+                              if responsetools.status_code == 0:
+                                  print(f"response: {response.std_out}")
                               else:
                                   print(f"Erro ao transferir {part_file}: {response.std_err}")
 
-                          print("Processo de envio concluído.")
-                      when:
-                        stageStatus: Success
-                  - step:
-                      type: Run
-                      name: Send Files
-                      identifier: SendFiles
-                      spec:
-                        connectorRef: account.DockerHubDiego
-                        image: diegokoala/python-utils
-                        shell: Python
-                        command: |+
-                          # import requests
+                              # Enviar cada parte
+                              for part_file in part_files:
+                                  print(f"Enviando {part_file}...")
+                                  with open(os.path.join(dir_path, part_file), 'r') as file:
+                                      encoded_string = file.read()
 
-                          # url = 'http://35.223.187.17:8080/upload'
-                          # file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
-                          # password_header = {'Password': 'senhaSegura123'}
+                                  # Comando PowerShell para decodificar e salvar o arquivo
+                                  ps_script = f"""
+                                  $fileContent = '{encoded_string}'
+                                  $decodedBytes = [System.Convert]::FromBase64String($fileContent)
+                                  [System.IO.File]::WriteAllBytes('C:\\Users\\diego_pereira\\Desktop\\{part_file}', $decodedBytes)
+                                  """
 
-                          # with open(file_path, 'rb') as file:
-                          #     response = requests.post(url, headers=password_header, data=file)
+                                  # Executar o comando
+                                  response = session.run_ps(ps_script)
 
-                          # if response.status_code == 200:
-                          #     print("Arquivo enviado com sucesso.")
-                          # else:
-                          #     print("Falha ao enviar o arquivo:", response.status_code)
+                                  if response.status_code == 0:
+                                      print(f"{part_file} transferido com sucesso.")
+                                  else:
+                                      print(f"Erro ao transferir {part_file}: {response.std_err}")
 
-                          from winrmcp import Client
+                              print("Processo de envio concluído.")
+                          when:
+                            stageStatus: Success
+                      - step:
+                          type: Run
+                          name: Send Files
+                          identifier: SendFiles
+                          spec:
+                            connectorRef: account.DockerHubDiego
+                            image: diegokoala/python-utils
+                            shell: Python
+                            command: |+
+                              # import requests
 
-                          client = Client('35.223.187.17:5985', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+                              # url = 'http://35.223.187.17:8080/upload'
+                              # file_path = '/harness/Duke_Nukem_3D_DOS_EN.zip'
+                              # password_header = {'Password': 'senhaSegura123'}
 
-                          client.copy('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
+                              # with open(file_path, 'rb') as file:
+                              #     response = requests.post(url, headers=password_header, data=file)
 
-                      when:
-                        stageStatus: Success
-                        condition: "false"
-              - step:
-                  type: Run
-                  name: Run_6
-                  identifier: Run_6
-                  spec:
-                    shell: Sh
-                    command: aaa
+                              # if response.status_code == 200:
+                              #     print("Arquivo enviado com sucesso.")
+                              # else:
+                              #     print("Falha ao enviar o arquivo:", response.status_code)
+
+                              from winrmcp import Client
+
+                              client = Client('35.223.187.17:5985', auth=('diego_pereira', '<+secrets.getValue("windows_diego")>'))
+
+                              client.copy('/harness/Duke_Nukem_3D_DOS_EN.zip', 'C:\\Users\\diego_pereira\\Desktop\\DukeNuken.zip')
+
+                          when:
+                            stageStatus: Success
+                            condition: "false"
+        - stage:
+            name: deploy windows
+            identifier: deploy_windows
+            description: ""
+            type: Deployment
+            spec:
+              deploymentType: WinRm
+              service:
+                serviceRef: windowsservice
+              environment:
+                environmentRef: prod
+                deployToAll: false
+                infrastructureDefinitions:
+                  - identifier: windowsgcp
+              execution:
+                steps:
+                  - stepGroup:
+                      name: Phase
+                      identifier: Phase
+                      strategy:
+                        repeat:
+                          items: <+stage.output.hosts>
+                          maxConcurrency: 1
+                          partitionSize: 1
+                          unit: Count
+                      steps:
+                        - stepGroup:
+                            name: Phase Group
+                            identifier: phase_group
+                            strategy:
+                              repeat:
+                                items: <+repeat.partition>
+                            steps:
+                              - step:
+                                  name: Deploy
+                                  identifier: Deploy
+                                  type: Command
+                                  timeout: 10m
+                                  spec:
+                                    onDelegate: false
+                                    environmentVariables: []
+                                    outputVariables: []
+                                    commandUnits:
+                                      - identifier: Copy_File
+                                        name: Copy File
+                                        type: Script
+                                        spec:
+                                          shell: Bash
+                                          source:
+                                            type: Inline
+                                            spec:
+                                              script: Invoke-Command -ScriptBlock {  get-WSManInstance -ResourceURI winrm/config | Select-Object MaxEnvelopeSizekb }
+                rollbackSteps:
+                  - stepGroup:
+                      name: Phase
+                      identifier: Phase
+                      strategy:
+                        repeat:
+                          items: <+stage.output.hosts>
+                          maxConcurrency: 1
+                          partitionSize: 1
+                          unit: Count
+                      steps:
+                        - stepGroup:
+                            name: Phase Group Rollback
+                            identifier: phase_group_rollback
+                            strategy:
+                              repeat:
+                                items: <+repeat.partition>
+                            steps:
+                              - step:
+                                  name: Rollback
+                                  identifier: Rollback
+                                  timeout: 10m
+                                  template:
+                                    templateRef: account.Default_IIS_Application_PowerShell
+                                    templateInputs:
+                                      type: Command
+                                      spec:
+                                        environmentVariables:
+                                          - name: ReleaseNo
+                                            type: String
+                                            value: "0.1"
+                                          - name: AppPoolName
+                                            type: String
+                                            value: DefaultAppPool
+                                          - name: AppPoolDotNetVersion
+                                            type: String
+                                            value: v4.0
+                                          - name: DownloadDirectory
+                                            type: String
+                                            value: $env:TEMP
+                                          - name: AppPhysicalDirectory
+                                            type: String
+                                            value: $env:SYSTEMDRIVE
+                                          - name: DestinationDirectory
+                                            type: String
+                                            value: "%USERPROFILE%\\<+service.name>\\<+env.name>"
+            tags: {}
+            failureStrategies:
+              - onFailure:
+                  errors:
+                    - AllErrors
+                  action:
+                    type: StageRollback
