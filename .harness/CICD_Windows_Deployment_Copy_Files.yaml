@@ -140,16 +140,14 @@ pipeline:
                             image: diegokoala/python-utils
                             shell: Pwsh
                             command: |
-                              # PowerShell Core Script for Basic Authentication over WinRM
+                              # PowerShell Core Script for SSH-Based Remoting
 
                               # Print start message
                               Write-Host "Started"
 
-                              Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-                              pwsh -Command 'Install-Module -Name PSWSMan'
-
                               # Variables from Python script
-                              $winrmUrl = '35.223.187.17'
+                              $sshHost = '35.223.187.17' # SSH Host IP or hostname
+                              $sshPort = 22 # SSH Port, change if different
                               $username = 'diego_pereira'
                               $password = '<+secrets.getValue("windows_diego")>' # Replace with actual method to retrieve password
 
@@ -157,9 +155,9 @@ pipeline:
                               $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
                               $credential = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
 
-                              # Establish PowerShell Remoting Session
-                              $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck
-                              $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
+                              # Establish SSH PowerShell Remoting Session
+                              $sshConnectionInfo = New-Object System.Management.Automation.Runspaces.SSHConnectionInfo($sshPort, $sshHost, $credential)
+                              $session = New-PSSession -SSHConnection $sshConnectionInfo
 
                               # Example command to copy a file on the remote machine
                               Invoke-Command -Session $session -ScriptBlock {
