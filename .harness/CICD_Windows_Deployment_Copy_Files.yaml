@@ -139,15 +139,18 @@ pipeline:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/python-utils
                             shell: Pwsh
-                            command: |
-                              # PowerShell Core Script for SSH-Based Remoting
+                            command: |-
+                              Install-Module -Name PowerShellGet
+                              Install-Module -Name PSWSMan
+                              pwsh -Command 'Install-WSMan'
+
+                              # # PowerShell Core Script for Basic Authentication over WinRM
 
                               # Print start message
                               Write-Host "Started"
 
                               # Variables from Python script
-                              $sshHost = '35.223.187.17' # SSH Host IP or hostname
-                              $sshPort = 22 # SSH Port, change if different
+                              $winrmUrl = '35.223.187.17'
                               $username = 'diego_pereira'
                               $password = '<+secrets.getValue("windows_diego")>' # Replace with actual method to retrieve password
 
@@ -155,9 +158,9 @@ pipeline:
                               $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
                               $credential = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
 
-                              # Establish SSH PowerShell Remoting Session
-                              $sshConnectionInfo = New-Object System.Management.Automation.Runspaces.SSHConnectionInfo($sshPort, $sshHost, $credential)
-                              $session = New-PSSession -SSHConnection $sshConnectionInfo
+                              # Establish PowerShell Remoting Session
+                              $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck
+                              $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
 
                               # Example command to copy a file on the remote machine
                               Invoke-Command -Session $session -ScriptBlock {
