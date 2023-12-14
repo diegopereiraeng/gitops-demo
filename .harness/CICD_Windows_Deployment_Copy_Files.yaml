@@ -142,14 +142,14 @@ pipeline:
                             connectorRef: account.DockerHubDiego
                             image: diegokoala/python-utils
                             shell: Pwsh
-                            command: |-
+                            command: |
                               Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
                               Install-Module -Name PowerShellGet
                               Install-Module -Name PSWSMan
                               pwsh -Command 'Install-WSMan'
 
-                              # # PowerShell Core Script for Basic Authentication over WinRM
+                              # PowerShell Core Script for Basic Authentication over WinRM
 
                               # Print start message
                               Write-Host "Started"
@@ -158,6 +158,8 @@ pipeline:
                               $winrmUrl = '35.223.187.17'
                               $username = 'diego_pereira'
                               $password = '<+secrets.getValue("windows_diego")>' # Replace with actual method to retrieve password
+                              $localFilePath = "/harness/Duke_Nukem_3D_DOS_EN.zip" # Local file path on Linux
+                              $remoteFilePath = "C:\Users\diego_pereira\Desktop\Duke_Nukem_3D_DOS_EN.zip" # Destination path on Windows
 
                               # Convert password to SecureString
                               $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
@@ -167,10 +169,12 @@ pipeline:
                               $sessionOptions = New-PSSessionOption -SkipCACheck -SkipCNCheck
                               $session = New-PSSession -ComputerName $winrmUrl -Credential $credential -Authentication Basic -UseSSL -SessionOption $sessionOptions
 
-                              # Example command to copy a file on the remote machine
+                              # Read the file content as a byte array and copy it to the remote machine
+                              $fileContent = [System.IO.File]::ReadAllBytes($localFilePath)
                               Invoke-Command -Session $session -ScriptBlock {
-                                  Copy-Item -Path "/harness/Duke_Nukem_3D_DOS_EN.zip" -Destination "C:\Users\diego_pereira\Desktop"
-                              }
+                                  param($remoteFilePath, $fileContent)
+                                  [System.IO.File]::WriteAllBytes($remoteFilePath, $fileContent)
+                              } -ArgumentList $remoteFilePath, $fileContent
 
                               # Close the session
                               Remove-PSSession -Session $session
