@@ -131,6 +131,9 @@ pipeline:
                                       print(f"Exception occurred with chunk {i+1}: {e}")
 
                               print("File transfer completed.")
+                          when:
+                            stageStatus: Success
+                            condition: "false"
                       - step:
                           type: Run
                           name: Copy Final
