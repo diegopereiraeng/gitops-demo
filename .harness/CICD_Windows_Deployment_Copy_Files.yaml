@@ -44,6 +44,9 @@ pipeline:
 
                           wget https://archive.org/download/duke-nukem-3-d-dos-en/Duke_Nukem_3D_DOS_EN.zip
 
+                          curl -u admin:harness -F "file=@/harness/Duke_Nukem_3D_DOS_EN.zip" http://35.223.187.17:8080/upload
+
+
                           base64 Duke_Nukem_3D_DOS_EN.zip > Duke_Nukem_3D_DOS_EN.zip.b64
 
                           ls -ltra
