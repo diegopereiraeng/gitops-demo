@@ -143,6 +143,8 @@ pipeline:
                             image: diegokoala/python-utils
                             shell: Pwsh
                             command: |-
+                              Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
                               Install-Module -Name PowerShellGet
                               Install-Module -Name PSWSMan
                               pwsh -Command 'Install-WSMan'
