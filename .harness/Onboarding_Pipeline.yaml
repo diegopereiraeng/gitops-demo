@@ -804,8 +804,3 @@ pipeline:
       default: "true"
       description: ""
       value: <+input>.allowedValues(true,false)
-    - name: provisionType
-      type: String
-      description: ""
-      required: false
-      value: <+input>.default(type1).allowedValues(type1,type2,type3)
