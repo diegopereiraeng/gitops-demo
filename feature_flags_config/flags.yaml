@@ -1930,7 +1930,7 @@ featureFlags:
         default:
           onVariation: Premium
           offVariation: Basic
-        state: "off"
+        state: "on"
       - identifier: crizstian
         default:
           onVariation: Premium
