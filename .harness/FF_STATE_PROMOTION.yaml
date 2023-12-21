@@ -30,10 +30,28 @@ pipeline:
                             import json
                             import os
 
+                            # Retrieve the value of an environment variable
+                            env_from_var_name = 'ENV_NAME_FROM'  
+                            env_from_var_value = os.environ.get(env_from_var_name)
+                            env_to_var_name = 'ENV_NAME_TO'  
+                            env_to_var_value = os.environ.get(env_to_var_name)
+                            # Check if the environment variable env from exists
+                            if env_from_var_value is not None:
+                                print(f"The value of {env_from_var_name} is {env_from_var_value}")
+                            else:
+                                print(f"{env_from_var_name} is not set.")
+
+                            # Check if the environment variable env to exists
+                            if env_to_var_value is not None:
+                                print(f"The value of {env_to_var_name} is {env_to_var_value}")
+                            else:
+                                print(f"{env_to_var_name} is not set.")
+
+
                             # API endpoint and parameters
                             base_url = "https://app.harness.io/cf/admin/features"
                             headers = {
-                                "x-api-key": '<+secrets.getValue("diegoapi")',  # Replace with your actual access token
+                                "x-api-key": '<+secrets.getValue("diegoapi")',  
                                 "Content-Type": "application/json"
                             }
                             params = {
@@ -86,8 +104,8 @@ pipeline:
 
                             # Main execution
                             def main():
-                                from_env = "diegopereiraeng"  # Replace with your actual 'from' environment
-                                to_env = "dev"   # Replace with your actual 'to' environment
+                                from_env = env_from_var_value
+                                to_env = env_to_var_value
 
                                 # Fetch all feature flags for both environments
                                 from_flags = fetch_all_feature_flags(from_env)
@@ -173,9 +191,12 @@ pipeline:
                         identifier: Copy_Flags
                         spec:
                           connectorRef: account.DockerHubDiego
-                          image: sss
+                          image: diegokoala/python-utils:latest
                           shell: Python
-                          command: sss
+                          command: |-
+                            # Retrieve the value of an environment variable
+                            env_from_var_name = 'ENV_NAME'  
+                            env_from_var_value = os.environ.get(env_from_var_name)
                   stepGroupInfra:
                     type: KubernetesDirect
                     spec:
