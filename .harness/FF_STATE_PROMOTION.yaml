@@ -161,6 +161,10 @@ pipeline:
                             - name: DISCREPANCIES
                             - name: FROM_MATRIX
                             - name: TO_MATRIX
+                          resources:
+                            limits:
+                              memory: 50Mi
+                              cpu: 10m
                   stepGroupInfra:
                     type: KubernetesDirect
                     spec:
