@@ -201,6 +201,10 @@ pipeline:
                             # Retrieve the value of an environment variable
                             env_from_var_name = 'ENV_NAME'  
                             env_from_var_value = os.environ.get(env_from_var_name)
+                          resources:
+                            limits:
+                              memory: 50Mi
+                              cpu: 10m
                   stepGroupInfra:
                     type: KubernetesDirect
                     spec:
