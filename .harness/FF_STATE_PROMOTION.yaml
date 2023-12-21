@@ -197,10 +197,92 @@ pipeline:
                           connectorRef: account.DockerHubDiego
                           image: diegokoala/python-utils:latest
                           shell: Python
-                          command: |-
-                            # Retrieve the value of an environment variable
-                            env_from_var_name = 'ENV_NAME'  
-                            env_from_var_value = os.environ.get(env_from_var_name)
+                          command: |
+                            import requests
+                            import json
+
+                            # API endpoint and parameters
+                            base_url = "https://app.harness.io/cf/admin/features"
+                            headers = {
+                                "Content-Type": "application/json",
+                                "x-api-key": '<+secrets.getValue("diegoapi")>' 
+                            }
+                            params = {
+                                "accountIdentifier": "6_vVHzo9Qeu9fXvj-AcbCQ",
+                                "orgIdentifier": "default",
+                                "projectIdentifier": "GIT_FLOW_DEMO",
+                                "environmentIdentifier": "<+pipeline.variables.env_from>"
+                            }
+
+                            # Function to read discrepancies from a file
+                            def read_discrepancies(filename):
+                                with open(filename, 'r') as file:
+                                    return json.load(file)
+
+                            # Function to apply changes to a feature flag
+                            def apply_changes(identifier, state, defaultOnVariation, defaultOffVariation):
+                                url = f"{base_url}/{identifier}"
+                                instructions = [
+                                    {
+                                        "kind": "setFeatureFlagState",
+                                        "parameters": {
+                                            "state": state
+                                        }
+                                    },
+                                    {
+                                        "kind": "setDefaultOnVariation",
+                                        "parameters": {
+                                            "identifier": defaultOnVariation
+                                        }
+                                    },
+                                    {
+                                        "kind": "setDefaultOffVariation",
+                                        "parameters": {
+                                            "identifier": defaultOffVariation
+                                        }
+                                    }
+                                ]
+
+                                payload = {
+                                    "gitDetails": {
+                                        "commitMsg": f"Updating {identifier} to align environments"
+                                    },
+                                    "instructions": instructions
+                                }
+
+                                print(f"Applying changes to '{identifier}' in '{params['environmentIdentifier']}' environment:")
+                                print(f"  - Setting state to '{state}'")
+                                print(f"  - Setting defaultOnVariation to '{defaultOnVariation}'")
+                                print(f"  - Setting defaultOffVariation to '{defaultOffVariation}'")
+
+                                response = requests.patch(url, headers=headers, params=params, data=json.dumps(payload))
+                                if response.status_code == 200:
+                                    print(f"Successfully updated flag {identifier}\n")
+                                else:
+                                    print(f"Error updating flag {identifier}: {response.status_code} - {response.text}\n")
+
+                            # Main execution
+                            def main():
+                                # discrepancies_filename = "discrepancies.json" 
+                                # discrepancies = read_discrepancies(discrepancies_filename)
+                                discrepancies = '<+pipeline.stages.FF_STATE_DISCOVERY.spec.execution.steps.Discover_Flag_States.steps.Discover_Flags.output.outputVariables.DISCREPANCIES>'  
+
+
+                                print(f"Starting updates for the '{params['environmentIdentifier']}' environment based on discrepancies...\n")
+                                for discrepancy in discrepancies:
+                                    identifier = discrepancy['identifier']
+                                    # Extract the 'from_env' settings as the desired state to apply
+                                    from_env_settings = discrepancy.get('from_env', {})
+                                    apply_changes(
+                                        identifier,
+                                        from_env_settings.get('state', 'off'),  # Default to 'off' if not specified
+                                        from_env_settings.get('defaultOnVariation', ''),
+                                        from_env_settings.get('defaultOffVariation', '')
+                                    )
+                                print("All updates completed.")
+
+                            if __name__ == "__main__":
+                                main()
                           resources:
                             limits:
                               memory: 50Mi
