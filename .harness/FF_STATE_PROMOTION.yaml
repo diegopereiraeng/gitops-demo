@@ -135,6 +135,39 @@ pipeline:
                     spec:
                       connectorRef: account.cddemose
                       namespace: default
+              - step:
+                  type: HarnessApproval
+                  name: HarnessApproval_1
+                  identifier: HarnessApproval_1
+                  spec:
+                    approvalMessage: Please review the following information and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    isAutoRejectEnabled: false
+                    approvers:
+                      userGroups:
+                        - account.New_Demo_Group
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                    approverInputs: []
+                  timeout: 1d
+              - stepGroup:
+                  name: Copy States
+                  identifier: Copy_States
+                  steps:
+                    - step:
+                        type: Run
+                        name: Copy Flags
+                        identifier: Copy_Flags
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: sss
+                          shell: Python
+                          command: sss
+                  stepGroupInfra:
+                    type: KubernetesDirect
+                    spec:
+                      connectorRef: account.cddemose
+                      namespace: default
             rollbackSteps: []
           serviceDependencies: []
         tags: {}
