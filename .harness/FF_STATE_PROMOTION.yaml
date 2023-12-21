@@ -51,7 +51,7 @@ pipeline:
                             # API endpoint and parameters
                             base_url = "https://app.harness.io/cf/admin/features"
                             headers = {
-                                "x-api-key": '<+secrets.getValue("diegoapi")',  
+                                "x-api-key": '<+secrets.getValue("diegoapi")>',  
                                 "Content-Type": "application/json"
                             }
                             params = {
