@@ -2859,7 +2859,7 @@ featureFlags:
         default:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
-        state: "off"
+        state: "on"
         rules:
         - priority: 0
           serve:
