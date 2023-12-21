@@ -155,8 +155,8 @@ pipeline:
                             if __name__ == "__main__":
                                 main()
                           envVariables:
-                            ENV_NAME_FROM: a
-                            ENV_NAME_TO: a
+                            ENV_NAME_FROM: <+pipeline.variables.env_from>
+                            ENV_NAME_TO: <+pipeline.variables.env_to>
                           outputVariables:
                             - name: DISCREPANCIES
                             - name: FROM_MATRIX
@@ -213,3 +213,14 @@ pipeline:
             rollbackSteps: []
           serviceDependencies: []
         tags: {}
+  variables:
+    - name: env_from
+      type: String
+      description: ""
+      required: false
+      value: <+input>.default(qa).allowedValues(dev,qa,prd)
+    - name: env_to
+      type: String
+      description: ""
+      required: false
+      value: <+input>.allowedValues(dev,qa,prd)
