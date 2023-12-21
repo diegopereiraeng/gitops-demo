@@ -211,7 +211,7 @@ pipeline:
                                 "accountIdentifier": "6_vVHzo9Qeu9fXvj-AcbCQ",
                                 "orgIdentifier": "default",
                                 "projectIdentifier": "GIT_FLOW_DEMO",
-                                "environmentIdentifier": "<+pipeline.variables.env_from>"
+                                "environmentIdentifier": "<+pipeline.variables.env_to>"
                             }
 
                             # Function to read discrepancies from a file
@@ -265,8 +265,7 @@ pipeline:
                             def main():
                                 # discrepancies_filename = "discrepancies.json" 
                                 # discrepancies = read_discrepancies(discrepancies_filename)
-                                discrepancies = '<+pipeline.stages.FF_STATE_DISCOVERY.spec.execution.steps.Discover_Flag_States.steps.Discover_Flags.output.outputVariables.DISCREPANCIES>'  
-
+                                discrepancies = <+pipeline.stages.FF_STATE_DISCOVERY.spec.execution.steps.Discover_Flag_States.steps.Discover_Flags.output.outputVariables.DISCREPANCIES>
 
                                 print(f"Starting updates for the '{params['environmentIdentifier']}' environment based on discrepancies...\n")
                                 for discrepancy in discrepancies:
