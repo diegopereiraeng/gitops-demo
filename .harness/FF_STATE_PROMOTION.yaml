@@ -172,7 +172,7 @@ pipeline:
                       namespace: default
               - step:
                   type: HarnessApproval
-                  name: HarnessApproval_1
+                  name: HarnessApprovall
                   identifier: HarnessApproval_1
                   spec:
                     approvalMessage: Please review the following information and approve the pipeline progression
