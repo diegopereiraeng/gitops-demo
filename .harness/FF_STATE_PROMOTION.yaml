@@ -1,0 +1,140 @@
+pipeline:
+  name: FF STATE PROMOTION
+  identifier: FF_STATE_PROMOTION
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: FF STATE DISCOVERY
+        identifier: FF_STATE_DISCOVERY
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - stepGroup:
+                  name: Discover Flag States
+                  identifier: Discover_Flag_States
+                  steps:
+                    - step:
+                        type: Run
+                        name: Discover Flags
+                        identifier: Discover_Flags
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: aaa
+                          shell: Python
+                          command: |
+                            import requests
+                            import json
+
+                            # API endpoint and parameters
+                            base_url = "https://app.harness.io/cf/admin/features"
+                            headers = {
+                                "x-api-key": "pat.6_vVHzo9Qeu9fXvj-AcbCQ.63dde211a92e80510aa45e8e.ZD4RU9oJfCCQg00WbioJ",  # Replace with your actual access token
+                                "Content-Type": "application/json"
+                            }
+                            params = {
+                                "accountIdentifier": "6_vVHzo9Qeu9fXvj-AcbCQ",
+                                "orgIdentifier": "default",
+                                "projectIdentifier": "GIT_FLOW_DEMO",
+                                "pageSize": 100  # Adjust as needed
+                            }
+
+                            # Function to recursively fetch all feature flags for a given environment
+                            def fetch_all_feature_flags(environment):
+                                all_flags = []
+                                page_index = 0
+
+                                while True:
+                                    params["environmentIdentifier"] = environment
+                                    params["pageIndex"] = page_index
+                                    response = requests.get(base_url, headers=headers, params=params)
+
+                                    if response.status_code == 200:
+                                        data = response.json()
+                                        all_flags.extend(data["features"])
+                                        # Check if there are more pages to fetch
+                                        if page_index < data["pageCount"] - 1:
+                                            page_index += 1
+                                        else:
+                                            break
+                                    else:
+                                        print(f"Error fetching data for {environment}: {response.status_code}")
+                                        break
+
+                                return all_flags
+
+                            # Function to create a matrix of flag states and default values
+                            def create_flag_matrix(flags):
+                                matrix = {}
+                                for flag in flags:
+                                    identifier = flag["identifier"]
+                                    matrix[identifier] = {
+                                        "state": flag["envProperties"]["state"],
+                                        "defaultOnVariation": flag["defaultOnVariation"],
+                                        "defaultOffVariation": flag["defaultOffVariation"]
+                                    }
+                                return matrix
+
+                            # Function to save a dictionary to a JSON file
+                            def save_to_file(data, filename):
+                                with open(filename, 'w') as file:
+                                    json.dump(data, file, indent=4)
+                                print(f"Data saved to {filename}")
+
+                            # Main execution
+                            def main():
+                                from_env = "diegopereiraeng"  # Replace with your actual 'from' environment
+                                to_env = "dev"   # Replace with your actual 'to' environment
+
+                                # Fetch all feature flags for both environments
+                                from_flags = fetch_all_feature_flags(from_env)
+                                to_flags = fetch_all_feature_flags(to_env)
+
+                                # Create matrices for both environments
+                                from_matrix = create_flag_matrix(from_flags)
+                                to_matrix = create_flag_matrix(to_flags)
+
+                                # Save matrices to files
+                                save_to_file(from_matrix, f"from_matrix_{from_env}.json")
+                                save_to_file(to_matrix, f"to_matrix_{to_env}.json")
+
+                                # Compare the matrices and print discrepancies
+                                discrepancies = []
+                                for identifier, from_info in from_matrix.items():
+                                    to_info = to_matrix.get(identifier)
+                                    if not to_info:
+                                        discrepancies.append({"identifier": identifier, "issue": "Flag not found in 'to' environment."})
+                                        continue
+
+                                    for key in from_info:
+                                        if from_info[key] != to_info.get(key):
+                                            discrepancies.append({
+                                                "identifier": identifier,
+                                                "issue": f"Mismatch in {key}",
+                                                "from_env": {key: from_info[key]},
+                                                "to_env": {key: to_info.get(key)}
+                                            })
+
+                                print(f"Comparing {from_env} to {to_env}...")
+                                if discrepancies:
+                                    print("Discrepancies found: %d" % len(discrepancies))
+                                    for discrepancy in discrepancies:
+                                        print(json.dumps(discrepancy, indent=4))
+                                    # Save discrepancies to a file
+                                    save_to_file(discrepancies, "discrepancies.json")
+                                else:
+                                    print("No discrepancies found. The feature flags are identical.")
+
+                            if __name__ == "__main__":
+                                main()
+                  stepGroupInfra:
+                    type: KubernetesDirect
+                    spec:
+                      connectorRef: account.cddemose
+                      namespace: default
+            rollbackSteps: []
+          serviceDependencies: []
+        tags: {}
