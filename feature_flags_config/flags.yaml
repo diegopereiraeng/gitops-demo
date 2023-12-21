@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestVenustiano-Carranza
-          variation: Bienvenido
-        - targets:
           - identifier: GuestMexico-City
           variation: Welcome
+        - targets:
+          - identifier: GuestVenustiano-Carranza
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -221,7 +221,7 @@ featureFlags:
         default:
           onVariation: "Off"
           offVariation: "Off"
-        state: "on"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "Off"
