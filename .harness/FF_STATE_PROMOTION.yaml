@@ -23,16 +23,17 @@ pipeline:
                         identifier: Discover_Flags
                         spec:
                           connectorRef: account.DockerHubDiego
-                          image: aaa
+                          image: diegokoala/python-utils:latest
                           shell: Python
                           command: |
                             import requests
                             import json
+                            import os
 
                             # API endpoint and parameters
                             base_url = "https://app.harness.io/cf/admin/features"
                             headers = {
-                                "x-api-key": "pat.6_vVHzo9Qeu9fXvj-AcbCQ.63dde211a92e80510aa45e8e.ZD4RU9oJfCCQg00WbioJ",  # Replace with your actual access token
+                                "x-api-key": '<+secrets.getValue("diegoapi")',  # Replace with your actual access token
                                 "Content-Type": "application/json"
                             }
                             params = {
@@ -78,11 +79,10 @@ pipeline:
                                     }
                                 return matrix
 
-                            # Function to save a dictionary to a JSON file
-                            def save_to_file(data, filename):
-                                with open(filename, 'w') as file:
-                                    json.dump(data, file, indent=4)
-                                print(f"Data saved to {filename}")
+                            # Function to set environment variables
+                            def set_env_variable(var_name, data):
+                                os.environ[var_name] = json.dumps(data)
+                                print(f"Environment variable '{var_name}' set.")
 
                             # Main execution
                             def main():
@@ -97,34 +97,40 @@ pipeline:
                                 from_matrix = create_flag_matrix(from_flags)
                                 to_matrix = create_flag_matrix(to_flags)
 
-                                # Save matrices to files
-                                save_to_file(from_matrix, f"from_matrix_{from_env}.json")
-                                save_to_file(to_matrix, f"to_matrix_{to_env}.json")
+                                # Set environment variables for matrices
+                                set_env_variable("FROM_MATRIX", from_matrix)
+                                set_env_variable("TO_MATRIX", to_matrix)
 
-                                # Compare the matrices and print discrepancies
+                                # Compare the matrices and identify discrepancies
                                 discrepancies = []
                                 for identifier, from_info in from_matrix.items():
                                     to_info = to_matrix.get(identifier)
                                     if not to_info:
-                                        discrepancies.append({"identifier": identifier, "issue": "Flag not found in 'to' environment."})
+                                        discrepancies.append({
+                                            "identifier": identifier,
+                                            "issue": "Flag not found in 'to' environment.",
+                                            "from_env": from_info
+                                        })
                                         continue
 
                                     for key in from_info:
                                         if from_info[key] != to_info.get(key):
-                                            discrepancies.append({
+                                            discrepancy_detail = {
                                                 "identifier": identifier,
                                                 "issue": f"Mismatch in {key}",
-                                                "from_env": {key: from_info[key]},
-                                                "to_env": {key: to_info.get(key)}
-                                            })
+                                                "from_env": from_info,
+                                                "to_env": to_info
+                                            }
+                                            discrepancies.append(discrepancy_detail)
+
+                                # Set environment variable for discrepancies
+                                set_env_variable("DISCREPANCIES", discrepancies)
 
                                 print(f"Comparing {from_env} to {to_env}...")
                                 if discrepancies:
                                     print("Discrepancies found: %d" % len(discrepancies))
                                     for discrepancy in discrepancies:
                                         print(json.dumps(discrepancy, indent=4))
-                                    # Save discrepancies to a file
-                                    save_to_file(discrepancies, "discrepancies.json")
                                 else:
                                     print("No discrepancies found. The feature flags are identical.")
 
