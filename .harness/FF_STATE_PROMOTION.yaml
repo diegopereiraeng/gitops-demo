@@ -38,9 +38,9 @@ pipeline:
                             }
                             params = {
                                 "accountIdentifier": "6_vVHzo9Qeu9fXvj-AcbCQ",
-                                "orgIdentifier": "default",
-                                "projectIdentifier": "GIT_FLOW_DEMO",
-                                "pageSize": 100  # Adjust as needed
+                                "orgIdentifier": "<+org.identifier>",
+                                "projectIdentifier": "<+project.identifier>",
+                                "pageSize": 200  # Adjust as needed
                             }
 
                             # Function to recursively fetch all feature flags for a given environment
@@ -136,6 +136,13 @@ pipeline:
 
                             if __name__ == "__main__":
                                 main()
+                          envVariables:
+                            ENV_NAME_FROM: a
+                            ENV_NAME_TO: a
+                          outputVariables:
+                            - name: DISCREPANCIES
+                            - name: FROM_MATRIX
+                            - name: TO_MATRIX
                   stepGroupInfra:
                     type: KubernetesDirect
                     spec:
