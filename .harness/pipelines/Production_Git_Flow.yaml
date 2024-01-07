@@ -195,7 +195,10 @@ pipeline:
                     connectorRef: account.DockerHubDiego
                     image: docker:latest
                     shell: Sh
-                    command: docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
+                    command: |-
+                      docker build . -t nodegoat:local --build-arg FFKEY=<+pipeline.variables.ffkey>
+
+                      env | grep HARNESS
               - parallel:
                   - step:
                       type: Security
