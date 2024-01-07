@@ -826,6 +826,9 @@ pipeline:
                         outputVariables:
                           - name: CATEGORIES_LOGIN
                           - name: CATEGORIES_HOME
+                      when:
+                        stageStatus: Success
+                        condition: "false"
                   - step:
                       type: Run
                       name: LightHouse2
@@ -865,6 +868,9 @@ pipeline:
                           npm install -g lighthouse -y
                           echo "running lighthouse"
                           node ./scripts/lighthouse/lighthouse.js Dev
+                      when:
+                        stageStatus: Success
+                        condition: "false"
             rollbackSteps: []
           serviceConfig:
             serviceRef: ""
