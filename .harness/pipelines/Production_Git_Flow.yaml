@@ -386,12 +386,18 @@ pipeline:
                 variables: []
           sharedPaths:
             - /var/run
+            - /cache
           platform:
             os: Linux
             arch: Amd64
           runtime:
             type: Cloud
             spec: {}
+          caching:
+            enabled: false
+            paths: []
+          slsa_provenance:
+            enabled: false
         when:
           pipelineStatus: Success
           condition: <+pipeline.variables.target> == "dev" && <+pipeline.variables.gitEvent> == "PR"
@@ -399,6 +405,7 @@ pipeline:
           - name: sto_api_key
             type: String
             value: <+secrets.getValue("account.sto_api_key")>
+        description: ""
     - stage:
         name: Deploy Banking App Dev
         identifier: Deploy_Banking_App_Dev
