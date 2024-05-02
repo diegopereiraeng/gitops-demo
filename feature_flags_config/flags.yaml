@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestVenustiano-Carranza
-          variation: Bienvenido
-        - targets:
           - identifier: GuestMexico-City
           variation: Welcome
+        - targets:
+          - identifier: GuestVenustiano-Carranza
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -143,9 +143,6 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: gabsthesregmailcom
-          variation: Bienvenido
-        - targets:
           - identifier: cingmailcom
           - identifier: GuestSo-Paulo
           variation: Bem_vindo
@@ -153,6 +150,9 @@ featureFlags:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
+        - targets:
+          - identifier: gabsthesregmailcom
+          variation: Bienvenido
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -222,7 +222,22 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "Off"
           offVariation: "Off"
@@ -330,30 +345,11 @@ featureFlags:
         default:
           onVariation: "OFF"
           offVariation: "OFF"
-        state: "off"
-        rules:
-        - priority: 100
-          serve:
-            distribution:
-              bucketBy: identifier
-              variations:
-              - weight: 100
-                variation: "OFF"
-              - weight: 0
-                variation: Captain_Canary
-              - weight: 0
-                variation: Feature_Flags
-              - weight: 0
-                variation: Platform_Demo_PTBR
-          clauses:
-          - attribute: ""
-            op: segmentMatch
-            values:
-            - Beta_Users
+        state: "on"
         targetRules:
         - targets:
-          - identifier: diegoharnessio
-          variation: Feature_Flags
+          - identifier: GuestOrlando
+          variation: Captain_Canary
       - identifier: andymarshallff
         default:
           onVariation: Feature_Flags
@@ -395,11 +391,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: izacsaulgmailcom
-          variation: Captain_Canary
-        - targets:
           - identifier: GuestMonterrey
           variation: Feature_Flags
+        - targets:
+          - identifier: izacsaulgmailcom
+          variation: Captain_Canary
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -484,6 +480,16 @@ featureFlags:
           onVariation: Feature_Flags
           offVariation: "OFF"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "OFF"
@@ -493,6 +499,11 @@ featureFlags:
         - targets:
           - identifier: GuestMexico-City
           variation: Feature_Flags
+      - identifier: development_selfguided
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: qa
         default:
           onVariation: Feature_Flags
@@ -684,11 +695,26 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: development_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: qa
         default:
           onVariation: "true"
@@ -880,7 +906,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -890,6 +931,217 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: diego
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+  - flag:
+      name: cache_result
+      identifier: cache_result
+      description: ""
+      permanent: false
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: diego
         default:
           onVariation: "true"
@@ -1094,11 +1346,26 @@ featureFlags:
           onVariation: Dark
           offVariation: Blue
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: Dark
           offVariation: Blue
         state: "on"
+      - identifier: development_selfguided
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
       - identifier: qa
         default:
           onVariation: Dark
@@ -1108,6 +1375,217 @@ featureFlags:
         default:
           onVariation: Dark
           offVariation: Blue
+        state: "off"
+  - flag:
+      name: demostack
+      identifier: demostack
+      description: ""
+      permanent: false
+      spec:
+        type: boolean
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        variations:
+        - identifier: "true"
+          value: "true"
+        - identifier: "false"
+          value: "false"
+      environments:
+      - identifier: intercam
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: sedemo
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: aaronkcarpenter2
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnelson01
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: harnesspov
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rangelharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: poharav
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: riickster
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: demose
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jkharnessio
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ffeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: guinogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diegopereiraeng
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: andymarshallff
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: asv108
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: tkouhsari
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rnharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gacerioni
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: salazarch
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: gnogueira7
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: ldhertert
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: test
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: luisredda
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: fbreton
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: clucca13
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: jamesmannelly
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: michaelbredman
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: francislabs
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: prod
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: rwharness
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: dev
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: qa
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: diego
+        default:
+          onVariation: "true"
+          offVariation: "false"
         state: "off"
   - flag:
       name: FRONT_Halloween Mode
@@ -1290,7 +1768,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1490,7 +1983,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1716,7 +2224,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1931,7 +2454,22 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: Premium
           offVariation: Basic
@@ -2127,7 +2665,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2358,11 +2911,26 @@ featureFlags:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
+      - identifier: testtye
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "ON"
           offVariation: "OFF"
         state: "on"
+      - identifier: development_selfguided
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
       - identifier: qa
         default:
           onVariation: "ON"
@@ -2554,7 +3122,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2759,7 +3342,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2964,7 +3562,22 @@ featureFlags:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
@@ -3160,7 +3773,22 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: testtye
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "true"
           offVariation: "false"
@@ -3262,7 +3890,7 @@ featureFlags:
         default:
           onVariation: V2
           offVariation: V1
-        state: "off"
+        state: "on"
       - identifier: andymarshallff
         default:
           onVariation: V2
@@ -3373,7 +4001,22 @@ featureFlags:
           onVariation: V2
           offVariation: V1
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: V2
           offVariation: V1
@@ -3482,7 +4125,7 @@ featureFlags:
         default:
           onVariation: "On"
           offVariation: "Off"
-        state: "off"
+        state: "on"
       - identifier: andymarshallff
         default:
           onVariation: "On"
@@ -3607,7 +4250,22 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: "On"
           offVariation: "Off"
@@ -3810,7 +4468,22 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: testtye
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: crizstian
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
+      - identifier: development_selfguided
         default:
           onVariation: Black
           offVariation: White
@@ -4007,11 +4680,26 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: testtye
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: staging_selfguided
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
       - identifier: crizstian
         default:
           onVariation: "true"
           offVariation: "false"
         state: "on"
+      - identifier: development_selfguided
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
       - identifier: qa
         default:
           onVariation: "true"
