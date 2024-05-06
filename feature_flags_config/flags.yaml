@@ -346,10 +346,6 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
-        targetRules:
-        - targets:
-          - identifier: GuestOrlando
-          variation: Captain_Canary
       - identifier: andymarshallff
         default:
           onVariation: Feature_Flags
@@ -391,11 +387,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestMonterrey
-          variation: Feature_Flags
-        - targets:
           - identifier: izacsaulgmailcom
           variation: Captain_Canary
+        - targets:
+          - identifier: GuestMonterrey
+          variation: Feature_Flags
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -4423,11 +4419,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestSantana-de-Parnaiba
-          variation: Black
-        - targets:
           - identifier: luisreddagmailcom
           variation: White
+        - targets:
+          - identifier: GuestSantana-de-Parnaiba
+          variation: Black
       - identifier: fbreton
         default:
           onVariation: Black
