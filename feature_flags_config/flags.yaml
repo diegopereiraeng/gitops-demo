@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestVenustiano-Carranza
-          variation: Bienvenido
-        - targets:
           - identifier: GuestMexico-City
           variation: Welcome
+        - targets:
+          - identifier: GuestVenustiano-Carranza
+          variation: Bienvenido
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -348,8 +348,8 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: Diegopereiraharnessio
-          variation: Captain_Canary
+          - identifier: diegopereiraharnessio
+          variation: Feature_Flags
       - identifier: andymarshallff
         default:
           onVariation: Feature_Flags
@@ -391,11 +391,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: izacsaulgmailcom
-          variation: Captain_Canary
-        - targets:
           - identifier: GuestMonterrey
           variation: Feature_Flags
+        - targets:
+          - identifier: izacsaulgmailcom
+          variation: Captain_Canary
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
