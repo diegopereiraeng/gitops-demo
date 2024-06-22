@@ -1351,7 +1351,7 @@ pipeline:
                             name: Create DNS Record
                             identifier: Create_DNS_Record
                             spec:
-                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath.replaceAll("-","")>
                               configuration:
                                 type: InheritFromPlan
                             timeout: 10m
