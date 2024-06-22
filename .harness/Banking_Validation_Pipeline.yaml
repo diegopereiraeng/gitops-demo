@@ -1331,7 +1331,7 @@ pipeline:
                                 secretManagerRef: harnessSecretManager
                                 exportTerraformHumanReadablePlan: true
                                 skipRefreshCommand: false
-                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath>
+                              provisionerIdentifier: tfdns<+pipeline.variables.virtualPath.replaceAll("-","")>
                             timeout: 10m
                             failureStrategies:
                               - onFailure:
