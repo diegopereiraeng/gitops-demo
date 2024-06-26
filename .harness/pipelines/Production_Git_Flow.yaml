@@ -111,7 +111,7 @@ pipeline:
                       identifier: SonarQube_Quality_Gateway_Check
                       spec:
                         connectorRef: account.DockerHubDiego
-                        image: plugins/sonarqube-scanner:linux-amd64
+                        image: plugins/sonarqube-scanner:v2.2.1
                         privileged: false
                         reports:
                           type: JUnit
