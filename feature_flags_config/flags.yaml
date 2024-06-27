@@ -106,11 +106,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: GuestMexico-City
-          variation: Welcome
-        - targets:
           - identifier: GuestVenustiano-Carranza
           variation: Bienvenido
+        - targets:
+          - identifier: GuestMexico-City
+          variation: Welcome
       - identifier: andymarshallff
         default:
           onVariation: "Off"
@@ -136,6 +136,11 @@ featureFlags:
           onVariation: "Off"
           offVariation: "Off"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "Off"
+          offVariation: "Off"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "Off"
@@ -143,16 +148,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
-        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
+        - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -371,6 +376,11 @@ featureFlags:
           onVariation: "OFF"
           offVariation: "OFF"
         state: "on"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "OFF"
+          offVariation: "OFF"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Feature_Flags
@@ -387,11 +397,11 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
-          - identifier: GuestMonterrey
-          variation: Feature_Flags
-        - targets:
           - identifier: izacsaulgmailcom
           variation: Captain_Canary
+        - targets:
+          - identifier: GuestMonterrey
+          variation: Feature_Flags
       - identifier: gnogueira7
         default:
           onVariation: "OFF"
@@ -621,6 +631,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "on"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -828,6 +843,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "true"
           offVariation: "false"
@@ -1043,6 +1063,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -1254,6 +1279,11 @@ featureFlags:
           offVariation: Blue
         state: "off"
       - identifier: SB
+        default:
+          onVariation: Dark
+          offVariation: Blue
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: Dark
           offVariation: Blue
@@ -1483,6 +1513,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -1694,6 +1729,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -1901,6 +1941,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2120,6 +2165,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2380,6 +2430,11 @@ featureFlags:
           onVariation: Premium
           offVariation: Basic
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: Premium
+          offVariation: Basic
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Premium
@@ -2587,6 +2642,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "true"
           offVariation: "false"
@@ -2811,6 +2871,11 @@ featureFlags:
           offVariation: "OFF"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "ON"
+          offVariation: "OFF"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "ON"
           offVariation: "OFF"
@@ -3048,6 +3113,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -3264,6 +3334,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "true"
           offVariation: "false"
@@ -3488,6 +3563,11 @@ featureFlags:
           onVariation: Harness_FF
           offVariation: Hi_Engineer
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: Harness_FF
+          offVariation: Hi_Engineer
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Harness_FF
@@ -3695,6 +3775,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "true"
           offVariation: "false"
@@ -3908,6 +3993,11 @@ featureFlags:
           offVariation: V1
         state: "off"
       - identifier: SB
+        default:
+          onVariation: V2
+          offVariation: V1
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: V2
           offVariation: V1
@@ -4138,6 +4228,11 @@ featureFlags:
           onVariation: "true"
           offVariation: "false"
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "true"
+          offVariation: "false"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "true"
@@ -4358,6 +4453,11 @@ featureFlags:
           onVariation: "On"
           offVariation: "Off"
         state: "on"
+      - identifier: cassiecsouza
+        default:
+          onVariation: "On"
+          offVariation: "Off"
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: "On"
@@ -4598,6 +4698,11 @@ featureFlags:
           onVariation: Black
           offVariation: White
         state: "off"
+      - identifier: cassiecsouza
+        default:
+          onVariation: Black
+          offVariation: White
+        state: "off"
       - identifier: gacerioni
         default:
           onVariation: Black
@@ -4813,6 +4918,11 @@ featureFlags:
           offVariation: "false"
         state: "off"
       - identifier: SB
+        default:
+          onVariation: "false"
+          offVariation: "false"
+        state: "off"
+      - identifier: cassiecsouza
         default:
           onVariation: "false"
           offVariation: "false"
