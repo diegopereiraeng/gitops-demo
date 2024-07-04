@@ -148,16 +148,16 @@ featureFlags:
         state: "off"
         targetRules:
         - targets:
+          - identifier: cingmailcom
+          - identifier: GuestSo-Paulo
+          variation: Bem_vindo
+        - targets:
           - identifier: GuestUnknown
           - identifier: shibagmailcom
           variation: Welcome
         - targets:
           - identifier: gabsthesregmailcom
           variation: Bienvenido
-        - targets:
-          - identifier: cingmailcom
-          - identifier: GuestSo-Paulo
-          variation: Bem_vindo
       - identifier: salazarch
         default:
           onVariation: "Off"
@@ -4118,222 +4118,6 @@ featureFlags:
           offVariation: V1
         state: "off"
   - flag:
-      name: My_Test_Flag
-      identifier: My_Test_Flag
-      description: ""
-      permanent: false
-      spec:
-        type: boolean
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        variations:
-        - identifier: "true"
-          value: "true"
-        - identifier: "false"
-          value: "false"
-      environments:
-      - identifier: intercam
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: sedemo
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: aaronkcarpenter
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: aaronkcarpenter2
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: rnelson01
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: harnesspov
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: rangelharness
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: poharav
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: riickster
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: demose
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: jkharnessio
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: ffeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: guinogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: diegopereiraeng
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: andymarshallff
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: asv108
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: tkouhsari
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: rnharness
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: SB
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: cassiecsouza
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: gacerioni
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: salazarch
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: gnogueira7
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: ldhertert
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: test
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: luisredda
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: fbreton
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: clucca13
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: jamesmannelly
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: michaelbredman
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: francislabs
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: prod
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: rwharness
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: dev
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: testtye
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: staging_selfguided
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: crizstian
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: development_selfguided
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: qa
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-      - identifier: diego
-        default:
-          onVariation: "true"
-          offVariation: "false"
-        state: "off"
-  - flag:
       name: FRONT_SHOW QRCODE
       identifier: QRCODE
       description: Show qr code for login page - dynamic
@@ -4735,11 +4519,11 @@ featureFlags:
         state: "on"
         targetRules:
         - targets:
-          - identifier: luisreddagmailcom
-          variation: White
-        - targets:
           - identifier: GuestSantana-de-Parnaiba
           variation: Black
+        - targets:
+          - identifier: luisreddagmailcom
+          variation: White
       - identifier: fbreton
         default:
           onVariation: Black
