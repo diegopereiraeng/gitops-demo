@@ -1,0 +1,20 @@
+template:
+  name: test_cd
+  type: Step
+  projectIdentifier: Platform_Engineering
+  orgIdentifier: SE_Sandbox
+  spec:
+    type: ShellScript
+    spec:
+      shell: Bash
+      executionTarget: {}
+      delegateSelectors: []
+      source:
+        type: Inline
+        spec:
+          script: echo "test"
+      environmentVariables: []
+      outputVariables: []
+    timeout: 10m
+  identifier: test_cd
+  versionLabel: v0
