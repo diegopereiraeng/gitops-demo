@@ -1,0 +1,15 @@
+template:
+  name: Plugin1
+  identifier: Plugin1
+  versionLabel: v0
+  type: Step
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: Plugin
+    spec:
+      connectorRef: account.DockerHubDiego
+      image: alpine
+      settings:
+        name: <+input>
