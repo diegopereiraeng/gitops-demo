@@ -1,9 +1,10 @@
 pipeline:
   name: CI-STO - GoLang Plugin Factory
   identifier: Plugin_Factory
+  tags: {}
   template:
     templateRef: Plugin_Build_Factory
-    versionLabel: 1.0.0
+    versionLabel: 0.2.0
     templateInputs:
       properties:
         ci:
@@ -34,6 +35,5 @@ pipeline:
         - name: report_path
           type: String
           value: <+input>
-  tags: {}
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
