@@ -280,8 +280,8 @@ template:
                       mode: orchestration
                       config: default
                       target:
-                        name: <+pipeline.properties.ci.codebase.repoName>
                         type: container
+                        name: <+pipeline.properties.ci.codebase.repoName>
                         variant: "<+codebase.branch> "
                       advanced:
                         log:
@@ -293,7 +293,9 @@ template:
                         type: docker_v2
                         name: diegokoala/<+pipeline.variables.image_name>
                         domain: docker.io
-                        tag: unstable-<+codebase.shortCommitSha>
+                        tag: unstable-<+codebase.shortCommitSha>-java11
+                      sbom:
+                        format: spdx-json
             caching:
               enabled: true
               paths: []
