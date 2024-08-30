@@ -1,0 +1,506 @@
+template:
+  name: Plugin Build Factory
+  type: Pipeline
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  spec:
+    properties:
+      ci:
+        codebase:
+          connectorRef: account.diegogithubapp
+          repoName: <+pipeline.variables.repo_name>
+          build: <+input>
+    stages:
+      - stage:
+          name: Build Golang
+          identifier: Build_Golang
+          type: CI
+          spec:
+            cloneCodebase: true
+            platform:
+              os: Linux
+              arch: Amd64
+            runtime:
+              type: Cloud
+              spec: {}
+            execution:
+              steps:
+                - parallel:
+                    - step:
+                        type: Run
+                        identifier: build_harness_sonar
+                        name: Build Go
+                        spec:
+                          shell: Bash
+                          command: |-
+                            apt-get update -y
+                            apt-get install -y git
+
+                            wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+
+                            echo $PATH
+
+                            rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
+
+                            rm -f go1.21.0.linux-amd64.tar.gz
+
+                            export PATH=$PATH:/usr/local/go/bin
+
+                            # mkdir -p /home/ubuntu/go-install
+                            # tar -C /home/ubuntu/go-install -xzf go1.21.0.linux-amd64.tar.gz
+                            # cat <<EOF >> ~/.profile
+                            # export GOROOT=/home/ubuntu/go-install/go
+                            # export GOPATH=/home/ubuntu/go-install
+                            # export PATH=\$PATH:\$GOROOT/bin:\$GOPATH
+                            # EOF
+                            # source ~/.profile  # or source ~/.bashrc
+
+                            # whereis go
+
+                            # mv /usr/bin/go /usr/bin/go-1.23
+                            # rm -rf /usr/bin/go && tar -C /usr/bin -xzf go1.21.0.linux-amd64.tar.gz
+
+                            # export GOROOT=/usr/bin/go
+                            # export GOPATH=/usr/bin/go
+                            # # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+                            # source ~/.profile
+
+                            go version
+
+                            cd /harness
+
+                            # bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+                            # export GOROOT_BOOTSTRAP=$GOROOT
+
+                            # chmod 777 -R /home/ubuntu/.gvm
+
+                            # source /home/ubuntu/.gvm/scripts/gvm
+
+                            # # /home/ubuntu/.gvm/scripts/gvm listall go1.21.0 -B
+                            # gvm listall go1.21.0 -B
+
+                            # # gvm install go1.21.0 -B
+                            # # /home/ubuntu/.gvm/scripts/gvm use go1.21.0 --default
+                            # gvm use go1.21.0 --default
+
+
+                            mkdir -p binary
+                            go env GOCACHE
+
+                            go mod download
+                            GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+
+                            export tag="unstable-<+codebase.shortCommitSha>"
+                          privileged: true
+                          outputVariables:
+                            - name: tag
+                          runAsUser: "0"
+                    - step:
+                        type: Run
+                        name: GitLeak - Secret Scan
+                        identifier: GitLeak_Secret_Scan
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: zricethezav/gitleaks:latest
+                          shell: Sh
+                          command: gitleaks detect --source=. --report-format=sarif --report-path=/shared/customer_artifacts/gitleaks-results.sarif --exit-code 0
+                - parallel:
+                    - step:
+                        type: Run
+                        identifier: test
+                        name: Unit Tests
+                        spec:
+                          shell: Bash
+                          command: |-
+
+
+                            go install github.com/jstemmer/go-junit-report/v2@latest
+                            go test -v ./... | tee report.out
+                            cat report.out | $HOME/go/bin/go-junit-report -set-exit-code > report.xml
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - report.xml
+                        when:
+                          stageStatus: Success
+                    - step:
+                        type: Gitleaks
+                        name: Gitleaks
+                        identifier: Gitleaks
+                        spec:
+                          mode: ingestion
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: repository
+                            variant: <+codebase.branch>
+                          advanced:
+                            log:
+                              level: info
+                          ingestion:
+                            file: /shared/customer_artifacts/gitleaks-results.sarif
+                - parallel:
+                    - step:
+                        type: Owasp
+                        name: Owasp_Scan
+                        identifier: Owasp_Scan
+                        spec:
+                          mode: orchestration
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: repository
+                            variant: <+codebase.branch>
+                          advanced:
+                            log:
+                              level: debug
+                            fail_on_severity: critical
+                            args:
+                              cli: "-l odc.log  --enableExperimental"
+                          imagePullPolicy: IfNotPresent
+                    - step:
+                        type: Sonarqube
+                        name: Sonarqube Scan Vulnerability
+                        identifier: Sonarqube_Scan
+                        spec:
+                          mode: orchestration
+                          config: default
+                          target:
+                            name: <+pipeline.properties.ci.codebase.repoName>
+                            type: repository
+                            variant: <+codebase.branch>
+                          advanced:
+                            log:
+                              level: debug
+                            fail_on_severity: critical
+                          imagePullPolicy: IfNotPresent
+                          auth:
+                            access_token: <+secrets.getValue("account.harnesssonartoken")>
+                            domain: https://sonar.harness-demo.site
+                            ssl: true
+                          tool:
+                            project_key: <+pipeline.properties.ci.codebase.repoName>
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Retry
+                                spec:
+                                  retryCount: 1
+                                  onRetryFailure:
+                                    action:
+                                      type: MarkAsFailure
+                                  retryIntervals:
+                                    - 2m
+                    - step:
+                        type: Run
+                        name: Hadolint - Dockerfile Scan
+                        identifier: Hadolint_Dockerfile_Scan
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: hadolint/hadolint:latest-alpine
+                          shell: Sh
+                          command: |-
+                            hadolint -f json Dockerfile > hadolint_results.json | true
+
+                            cat hadolint_results.json
+                - parallel:
+                    - step:
+                        type: Plugin
+                        name: Check Sonar Quality Gate
+                        identifier: run_sonar
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: plugins/sonarqube-scanner:v2.1.0
+                          privileged: false
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - sonarResults.xml
+                          settings:
+                            sonar_host: https://sonar.harness-demo.site
+                            sonar_token: <+secrets.getValue("account.harnesssonartoken")>
+                            sources: /harness
+                            binaries: /harness/binary
+                            sonar_name: <+pipeline.properties.ci.codebase.repoName>
+                            sonar_key: <+pipeline.properties.ci.codebase.repoName>
+                            skip_scan: "true"
+                          imagePullPolicy: Always
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Ignore
+                    - step:
+                        type: Plugin
+                        name: Hado Lint Scan
+                        identifier: hado_lint
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/harness-junit-converter:latest
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths:
+                                - "**/**/*.xml"
+                          settings:
+                            json_file_name: hadolint_results.json
+                            test_name: hado_lint
+                            test_description: check Dockerfile code quality, consider time as the line of the code
+                            test_junit_time: "0"
+                            test_junit_package: hado_lint
+                            test_junit_name: hado_lint
+                            test_junit_list: .
+                            test_junit_list_name: code
+                            test_junit_list_class_name: file
+                            test_junit_list_failure: message
+                            test_junit_list_time: line
+                - step:
+                    type: BuildAndPushDockerRegistry
+                    name: Build And Push Generic
+                    identifier: Build_And_Push_Generic
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      repo: diegokoala/<+pipeline.variables.image_name>
+                      tags:
+                        - unstable-<+codebase.shortCommitSha>
+                      dockerfile: Dockerfile_Deprecated
+                    when:
+                      stageStatus: Success
+                - step:
+                    type: AquaTrivy
+                    name: AquaTrivy Container Scan
+                    identifier: AquaTrivy_Java_11
+                    spec:
+                      mode: orchestration
+                      config: default
+                      target:
+                        name: <+pipeline.properties.ci.codebase.repoName>
+                        type: container
+                        variant: "<+codebase.branch> "
+                      advanced:
+                        log:
+                          level: debug
+                        fail_on_severity: none
+                      privileged: true
+                      imagePullPolicy: IfNotPresent
+                      image:
+                        type: docker_v2
+                        name: diegokoala/<+pipeline.variables.image_name>
+                        domain: docker.io
+                        tag: unstable-<+codebase.shortCommitSha>
+            caching:
+              enabled: true
+              paths: []
+              key: sonarqube-scanner
+            sharedPaths:
+              - /shared/customer_artifacts
+          description: ""
+      - stage:
+          name: Plugin E2E Tests
+          identifier: Plugin_E2E_Tests
+          type: CI
+          spec:
+            cloneCodebase: true
+            platform:
+              os: Linux
+              arch: Amd64
+            runtime:
+              type: Cloud
+              spec: {}
+            execution:
+              steps:
+                - step:
+                    type: Plugin
+                    name: Plugin Test
+                    identifier: Plugin_Test
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      image: diegokoala/<+pipeline.variables.image_name>:<+pipeline.stages.Build_Golang.spec.execution.steps.build_harness_sonar.output.outputVariables.tag>
+                      reports:
+                        type: JUnit
+                        spec:
+                          paths:
+                            - <+pipeline.variables.report_path>
+                      settings: <+input>
+                - parallel:
+                    - step:
+                        type: Run
+                        name: Build
+                        identifier: Build
+                        spec:
+                          shell: Sh
+                          command: |
+                            mkdir -p binary
+                            go env GOCACHE
+
+                            go mod download
+                            GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
+                    - step:
+                        type: Plugin
+                        name: Commit-Insights
+                        identifier: CommitInsights
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/commit-insights:latest
+                          settings:
+                            harness_secret: <+secrets.getValue("harnesssatokenplugin")>
+                          imagePullPolicy: Always
+                - step:
+                    type: BuildAndPushDockerRegistry
+                    name: Build And Push Generic
+                    identifier: Build_And_Push_Generic
+                    spec:
+                      connectorRef: account.DockerHubDiego
+                      repo: diegokoala/<+pipeline.variables.image_name>
+                      tags:
+                        - stable-<+codebase.shortCommitSha>
+                        - latest
+                    when:
+                      stageStatus: Success
+      - stage:
+          name: Notification
+          identifier: Notification
+          description: ""
+          type: Custom
+          spec:
+            execution:
+              steps:
+                - step:
+                    type: Email
+                    name: Commit Insights
+                    identifier: Email
+                    spec:
+                      to: diego.pereira@harness.io
+                      cc: ""
+                      subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name> - Commit Insights
+                      body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT>
+                    timeout: 10m
+                - parallel:
+                    - stepGroup:
+                        name: Dashboard notification
+                        identifier: Dashboard_notification
+                        steps:
+                          - step:
+                              type: Plugin
+                              name: Pipeline HTML Generator
+                              identifier: Pipeline_HTML_Generator
+                              spec:
+                                connectorRef: account.DockerHubDiego
+                                image: diegokoala/pipeline-html-generator:latest
+                                settings:
+                                  harness_secret: <+secrets.getValue("harnesssatokenplugin")>
+                                  org_id: <+org.identifier>
+                                  project_id: <+project.identifier>
+                                  pipeline_id: <+pipeline.identifier>
+                                  repo_name: <+pipeline.variables.repo_name>
+                                  branch: <+pipeline.properties.ci.codebase.build.spec.branch>
+                                  harness_pipe_execution_url: <+pipeline.executionUrl>
+                              failureStrategies:
+                                - onFailure:
+                                    errors:
+                                      - AllErrors
+                                    action:
+                                      type: Ignore
+                        stepGroupInfra:
+                          type: KubernetesDirect
+                          spec:
+                            connectorRef: account.harness_demo
+                            namespace: harness-delegate-ng
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: MarkAsSuccess
+                        when:
+                          stageStatus: Success
+                          condition: "false"
+                    - step:
+                        type: Container
+                        name: PipelineHTMLGenerator
+                        identifier: PipelineHTMLGenerator
+                        spec:
+                          connectorRef: account.DockerHubDiego
+                          image: diegokoala/pipeline-html-generator:latest
+                          command: |+
+                            /bin/pipeline-html-generator --org_id=<+org.identifier> --project_id=<+project.identifier> --pipeline_id=<+pipeline.identifier> --repo_name=<+pipeline.variables.repo_name> --branch=<+codebase.branch>  --harness_secret=<+secrets.getValue("harnesssatokenplugin")> --harness_pipe_execution_url=<+pipeline.executionUrl>
+                            source PipelineHTMLGenerator.env
+
+                          shell: Sh
+                          infrastructure:
+                            type: KubernetesDirect
+                            spec:
+                              connectorRef: account.harness_demo
+                              namespace: harness-delegate-ng
+                              resources:
+                                limits:
+                                  cpu: "0.1"
+                                  memory: 100Mi
+                              annotations: {}
+                              labels: {}
+                              containerSecurityContext:
+                                capabilities:
+                                  drop: []
+                                  add: []
+                              nodeSelector: {}
+                          outputVariables:
+                            - name: HARNESS_EXECUTION_ID
+                            - name: HTML_REPORT
+                            - name: PIPELINE_MESSAGE
+                            - name: PIPELINE_STEPCOUNT
+                            - name: PIPELINE_STAGECOUNT
+                            - name: PIPELINE_STARTEDTIME
+                            - name: PIPELINE_STATUS
+                          envVariables: {}
+                        timeout: 10m
+                - parallel:
+                    - step:
+                        type: Email
+                        name: Production Pipeline Notification
+                        identifier: Production_Pipeline_Notification
+                        spec:
+                          to: diego.pereira@harness.io
+                          cc: ""
+                          subject: GoLang Plugin Factory - New Plugin Version Available - <+pipeline.variables.repo_name> - Pipeline Details
+                          body: <+pipeline.stages.Notification.spec.execution.steps.PipelineHTMLGenerator.ContainerStep.output.outputVariables.HTML_REPORT>
+                        timeout: 10m
+                    - step:
+                        type: Email
+                        name: Commit Pipeline Notification
+                        identifier: Commit_Pipeline_Notification
+                        spec:
+                          to: diego.pereira@harness.io
+                          cc: ""
+                          subject: Commit Insights + Pipeline Details Notification
+                          body: <+pipeline.stages.Plugin_E2E_Tests.spec.execution.steps.CommitInsights.output.outputVariables.REPORT><+pipeline.stages.Notification.spec.execution.steps.PipelineHTMLGenerator.ContainerStep.output.outputVariables.HTML_REPORT>
+                        timeout: 10m
+          tags: {}
+    variables:
+      - name: plugin_name
+        type: String
+        description: your plugin binary name
+        required: false
+        value: <+input>
+      - name: repo_name
+        type: String
+        description: ""
+        required: false
+        value: <+input>
+      - name: image_name
+        type: String
+        description: ""
+        required: false
+        value: <+input>
+      - name: report_path
+        type: String
+        description: report_path like **/*-junit.xml
+        required: false
+        value: <+input>
+    allowStageExecutions: true
+  identifier: Plugin_Build_Factory
+  versionLabel: 0.2.0
