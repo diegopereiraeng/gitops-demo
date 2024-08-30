@@ -298,6 +298,7 @@ template:
               enabled: true
               paths: []
               key: sonarqube-scanner
+              policy: pull-push
             sharedPaths:
               - /shared/customer_artifacts
           description: ""
@@ -364,6 +365,12 @@ template:
                       dockerfile: Dockerfile_Deprecated
                     when:
                       stageStatus: Success
+            caching:
+              enabled: true
+              paths: []
+              policy: pull-push
+              key: sonarqube-scanner
+          description: ""
       - stage:
           name: Notification
           identifier: Notification
