@@ -90,10 +90,12 @@ template:
                             go mod download
                             GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o binary/<+pipeline.variables.plugin_name>
 
-                            export tag="unstable-<+codebase.shortCommitSha>"
+                            export tag="unstable-<+codebase.shortCommitSha>-java11"
                           privileged: true
                           outputVariables:
                             - name: tag
+                              type: String
+                              value: tag
                           runAsUser: "0"
                     - step:
                         type: Run
@@ -267,7 +269,7 @@ template:
                       connectorRef: account.DockerHubDiego
                       repo: diegokoala/<+pipeline.variables.image_name>
                       tags:
-                        - unstable-<+codebase.shortCommitSha>
+                        - unstable-<+codebase.shortCommitSha>-java11
                       dockerfile: Dockerfile_Deprecated
                     when:
                       stageStatus: Success
@@ -358,8 +360,9 @@ template:
                       connectorRef: account.DockerHubDiego
                       repo: diegokoala/<+pipeline.variables.image_name>
                       tags:
-                        - stable-<+codebase.shortCommitSha>
-                        - latest
+                        - stable-<+codebase.shortCommitSha>-java11
+                        - latest-java11
+                      dockerfile: Dockerfile_Deprecated
                     when:
                       stageStatus: Success
       - stage:
