@@ -4,7 +4,7 @@ pipeline:
   tags: {}
   template:
     templateRef: Plugin_Build_Factory
-    versionLabel: 0.2.0
+    versionLabel: 1.0.0
     templateInputs:
       properties:
         ci:
