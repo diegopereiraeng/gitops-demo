@@ -348,6 +348,12 @@ template:
                           settings:
                             harness_secret: <+secrets.getValue("harnesssatokenplugin")>
                           imagePullPolicy: Always
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: Ignore
                 - step:
                     type: BuildAndPushDockerRegistry
                     name: Build And Push Generic
@@ -360,6 +366,7 @@ template:
                         - latest
                     when:
                       stageStatus: Success
+          description: ""
       - stage:
           name: Notification
           identifier: Notification
