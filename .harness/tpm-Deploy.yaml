@@ -8,7 +8,7 @@ pipeline:
     - stage:
         name: Deploy Dev
         identifier: Deploy_Dev
-        description: ""
+        description: "This is a GitExperience test"
         type: Deployment
         spec:
           deploymentType: Kubernetes
