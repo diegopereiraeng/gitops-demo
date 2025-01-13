@@ -91,7 +91,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: <+pipeline.stages.testdeploy.spec.environments.values>
+                        script: <+pipeline.stages.testdeploy.spec.environments.values[0].environmentRef>
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
