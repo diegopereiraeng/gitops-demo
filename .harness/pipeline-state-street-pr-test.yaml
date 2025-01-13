@@ -73,3 +73,26 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+    - stage:
+        name: testcustyom
+        identifier: testcustyom
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: <+pipeline.stages.testdeploy.environments.values>
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
