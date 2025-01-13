@@ -36,7 +36,7 @@ pipeline:
         spec:
           deploymentType: Kubernetes
           service:
-            serviceRef: athenascope
+            serviceRef: flagwizfront
             serviceInputs:
               serviceDefinition:
                 type: Kubernetes
