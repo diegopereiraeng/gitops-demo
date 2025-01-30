@@ -1,0 +1,42 @@
+pipeline:
+  name: moby
+  identifier: moby
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Diego_Git
+        repoName: moby-devopsexp
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Docker
+        identifier: Build_Docker
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: account.DockerHubDiego
+                    repo: diegokoala/moby-devopsexp
+                    tags:
+                      - <+pipeline.sequenceId>
+                    caching: true
