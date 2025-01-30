@@ -35,6 +35,8 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
+                    connectorRef: account.DockerHubDiego
+                    image: gradle:jdk17-jammy
                     shell: Sh
                     command: |-
                       java --version
