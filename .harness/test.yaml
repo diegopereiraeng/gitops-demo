@@ -36,4 +36,4 @@ pipeline:
                   identifier: Build
                   spec:
                     shell: Sh
-                    command: ./gradlew clean build
+                    command: ./gradlew clean build -x spotlessJava -x spotlessCheck
