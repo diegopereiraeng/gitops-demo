@@ -1,5 +1,5 @@
 pipeline:
-  name: test
+  name: Java Build
   identifier: test
   projectIdentifier: GIT_FLOW_DEMO
   orgIdentifier: default
