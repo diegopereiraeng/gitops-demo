@@ -1,0 +1,52 @@
+pipeline:
+  name: windows-nuget
+  identifier: windowsnuget
+  projectIdentifier: GIT_FLOW_DEMO
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          caching:
+            enabled: true
+            override: false
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Windows
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec:
+              size: small
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: install nuget
+                  identifier: install_nuget
+                  spec:
+                    shell: Powershell
+                    command: |-
+                      # Define a target folder
+                      $nugetPath = "C:\nuget"
+
+                      # Create the folder if it doesn't exist
+                      if (!(Test-Path -Path $nugetPath)) {
+                          New-Item -ItemType Directory -Path $nugetPath | Out-Null
+                      }
+
+                      # Download nuget.exe
+                      Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile "$nugetPath\nuget.exe"
+
+                      # Optionally add to PATH for current session and persist for future
+                      $env:Path += ";$nugetPath"
+                      [System.Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::Machine)
+
+                      # Test it
+                      & "$nugetPath\nuget.exe" help
