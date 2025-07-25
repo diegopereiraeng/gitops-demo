@@ -50,3 +50,9 @@ pipeline:
 
                       # Test it
                       & "$nugetPath\nuget.exe" help
+  variables:
+    - name: wwww
+      type: Secret
+      description: wwww
+      required: false
+      value: <+input>
